@@ -3,7 +3,7 @@
 % RBGL.tex file will get overwritten.
 %
 %\VignetteIndexEntry{RBGL Overview}
-%\VignetteDepends{graph,Rgraphviz}
+%\VignetteDepends{graph}
 %\VignetteKeywords{Graphs}
 %\VignettePackage{RBGL}
 
@@ -51,7 +51,6 @@ in Figure \ref{fdpic}.
 library(RBGL)
 data(FileDep)
 print(FileDep)
-require(Rgraphviz)||stop("This vignette requires Rgraphviz to be installed")
 @
 \begin{figure}
 %  fig=TRUE
@@ -91,9 +90,7 @@ km <- fromGXL(file(system.file("GXL/kmstEx.gxl", package="graph")))
 print(mstree.kruskal(km))
 @
 \begin{figure}
-<<fig=TRUE>>=
-z <- plot(km)
-@
+\includegraphics{RBGL-004}
 \caption{Kruskal MST example from Boost library.}
 \label{mspic}
 \end{figure}
@@ -107,9 +104,8 @@ df <- fromGXL(file(system.file("XML/dfsex.gxl", package="RBGL")))
 print(o <- dfs(df))
 @
 \begin{figure}
-<<fig=TRUE>>=
-z <- plot(df)
-@
+% z <- plot(df)
+\includegraphics{RBGL-005}
 \caption{DFS example from Boost library.}
 \label{dfspic}
 \end{figure}
@@ -142,6 +138,20 @@ print(nodes(bf)[o])
 <<dijkdemo>>=
 dd <- fromGXL(file(system.file("XML/dijkex.gxl", package="RBGL")))
 print( dijkstra.sp(dd) )
+<<dijkdemo2>>=
+ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL")))
+@
+\begin{figure}
+@
+\setkeys{Gin}{width=0.95\textwidth}
+\includegraphics{RBGL-011}
+\caption{Network example from BGL.} 
+\end{figure}
+<<dijkdemo2b>>=
+dijkstra.sp(ospf,6)
+sp.between(ospf, "RT6", "RT1")
+dd <- fromGXL(file(system.file("XML/dijkex.gxl", package="RBGL")))
+print( dijkstra.sp(dd) )
 @
 \subsection{Connected components }
 <<conndemo>>=
@@ -169,6 +179,15 @@ print(strongComp(km))
 
 <<econndemo>>=
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+dcoex <- coex
+dcoex@edgemode <- "directed"
+udcoex <- ugraph(dcoex)
+@
+\begin{figure}
+\includegraphics{RBGL-016}
+\caption{Edge connectivity example.}
+\end{figure}
+<<econnDemo2>>=
 if (length(agrep("solaris", version[["platform"]]))==0)
 print(edgeConnectivity(coex)) else
 print("not running on solaris, use windows or linux")
