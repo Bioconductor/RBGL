@@ -176,56 +176,49 @@ component hierarchy:
 
 <<>>=
 library(GO)
-cc <- ls(env=GOcellularcomponent)
+cc <- ls(env=GOCCPARENTS)
 print(cc[1])
 @
 We see that the environment
-consists of alphanumeric tags defining GO terms.
-Each tag is bound to a vector of tags:
+consists of alphanumeric GO accession numbers.
+Each accession number is bound to a vector of its parents in the DAG:
 <<>>=
-print(get(cc[1], env=GOcellularcomponent))
+print(get(cc[1], env=GOCCPARENTS))
+nacc <- length(cc)
+allccp <- list()
+for (i in 1:nacc) allccp[[i]] <- get(cc[i], env=GOCCPARENTS)
 @
-Order here is significant: as we move from left to
-right, we get less specific in the GO hierarchy.
-
-To visualize this DAG, we proceed as follows.
-
-First we set up a function that extracts adjacent pairs
-from any vector:
+We now have a vector of accession numbers and
+a conforming list of vectors of parents.
+We can construct a (possibly redundant) list of edges in the graph as follows:
 <<>>=
-adjprs <- function(x) {
-if (length(x)==1) NULL
- else c(x[1],x[2], adjprs(x[-1]))
-}
-adjpairs <- function(x) {a <- adjprs(x);
-if (length(a) <= 1) return(NULL)
-b <- list();
-for (i in seq(1,length(a),2)) b[[floor((i+1)/2)]] <- a[i:(i+1)]
-b
-}
-
+alled <- list()
+k <- 1
+for (i in 1:nacc)
+  {
+  for (j in 1:length(allccp[[i]]) )
+    {
+    alled[[k]] <- c(cc[i], allccp[[i]][j])
+    k <- k+1
+    }
+  }
 @
-Then we obtain the paths to all GO leaves:
 
-<<>>=
-nleaves <- length(cc)
-allv <- list()
-for (i in 1:nleaves) allv[[i]] <- get(cc[i], env=GOcellularcomponent)
+We will obtain the
+unique set of edges by some character manipulations,
+then build the associated graph for rendering.
 
-@
 Now we get the edges and nodes of the associated tree:
 <<>>=
 
 upairs <- function(x) {
-xp <- lapply(x,function(x)lapply(x,function(y)paste(y,collapse=";")))
+xp <- lapply(x,function(x)paste(x,collapse=";"))
 uxp <- unique(unlist(xp))
 strsplit(uxp,";")
 }
 
-
-preGOEdges <- lapply(allv, function(x)adjpairs(rev(x)))
-GOEdges <- upairs(preGOEdges)
-GONodes <- unique(unlist(GOEdges))
+GOEdges <- upairs(alled)
+GONodes <- unique(cc)
 
 gog <- makeGraf(V=GONodes, E=GOEdges)
 toDot(gog,"gog.dot")
@@ -240,37 +233,37 @@ We can see the basic topology of the tree.
 
 \setkeys{Gin}{width=1.\textwidth}
 \begin{figure}
-\includegraphics{gog.ps}
+\includegraphics{permcc.ps}
+\caption{Cellular component, based on 4 Sep GO data package}
 \end{figure}
 @
 Wrapping this all together, we can generate graf objects
 from any GO environment:
 <<>>=
 GO2graf <- function(env) {
-goe <- ls(env=env)
-adjprs <- function(x) {
- if (length(x)==1) NULL
-  else c(x[1],x[2], adjprs(x[-1]))
- }
-adjpairs <- function(x) {a <- adjprs(x);
- if (length(a) <= 1) return(NULL)
- b <- list();
- for (i in seq(1,length(a),2)) b[[floor((i+1)/2)]] <- a[i:(i+1)]
- b
-}
-nleaves <- length(goe)
-allv <- list()
-for (i in 1:nleaves) allv[[i]] <- get(goe[i], env=env)
+cc <- ls(env=env)
+nacc <- length(cc)
+allccp <- list()
+for (i in 1:nacc) allccp[[i]] <- get(cc[i], env=env)
+alled <- list()
+k <- 1
+for (i in 1:nacc)
+  {
+  for (j in 1:length(allccp[[i]]) )
+    {
+    alled[[k]] <- c(cc[i], allccp[[i]][j])
+    k <- k+1
+    }
+  }
 
 upairs <- function(x) {
-xp <- lapply(x,function(x)lapply(x,function(y)paste(y,collapse=";")))
+xp <- lapply(x,function(x)paste(x,collapse=";"))
 uxp <- unique(unlist(xp))
 strsplit(uxp,";")
 }
 
-preGOEdges <- lapply(allv, function(x)adjpairs(rev(x)))
-GOEdges <- upairs(preGOEdges)
-GONodes <- unique(unlist(GOEdges))
+GOEdges <- upairs(alled)
+GONodes <- unique(cc)
 
 makeGraf(V=GONodes, E=GOEdges)
 }
@@ -278,21 +271,22 @@ makeGraf(V=GONodes, E=GOEdges)
 That finishes the function.  Now apply it to two more environments:
 
 <<>>=
-mfg <- GO2graf( GOmolecularfunction )
-bpg <- GO2graf( GObiologicalprocess )
+mfg <- GO2graf( GOMFPARENTS )
+bpg <- GO2graf( GOBPPARENTS )
 
 @
 And render:
 <<>>=
 toDot(mfg,"mf.dot")
+toDot(bpg,"bp.dot")
 @
 \begin{figure}
-\includegraphics{mf.ps}
-\caption{Molecular function}
+\includegraphics{permmf.ps}
+\caption{Molecular function, based on 4 Sep GO data package}
 \end{figure}
 \begin{figure}
-\includegraphics{bp.ps}
-\caption{Biological process}
+\includegraphics{permbp.ps}
+\caption{Biological process based on 4 Sep GO data package}
 \end{figure}
 
 @
