@@ -45,7 +45,7 @@ to STL programming for mathematical graph objects) is presented.
 An example object
 representing file dependencies is included, as shown
 in Figure \ref{fdpic}.  
-<<>>=
+<<showFileDep>>=
 library(RBGL)
 data(FileDep)
 print(FileDep)
@@ -63,7 +63,7 @@ z <- plot(FileDep)
 
 The {\tt tsort} function will return the indices of vertices
 in topological sort order:
-<<>>=
+<<tsortDemo>>=
 ts <- tsort(FileDep)
 print(nodes(FileDep)[ts + 1])
 @
@@ -82,7 +82,7 @@ in the interface (a message is written to the console and zeroes are returned).
 This function just returns a list of edges, weights and nodes
 determining the minimum spanning tree (MST) by
 Kruskal's algorithm.
-<<>>=
+<<KMSTdemo>>=
 km <- fromGXL(file(system.file("GXL/kmstEx.gxl", package="graph")))
 print(KMST(km))
 @
@@ -98,7 +98,7 @@ z <- plot(km)
 \subsection{Depth first search}
 This function returns a list of node indices by
 discovery and finish order.
-<<>>=
+<<DFSdemo>>=
 df <- fromGXL(file(system.file("XML/dfsex.gxl", package="RBGL")))
 print(o <- dfsBGL(df))
 @
@@ -120,7 +120,7 @@ print(nodes(df)[o$discovered])
 This function returns a vector of node indices
 for a breadth-first search (BFS) starting at the
 node indexed by {\tt init.ind}.
-<<>>=
+<<BFSdemo>>=
 bf <- fromGXL(file(system.file("XML/bfsex.gxl", package="RBGL")))
 bf@edgemode <- "undirected"
 print(o <- bfsBGL(bf,init.ind=2))
