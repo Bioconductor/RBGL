@@ -123,7 +123,7 @@ sp.between <- function (g, start, finish)
 
 connectedComp <- function (g) 
 {
-    if (length(agrep("solaris", version$platform))==1) stop(
+    if (length(agrep("solaris", version$platform))==1) return(
 		"inoperative under solaris at present; try windows, linux or BSD")
     if (edgemode(g) == "directed") {
 		warning("converting directed graph to undirected form")
@@ -148,7 +148,7 @@ strongComp <- function (g)
 
 edgeConnectivity <- function (g) 
 {
-    if (length(agrep("solaris", version$platform))==1) stop(
+    if (length(agrep("solaris", version$platform))==1) return(
 		"inoperative under solaris at present; try windows, linux or BSD")
     if (edgemode(g) == "directed") stop("only applicable to undirected graphs")
     nv <- length(nodes(g))
