@@ -55,7 +55,6 @@ extern "C"
     typedef graph_traits < Graph_dd >::edge_descriptor Edge;
     typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
     Graph_dd g(num_verts_in, num_edges_in, R_edges_in);
-    property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 
     typedef property_map<Graph_dd, vertex_color_t>::type Color;
 	graph_traits<Graph_dd>::vertex_iterator viter, viter_end;
@@ -203,7 +202,6 @@ extern "C"
     typedef graph_traits < Graph_dd >::edge_descriptor Edge;
     typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
     Graph_dd g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
-    property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	typedef graph_traits < Graph_dd >::vertices_size_type size_type;
 	
@@ -248,7 +246,6 @@ extern "C"
     typedef graph_traits < Graph_dd >::edge_descriptor Edge;
     typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
     Graph_dd g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
-    property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	typedef graph_traits < Graph_dd >::vertices_size_type size_type;
 	
@@ -304,7 +301,6 @@ extern "C"
     typedef graph_traits < Graph_dd >::edge_descriptor Edge;
     typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
     Graph_dd g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
-    property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	int N = num_vertices(g);
 	std::vector<Vertex> p(N);
@@ -339,12 +335,11 @@ extern "C"
     typedef graph_traits < Graph_ud >::edge_descriptor Edge;
     typedef graph_traits < Graph_ud >::vertex_descriptor Vertex;
     Graph_ud g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
-    property_map < Graph_ud, edge_weight_t >::type weight = get(edge_weight, g);
 
 	int nvert = INTEGER(num_verts_in)[0] ;
 
-        std::vector<int> component(num_vertices(g));
-        int num = connected_components(g, &component[0]);
+    std::vector<int> component(num_vertices(g));
+    connected_components(g, &component[0]);
 
     std::vector<int>::size_type k;
     
@@ -367,12 +362,11 @@ extern "C"
     typedef graph_traits < Graph_dd >::edge_descriptor Edge;
     typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
     Graph_dd g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
-    property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 
 	int nvert = INTEGER(num_verts_in)[0] ;
 
-        std::vector<int> component(num_vertices(g));
-        int num = strong_components(g, &component[0]);
+    std::vector<int> component(num_vertices(g));
+    strong_components(g, &component[0]);
 
     std::vector<int>::size_type k;
     
@@ -390,14 +384,11 @@ extern "C"
 		SEXP R_weights_in )
 	{
 	using namespace boost;
-        SEXP outvec, ansList, conn, edTmp;
+    SEXP ansList, conn, edTmp;
 	
     typedef graph_traits < Graph_ud >::edge_descriptor Edge;
     typedef graph_traits < Graph_ud >::vertex_descriptor Vertex;
     Graph_ud g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
-    property_map < Graph_ud, edge_weight_t >::type weight = get(edge_weight, g);
-
-	int nvert = INTEGER(num_verts_in)[0] ;
 
     typedef graph_traits<Graph_ud>::degree_size_type dst;
     std::vector<Edge> disconnecting_set;

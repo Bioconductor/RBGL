@@ -89,7 +89,6 @@ public:
     {
         if (!isNumeric(R_weights_in)) error("R_weights_in should be Numeric");
         if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
-        int num_nodes = asInteger(num_verts_in);
         int NE = asInteger(num_edges_in);
         int* edges_in = INTEGER(R_edges_in);
         if (isReal(R_weights_in)) {
@@ -116,7 +115,6 @@ public:
         : Base(asInteger(num_verts_in))
     {
         if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
-        int num_nodes = asInteger(num_verts_in);
         int NE = asInteger(num_edges_in);
         int* edges_in = INTEGER(R_edges_in);
         for (int i = 0; i < NE ; i++, edges_in += 2) {
@@ -126,9 +124,9 @@ public:
 };
 
 /* Graph_di is directed with integer weights
-/* Graph_ui is undirected with integer weights
-/* Graph_dd is directed with double weights
-/* Graph_ud is undirected with double weights */
+   Graph_ui is undirected with integer weights
+   Graph_dd is directed with double weights
+   Graph_ud is undirected with double weights */
 
 typedef R_adjacency_list<boost::directedS, int> Graph_di;
 typedef R_adjacency_list<boost::undirectedS, int> Graph_ui;
@@ -147,7 +145,8 @@ namespace boost
     typedef typename graph_traits < Graph >::degree_size_type size_type;
     size_type delta = std::numeric_limits < size_type >::max();
     typename graph_traits < Graph >::vertex_iterator i, iend;
-    for (tie(i, iend) = vertices(g); i != iend; ++i)
+    tie(i, iend) = vertices(g);
+    for (p = *i; i != iend; ++i)
       if (degree(*i, g) < delta)
       {
         delta = degree(*i, g);
