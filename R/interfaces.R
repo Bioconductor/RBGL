@@ -98,7 +98,7 @@ dijkstra.sp <- function(g,start=nodes(g)[1]) {
     ans
 }
 
-sp.between <- function(g, start, finish) {
+sp.between.old <- function(g, start, finish) {
 #
 #simple vectorization  of previous sp.between
 #
@@ -199,4 +199,39 @@ edgeConnectivity <- function (g)
     mes <- ans[[2]]
     mes <- lapply(mes,function(x,y) y[x+1], nodes(g)) # +1 for zero-based BGL
     list(connectivity=ans[[1]], minDisconSet=mes)
+}
+
+
+unwindPen <- function(s, f, pens) {
+# use list of penultimates (from dijkstra.sp) to establish
+# linear path from node s to node f
+    if (!(s %in% pens) || !(f %in% pens)) stop("s or f not in pens")
+    path <- f
+    maxl <- length(pens)
+    i <- 0
+    while (path[1] != s) {
+        if (i > maxl) stop("pens inconsistent with linear path from s to f")
+        path <- c(pens[f], path)
+        f <- pens[f]
+        i <- i+1
+    }
+    path
+}
+
+
+sp.between <- function (g, start, finish) 
+{
+    nodeind <- function(n) (1:length(nodes(g)))[nodes(g) == n]
+    if (length(finish)>=length(start)) fl <- split(finish, start)
+    else if (length(finish)==1) fl <- split(rep(finish,length(start)),start) 
+    ust <- unique(start)
+    ans <- list()
+    for (i in 1:length(ust)) {
+        curdi <- dijkstra.sp(g, ust[i])$penult
+        for (j in 1:length(thisf <- fl[[thiss <- ust[i]]])) {
+            ans[[paste(thiss, thisf[j], sep = ":")]] <- nodes(g)[unwindPen(nodeind(thiss), 
+                nodeind(thisf[j]), curdi)]
+        }
+    }
+    ans
 }
