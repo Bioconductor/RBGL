@@ -49,6 +49,7 @@ representing file dependencies is included, as shown
 in Figure \ref{fdpic}.  
 <<showFileDep>>=
 library(RBGL)
+library(Rgraphviz)
 data(FileDep)
 print(FileDep)
 @
@@ -122,11 +123,9 @@ for a breadth-first search (BFS) starting at the
 node indexed by {\tt init.node}.
 <<BFSdemo>>=
 bf <- fromGXL(file(system.file("XML/bfsex.gxl", package="RBGL")))
-bf@edgemode <- "undirected"
 print(o <- bfs(bf,nodes(bf)[2]))
-# currently 8/03 bf non reciprocal and validity check fails so plot fails
 <<fig=TRUE>>=
-#z <- plot(bf)
+z <- plot(bf)
 @
 The nodes in BFS order starting with the second node are
 <<>>=

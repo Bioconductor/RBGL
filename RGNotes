@@ -15,7 +15,8 @@ Date: Wed, 23 Jun 2004 16:46:01 -0400
  untrue statement.
  
 >>> now checkConn is defaulting to TRUE.  the example
->>> above throws an error.  we may want to check without option.
+>>> above throws an error.  we may want to force check for
+>>> all invocations
 >>> need to try some big examples
 
  Can we ever expect to be able to supply the starting node for dfs? is
@@ -62,7 +63,6 @@ Hi Vince,
 ##some code that shows the problem from a different perspective
 set.seed(123)
 g1 <- randomEGraph(LETTERS[11:20], edges=15)
-g2 = addEdge(c("R","R"), c("N","K"),
 
 g2 = addEdge(c("R","R"), c("N","K"),
               g1, c(1,1) )
