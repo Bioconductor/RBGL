@@ -4,16 +4,17 @@ tsort <- function(x) {
  em <- edgeMatrix(x)
  ne <- ncol(em)
  .Call("BGL_tsort_D", as.integer(nv), as.integer(ne),
-      as.integer(em-1))
+      as.integer(em-1), PACKAGE="RBGL")
 }
 
 mstree.kruskal <- function(x) {
  nv <- length(nodes(x))
  em <- edgeMatrix(x, duplicates=TRUE) # conform with edgeWeights unlisted
  ne <- ncol(em)
-ans <- .Call("BGL_KMST_D", 
+ans <- .Call("BGL_KMST_D",
       		as.integer(nv), as.integer(ne),
-      		as.integer(em-1), as.double(unlist(edgeWeights(x))))
+      		as.integer(em-1), as.double(unlist(edgeWeights(x))),
+             PACKAGE="RBGL")
  names(ans) <- c("edgeList", "weights")
  ans$nodes <- nodes(x)
  ans[["edgeList"]] <- ans[["edgeList"]] + 1  # bring to unit-based counting
@@ -23,7 +24,7 @@ ans <- .Call("BGL_KMST_D",
 if (!isGeneric("bfs")) setGeneric("bfs",
         function( graph, init.node=1, checkConn=FALSE) standardGeneric("bfs"))
 
-setMethod("bfs",c("graph", "ANY", "ANY"), 
+setMethod("bfs",c("graph", "ANY", "ANY"),
   function( graph, init.node, checkConn) {
  if (init.node < 1) stop("use 1-based counting for init.node")
  if (checkConn)
@@ -36,14 +37,14 @@ setMethod("bfs",c("graph", "ANY", "ANY"),
  ne <- ncol(em)
  ans <- .Call("BGL_bfs_D", as.integer(nv), as.integer(ne),
       as.integer(em-1), as.integer(edgeWeightVector(graph)),
-      as.integer(init.node-1))
+      as.integer(init.node-1), PACKAGE="RBGL")
 # names(ans) <- c("edgeList", "weights")
 # ans$nodes <- nodes(graph)
 # ans[["edgeList"]] <- ans[["edgeList"]] + 1  # bring to unit-based counting
  ans+1
 })
 
-if (!isGeneric("dfs")) 
+if (!isGeneric("dfs"))
    setGeneric("dfs", function(graph)standardGeneric("dfs"))
 
 setMethod("dfs", "graph", function(graph) {
@@ -51,7 +52,7 @@ setMethod("dfs", "graph", function(graph) {
  em <- edgeMatrix(graph)
  ne <- ncol(em)
  ans <- .Call("BGL_dfs_D", as.integer(nv), as.integer(ne),
-      as.integer(em-1), as.double(edgeWeightVector(graph)))
+      as.integer(em-1), as.double(edgeWeightVector(graph)), PACKAGE="RBGL")
  names(ans) <- c("discovered", "finish")
  lapply(ans,function(x)x+1)
 })
@@ -60,22 +61,22 @@ setMethod("dfs", "graph", function(graph) {
 dijkstra.sp <- function(x,init.ind=nodes(x)[1]) {
     if (is.numeric(init.ind)) stop("init.ind must be a node name; numeric indices not allowed")
     nN <- nodes(x)
-    if (is.character(init.ind)) 
+    if (is.character(init.ind))
         II <- match(init.ind, nN, 0)
     else
         II <- init.ind
-    if (II < 1) 
+    if (II < 1)
         stop("bad value for init.ind, which must, if character, be a node name")
     nv <- length(nN)
-    if (II > nv) 
+    if (II > nv)
         stop(paste("only", nv, "nodes but init.ind is ", II,
             sep = " "))
     em <- edgeMatrix(x)
     ne <- ncol(em)
     eW <- eWV(x,em)
-    ans <- .Call("BGL_dijkstra_shortest_paths_D", as.integer(nv), 
-        as.integer(ne), as.integer(em-1), as.double(eW), 
-        as.integer(II - 1))
+    ans <- .Call("BGL_dijkstra_shortest_paths_D", as.integer(nv),
+        as.integer(ne), as.integer(em-1), as.double(eW),
+        as.integer(II - 1), PACKAGE="RBGL")
     names(ans) <- c("distances", "penult")
     ans[["distances"]][ ans[["distances"]] == .Machine$double.xmax ] <- Inf
     names(ans[["distances"]]) <- names(ans[["penult"]]) <- nN
@@ -93,7 +94,7 @@ if (any(is.numeric(c(start,finish)))) stop("start and finish are required to be 
 #
  if (length(start) == 1) {
   if (length(finish) == 1) return( sp.between.scalar(g, start, finish) )
-  else { ans <- lapply( finish, function(x,g,start) 
+  else { ans <- lapply( finish, function(x,g,start)
             sp.between.scalar(g,start,x), g=g, start=start )
          names(ans)<-paste(start, finish, sep=":")
          return(ans)
@@ -103,18 +104,18 @@ if (any(is.numeric(c(start,finish)))) stop("start and finish are required to be 
           ans <- lapply(start,function(x,g,finish)
             sp.between.scalar(g,x,finish), g=g, finish=finish)
           names(ans)  <- paste(start, finish, sep=":")
-	  return(ans) 
+	  return(ans)
          }
  else if (length(finish) != length(start)) stop("cannot have different nonunity lengths of start and finish")
  else {
        sf <- list();for (i in 1:length(start))  sf[[i]] <- c(start[i],finish[i]);
-       ans <- lapply( sf,function(x) sp.between.scalar(g,x[1],x[2])) 
+       ans <- lapply( sf,function(x) sp.between.scalar(g,x[1],x[2]))
           names(ans)  <- paste(start, finish, sep=":")
        return(ans)
       }
  }
 
-sp.between.scalar <- function (g, start, finish) 
+sp.between.scalar <- function (g, start, finish)
 {
 # (c) 2003 VJ Carey, all rights reserved
 #
@@ -132,8 +133,8 @@ sp.between.scalar <- function (g, start, finish)
     if (length(f) >1) stop("finish must be scalar")
     if (length(s) >1) stop("start must be scalar")
     no <- nodes(g)
-    if (any(is.na(lk <- match(c(s, f), no)))) 
-        stop(paste(paste(c(s, f)[is.na(lk)], collapse = " "), 
+    if (any(is.na(lk <- match(c(s, f), no))))
+        stop(paste(paste(c(s, f)[is.na(lk)], collapse = " "),
             "not in nodes of g"))
     s <- (1:length(no))[no == s]
     f <- (1:length(no))[no == f]
@@ -150,7 +151,7 @@ sp.between.scalar <- function (g, start, finish)
     list(length = sp$distances[ff], path = no[path])
 }
 
-connectedComp <- function (g) 
+connectedComp <- function (g)
 {
     if (length(agrep("solaris", version$platform))==1) return(
 		"inoperative under solaris at present; try windows, linux or BSD")
@@ -158,23 +159,23 @@ connectedComp <- function (g)
     em <- edgeMatrix(g)
     ne <- ncol(em)
     eV <- eWV(g, em)
-    x<-.Call("BGL_connected_components_U", as.integer(nv), as.integer(ne), 
-        as.integer(em-1), as.double(eV))
+    x<-.Call("BGL_connected_components_U", as.integer(nv), as.integer(ne),
+        as.integer(em-1), as.double(eV), PACKAGE="RBGL")
     split(nodes(g),x+1)
 }
 
-strongComp <- function (g) 
+strongComp <- function (g)
 {
     if (edgemode(g) == "undirected") stop("only applicable to directed graphs")
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
-    x <- .Call("BGL_strong_components_D", as.integer(nv), as.integer(ne), 
-        as.integer(em-1), as.double(edgeWeightVector(g)))
+    x <- .Call("BGL_strong_components_D", as.integer(nv), as.integer(ne),
+        as.integer(em-1), as.double(edgeWeightVector(g)), PACKAGE="RBGL")
     split(nodes(g),x+1)
 }
 
-edgeConnectivity <- function (g) 
+edgeConnectivity <- function (g)
 {
     if (length(agrep("solaris", version$platform))==1) return(
 		"inoperative under solaris at present; try windows, linux or BSD")
@@ -182,8 +183,8 @@ edgeConnectivity <- function (g)
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
-    ans <- .Call("BGL_edge_connectivity_U", as.integer(nv), as.integer(ne), 
-        as.integer(em-1), as.double(edgeWeightVector(g)))
+    ans <- .Call("BGL_edge_connectivity_U", as.integer(nv), as.integer(ne),
+        as.integer(em-1), as.double(edgeWeightVector(g)), PACKAGE="RBGL")
     mes <- ans[[2]]
     mes <- lapply(mes,function(x,y) y[x+1], nodes(g)) # +1 for zero-based BGL
     list(connectivity=ans[[1]], minDisconSet=mes)
