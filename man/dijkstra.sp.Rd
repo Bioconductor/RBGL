@@ -8,7 +8,7 @@
 dijkstra's shortest paths
 }
 \usage{
-dijkstra.sp(x,init.ind=1) # now x assumed to be Bioconductor graph graphNEL
+dijkstra.sp(x,init.ind=nodes(x)[1]) # now x assumed to be Bioconductor graph graphNEL
 sp.between(g,start,finish) # now x assumed to be Bioconductor graph graphNEL
 }
 %- maybe also `usage' for other objects documented here.
