@@ -37,7 +37,7 @@ km@edgeL$H <- list(edges=7)
 ukm <- ugraph(km)
 ukm
 edges(ukm)
-connectedComp(km)
+connectedComp(ukm)
 } else {
  cat("this function is not working in solaris at present,\n")
  cat("please use a windows or linux platform")
