@@ -1,0 +1,111 @@
+Date: Wed, 23 Jun 2004 16:46:01 -0400
+
+ I am trying to write up something on the RBGL package and 
+  the following seems a bit odd,
+  example(dfs)
+  dd2 = removeEdge("w", "t", dd)
+  dd3 = removeEdge("w", "x", dd2)
+  plot(dd3) #disconnected
+  bfs(dd3) #seems to make no sense
+  nodes(dd3)[bfs(dd3)]
+
+ Can you please put in some words to describe what you mean by
+ "both dfs and bfs can handle unconnected graphs", precisely what is
+  returned in this case? The example above suggests that this is an
+ untrue statement.
+
+ Can we ever expect to be able to supply the starting node for dfs? is
+ the
+ problem with the interface or with the underlying code?
+
+
+ thanks,
+
+  robert
+
+Date: Wed, 23 Jun 2004 16:46:01 -0400
+From: Robert Gentleman <rgentlem@jimmy.harvard.edu>
+To: Vincent Carey 525-2265 <stvjc@channing.harvard.edu>
+Subject: RBGL - part 2
+
+Hi Vince,
+    - some more info: it seems that the problem is with directed
+   versus undirected graphs
+
+   - if you look in your vignette you have bf defined and it
+    reads a graph from a file bfsex.gxl;
+
+   - I don't think you should do this, a graphNEL has reciprocated
+    edges if it is undirected; you can either use ugraph or you can
+    change your fromGXL function so that if it is deserializing to
+    a graphNEL object it honors the structure of the graphNEL objects
+
+   - and it seems that dfs and bfs on the undirected graph are
+   correct, but
+    not on the undirected version (either using your method of simply
+   changing
+   the edgemode, or using ugraph)
+
+   - I suspect something has changed in the graph representation that
+     has
+    never gotten propogated to RBGL, but I am not sure
+##some code that shows the problem from a different perspective
+set.seed(123)
+g1 <- randomEGraph(LETTERS[11:20], edges=15)
+g2 = addEdge(c("R","R"), c("N","K"),
+
+g2 = addEdge(c("R","R"), c("N","K"),
+              g1, c(1,1) )
+ bfsg2 = bfs(g2)
+ dfsg2 = dfs(g2)
+ nodes(g2)[bfsg2]
+ nodes(g2)[dfsg2$discovered]
+
+(and looking at this last one, you should see Q, S, T in elements 5, 6
+and 7
+ but that is not possible, S has no edge to T and we have not yet
+ explored
+ all of S's children so we should not be going to T)
+
+
+   - we have a problem in that DFS does not do what dfs does; I am not
+     sure
+    what we should do to fix this; should we just live with it (both
+     do
+    what they are documented to do)
+
+   - is it your intention that
+      nodes(g)[bfs(g)]
+     should give the node labels in the order in which they are
+      visited
+    (and similarly for dfs)?. If so this is really what should be
+     documented and I, at least, would find it very helpful to have
+    an example (that did not rely on code, but rather explained in
+      words what
+    was supposed to happen, so that I could check the code against it)
+
+  - I looked at tsort and wondered why its return value is different
+
+m
+   that of dfs and bfs (it seems to be more similar to that of DFS,
+    but
+   I think we really want a single type of return value so that it
+   can be operated on).
+
+ - also could you add something that describes just what a topological
+   sort is to a naive users (perhaps explaining why a DAG is so
+   important).
+
+ - also I wonder if this is the right approach (where tsort does two
+   things)
+   couldn't we have a function called isDAG that does the testing and
+   then have tsort error out? that seems more reasonable
+
+
+  As you can see much work on the book is being done - but of course
+  this raises questions about the underlying code.
+
+ Hope all is well there,
+   Robert
+
+
