@@ -21,6 +21,23 @@ ans <- .Call("BGL_KMST_D",
  ans
 }
 
+prim.minST <- function ( g ) 
+{
+    nv <- length(nodes(g))
+    em <- edgeMatrix(g, duplicates=TRUE) # conform with edgeWeights unlisted
+    ne <- ncol(em)
+    eW <- unlist(edgeWeights(g))
+
+    ans <- .Call("BGL_PRIM_U", as.integer(nv), as.integer(ne), 
+                 as.integer(em-1), as.integer(eW), PACKAGE="RBGL")
+
+    rownames(ans[[1]]) <- c("from", "to")
+    rownames(ans[[2]]) <- c("weight")
+    ans[[1]][1,] <- ans[[1]][1,] + 1
+    ans[[1]][2,] <- ans[[1]][2,] + 1
+    list("edges"=ans[[1]], "weights"=ans[[2]])
+}
+
 if (!isGeneric("bfs")) setGeneric("bfs",
         function( object, node, checkConn=TRUE) standardGeneric("bfs"))
 
@@ -368,16 +385,25 @@ dag.sp <- function(g, start=nodes(g)[1])
     list("distance"=ans[[1]], "penult"=ans[[2]], "start"=nodes(g)[s])
 }
 
-#transitive.closure <- function (g) 
-#{
-#    nv <- length(nodes(g))
-#    if (edgemode(g) == "directed") 
-#        em <- edgeMatrix(g)
-#    else em <- edgeMatrix(g, TRUE)
-#    ne <- ncol(em)
-#    ans <- .Call("BGL_transitive_closure_D", as.integer(nv), 
-#        as.integer(ne), as.integer(em - 1), PACKAGE="RBGL")
-#}
+transitive.closure <- function (g) 
+{
+    nv <- length(nodes(g))
+    if (edgemode(g) == "directed") 
+        em <- edgeMatrix(g)
+    else em <- edgeMatrix(g, TRUE)
+    ne <- ncol(em)
+    ans <- .Call("BGL_transitive_closure_D", as.integer(nv), 
+        as.integer(ne), as.integer(em - 1), PACKAGE="RBGL")
+    
+    rownames(ans[[1]]) <- c("vertex")
+    ans[[1]] <- ans[[1]] + 1
+
+    rownames(ans[[2]]) <- c("from", "to")
+    ans[[2]][1,] <- ans[[2]][1,] + 1
+    ans[[2]][2,] <- ans[[2]][2,] + 1
+
+    list("nodes"= ans[[1]], "edges"=ans[[2]])
+}
 
 max.flow.internal <- function (g, source, sink, method="Edmunds.Karp")
 {
@@ -401,13 +427,13 @@ max.flow.internal <- function (g, source, sink, method="Edmunds.Karp")
     if ( method == "Push.Relabel" )
          ans <- .Call("BGL_push_relabel_max_flow", 
                  as.integer(nv), as.integer(ne), 
-                 as.integer(em-1), as.double(eW), 
+                 as.integer(em-1), as.integer(eW), 
                  as.integer(s-1), as.integer(t-1), 
                  PACKAGE="RBGL")
     else  # Edmunds.Karp
          ans <- .Call("BGL_edmunds_karp_max_flow", 
                  as.integer(nv), as.integer(ne), 
-                 as.integer(em-1), as.double(eW), 
+                 as.integer(em-1), as.integer(eW), 
                  as.integer(s-1), as.integer(t-1), 
                  PACKAGE="RBGL")
 
@@ -426,5 +452,213 @@ edmunds.karp.max.flow <- function (g, source, sink)
 push.relabel.max.flow <- function (g, source, sink)
 {
     max.flow.internal(g, source, sink, "Push.Relabel")
+}
+
+isomorphism <- function(g1, g2)
+{
+   nv1 <- length(nodes(g1))
+   em1 <- edgeMatrix(g1)
+   ne1 <- ncol(em1)
+
+   nv2 <- length(nodes(g2))
+   em2 <- edgeMatrix(g2)
+   ne2 <- ncol(em2)
+
+   ans <- .Call("BGL_isomorphism", 
+	        as.integer(nv1), as.integer(ne1), as.integer(em1-1), 
+                as.integer(nv2), as.integer(ne2), as.integer(em2-1), 
+                PACKAGE="RBGL")
+
+   list("isomorphism"=ans[[1]])
+}
+
+cuthill.mckee.ordering <- function(g)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_cuthill_mckee_ordering", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+                PACKAGE="RBGL")
+
+   ans[[1]] <- ans[[1]] + 1
+
+   list("reverse cuthill.mckee.ordering"=ans[[1]],
+ 	"original bandwidth"=ans[[2]], "new bandwidth"=ans[[3]])
+}
+
+sequential.vertex.coloring <- function(g)
+{
+   list("sequential.vertex.coloring not ready yet")
+}
+
+min.degree.ordering <- function(g, delta=0)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_min_degree_ordering", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), as.integer(delta),
+                PACKAGE="RBGL")
+
+   ans[[1]] <- ans[[1]] + 1
+   ans[[2]] <- ans[[2]] + 1
+
+   list("inverse_permutation"=ans[[1]], "permutaion"=ans[[2]])
+}
+
+sloan.ordering <- function(g, w1=1, w2=2)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_sloan_ordering", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), w1, w2,
+                PACKAGE="RBGL")
+
+   ans[[1]] <- ans[[1]] + 1
+
+   list("sloan.ordering"=ans[[1]], "bandwidth"=ans[[2]], 
+	"profile"=ans[[3]], "max.wavefront"=ans[[4]], 
+	"aver.wavefront"=ans[[5]], "rms.wavefront"=ans[[6]])
+}
+
+bandwidth <- function (g)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_bandwidth", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+                PACKAGE="RBGL")
+
+   list("bandwidth"=ans[[1]])
+}
+
+gprofile <- function (g)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_profile", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+                PACKAGE="RBGL")
+
+   list("profile"=ans[[1]])
+}
+
+ith.wavefront <- function (g, start)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+    if ( is.character(start) ) s <- match(start, nodes(g), 0)
+    else s <- start
+
+    if ( s <= 0 || s > nv )
+       stop("starting node needs to be from the graph")
+
+   ans <- .Call("BGL_ith_wavefront", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+		as.integer(s-1),
+                PACKAGE="RBGL")
+
+   list("ith.wavefront"=ans[[1]])
+}
+
+max.wavefront <- function (g)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_max_wavefront", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+                PACKAGE="RBGL")
+
+   list("max.wavefront"=ans[[1]])
+}
+
+aver.wavefront <- function (g)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_aver_wavefront", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+                PACKAGE="RBGL")
+
+   list("aver.wavefront"=ans[[1]])
+}
+
+rms.wavefront <- function (g)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_rms_wavefront", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+                PACKAGE="RBGL")
+
+   list("rms.wavefront"=ans[[1]])
+}
+
+init.incremental.components <- function (g)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_init_incremental_components", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+                PACKAGE="RBGL")
+
+   for ( i in 1:ans[[1]] ) ans[-1][[i]] <- ans[-1][[i]] + 1
+   ans
+}
+
+incremental.components <- function (g)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_incremental_components", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+                PACKAGE="RBGL")
+
+   for ( i in 1:ans[[1]] ) ans[-1][[i]] <- ans[-1][[i]] + 1
+   ans
+}
+
+same.component <- function (g, node1, node2)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+    if ( is.character(node1) ) v1 <- match(node1, nodes(g), 0)
+    else v1 <- node1
+
+    if ( is.character(node2) ) v2 <- match(node2, nodes(g), 0)
+    else v2 <- node2
+
+    if ( v1 <= 0 || v1 > nv || v2 <= 0 || v2 > nv )
+       stop("nodes need to be from the graph")
+
+   ans <- .Call("BGL_same_component", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+	        as.integer(v1-1), as.integer(v2-1),
+                PACKAGE="RBGL")
+
+   ans
 }
 
