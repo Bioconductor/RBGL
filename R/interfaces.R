@@ -21,19 +21,10 @@ ans <- .Call("BGL_KMST_D",
 }
 
 if (!isGeneric("bfs")) setGeneric("bfs",
-        function( graph, init.node, checkConn) standardGeneric("bfs"))
+        function( graph, init.node=1, checkConn=FALSE) standardGeneric("bfs"))
 
-setMethod("bfs",c("graph", "numeric", "logical"), 
-  function( graph, init.node, checkConn) 
-    bfs(graph,init.node,checkConn))
-setMethod("bfs",c("graph", "numeric", "missing"), 
-  function( graph, init.node, checkConn) 
-    bfs(graph,init.node,checkConn=FALSE))
-setMethod("bfs",c("graph", "missing", "missing"), 
-  function( graph, init.node, checkConn) 
-    bfs(graph,init.node=1,checkConn=FALSE))
-
-bfs <- function(graph,init.node=1,checkConn=FALSE) {
+setMethod("bfs",c("graph", "ANY", "ANY"), 
+  function( graph, init.node, checkConn) {
  if (init.node < 1) stop("use 1-based counting for init.node")
  if (checkConn)
    {
@@ -50,7 +41,7 @@ bfs <- function(graph,init.node=1,checkConn=FALSE) {
 # ans$nodes <- nodes(graph)
 # ans[["edgeList"]] <- ans[["edgeList"]] + 1  # bring to unit-based counting
  ans+1
-}
+})
 
 if (!isGeneric("dfs")) 
    setGeneric("dfs", function(graph)standardGeneric("dfs"))

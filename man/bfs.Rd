@@ -2,16 +2,17 @@
 \alias{bfs}
 \alias{dfs}
 \alias{dfs,graph-method}
-\alias{bfs,graph,numeric,logical-method}
+\alias{bfs,graph-method}
+\alias{bfs,graph,ANY,ANY-method}
 \title{ breadth/depth-first search using boost C++ }
 \description{
 returns integer vector of indices with
 order of discovery by BFS or DFS
 }
 \usage{
-bfs(graph, init.node=1, checkConn=FALSE) 
+%bfs(graph, init.node=1, checkConn=FALSE) 
 \S4method{dfs}{graph}{graph}
-\S4method{bfs}{graph,numeric,logical}{graph,init.node,checkConn}
+\S4method{bfs}{graph,ANY,ANY}(graph,init.node,checkConn)
 }
 \arguments{
   \item{graph}{ instance of class graph from Bioconductor graph class}
