@@ -89,6 +89,8 @@ sp.between <- function(g, start, finish) {
 #
 #simple vectorization  of previous sp.between
 #
+if (any(is.numeric(c(start,finish)))) warning("future versions will require start and finish to be node names")
+#
  if (length(start) == 1) {
   if (length(finish) == 1) return( sp.between.scalar(g, start, finish) )
   else { ans <- lapply( finish, function(x,g,start) 
