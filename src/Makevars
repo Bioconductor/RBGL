@@ -1,1 +1,2 @@
+interfaces.o: RBGL.h
 PKG_CXXFLAGS=-IboostIncl -ftemplate-depth-30 -g
