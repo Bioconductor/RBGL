@@ -6,69 +6,63 @@ extern "C" {
 #include <Rdefines.h>
 }
 
+/* need a template with C++ linkage for BFS */
+/* adapted from Siek's bfs-example.cpp */
+
+template < typename TimeMap > class bfs_time_visitor:public default_bfs_visitor {
+  typedef typename property_traits < TimeMap >::value_type T;
+public:
+  bfs_time_visitor(TimeMap tmap, T & t):m_timemap(tmap), m_time(t) { }
+  template < typename Vertex, typename Graph >
+    void discover_vertex(Vertex u, const Graph & g) const
+  {
+    put(m_timemap, u, m_time++);
+  }
+  TimeMap m_timemap;
+  T & m_time;
+};
+
 extern "C" 
 {
+	SEXP BGL_tsort_D(SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in)
+	{
+	// tsortbCG -- for bioConductor graph objects (only graphNEL at present)
+	  
+	setupGraphTypes
+	setTraits( Graph_dd )
+	setUnweightedDoubleEdges( Graph_dd )
+	
+	typedef property_map<Graph_dd, vertex_color_t>::type Color;
+	graph_traits<Graph_dd>::vertex_iterator viter, viter_end;
+	 
+	typedef list<Vertex> tsOrder;
+	tsOrder tsord;
+	SEXP tsout;
+	
+	PROTECT(tsout = NEW_NUMERIC(INTEGER(num_verts_in)[0]));
+	
+	try {
+	      topological_sort(g, std::front_inserter(tsord));
+	
+	      int j = 0;
+	      for (tsOrder::iterator i = tsord.begin();
+	             i != tsord.end(); ++i)
+	             {
+	             REAL(tsout)[j] = (double) *i;
+	             j++;
+	             }
+	      }
+	catch ( not_a_dag )
+	      {
+	      Rprintf("not a dag, returning zeroes\n");
+	      for (int j = 0 ; j < INTEGER(num_verts_in)[0]; j++)
+	          REAL(tsout)[j] = 0.0;
+	      }
+	UNPROTECT(1);
 
-
-SEXP BGL_tsort_D(SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in)
-{
-// tsortbCG -- for bioConductor graph objects (only graphNEL at present)
-  
-Rprintf("pre ty\n");
-setupGraphTypes
-Rprintf("pre tra\n");
-setTraits( Graph_dd )
-Rprintf("pre ed\n");
-setUnweightedDoubleEdges( Graph_dd )
-
-Rprintf("pre color\n");
-  typedef property_map<Graph_dd, vertex_color_t>::type Color;
-Rprintf("pre it\n");
-  graph_traits<Graph_dd>::vertex_iterator viter, viter_end;
-
+	return(tsout);
+	} // end BGL_tsort_D
  
-  typedef list<Vertex> tsOrder;
-  tsOrder tsord;
-  SEXP tsout;
-
-Rprintf("pre tsout\n");
-  PROTECT(tsout = NEW_NUMERIC(INTEGER(num_verts_in)[0]));
-
-  try {
-Rprintf("pre ts\n");
-      topological_sort(g, std::front_inserter(tsord));
-Rprintf("post ts\n");
-
-      int j = 0;
-      for (tsOrder::iterator i = tsord.begin();
-             i != tsord.end(); ++i)
-             {
-             REAL(tsout)[j] = (double) *i;
-             j++;
-             }
-      }
-  catch ( not_a_dag )
-      {
-      Rprintf("not a dag, returning zeroes\n");
-      for (int j = 0 ; j < INTEGER(num_verts_in)[0]; j++)
-          REAL(tsout)[j] = 0.0;
-      }
-  UNPROTECT(1);
-
-  return(tsout);
-      
-  } // end BGL_tsort_D
- 
-/*
-main() {
-int nv = 15, ne = 19;
-double x[] = {
- 0. , 4. , 0. , 6. , 0. , 1. , 1. , 6. , 1. , 11. , 2. , 6. , 2. , 9. , 2. , 11. , 3. , 4. , 4. , 5. , 5. , 8. , 6. , 7. , 7. ,
- 8. , 8. , 13. , 9. , 10. , 10. , 13. , 11. , 12. , 12. , 13. , 13. , 14. };
-tsortSG( &nv, &ne, x , x );
-}
-*/
-
 
 	SEXP BGL_KMST_D( SEXP num_verts_in, SEXP num_edges_in, 
 	    SEXP R_edges_in, SEXP R_weights_in)
@@ -109,4 +103,49 @@ tsortSG( &nv, &ne, x , x );
 	UNPROTECT(3);
 	return(ansList);
 	} //end BGL_KMST_D
+
+
+	SEXP BGL_BFS_D(SEXP num_verts_in, SEXP num_edges_in, 
+		SEXP R_edges_in, SEXP R_weights_in, SEXP init_ind)
+	{
+	using namespace boost;
+	
+	setupGraphTypes
+	setTraits( Graph_dd )
+	setWeightedDoubleEdges( Graph_dd )
+	
+	typedef graph_traits < Graph_dd >::vertices_size_type size_type;
+	
+	const int N = INTEGER(num_verts_in)[0];
+	// Typedefs
+	typedef size_type* Iiter;
+	
+	// discover time properties
+	std::vector < size_type > dtime(num_vertices(g));
+	
+	size_type time = 0;
+	bfs_time_visitor < size_type * >vis(&dtime[0], time);
+	breadth_first_search(g, vertex((int)INTEGER(init_ind)[0], g), visitor(vis));
+	
+	
+	// use std::sort to order the vertices by their discover time
+	std::vector < size_type > discover_order(N);
+	integer_range < size_type > r(0, N);
+	std::copy(r.begin(), r.end(), discover_order.begin());
+	std::sort(discover_order.begin(), discover_order.end(),
+	            indirect_cmp < Iiter, std::less < size_type > >(&dtime[0]));
+	
+	SEXP disc;
+	PROTECT(disc = allocVector(INTSXP,N));
+	
+	int i;
+	  for (i = 0; i < N; ++i)
+	    {
+	    INTEGER(disc)[i] = discover_order[i];
+	    }
+	
+	UNPROTECT(1);
+	return(disc);
+	}
+
 }
