@@ -124,11 +124,11 @@ sp.between <- function (g, start, finish)
     list(length = sp$distances[ff], path = no[path])
 }
 
-connComp <- function(g) 
-   {
-   if (edgemode(g) == "directed")
-    .Call("BGL_connected_components_U", as.integer(nv), 
-        as.integer(ne), as.integer(adjListBGL(x)), 
-        as.double(unlist(edgeWeights(x))))
-   else stop("only supporting undirected presently")
-   }
+connectedComp <- function (g) 
+{
+    if (edgemode(g) == "directed") stop("only applicable to undirected graphs")
+    nv <- length(nodes(g))
+    ne <- length(unlist(edges(g)))
+    .Call("BGL_connected_components_U", as.integer(nv), as.integer(ne), 
+        as.integer(adjListBGL(g)), as.double(unlist(edgeWeights(g))))
+}
