@@ -436,23 +436,10 @@ extern "C"
   SEXP out;
   const int V = nv;
   typedef std::pair < int, int >Edge;
-  Edge edge_array[] =
-    { Edge(0, 1), Edge(0, 4), Edge(0, 2), Edge(1, 3), Edge(1, 4),
-    Edge(2, 1), Edge(3, 2), Edge(3, 0), Edge(4, 3)
-  };
-  const std::size_t E = sizeof(edge_array) / sizeof(Edge);
 
-  Graph g(edge_array, edge_array + E, V);
+    Graph_dd g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
 
-  property_map < Graph, edge_weight_t >::type w = get(edge_weight, g);
-  double weights[] = { 3, -4, 8, 1, 7, 4, -5, 2, 6 };
-  double *wp = weights;
-
-  graph_traits < Graph >::edge_iterator e, e_end;
-  for (boost::tie(e, e_end) = edges(g); e != e_end; ++e)
-    w[*e] = *wp++;
-
-  double D[200][200];
+  double D[200][200];  // this is hard coded, using a variable causes syntax err
   johnson_all_pairs_shortest_paths(g, D); 
   PROTECT(out = NEW_NUMERIC(nv*nv));
   int k = 0;

@@ -307,6 +307,7 @@ johnson.all.pairs.sp <- function (g)
         as.integer(ne), as.integer(em - 1), as.double(eW), PACKAGE="RBGL")
     tmp <- matrix(ans, nr = length(nodes(g)))
     dimnames(tmp) <- list(nodes(g), nodes(g))
+    tmp[ tmp >= .Machine$double.xmax ] <- Inf
     t(tmp)
 }
 
