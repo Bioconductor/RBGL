@@ -14,7 +14,8 @@ sp.between(g,start,finish) # now x assumed to be Bioconductor graph graphNEL
 \arguments{
   \item{x}{ instance of class graphNEL from Bioconductor graph class}
   \item{g}{ instance of class graphNEL from Bioconductor graph class}
-  \item{init.ind}{ index (1 based) of where to start search}
+  \item{init.ind}{ if numeric, numerical index (1 based) of where to start search;
+if character, name of node where search begins}
   \item{start}{ character atom: node name for start of path}
   \item{finish}{ character atom: node name for end of path}
 }

@@ -64,7 +64,7 @@ dijkstra.sp <- function(x,init.ind=1) {
     else
         II <- init.ind
     if (II < 1) 
-        stop("bad value for init.ind")
+        stop("bad value for init.ind, which must, if character, be a node name")
     nv <- length(nN)
     if (II > nv) 
         stop(paste("only", nv, "nodes but init.ind is ", II,
