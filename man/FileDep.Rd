@@ -14,7 +14,9 @@ Boost Graph Library
 library(graph)
 fd <- file(system.file("XML/FileDep.gxl",package="RBGL"))
 show(fromGXL(fd))
-library(Rgraphviz)
-data(FileDep)
-plot(FileDep)
+if (require(Rgraphviz))
+ {
+ data(FileDep)
+ plot(FileDep)
+ }
 }
