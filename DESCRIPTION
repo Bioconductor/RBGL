@@ -1,5 +1,5 @@
 Package: RBGL
-Version: 1.1.21
+Version: 1.2.0
 Date: 2004-03-12
 Title: Test interface to boost C++ graph lib
 Author: Vince Carey <stvjc@channing.harvard.edu>

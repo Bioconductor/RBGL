@@ -16,7 +16,8 @@ tsort(x) # now x assumed to be Bioconductor graph graphNEL
 \details{
 calls to the topological\_sort algorithm of BGL.  will check in BGL
 whether the input is a DAG and will report to cerr and return
-zeroes if it is not.
+zeroes if it is not.  Thus this function can be used to check for
+cycles in a digraph.
 }
 \value{
 a numerical vector enumerating vertices in the

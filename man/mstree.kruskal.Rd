@@ -3,21 +3,27 @@
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{ Kruskal's minimum spanning tree in boost }
 \description{
-returns list of two matrices: 2XNE of edges of MST and
-1XNE of weights of these edges, and of the vector of nodes
+compute the minimum spanning tree (MST) for
+a graph and return a representation
+in matrices
 }
 \usage{
-mstree.kruskal(x) # now x assumed to be Bioconductor graph graphNEL
+mstree.kruskal(x) 
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
-  \item{x}{ instance of class graphNEL from Bioconductor graph class}
+  \item{x}{ instance of class graph }
 }
 \details{
-calls to kruskal minimum spanning tree
+calls to kruskal minimum spanning tree algorithm of Boost graph library
 }
 \value{
-list of two matrices and vector of nodes, see above
+a list
+\item{edgeList}{a matrix m of dimension 2 by number of edges in the
+MST, with m[i,j] the jth node in edge i}
+\item{weights}{a vector of edge weights corresponding to the
+columns of \code{edgeList}}
+\item{nodes}{the vector of nodes of the input graph \code{x}}
 }
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
 

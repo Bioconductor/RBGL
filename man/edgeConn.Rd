@@ -20,9 +20,11 @@ of edges in G that can be cut to produce a graph with two
 is called the minimum disconnecting set.
 }
 \value{
-A list the first element is \emph{the connectivity} which is the number
-of edges that must be cut to separate the graph. The second element is a list
-of pairs of nodes defining the edges of the minimum disconnecting set
+A list:
+\item{connectivity}{the integer describing the number of edges that must
+be severed to obtain two components}
+\item{minDisconSet}{a list (of length \code{connectivity}) of pairs of node names describing the edges
+that need to be cut to obtain two components}
 }
 \references{Boost Graph Library by Siek et al.  }
 \author{Vince Carey <stvjc@channing.harvard.edu>}

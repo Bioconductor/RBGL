@@ -14,8 +14,6 @@ strongComp(g)
 \details{
 Tarjan's algorithm is used to determine all strongly connected
 components of a \emph{directed graph}.
-The mathematical formalism is described in the \pkg{graph} package
-or any good book on graph theory.
 }
 \value{
 A list whose length is the number of strongly connected components in
