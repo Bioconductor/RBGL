@@ -100,11 +100,11 @@ z <- plot(km)
 
 @
 \subsection{Depth first search}
-The {\tt dfs2} function returns a list of node indices by
+The {\tt dfs} function returns a list of node indices by
 discovery and finish order.
 <<DFSdemo>>=
 df <- fromGXL(file(system.file("XML/dfsex.gxl", package="RBGL")))
-print(o <- dfs2(df))
+print(o <- dfs(df))
 @
 \begin{figure}
 <<fig=TRUE>>=

@@ -35,10 +35,10 @@ bfs <- function(x,init.ind=1) {
  ans+1
 }
 
-if (!isGeneric("dfs2")) 
-   setGeneric("dfs2", function(object)standardGeneric("dfs2"))
+if (!isGeneric("dfs")) 
+   setGeneric("dfs", function(object)standardGeneric("dfs"))
 
-setMethod("dfs2", "graph", function(object) {
+setMethod("dfs", "graph", function(object) {
  nv <- length(nodes(object))
  em <- edgeMatrix(object)
  ne <- ncol(em)
