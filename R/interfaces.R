@@ -25,38 +25,44 @@ if (!isGeneric("bfs")) setGeneric("bfs",
         function( object, node, checkConn=FALSE) standardGeneric("bfs"))
 
 setMethod("bfs",c("graph", "missing", "missing"),
-  function( object, node, checkConn) bfs(object, nodes(object)[1], FALSE))
+  function( object, node, checkConn=FALSE)
+          bfs(object, nodes(object)[1], FALSE))
 
 setMethod("bfs",c("graph", "character", "ANY"),
-  function( object, node, checkConn) {
- nodvec <- nodes(object)
- if (is.na(startind <- match(node,nodvec))) stop("starting node not found in nodes of graph")
- if (checkConn)
-   {
-   if (length(connectedComp(object))>1) stop("graph is not connected")
-   }
- nv <- length(nodvec)
- em <- edgeMatrix(object)
- ne <- ncol(em)
- ans <- .Call("BGL_bfs_D", as.integer(nv), as.integer(ne),
-      as.integer(em-1), as.integer(rep(1,ne)),
-      as.integer(startind-1), PACKAGE="RBGL")
-# names(ans) <- c("edgeList", "weights")
-# ans$nodes <- nodes(object)
-# ans[["edgeList"]] <- ans[["edgeList"]] + 1  # bring to unit-based counting
- ans+1
-})
+          function( object, node, checkConn=FALSE) {
+              nodvec <- nodes(object)
+              if (is.na(startind <- match(node,nodvec)))
+                  stop("starting node not found in nodes of graph")
+              if (checkConn)
+              {
+                  if (length(connectedComp(object))>1)
+                      stop("graph is not connected")
+              }
+              nv <- length(nodvec)
+              em <- edgeMatrix(object)
+              ne <- ncol(em)
+              ans <- .Call("BGL_bfs_D", as.integer(nv), as.integer(ne),
+                           as.integer(em-1), as.integer(rep(1,ne)),
+                           as.integer(startind-1), PACKAGE="RBGL")
+              ## names(ans) <- c("edgeList", "weights")
+              ## ans$nodes <- nodes(object)
+              ## ans[["edgeList"]] <- ans[["edgeList"]] + 1
+              ans+1
+          })
 
 if (!isGeneric("dfs"))
-   setGeneric("dfs", function(object,node,checkConn=FALSE)standardGeneric("dfs"))
+   setGeneric("dfs", function(object,node,checkConn=FALSE)
+              standardGeneric("dfs"))
 
 setMethod("dfs",c("graph", "missing", "missing"),
-  function( object, node, checkConn) dfs(object, nodes(object)[1], FALSE))
+          function( object, node, checkConn=FALSE)
+          dfs(object, nodes(object)[1], FALSE))
 
 setMethod("dfs",c("graph", "character", "ANY"),
-  function( object, node, checkConn=FALSE) {
- nodvec <- nodes(object)
- if (is.na(startind <- match(node,nodvec))) warning("starting node not found in nodes of graph,\nnodes element 1 used")
+          function( object, node, checkConn=FALSE) {
+              nodvec <- nodes(object)
+              if (is.na(startind <- match(node,nodvec)))
+          warning("starting node not found in nodes of graph,\nnodes element 1 used")
  if (node != nodvec[1]) warning("starting node supplied but not equal to nodes(g)[1], which will be used instead.")
  if (checkConn)
    {
@@ -236,22 +242,23 @@ sp.between <- function (g, start, finish)
         thisf <- fl[[thiss]]
         for (j in 1:length(thisf) ) {
             ans[[paste(thiss, thisf[j], sep = ":")]] <-
-                nodes(g)[extractPath(nodeind(thiss),
+                nG[extractPath(nodeind(thiss),
                                    nodeind(thisf[j]), curdi)]
         }
     }
     ws <- list()
-    getw <- function(g, nl) {
+    eW = edgeWeights(g)
+    getw <- function(nl) {
          # obtain weights in g for path of nodes in char vec nl
 	 if (length(nl)<2) stop("sp.between:getw should get paths of length 2 or more")
          res <- rep(NA,length(nl)-1)   # only n-1 pairs
-	 wstr <- edgeWeights(g, match(nl, nodes(g)))
-         for (i in 1:(length(nl)-1)) 
+	 wstr <- eW[match(nl, nG)]
+         for (i in 1:(length(nl)-1))
             res[i] <-  wstr[[i]][as.character(match(nl[i+1],nG))] # need to use numerical names of weights
 	names(res) <- paste(nl[-length(nl)],nl[-1],sep=ifelse(edgemode(g)=="undirected","--","->"))
     res
     }
-    ws <- lapply(ans, function(x) getw(g,x))
+    ws <- lapply(ans, function(x) getw(x))
     ls <- lapply(ws, sum)
     ans2 <- list()
     ns <- names(ans)
