@@ -1,0 +1,165 @@
+%
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+\documentclass[12pt]{article}
+
+\usepackage{amsmath,pstricks}
+\usepackage[authoryear,round]{natbib}
+\usepackage{hyperref}
+
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+
+%\setkeys{Gin}{width=0.55\textwidth}
+
+
+\bibliographystyle{plainnat} 
+ 
+\begin{document}
+
+\title{{\it RBGL}: R interface to boost graph library}
+\author{VJ Carey {\tt stvjc@channing.harvard.edu}}
+\maketitle
+
+\begin{quotation} {\it Summary}.  A very preliminary implementation
+of an interface from R to the Boost Graph Library (BGL, an alternative
+to STL programming for mathematical graph objects) is presented.
+\end{quotation}
+
+\section{Working with a simple S4 graph class}
+The {\it RBGL} package includes an S4 class for
+representing directed graphs by vertex and edge lists.  The
+class is called {\tt graf} and an example object
+representing file dependencies is included, as shown
+in Figure \ref{fdpic}.  The figure is made with the {\tt toDot}
+function, which will work on any system where the ATT graphViz {\tt dot}
+utility is available.  
+<<>>=
+library(RBGL)
+data(FileDep)
+print(FileDep)
+# if dot is available, this will work
+x <- toDot(FileDep, outfile="fd.ps") 
+@
+\setkeys{Gin}{width=0.55\textwidth}
+\begin{figure}
+\begin{center}
+\includegraphics{fdep.ps}
+\end{center}
+\caption{File dependency digraph example from Boost library.}
+\label{fdpic}
+\end{figure}
+
+\clearpage
+
+The {\tt tsort} function will return the indices of vertices
+in topological sort order:
+<<>>=
+print(ts <- tsort(FileDep))
+print(vertices(FileDep)[ts + 1])
+@
+Note that if the input graph is not a DAG, BGL {\tt topological\_sort}
+will check this and throw 'not a dag'.  This is crudely captured
+in the interface (a message is written to the console and zeroes are returned):
+<<>>=
+FD2 <- FileDep
+FD2@edges[[20]] <- c("bar_cpp", "dax_h")
+print(tsort(FD2))
+
+@
+\section{Dealing with edge attributes}
+Currently there is a crude mechanism for attaching edge costs.
+<<>>=
+FD3 <- FileDep
+setEdgeCosts(FD3) <- runif(19)
+print(FD3)
+print(edgeCosts(FD3))
+@
+
+\section{Quick look at RBGL with {\it sna} rgraph}
+The {\it sna} package on CRAN uses an S3 class called {\tt graph},
+based on an adjacency matrix representation.  Adjacency matrices
+are converted to adjacency list representation using {\tt Am2Al}
+in {\it RBGL}.
+<<>>=
+library(sna)
+@
+Make a random graph with 5 vertices:
+<<>>=
+set.seed(123)
+GG <- rgraph(5,1)
+print(GG)
+@
+Print the 'list form':
+<<>>=
+print(GGl <- Am2Al(GG))
+@
+Build the {\tt graf} analog, then try a topological sort:
+<<>>=
+GGE <- list()
+for (i in 1:ncol(GGl)) GGE[[i]] <- GGl[,i]
+uan <- function(x) sort(unique(as.numeric(x)))
+GGV <- uan(GGl)
+sGG <- new("graf", edges=as.edgeStruct(GGE), vertices=GGV)
+toDot(sGG,outfile="sGG.ps")
+print(sGG)
+print(tsort(sGG))
+@
+
+We can see why the topological sort fails:
+
+
+\setkeys{Gin}{width=0.25\textwidth}
+\begin{figure}
+\begin{center}
+\includegraphics{sGG.ps}
+\end{center}
+\caption{Random graph.}
+\label{sggpic}
+\end{figure}
+
+\clearpage
+
+
+
+@
+Let's define a converter for {\it sna} graphs to
+objects of class {\tt graf}:
+
+<<>>=
+snag2graf <- function(x) {
+ m <- Am2Al(x)
+ o <- list()
+ for (i in 1:ncol(m)) o[[i]] <- m[,i]
+ v <- sort(unique(as.numeric(m)))
+ new("graf", edges=as.edgeStruct(o), vertices=v)
+}
+@
+Now let's make a big random graph:
+<<>>=
+rg <- rgraph(14,1)
+gg <- snag2graf(rg)
+toDot(gg, outfile="gg.ps")
+@
+
+\setkeys{Gin}{width=1.25\textwidth}
+\begin{figure}[H]
+\begin{center}
+\includegraphics{gg.ps}
+\end{center}
+\caption{Large random graph from sna.}
+\label{rgra}
+\end{figure}
+
+@
+\end{document}
+

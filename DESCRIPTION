@@ -1,0 +1,10 @@
+Package: RBGL
+Version: 0.0-1
+Date: 2002-8-19
+Title: Test interface to boost C++ graph lib
+Author: Vince Carey <stvjc@channing.harvard.edu>
+Maintainer: Vince Carey <stvjc@channing.harvard.edu>
+Depends: R (>= 1.5.0)
+Description: demo of interface with full copy of all hpp defining boost
+License: GPL Version 2 or newer
+URL: http://www.bioconductor.org
