@@ -8,15 +8,15 @@ dijkstra's shortest paths
 }
 \usage{
 dijkstra.sp(x,init.ind=1) # now x assumed to be Bioconductor graph graphNEL
-sp.between(g,s,f) # now x assumed to be Bioconductor graph graphNEL
+sp.between(g,start,finish) # now x assumed to be Bioconductor graph graphNEL
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
   \item{x}{ instance of class graphNEL from Bioconductor graph class}
   \item{g}{ instance of class graphNEL from Bioconductor graph class}
   \item{init.ind}{ index (1 based) of where to start search}
-  \item{s}{ character atom: node name for start of path}
-  \item{f}{ character atom: node name for end of path}
+  \item{start}{ character atom: node name for start of path}
+  \item{finish}{ character atom: node name for end of path}
 }
 \details{
 calls to boost dijkstra shortest paths
