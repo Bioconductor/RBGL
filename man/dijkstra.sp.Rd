@@ -48,9 +48,8 @@ start and finish of different nonunity lengths.
 \examples{
 dd <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 dijkstra.sp(dd)
-dijkstra.sp(dd,2)
+dijkstra.sp(dd,nodes(dd)[2])
 ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL")))
-dijkstra.sp(ospf,6)
 dijkstra.sp(ospf,nodes(ospf)[6])
 sp.between(ospf, "RT6", "RT1")
 sp.between(ospf, c("RT6", "RT2"), "RT1")

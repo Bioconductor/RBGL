@@ -47,7 +47,7 @@ extern "C"
 {
 	SEXP BGL_tsort_D(SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in)
 	{
-	// tsortbCG -- for bioConductor graph objects (only graphNEL at present)
+	// tsortbCG -- for bioConductor graph objects 
 	  
 	setupGraphTypes
 	setTraits( Graph_dd )

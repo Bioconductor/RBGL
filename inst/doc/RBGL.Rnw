@@ -148,7 +148,7 @@ ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL")))
 \caption{Network example from BGL.} 
 \end{figure}
 <<dijkdemo2b>>=
-dijkstra.sp(ospf,6)
+dijkstra.sp(ospf,nodes(ospf)[6])
 sp.between(ospf, "RT6", "RT1")
 dd <- fromGXL(file(system.file("XML/dijkex.gxl", package="RBGL")))
 print( dijkstra.sp(dd) )
@@ -158,11 +158,11 @@ print( dijkstra.sp(dd) )
 km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
 km@nodes <- c(km@nodes,"F","G","H")
 km@edgeL$F <- list(edges=numeric(0))
-km@edgeL$G <- list(edges=8)
-km@edgeL$H <- list(edges=7)
+km@edgeL$G <- list(edges=8, weights=1)
+km@edgeL$H <- list(edges=7, weights=1)
 km@edgemode <- "undirected"
 if (length(agrep("solaris", version[["platform"]]))==0)
-print(connectedComp(km)) else
+print(connectedComp(makeRecip(km))) else
 print("not running on solaris, use windows or linux")
 @
 \subsection{Strongly connected components }
@@ -170,8 +170,8 @@ print("not running on solaris, use windows or linux")
 km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
 km@nodes <- c(km@nodes,"F","G","H")
 km@edgeL$F <- list(edges=numeric(0))
-km@edgeL$G <- list(edges=8)
-km@edgeL$H <- list(edges=7)
+km@edgeL$G <- list(edges=8, weights=1)
+km@edgeL$H <- list(edges=7, weights=1)
 km@edgemode <- "directed"
 print(strongComp(km))
 @

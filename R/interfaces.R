@@ -57,8 +57,8 @@ setMethod("dfs", "graph", function(graph) {
 })
 
 
-dijkstra.sp <- function(x,init.ind=1) {
-    if (is.numeric(init.ind)) warning("future versions will require init.ind to be a node name")
+dijkstra.sp <- function(x,init.ind=nodes(x)[1]) {
+    if (is.numeric(init.ind)) stop("init.ind must be a node name; numeric indices not allowed")
     nN <- nodes(x)
     if (is.character(init.ind)) 
         II <- match(init.ind, nN, 0)
@@ -89,7 +89,7 @@ sp.between <- function(g, start, finish) {
 #
 #simple vectorization  of previous sp.between
 #
-if (any(is.numeric(c(start,finish)))) warning("future versions will require start and finish to be node names")
+if (any(is.numeric(c(start,finish)))) stop("start and finish are required to be node names; numeric indices not allowed")
 #
  if (length(start) == 1) {
   if (length(finish) == 1) return( sp.between.scalar(g, start, finish) )
