@@ -1,10 +1,21 @@
 useDynLib(RBGL)
 
 export(
+ "bellman.ford.sp",
  "connectedComp",        
- "dijkstra.sp",          "edgeConnectivity",     "extractPath",
- "johnson.all.pairs.sp", "mstree.kruskal",       "sp.between",
- "sp.between.old",       "sp.between.scalar",    "strongComp",
+ "dag.sp",
+ "dijkstra.sp",          
+ "edgeConnectivity",     
+ "edmunds.karp.max.flow",
+ "extractPath",
+ "johnson.all.pairs.sp", 
+ "minCut",
+ "mstree.kruskal",       
+ "push.relabel.max.flow",
+ "sp.between",
+ "sp.between.old",       
+ "sp.between.scalar",    
+ "strongComp",
  "tsort")
 
 exportMethods("bfs", "dfs")

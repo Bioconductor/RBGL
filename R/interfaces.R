@@ -194,8 +194,6 @@ sp.between.scalar <- function (g, start, finish)
 
 connectedComp <- function (g)
 {
-    if (length(agrep("solaris", version$platform))==1) return(
-		"inoperative under solaris at present; try windows, linux or BSD")
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
@@ -217,8 +215,6 @@ strongComp <- function (g)
 
 edgeConnectivity <- function (g)
 {
-    if (length(agrep("solaris", version$platform))==1) return(
-		"inoperative under solaris at present; try windows, linux or BSD")
     if (edgemode(g) == "directed") stop("only applicable to undirected graphs")
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
@@ -228,6 +224,21 @@ edgeConnectivity <- function (g)
     mes <- ans[[2]]
     mes <- lapply(mes,function(x,y) y[x+1], nodes(g)) # +1 for zero-based BGL
     list(connectivity=ans[[1]], minDisconSet=mes)
+}
+
+minCut <- function (g)
+{
+    if (edgemode(g) == "directed") 
+       stop("only applicable to undirected graphs")
+
+    nv <- length(nodes(g))
+    em <- edgeMatrix(g)
+    ne <- ncol(em)
+
+    ans <- .Call("BGL_min_cut_U", as.integer(nv), as.integer(ne),
+                 as.integer(em-1), as.double(rep(1.,ne)), PACKAGE="RBGL")
+
+    list(mincut=ans[[1]], "S"=ans[[2]]+1, "V-S"=ans[[3]]+1)
 }
 
 
@@ -311,6 +322,52 @@ johnson.all.pairs.sp <- function (g)
     t(tmp)
 }
 
+bellman.ford.sp <- function(g, start=nodes(g)[1])
+{
+    nv <- length(nodes(g))
+    em <- edgeMatrix(g)
+    ne <- ncol(em)
+    eW <- unlist(edgeWeights(g))
+
+    if ( is.character(start) ) s <- match(start, nodes(g), 0)
+    else s <- start 
+
+    if ( s <= 0 || s > nv ) stop("start not found in nodes of g")
+
+    ans <- .Call("BGL_bellman_ford_shortest_paths", as.integer(nv), 
+           as.integer(ne), as.integer(em - 1), as.double(eW), 
+           as.integer(s-1), PACKAGE="RBGL")
+
+    ans[[2]][ ans[[2]] >= .Machine$double.xmax ] <- Inf
+    ans[[3]] <- ans[[3]] + 1
+
+    list("all edges minimized"=ans[[1]], "distance"=ans[[2]], 
+         "penult"=ans[[3]], "start"=nodes(g)[s])
+}
+
+dag.sp <- function(g, start=nodes(g)[1])
+{
+    if (edgemode(g) == "undirected") 
+       stop("only applicable to directed graphs")
+
+    nv <- length(nodes(g))
+    em <- edgeMatrix(g)
+    ne <- ncol(em)
+    eW <- unlist(edgeWeights(g))
+
+    if ( is.character(start) ) s <- match(start, nodes(g), 0)
+    else s <- start
+
+    if ( s <= 0 || s > nv ) stop("start not found in nodes of g")
+
+    ans <- .Call("BGL_dag_shortest_paths", as.integer(nv), as.integer(ne), 
+            as.integer(em - 1), as.double(eW), as.integer(s-1), PACKAGE="RBGL")
+    
+    ans[[1]][ ans[[1]] >= .Machine$double.xmax ] <- Inf
+    ans[[2]] <- ans[[2]] + 1
+    list("distance"=ans[[1]], "penult"=ans[[2]], "start"=nodes(g)[s])
+}
+
 #transitive.closure <- function (g) 
 #{
 #    nv <- length(nodes(g))
@@ -321,3 +378,53 @@ johnson.all.pairs.sp <- function (g)
 #    ans <- .Call("BGL_transitive_closure_D", as.integer(nv), 
 #        as.integer(ne), as.integer(em - 1), PACKAGE="RBGL")
 #}
+
+max.flow.internal <- function (g, source, sink, method="Edmunds.Karp")
+{
+    if (edgemode(g) == "undirected") 
+       stop("only applicable to directed graphs")
+
+    nv <- length(nodes(g))
+    em <- edgeMatrix(g)
+    ne <- ncol(em)
+    eW <- unlist(edgeWeights(g))
+
+    if ( is.character(source) ) s <- match(source, nodes(g), 0)
+    else s <- source
+    if ( is.character(sink) ) t <- match(sink, nodes(g), 0)
+    else t <- sink
+
+    if ( s <= 0 || s > nv || t <= 0 || t > nv )
+       stop("both source and sink need to be nodes in the graph")
+
+    # nodes are numbered from 1 in R graph, but from 0 in BGL graph
+    if ( method == "Push.Relabel" )
+         ans <- .Call("BGL_push_relabel_max_flow", 
+                 as.integer(nv), as.integer(ne), 
+                 as.integer(em-1), as.double(eW), 
+                 as.integer(s-1), as.integer(t-1), 
+                 PACKAGE="RBGL")
+    else  # Edmunds.Karp
+         ans <- .Call("BGL_edmunds_karp_max_flow", 
+                 as.integer(nv), as.integer(ne), 
+                 as.integer(em-1), as.double(eW), 
+                 as.integer(s-1), as.integer(t-1), 
+                 PACKAGE="RBGL")
+
+    rownames(ans[[2]]) <- c("from", "to")
+    rownames(ans[[3]]) <- c("flow")
+    ans[[2]][1,] <- ans[[2]][1,] + 1
+    ans[[2]][2,] <- ans[[2]][2,] + 1
+    list("maxflow"=ans[[1]], "edges"=ans[[2]], "flows"=ans[[3]])
+}
+
+edmunds.karp.max.flow <- function (g, source, sink)
+{
+    max.flow.internal(g, source, sink, "Edmunds.Karp")
+}
+
+push.relabel.max.flow <- function (g, source, sink)
+{
+    max.flow.internal(g, source, sink, "Push.Relabel")
+}
+

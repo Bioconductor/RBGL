@@ -160,9 +160,7 @@ km@edgeL$F <- list(edges=numeric(0))
 km@edgeL$G <- list(edges=8, weights=1)
 km@edgeL$H <- list(edges=7, weights=1)
 km@edgemode <- "undirected"
-if (length(agrep("solaris", version[["platform"]]))==0)
-print(connectedComp(ugraph(km))) else
-print("not running on solaris, use windows or linux")
+print(connectedComp(ugraph(km)))
 @
 \subsection{Strongly connected components }
 <<sconndemo>>=
@@ -187,9 +185,22 @@ udcoex <- ugraph(dcoex)
 \caption{Edge connectivity example.}
 \end{figure}
 <<econnDemo2>>=
-if (length(agrep("solaris", version[["platform"]]))==0)
-print(edgeConnectivity(coex)) else
-print("not running on solaris, use windows or linux")
+print(edgeConnectivity(coex)) 
+@
+\subsection{Min-Cut}
+
+<<mincutdemo>>=
+coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+dcoex <- coex
+dcoex@edgemode <- "directed"
+udcoex <- ugraph(dcoex)
+@
+\begin{figure}
+\includegraphics{RBGL-016}
+\caption{min-cut example.}
+\end{figure}
+<<mincutDemo2>>=
+print(minCut(coex)) 
 @
 \end{document}
 
