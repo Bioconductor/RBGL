@@ -196,7 +196,7 @@ edgeConnectivity <- function (g)
     em <- edgeMatrix(g)
     ne <- ncol(em)
     ans <- .Call("BGL_edge_connectivity_U", as.integer(nv), as.integer(ne),
-        as.integer(em-1), as.double(eWV(g,em)), PACKAGE="RBGL")
+        as.integer(em-1), as.double(rep(1.,ne)), PACKAGE="RBGL")
     mes <- ans[[2]]
     mes <- lapply(mes,function(x,y) y[x+1], nodes(g)) # +1 for zero-based BGL
     list(connectivity=ans[[1]], minDisconSet=mes)

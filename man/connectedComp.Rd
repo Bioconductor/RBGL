@@ -13,12 +13,10 @@ connectedComp(g)
   \item{g}{ g: graph with \code{edgemode} \dQuote{undirected}}
 }
 \details{
-Uses a depth first search (dfs) approach to identifying all the connected
+Uses a depth first search approach to identifying all the connected
 components of an undirected graph. If the input, \code{g}, is a directed
 graph it is first transformed to an undirected graph (using
-\code{\link[graph]{ugraph}}). The
-mathematical formalism involved can be
-found in graph package or in any good book on graph theory.
+\code{\link[graph]{ugraph}}).
 }
 
 \value{

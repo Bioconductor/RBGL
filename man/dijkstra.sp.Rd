@@ -1,7 +1,7 @@
 \name{dijkstra.sp}
 \alias{dijkstra.sp}
-\alias{sp.between}
-\alias{sp.between.scalar}
+%\alias{sp.between}
+%\alias{sp.between.scalar}
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{ Dijkstra's shortest paths using boost C++ }
 \description{
@@ -9,38 +9,32 @@ dijkstra's shortest paths
 }
 \usage{
 dijkstra.sp(g,start=nodes(g)[1])
-sp.between(g,start,finish) 
+%sp.between(g,start,finish) 
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
   \item{g}{ instance of class graph }
-  \item{start}{ character vector: node name for start of path;
-must have length 1 for dijkstra.sp}
-  \item{finish}{ character vector: node name for end of path}
+  \item{start}{ character: node name for start of path }
+%must have length 1 for dijkstra.sp}
+%  \item{finish}{ character vector: node name for end of path}
 }
 \details{
-calls to boost dijkstra shortest paths
+These functions are interfaces to the Boost graph library C++
+routines for Dijkstra's shortest paths.
 }
+
 \value{
-dijkstra.sp returns list of two vectors of nodes, shortest distance to each node,
-and penultimate node of shortest path, and of the index of the
-staring node, assumes 1-based counting
-
-If a distance is requested between two nodes that are disconnected,
-Inf is returned.
-
-sp.between returns a list whose size depends upon the start and
-finish arguments.  If start and finish are both scalar, then
-a list is returned with elements the length of the shortest
-path and the vector of nodes comprising that path.  If one of start
-or finish is an n-vector, n>1, and the other is an atom,
-a list is returned with n elements, each element of which is a list
-possessing a length and path element.  If both start and finish
-are n-vectors, a list of n elements is returned, with ith element the distance
-and path between start[i] and finish[i].  It is an error to have
-start and finish of different nonunity lengths.
+a list with elements:
+\item{distance}{vector of distances from \code{start} to each node
+of \code{g}; includes \code{Inf} when there is no path from \code{start}}
+\item{pred}{vector of indices 
+(in \code{nodes(g)}) of predecessors corresponding to each node
+on the path from that node back to \code{start}}
 }
+
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
+
+\seealso{\code{\link{sp.between}}}
 
 \examples{
 dd <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
@@ -48,10 +42,5 @@ dijkstra.sp(dd)
 dijkstra.sp(dd,nodes(dd)[2])
 ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL")))
 dijkstra.sp(ospf,nodes(ospf)[6])
-sp.between(ospf, "RT6", "RT1")
-sp.between(ospf, c("RT6", "RT2"), "RT1")
-sp.between(ospf, c("RT6", "RT2"), c("RT1","RT5"))
-if (interactive()) # see an error for query on nonexistent path
-sp.between(ospf,"N10", "N13")
 }
 \keyword{ graphs }% at least one, from doc/KEYWORDS
