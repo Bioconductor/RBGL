@@ -91,7 +91,7 @@ dijkstra.sp <- function(g,start=nodes(g)[1]) {
     else
             em <- edgeMatrix(g,TRUE)
     ne <- ncol(em)
-    eW <- eWV(g,em)
+    eW <- unlist(edgeWeights(g))
     ans <- .Call("BGL_dijkstra_shortest_paths_D", as.integer(nv),
         as.integer(ne), as.integer(em-1), as.double(eW),
         as.integer(II - 1), PACKAGE="RBGL")

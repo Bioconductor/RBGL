@@ -1,3 +1,5 @@
+May 2004: avoid edge weight manipulations in R?
+
 Plan of Oct 2003
 ----------------
 1) rationalize graph and BGL approaches to undirected
