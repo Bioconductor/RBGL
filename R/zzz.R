@@ -1,6 +1,6 @@
 
-.First.lib <- function(libname, pkgname, where) {
-    require(graph)
+.First.lib <- function(libname, pkgname ) {
+    require("graph")
     library.dynam("RBGL", pkgname, libname)
 }
 

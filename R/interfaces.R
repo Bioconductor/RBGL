@@ -68,28 +68,29 @@ setMethod("dfs", "graphNEL", function(object) {
 dijkstra.sp <- function(x,init.ind=1) {
     if (class(x) != "graphNEL") 
         stop("presently only works for class graphNEL from Bioconductor graph library")
+    init.ind.ok <- init.ind
     if (is.character(init.ind)) 
         if (init.ind %in% nodes(x)) 
-            init.ind <- (1:length(nodes(x)))[init.ind == nodes(x)]
+            init.ind.ok <- (1:length(nodes(x)))[init.ind == nodes(x)]
         else stop("character init.ind not in nodes(x)")
     else if (init.ind < 1) 
         stop("use 1-based counting for init.ind")
     nv <- length(nodes(x))
-    if (init.ind > nv) 
-        stop(paste("only", nv, "nodes but init.ind is ", init.ind, 
+    if (init.ind.ok > nv) 
+        stop(paste("only", nv, "nodes but init.ind is ", init.ind.ok, 
             sep = " "))
     ne <- length(unlist(edges(x)))
     ans <- .Call("BGL_dijkstra_shortest_paths_D", as.integer(nv), 
         as.integer(ne), as.integer(adjListBGL(x)), as.double(unlist(edgeWeights(x))), 
-        as.integer(init.ind - 1))
+        as.integer(init.ind.ok - 1))
     names(ans) <- c("distances", "penult")
     names(ans[[1]]) <- nodes(x)
     ans$penult <- ans$penult + 1
-    ans[["start"]] <- init.ind
+    ans[["start"]] <- init.ind.ok
     ans
 }
 
-sp.between <- function (g, s, f) 
+sp.between <- function (g, start, finish) 
 {
 # (c) 2003 VJ Carey, all rights reserved
 #
@@ -102,6 +103,8 @@ sp.between <- function (g, s, f)
 # distance, and did not correctly step through
 # penultimates!
 #
+    f <- finish
+    s <- start
     no <- nodes(g)
     if (any(is.na(lk <- match(c(s, f), no)))) 
         stop(paste(paste(c(s, f)[is.na(lk)], collapse = " "), 
@@ -110,12 +113,10 @@ sp.between <- function (g, s, f)
     f <- (1:length(no))[no == f]
     ff <- f
     sp <- dijkstra.sp(g, s)
-    if (sp$distances[ff] > .Machine$double.base^(.Machine$double.max.exp-1))
+    if (sp$distances[ff] >= .Machine$double.xmax)
 		stop(paste("no path from",no[s],"to",no[f]))
     pens <- sp$penult
     path <- f
-    curind <- f
-    len <- 0
     while (path[1] != s) {
         path <- c(pens[f], path)
         f <- pens[f]

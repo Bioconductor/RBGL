@@ -54,9 +54,10 @@ print(FileDep)
 require(Rgraphviz)||stop("This vignette requires Rgraphviz to be installed")
 @
 \begin{figure}
-<<fig=TRUE>>=
-z <- plot(FileDep)
+%  fig=TRUE
+%  z <- plot(FileDep)
 @
+\includegraphics{filedep}
 \caption{File dependency digraph example from Boost library.}
 \label{fdpic}
 \end{figure}

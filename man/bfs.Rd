@@ -1,6 +1,7 @@
 \name{bfs}
 \alias{bfs}
 \alias{dfs}
+\alias{dfs,graphNEL-method}
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{ breadth/depth-first search using boost C++ }
 \description{
