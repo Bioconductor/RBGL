@@ -13,14 +13,18 @@ connectedComp(g)
 }
 \details{
 Uses a DFS based approach.
+
+Mathematical formalism can be
+found in graph package
+\code{\link{connComp}}, see also {\code{\link{strongConnComp}}.  
 }
+
 \value{
-zero-based vector corresponding to nodes
+List of node names defining the connected components.
 }
 \references{Boost Graph Library  }
-\author{ interface by Vince Carey <stvjc@channing.harvard.edu>}
 
-\seealso{strongConnComp  }
+\author{ interface by Vince Carey <stvjc@channing.harvard.edu>}
 
 \examples{
 if (length(agrep("solaris", version[["platform"]]))==0)
@@ -30,11 +34,13 @@ km@nodes <- c(km@nodes,"F","G","H")
 km@edgeL$F <- list(edges=character(0))
 km@edgeL$G <- list(edges=8)
 km@edgeL$H <- list(edges=7)
-km@edgemode <- "undirected"
+ukm <- ugraph(km)
+ukm
+edges(ukm)
 connectedComp(km)
 } else {
  cat("this function is not working in solaris at present,\n")
  cat("please use a windows or linux platform")
  }
 }
-\keyword{ models }
+\keyword{models }

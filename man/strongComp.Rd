@@ -23,12 +23,12 @@ zero-based vector corresponding to nodes
 \seealso{connectedComp  }
 
 \examples{
-km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
+km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
 km@nodes <- c(km@nodes,"F","G","H")
 km@edgeL$F <- list(edges=character(0))
 km@edgeL$G <- list(edges=8)
 km@edgeL$H <- list(edges=7)
-km@edgemode <- "directed"
 strongComp(km)
+connectedComp(ugraph(km))
 }
 \keyword{ models }
