@@ -1,4 +1,4 @@
-#include "RBGL.h"
+#include "RBGL.hpp"
 
 extern "C" {
 #include <R.h>
