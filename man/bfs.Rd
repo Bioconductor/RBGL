@@ -4,15 +4,18 @@
 \alias{dfs,graph-method}
 \alias{bfs,graph-method}
 \alias{bfs,graph,ANY,ANY-method}
-\title{ breadth/depth-first search using boost C++ }
+\title{ Breadth and Depth-first search }
 \description{
-returns integer vector of indices with
-order of discovery by BFS or DFS
+  These functions carry out breadth and depth first search using
+  routines from the BOOST library. For \code{dfs} a \code{list}
+  containing two \code{vectors} is returned. These indicate the sequence
+  in which a node is first visited and last visited. For \code{dfs} a
+  single vector is returned indicating the order in which a node was visited.
 }
 \usage{
-%bfs(graph, init.node=1, checkConn=FALSE) 
-\S4method{dfs}{graph}{graph}
-\S4method{bfs}{graph,ANY,ANY}(graph,init.node,checkConn)
+bfs(graph, init.node=1, checkConn=FALSE)
+\S4method{dfs}{graph}(graph)
+\S4method{bfs}{graph}(graph)
 }
 \arguments{
   \item{graph}{ instance of class graph from Bioconductor graph class}
@@ -31,7 +34,6 @@ list of two vectors of nodes, order of DFS discovery,
 and order of DFS completion (finish)
 }
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
-\note{Very preliminary}
 
 \examples{
 dd <- fromGXL(file(system.file("XML/bfsex.gxl",package="RBGL")))
