@@ -1,34 +1,19 @@
 tsort <- function(x) {
  if (edgemode(x) != "directed") stop("requires directed graph")
  nv <- length(nodes(x))
- ne <- length(unlist(edges(x)))
+ em <- edgeMatrix(x)
+ ne <- ncol(em)
  .Call("BGL_tsort_D", as.integer(nv), as.integer(ne),
-      as.integer(edgeMatrix(x)-1))
+      as.integer(em-1))
 }
 
 mstree.kruskal <- function(x) {
  nv <- length(nodes(x))
- ne <- length(unlist(edges(x)))
-# is.directed <- as.integer(edgemode(x) == "directed")
-# if (is.directed)
-# {
- 	ans <- .Call("BGL_KMST_D", 
+ em <- edgeMatrix(x)
+ ne <- ncol(em)
+ans <- .Call("BGL_KMST_D", 
       		as.integer(nv), as.integer(ne),
-      		as.integer(edgeMatrix(x)-1), as.double(unlist(edgeWeights(x))))
-# }
-# else {
-#
-# here we deal with the undirected graph representation, for
-# boost the adjacency list DOES NOT have reciprocal entries
-# if it has recip entries you should use a directed representation
-# for boost 
-#
-#        adjlist <- adjListBGL(x)
-#        wgts <- unlist(edgeWeights(x))
-# 	ans <- .Call("BGL_KMST_U", 
-#      		as.integer(nv), as.integer(ne),
-#      		as.integer(adjlist), as.double(wgts))
-# }
+      		as.integer(em-1), as.double(unlist(edgeWeights(x))))
  names(ans) <- c("edgeList", "weights")
  ans$nodes <- nodes(x)
  ans[["edgeList"]] <- ans[["edgeList"]] + 1  # bring to unit-based counting
@@ -39,9 +24,10 @@ bfs <- function(x,init.ind=1) {
  if (init.ind < 1) stop("use 1-based counting for init.ind")
  nv <- length(nodes(x))
  if (init.ind > nv) stop(paste("only",nv,"nodes but init.ind is ",init.ind,sep=" "))
- ne <- length(unlist(edges(x)))
+ em <- edgeMatrix(x)
+ ne <- ncol(em)
  ans <- .Call("BGL_bfs_D", as.integer(nv), as.integer(ne),
-      as.integer(edgeMatrix(x)-1), as.integer(unlist(edgeWeights(x))),
+      as.integer(em-1), as.integer(edgeWeightVector(x)),
       as.integer(init.ind-1))
 # names(ans) <- c("edgeList", "weights")
 # ans$nodes <- nodes(x)
@@ -54,17 +40,16 @@ if (!isGeneric("dfs2"))
 
 setMethod("dfs2", "graph", function(object) {
  nv <- length(nodes(object))
- ne <- length(unlist(edges(object)))
+ em <- edgeMatrix(object)
+ ne <- ncol(em)
  ans <- .Call("BGL_dfs_D", as.integer(nv), as.integer(ne),
-      as.integer(edgeMatrix(object)-1), as.double(unlist(edgeWeights(object))))
+      as.integer(em-1), as.double(edgeWeightVector(object)))
  names(ans) <- c("discovered", "finish")
  lapply(ans,function(x)x+1)
 })
 
 
 dijkstra.sp <- function(x,init.ind=1) {
-#    if (class(x) != "graphNEL") 
-#        stop("presently only works for class graphNEL from Bioconductor graph library")
     init.ind.ok <- init.ind
     if (is.character(init.ind)) 
         if (init.ind %in% nodes(x)) 
@@ -76,9 +61,10 @@ dijkstra.sp <- function(x,init.ind=1) {
     if (init.ind.ok > nv) 
         stop(paste("only", nv, "nodes but init.ind is ", init.ind.ok, 
             sep = " "))
-    ne <- length(unlist(edges(x)))
+    em <- edgeMatrix(x)
+    ne <- ncol(em)
     ans <- .Call("BGL_dijkstra_shortest_paths_D", as.integer(nv), 
-        as.integer(ne), as.integer(edgeMatrix(x)-1), as.double(unlist(edgeWeights(x))), 
+        as.integer(ne), as.integer(em-1), as.double(edgeWeightVector(x)), 
         as.integer(init.ind.ok - 1))
     names(ans) <- c("distances", "penult")
     names(ans[[1]]) <- nodes(x)
@@ -127,12 +113,12 @@ connectedComp <- function (g)
 		"inoperative under solaris at present; try windows, linux or BSD")
     if (edgemode(g) == "directed") {
 		warning("converting directed graph to undirected form")
-		g <- ugraph(g)
 		}
     nv <- length(nodes(g))
-    ne <- length(unlist(edges(g)))
+    em <- edgeMatrix(g)
+    ne <- ncol(em)
     x<-.Call("BGL_connected_components_U", as.integer(nv), as.integer(ne), 
-        as.integer(edgeMatrix(g)-1), as.double(unlist(edgeWeights(g))))
+        as.integer(em-1), as.double(edgeWeightVector(g)))
     split(nodes(g),x+1)
 }
 
@@ -140,9 +126,10 @@ strongComp <- function (g)
 {
     if (edgemode(g) == "undirected") stop("only applicable to directed graphs")
     nv <- length(nodes(g))
-    ne <- length(unlist(edges(g)))
+    em <- edgeMatrix(g)
+    ne <- ncol(em)
     x <- .Call("BGL_strong_components_D", as.integer(nv), as.integer(ne), 
-        as.integer(edgeMatrix(g)-1), as.double(unlist(edgeWeights(g))))
+        as.integer(em-1), as.double(edgeWeightVector(g)))
     split(nodes(g),x+1)
 }
 
@@ -152,9 +139,10 @@ edgeConnectivity <- function (g)
 		"inoperative under solaris at present; try windows, linux or BSD")
     if (edgemode(g) == "directed") stop("only applicable to undirected graphs")
     nv <- length(nodes(g))
-    ne <- length(unlist(edges(g)))
+    em <- edgeMatrix(g)
+    ne <- ncol(em)
     ans <- .Call("BGL_edge_connectivity_U", as.integer(nv), as.integer(ne), 
-        as.integer(edgeMatrix(g)-1), as.double(unlist(edgeWeights(g))))
+        as.integer(em-1), as.double(edgeWeightVector(g)))
     mes <- ans[[2]]
     mes <- lapply(mes,function(x,y) y[x+1], nodes(g)) # +1 for zero-based BGL
     list(connectivity=ans[[1]], minDisconSet=mes)
