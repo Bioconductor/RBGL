@@ -1,2 +1,16 @@
-echo "untarring boost include tree..."
-cd src; tar zxf boostIncl.tar.gz
+#!/bin/sh
+if test -d ./src/boostIncl;
+	then 
+		if test -f ./src/boostIncl.tar.gz;
+		then
+			echo 'found boostIncl header sources and tar archive;\n removing the sources and untarring fresh archive';
+			rm -rf ./src/boostIncl;
+			echo "untarring boost include tree...";
+			cd src; tar zxf boostIncl.tar.gz;
+		else
+			echo 'found boostIncl header sources but no tar archive;\nusing what is there...';
+		fi;
+	else
+		echo "untarring boost include tree...";
+		cd src; tar zxf boostIncl.tar.gz;
+fi;
