@@ -163,6 +163,143 @@ try( system( "dot -Tps gg.dot > ggd.ps") )
 \label{rgra}
 \end{figure}
 
+\clearpage
+@
+\section{Rendering application: looking at GO}
+
+The GO data package is an example of  a DAG.  We should
+be able to usefully visualize aspects of this using our
+graf class.
+
+We'll begin with the visualization of the cellular
+component hierarchy:
+
+<<>>=
+library(GO)
+cc <- ls(env=GOcellularcomponent)
+print(cc[1])
+@
+We see that the environment
+consists of alphanumeric tags defining GO terms.
+Each tag is bound to a vector of tags:
+<<>>=
+print(get(cc[1], env=GOcellularcomponent))
+@
+Order here is significant: as we move from left to
+right, we get less specific in the GO hierarchy.
+
+Let's visualize the DAG to depth three.  To do this,
+we will isolate the three-vectors that conclude the
+path from each leaf to the root.  We will obtain the
+unique set of edges by some character manipulations,
+then build the associated graph for rendering.
+
+First we set up a function that extracts adjacent pairs
+from any vector:
+<<>>=
+adjprs <- function(x) {
+if (length(x)==1) NULL
+ else c(x[1],x[2], adjprs(x[-1]))
+}
+adjpairs <- function(x) {a <- adjprs(x);
+if (length(a) <= 1) return(NULL)
+b <- list();
+for (i in seq(1,length(a),2)) b[[floor((i+1)/2)]] <- a[i:(i+1)]
+b
+}
+
+@
+Then we obtain the paths to all GO leaves:
+
+<<>>=
+nleaves <- length(cc)
+allv <- list()
+for (i in 1:nleaves) allv[[i]] <- get(cc[i], env=GOcellularcomponent)
+
+@
+Now we get the edges and nodes of the associated tree:
+<<>>=
+
+upairs <- function(x) {
+xp <- lapply(x,function(x)lapply(x,function(y)paste(y,collapse=";")))
+uxp <- unique(unlist(xp))
+strsplit(uxp,";")
+}
+
+
+preGOEdges <- lapply(allv, function(x)adjpairs(rev(x)))
+GOEdges <- upairs(preGOEdges)
+GONodes <- unique(unlist(GOEdges))
+
+gog <- makeGraf(V=GONodes, E=GOEdges)
+toDot(gog,"gog.dot")
+@
+After running the unix command
+\begin{verbatim}
+dot -Gsize=8,8 -Grotate=90 -Tps -Nfontsize=1 
+          -Nfixedsize=true -Nheight=.2 -Nwidth=.2 
+          -Gratio=fill gog.dot > gog.ps
+\end{verbatim}
+We can see the basic topology of the tree.
+
+\setkeys{Gin}{width=1.\textwidth}
+\begin{figure}
+\includegraphics{gog.ps}
+\end{figure}
+@
+Wrapping this all together, we can generate graf objects
+from any GO environment:
+<<>>=
+GO2graf <- function(env) {
+goe <- ls(env=env)
+adjprs <- function(x) {
+ if (length(x)==1) NULL
+  else c(x[1],x[2], adjprs(x[-1]))
+ }
+adjpairs <- function(x) {a <- adjprs(x);
+ if (length(a) <= 1) return(NULL)
+ b <- list();
+ for (i in seq(1,length(a),2)) b[[floor((i+1)/2)]] <- a[i:(i+1)]
+ b
+}
+nleaves <- length(goe)
+allv <- list()
+for (i in 1:nleaves) allv[[i]] <- get(goe[i], env=env)
+
+upairs <- function(x) {
+xp <- lapply(x,function(x)lapply(x,function(y)paste(y,collapse=";")))
+uxp <- unique(unlist(xp))
+strsplit(uxp,";")
+}
+
+preGOEdges <- lapply(allv, function(x)adjpairs(rev(x)))
+GOEdges <- upairs(preGOEdges)
+GONodes <- unique(unlist(GOEdges))
+
+makeGraf(V=GONodes, E=GOEdges)
+}
+@
+That finishes the function.  Now apply it to two more environments:
+
+<<>>=
+mfg <- GO2graf( GOmolecularfunction )
+bpg <- GO2graf( GObiologicalprocess )
+
+@
+And render:
+<<>>=
+toDot(mfg,"mf.dot")
+@
+\begin{figure}
+\includegraphics{mf.ps}
+\caption{Molecular function}
+\end{figure}
+\begin{figure}
+\includegraphics{bp.ps}
+\caption{Biological process}
+\end{figure}
+
 @
 \end{document}
+
 
