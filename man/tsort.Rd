@@ -29,7 +29,7 @@ topological sort sequence, 0-based
 data(FileDep)
 nodes(FileDep)[tsort(FileDep)+1]
 FD2 <- FileDep
-if (!interactive) {
+if (interactive()) {
   # now introduce a cycle
   FD2@edgeL[["bar_cpp"]]$edges <- c(8,1)
   tsort(FD2)

@@ -13,8 +13,8 @@ sp.between(g,s,f) # now x assumed to be Bioconductor graph graphNEL
 %- maybe also `usage' for other objects documented here.
 \arguments{
   \item{x}{ instance of class graphNEL from Bioconductor graph class}
+  \item{g}{ instance of class graphNEL from Bioconductor graph class}
   \item{init.ind}{ index (1 based) of where to start search}
-  \item{x}{ graph }
   \item{s}{ character atom: node name for start of path}
   \item{f}{ character atom: node name for end of path}
 }
@@ -37,8 +37,7 @@ dijkstra.sp(dd,2)
 ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL")))
 dijkstra.sp(ospf,6)
 sp.between(ospf, "RT6", "RT1")
-# this will trigger an error because of no path, maybe should
-# just return NA and warning...
-# sp.between(ospf,"N10", "N13")
+if (interactive()) # see an error for query on nonexistent path
+sp.between(ospf,"N10", "N13")
 }
 \keyword{ graphs }% at least one, from doc/KEYWORDS
