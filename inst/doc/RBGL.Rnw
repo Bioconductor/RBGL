@@ -49,7 +49,7 @@ in Figure \ref{fdpic}.
 library(RBGL)
 data(FileDep)
 print(FileDep)
-library(Rgraphviz)
+require(Rgraphviz)||stop("This vignette requires Rgraphviz to be installed")
 @
 \begin{figure}
 <<fig=TRUE>>=
