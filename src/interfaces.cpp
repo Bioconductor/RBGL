@@ -49,9 +49,10 @@ extern "C"
 	{
 	// tsortbCG -- for bioConductor graph objects 
 	  
-	setupGraphTypes
-	setTraits( Graph_dd )
+    typedef graph_traits < Graph_dd >::edge_descriptor Edge;
+    typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
 	setUnweightedDoubleEdges( Graph_dd )
+    property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	typedef property_map<Graph_dd, vertex_color_t>::type Color;
 	graph_traits<Graph_dd>::vertex_iterator viter, viter_end;
@@ -92,9 +93,10 @@ extern "C"
 	
 //	Rprintf("warning: directed graph supplied; directions ignored.\n");
 	
-	setupGraphTypes
-	setTraits( Graph_dd )
+    typedef graph_traits < Graph_dd >::edge_descriptor Edge;
+    typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
 	setWeightedDoubleEdges( Graph_dd )
+    property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	std::vector < Edge > spanning_tree;
 	
@@ -131,9 +133,10 @@ extern "C"
 	{
 	using namespace boost;
 	
-	setupGraphTypes
-	setTraits( Graph_ud )
+    typedef graph_traits < Graph_ud >::edge_descriptor Edge;
+    typedef graph_traits < Graph_ud >::vertex_descriptor Vertex;
 	setWeightedDoubleEdges( Graph_ud )
+    property_map < Graph_ud, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	std::vector < Edge > spanning_tree;
 	
@@ -170,9 +173,10 @@ extern "C"
 	{
 	using namespace boost;
 	
-	setupGraphTypes
-	setTraits( Graph_ud )
+    typedef graph_traits < Graph_ud >::edge_descriptor Edge;
+    typedef graph_traits < Graph_ud >::vertex_descriptor Vertex;
 	setWeightedDoubleEdges( Graph_ud )
+    property_map < Graph_ud, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	std::vector <Vertex> parent;
 	
@@ -193,9 +197,10 @@ extern "C"
 	{
 	using namespace boost;
 	
-	setupGraphTypes
-	setTraits( Graph_dd )
+    typedef graph_traits < Graph_dd >::edge_descriptor Edge;
+    typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
 	setWeightedDoubleEdges( Graph_dd )
+    property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	typedef graph_traits < Graph_dd >::vertices_size_type size_type;
 	
@@ -237,9 +242,10 @@ extern "C"
 	{
 	using namespace boost;
 	
-	setupGraphTypes
-	setTraits( Graph_dd )
+    typedef graph_traits < Graph_dd >::edge_descriptor Edge;
+    typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
 	setWeightedDoubleEdges( Graph_dd )
+    property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	typedef graph_traits < Graph_dd >::vertices_size_type size_type;
 	
@@ -292,9 +298,10 @@ extern "C"
 	{
 	using namespace boost;
 	
-	setupGraphTypes
-	setTraits( Graph_dd )
+    typedef graph_traits < Graph_dd >::edge_descriptor Edge;
+    typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
 	setWeightedDoubleEdges( Graph_dd )
+    property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	int N = num_vertices(g);
 	std::vector<Vertex> p(N);
@@ -326,9 +333,10 @@ extern "C"
 	using namespace boost;
         SEXP outvec;
 	
-	setupGraphTypes
-	setTraits( Graph_ud )
+    typedef graph_traits < Graph_ud >::edge_descriptor Edge;
+    typedef graph_traits < Graph_ud >::vertex_descriptor Vertex;
 	setWeightedDoubleEdges( Graph_ud )
+    property_map < Graph_ud, edge_weight_t >::type weight = get(edge_weight, g);
 
 	int nvert = INTEGER(num_verts_in)[0] ;
 
@@ -353,9 +361,10 @@ extern "C"
 	using namespace boost;
         SEXP outvec;
 	
-	setupGraphTypes
-	setTraits( Graph_dd )
+    typedef graph_traits < Graph_dd >::edge_descriptor Edge;
+    typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
 	setWeightedDoubleEdges( Graph_dd )
+    property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 
 	int nvert = INTEGER(num_verts_in)[0] ;
 
@@ -380,9 +389,10 @@ extern "C"
 	using namespace boost;
         SEXP outvec, ansList, conn, edTmp;
 	
-	setupGraphTypes
-	setTraits( Graph_ud )
+    typedef graph_traits < Graph_ud >::edge_descriptor Edge;
+    typedef graph_traits < Graph_ud >::vertex_descriptor Vertex;
 	setWeightedDoubleEdges( Graph_ud )
+    property_map < Graph_ud, edge_weight_t >::type weight = get(edge_weight, g);
 
 	int nvert = INTEGER(num_verts_in)[0] ;
 
