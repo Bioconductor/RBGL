@@ -28,7 +28,7 @@ setMethod("bfs",c("graph", "ANY", "ANY"),
  if (init.node < 1) stop("use 1-based counting for init.node")
  if (checkConn)
    {
-   if (length(connectedComp(graph)>1)) stop("graph is not connected")
+   if (length(connectedComp(graph))>1) stop("graph is not connected")
    }
  nv <- length(nodes(graph))
  if (init.node > nv) stop(paste("only",nv,"nodes but init.node is ",init.node,sep=" "))
@@ -57,25 +57,27 @@ setMethod("dfs", "graph", function(graph) {
 })
 
 
+%%FIXME: is this supposed to be vectorized?
 dijkstra.sp <- function(x,init.ind=1) {
-    init.ind.ok <- init.ind
+    nN <- nodes(x)
     if (is.character(init.ind)) 
-        if (init.ind %in% nodes(x)) 
-            init.ind.ok <- (1:length(nodes(x)))[init.ind == nodes(x)]
-        else stop("character init.ind not in nodes(x)")
-    else if (init.ind < 1) 
-        stop("use 1-based counting for init.ind")
-    nv <- length(nodes(x))
-    if (init.ind.ok > nv) 
+        II <- match(init.ind, nN, 0)
+    else
+        II <- init.ind
+    if (II < 1) 
+        stop("bad value for init.ind")
+    nv <- length(nN)
+    if (II > nv) 
         stop(paste("only", nv, "nodes but init.ind is ", init.ind.ok, 
             sep = " "))
     em <- edgeMatrix(x)
     ne <- ncol(em)
+    eW <- eWV(x,em)
     ans <- .Call("BGL_dijkstra_shortest_paths_D", as.integer(nv), 
-        as.integer(ne), as.integer(em-1), as.double(edgeWeightVector(x)), 
-        as.integer(init.ind.ok - 1))
+        as.integer(ne), as.integer(em-1), as.double(eW), 
+        as.integer(II - 1))
     names(ans) <- c("distances", "penult")
-    names(ans[[1]]) <- nodes(x)
+    names(ans[[1]]) <- nN
     ans$penult <- ans$penult + 1
     ans[["start"]] <- init.ind.ok
     ans
@@ -122,8 +124,9 @@ connectedComp <- function (g)
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
+    eV <- eWV(g, em)
     x<-.Call("BGL_connected_components_U", as.integer(nv), as.integer(ne), 
-        as.integer(em-1), as.double(edgeWeightVector(g)))
+        as.integer(em-1), as.double(eV))
     split(nodes(g),x+1)
 }
 
