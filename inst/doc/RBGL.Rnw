@@ -1,8 +1,12 @@
 %
-% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
-% likely to be overwritten.
+% NOTE -- ONLY EDIT Biobase.Rnw!!!
+% RBGL.tex file will get overwritten.
 %
 %\VignetteIndexEntry{RBGL Overview}
+%\VignetteDepends{RBGL, graph}
+%\VignetteKeywords{Graphs}
+%\VignettePackage{RBGL}
+
 \documentclass[12pt]{article}
 
 \usepackage{amsmath,pstricks}
