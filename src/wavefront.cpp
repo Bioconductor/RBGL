@@ -91,9 +91,9 @@ extern "C"
 
 		SEXP ansList, rbw;
 		PROTECT(ansList = allocVector(VECSXP,1));
-		PROTECT(rbw = NEW_INTEGER(1));
+		PROTECT(rbw = NEW_NUMERIC(1));
 
-		INTEGER(rbw)[0] = aver_wavefront(g);
+		REAL(rbw)[0] = aver_wavefront(g);
 
 		SET_VECTOR_ELT(ansList,0,rbw);
 		UNPROTECT(2);
@@ -109,9 +109,9 @@ extern "C"
 
 		SEXP ansList, rbw;
 		PROTECT(ansList = allocVector(VECSXP,1));
-		PROTECT(rbw = NEW_INTEGER(1));
+		PROTECT(rbw = NEW_NUMERIC(1));
 
-		INTEGER(rbw)[0] = rms_wavefront(g);
+		REAL(rbw)[0] = rms_wavefront(g);
 
 		SET_VECTOR_ELT(ansList,0,rbw);
 		UNPROTECT(2);
