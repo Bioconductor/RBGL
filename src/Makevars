@@ -1,1 +1,1 @@
-PKG_CXXFLAGS=-IboostIncl -ftemplate-depth-50
+PKG_CXXFLAGS=-IboostIncl -ftemplate-depth-100

@@ -11,6 +11,7 @@
 \alias{dfs,graph,character-method}
 \alias{dfs,graph,character,logical-method}
 \alias{bfs,graph,ANY,ANY-method}
+
 \title{ Breadth and Depth-first search }
 \description{
   These functions return information on
@@ -19,12 +20,10 @@
 }
 \usage{
 bfs(object, node, checkConn=TRUE)
-\S4method{dfs}{object,node,checkConn}(graph)
-\S4method{bfs}{object,node,checkConn}(graph)
+dfs(object, node, checkConn=TRUE)
 }
 \arguments{
   \item{object}{ instance of class graph from Bioconductor graph class}
-  \item{graph}{ instance of class graph from Bioconductor graph class}
   \item{node}{ node name where search starts -- note that this is ignored
 for dfs }
   \item{checkConn}{ logical indicating whether connectivity of
