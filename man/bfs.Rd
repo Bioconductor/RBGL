@@ -13,7 +13,7 @@
   single vector is returned indicating the order in which a node was visited.
 }
 \usage{
-bfs(graph, init.node=1, checkConn=FALSE)
+bfs(object, node, checkConn=FALSE)
 \S4method{dfs}{graph}(graph)
 \S4method{bfs}{graph}(graph)
 }
@@ -41,11 +41,10 @@ and order of DFS completion (finish).
 
 \examples{
 dd <- fromGXL(file(system.file("XML/bfsex.gxl",package="RBGL")))
-dd@edgemode <- "undirected"
-bfs(dd)
-bfs(dd,2)
+bfs(dd, "r", FALSE)
+bfs(dd, "s", TRUE)
 
 dd2 <- fromGXL(file(system.file("XML/dfsex.gxl",package="RBGL")))
-dfs(dd2)
+dfs(dd2, "u", FALSE)
 }
 \keyword{ graphs }

@@ -22,41 +22,55 @@ ans <- .Call("BGL_KMST_D",
 }
 
 if (!isGeneric("bfs")) setGeneric("bfs",
-        function( graph, init.node=1, checkConn=FALSE) standardGeneric("bfs"))
+        function( object, node, checkConn=FALSE) standardGeneric("bfs"))
 
-setMethod("bfs",c("graph", "ANY", "ANY"),
-  function( graph, init.node, checkConn) {
- if (init.node < 1) stop("use 1-based counting for init.node")
+setMethod("bfs",c("graph", "missing", "missing"),
+  function( object, node, checkConn) bfs(object, nodes(object)[1], FALSE))
+
+setMethod("bfs",c("graph", "character", "ANY"),
+  function( object, node, checkConn) {
+ nodvec <- nodes(object)
+ if (is.na(startind <- match(node,nodvec))) stop("starting node not found in nodes of graph")
  if (checkConn)
    {
-   if (length(connectedComp(graph))>1) stop("graph is not connected")
+   if (length(connectedComp(object))>1) stop("graph is not connected")
    }
- nv <- length(nodes(graph))
- if (init.node > nv) stop(paste("only",nv,"nodes but init.node is ",init.node,sep=" "))
- em <- edgeMatrix(graph)
+ nv <- length(nodvec)
+ em <- edgeMatrix(object)
  ne <- ncol(em)
  ans <- .Call("BGL_bfs_D", as.integer(nv), as.integer(ne),
-      as.integer(em-1), as.integer(edgeWeightVector(graph)),
-      as.integer(init.node-1), PACKAGE="RBGL")
+      as.integer(em-1), as.integer(rep(1,ne)),
+      as.integer(startind-1), PACKAGE="RBGL")
 # names(ans) <- c("edgeList", "weights")
-# ans$nodes <- nodes(graph)
+# ans$nodes <- nodes(object)
 # ans[["edgeList"]] <- ans[["edgeList"]] + 1  # bring to unit-based counting
  ans+1
 })
 
 if (!isGeneric("dfs"))
-   setGeneric("dfs", function(graph)standardGeneric("dfs"))
+   setGeneric("dfs", function(object,node,checkConn=FALSE)standardGeneric("dfs"))
 
-setMethod("dfs", "graph", function(graph) {
- nv <- length(nodes(graph))
- em <- edgeMatrix(graph)
+setMethod("dfs",c("graph", "missing", "missing"),
+  function( object, node, checkConn) dfs(object, nodes(object)[1], FALSE))
+ 
+setMethod("dfs",c("graph", "character", "ANY"),
+  function( object, node, checkConn=FALSE) {
+ nodvec <- nodes(object)
+ if (is.na(startind <- match(node,nodvec))) warning("starting node not found in nodes of graph,\nnodes element 1 used")
+ if (node != nodvec[1]) warning("starting node supplied but not equal to nodes(g)[1], which will be used instead.")
+ if (checkConn)
+   {
+   if (length(connectedComp(object))>1) stop("graph is not connected")
+   }
+ nv <- length(nodvec)
+ em <- edgeMatrix(object)
  ne <- ncol(em)
  ans <- .Call("BGL_dfs_D", as.integer(nv), as.integer(ne),
-      as.integer(em-1), as.double(edgeWeightVector(graph)), PACKAGE="RBGL")
+      as.integer(em-1), as.integer(rep(1,ne)),
+      PACKAGE="RBGL")
  names(ans) <- c("discovered", "finish")
  lapply(ans,function(x)x+1)
 })
-
 
 dijkstra.sp <- function(g,start=nodes(g)[1]) {
     if (!is.character(start)) stop("start must be character")
@@ -169,7 +183,7 @@ strongComp <- function (g)
     em <- edgeMatrix(g)
     ne <- ncol(em)
     x <- .Call("BGL_strong_components_D", as.integer(nv), as.integer(ne),
-        as.integer(em-1), as.double(edgeWeightVector(g)), PACKAGE="RBGL")
+        as.integer(em-1), as.double(eWV(g,em)), PACKAGE="RBGL")
     split(nodes(g),x+1)
 }
 
@@ -182,7 +196,7 @@ edgeConnectivity <- function (g)
     em <- edgeMatrix(g)
     ne <- ncol(em)
     ans <- .Call("BGL_edge_connectivity_U", as.integer(nv), as.integer(ne),
-        as.integer(em-1), as.double(edgeWeightVector(g)), PACKAGE="RBGL")
+        as.integer(em-1), as.double(eWV(g,em)), PACKAGE="RBGL")
     mes <- ans[[2]]
     mes <- lapply(mes,function(x,y) y[x+1], nodes(g)) # +1 for zero-based BGL
     list(connectivity=ans[[1]], minDisconSet=mes)
