@@ -1,21 +1,37 @@
 useDynLib(RBGL)
 
 export(
+ "aver.wavefront",
+ "bandwidth",
  "bellman.ford.sp",
  "connectedComp",        
+ "cuthill.mckee.ordering",
  "dag.sp",
  "dijkstra.sp",          
  "edgeConnectivity",     
  "edmunds.karp.max.flow",
  "extractPath",
+ "init.incremental.components",
+ "incremental.components",
+ "ith.wavefront",
+ "isomorphism",
  "johnson.all.pairs.sp", 
+ "max.wavefront",
  "minCut",
+ "min.degree.ordering",
  "mstree.kruskal",       
+ "prim.minST",
+ "gprofile",
  "push.relabel.max.flow",
+ "rms.wavefront",
+ "same.component",
+ "sequential.vertex.coloring",
+ "sloan.ordering",
  "sp.between",
  "sp.between.old",       
  "sp.between.scalar",    
  "strongComp",
+ "transitive.closure",
  "tsort")
 
 exportMethods("bfs", "dfs")
