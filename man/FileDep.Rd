@@ -3,7 +3,9 @@
 \non_function{}
 \title{ FileDep: a graphNEL object representing a file dependency dataset
 example in boost graph library }
-\usage{data(FileDep)}
+\description{ FileDep: a graphNEL object representing a file dependency dataset
+example in boost graph library }
+\usage{#data(FileDep)}
 \source{
 Boost Graph Library 
 }
@@ -20,3 +22,4 @@ if (require(Rgraphviz))
  plot(FileDep)
  }
 }
+\keyword{graphs}

@@ -33,4 +33,4 @@ FD2 <- FileDep
 FD2@edgeL[["bar_cpp"]]$edges <- c(8,1)
 tsort(FD2)
 }
-\keyword{ models }% at least one, from doc/KEYWORDS
+\keyword{ graphs }% at least one, from doc/KEYWORDS
