@@ -9,7 +9,8 @@ for an undirected graph}
 edgeConnectivity(g)
 }
 \arguments{
-  \item{g}{ g: graph with edgemode undirected}
+  \item{g}{an instance of the \code{graph} class with \code{edgemode}
+    \dQuote{undirected}}
 }
 \details{
 Consider a graph G consisting of a single connected component.
@@ -19,14 +20,14 @@ of edges in G that can be cut to produce a graph with two
 is called the minimum disconnecting set.
 }
 \value{
-list with element 1 the connectivity, and element 2 a list
-of pairs of nodes defining the edges of the minimum
-disconnecting set
+A list the first element is \emph{the connectivity} which is the number
+of edges that must be cut to separate the graph. The second element is a list
+of pairs of nodes defining the edges of the minimum disconnecting set
 }
 \references{Boost Graph Library by Siek et al.  }
-\author{ interface by Vince Carey <stvjc@channing.harvard.edu>}
+\author{Vince Carey <stvjc@channing.harvard.edu>}
 
-\seealso{connectedComp  }
+\seealso{\code{\link{connectedComp}}  }
 
 \examples{
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
