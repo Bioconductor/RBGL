@@ -43,7 +43,6 @@ and path between start[i] and finish[i].  It is an error to have
 start and finish of different nonunity lengths.
 }
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
-\note{Very preliminary}
 
 \examples{
 dd <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))

@@ -35,9 +35,9 @@
 \author{VJ Carey {\tt stvjc@channing.harvard.edu}}
 \maketitle
 
-\begin{quotation} {\it Summary}.  A very preliminary implementation
-of an interface from R to the Boost Graph Library (BGL, an alternative
-to STL programming for mathematical graph objects) is presented.
+\begin{quotation} {\it Summary}.  
+An interface from R to the Boost Graph Library (BGL, an alternative
+to STL programming for mathematical graph objects) is described.
 {\it This 2003 update employs the {\em graph} class of Bioconductor.}
 \end{quotation}
 

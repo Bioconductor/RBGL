@@ -23,7 +23,6 @@ a numerical vector enumerating vertices in the
 topological sort sequence, 0-based
 }
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
-\note{Very preliminary}
 
 \examples{
 data(FileDep)

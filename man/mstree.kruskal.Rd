@@ -20,7 +20,6 @@ calls to kruskal minimum spanning tree
 list of two matrices and vector of nodes, see above
 }
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
-\note{Very preliminary}
 
 \examples{
 km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
