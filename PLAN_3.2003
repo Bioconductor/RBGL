@@ -1,3 +1,12 @@
+Plan of Oct 2003
+----------------
+1) rationalize graph and BGL approaches to undirected
+graphs -- graph wants reciprocated directed edges, BGL
+does not
+2) implement interfaces for
+  a) connected components
+  b) maximum flow/minimum disconnecting set
+
 Plan of July 2003
 1) state basic constraints:
   a) all edge weights will be coerced to double on way in
