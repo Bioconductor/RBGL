@@ -32,7 +32,5 @@ of pairs of nodes defining the edges of the minimum disconnecting set
 \examples{
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 edgeConnectivity(coex)
-coex2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
-edgeConnectivity(coex2)
 }
 \keyword{ models }

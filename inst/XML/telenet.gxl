@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <gxl>
-	<graph id="G" edgemode="undirected">
+	<graph id="G" edgemode="directed">
 		<attr name="ratio" kind="graph">
 			<string>fill</string>
 		</attr>
@@ -12,7 +12,7 @@
 		</attr>
 		<node id="Nobel">
 		</node>
-		<edge id="e1" from="Nobel" to="McKellar" isdirected="false">
+		<edge id="e1" from="Nobel" to="McKellar" isdirected="true">
 			<attr name="label">
 				<string>9</string>
 			</attr>
@@ -20,7 +20,7 @@
 				<string>9</string>
 			</attr>
 		</edge>
-		<edge id="e2" from="Nobel" to="Parry Sound" isdirected="false">
+		<edge id="e2" from="Nobel" to="Parry Sound" isdirected="true">
 			<attr name="label">
 				<string>3</string>
 			</attr>
@@ -30,7 +30,7 @@
 		</edge>
 		<node id="McKellar">
 		</node>
-		<edge id="e3" from="McKellar" to="Dunchurch" isdirected="false">
+		<edge id="e3" from="McKellar" to="Dunchurch" isdirected="true">
 			<attr name="label">
 				<string>11</string>
 			</attr>
@@ -38,7 +38,7 @@
 				<string>11</string>
 			</attr>
 		</edge>
-		<edge id="e4" from="McKellar" to="Magnetawan" isdirected="false">
+		<edge id="e4" from="McKellar" to="Magnetawan" isdirected="true">
 			<attr name="label">
 				<string>30</string>
 			</attr>
@@ -48,7 +48,7 @@
 		</edge>
 		<node id="Parry Sound">
 		</node>
-		<edge id="e5" from="Parry Sound" to="Horseshoe Lake" isdirected="false">
+		<edge id="e5" from="Parry Sound" to="Horseshoe Lake" isdirected="true">
 			<attr name="label">
 				<string>10</string>
 			</attr>
@@ -56,7 +56,7 @@
 				<string>10</string>
 			</attr>
 		</edge>
-		<edge id="e6" from="Parry Sound" to="Dunchurch" isdirected="false">
+		<edge id="e6" from="Parry Sound" to="Dunchurch" isdirected="true">
 			<attr name="label">
 				<string>20</string>
 			</attr>
@@ -68,7 +68,7 @@
 		</node>
 		<node id="Rosseau">
 		</node>
-		<edge id="e7" from="Rosseau" to="Bent River" isdirected="false">
+		<edge id="e7" from="Rosseau" to="Bent River" isdirected="true">
 			<attr name="label">
 				<string>8</string>
 			</attr>
@@ -76,7 +76,7 @@
 				<string>8</string>
 			</attr>
 		</edge>
-		<edge id="e8" from="Rosseau" to="Horseshoe Lake" isdirected="false">
+		<edge id="e8" from="Rosseau" to="Horseshoe Lake" isdirected="true">
 			<attr name="label">
 				<string>8</string>
 			</attr>
@@ -86,7 +86,7 @@
 		</edge>
 		<node id="Mactier">
 		</node>
-		<edge id="e9" from="Mactier" to="Horseshoe Lake" isdirected="false">
+		<edge id="e9" from="Mactier" to="Horseshoe Lake" isdirected="true">
 			<attr name="label">
 				<string>14</string>
 			</attr>
@@ -94,7 +94,7 @@
 				<string>14</string>
 			</attr>
 		</edge>
-		<edge id="e10" from="Mactier" to="Glen Orchard" isdirected="false">
+		<edge id="e10" from="Mactier" to="Glen Orchard" isdirected="true">
 			<attr name="label">
 				<string>9</string>
 			</attr>
@@ -106,7 +106,7 @@
 		</node>
 		<node id="Dunchurch">
 		</node>
-		<edge id="e11" from="Dunchurch" to="Magnetawan" isdirected="false">
+		<edge id="e11" from="Dunchurch" to="Magnetawan" isdirected="true">
 			<attr name="label">
 				<string>12</string>
 			</attr>
@@ -116,7 +116,7 @@
 		</edge>
 		<node id="Magnetawan">
 		</node>
-		<edge id="e12" from="Magnetawan" to="Kearny" isdirected="false">
+		<edge id="e12" from="Magnetawan" to="Kearny" isdirected="true">
 			<attr name="label">
 				<string>20</string>
 			</attr>
@@ -124,7 +124,7 @@
 				<string>20</string>
 			</attr>
 		</edge>
-		<edge id="e13a" from="Magnetawan" to="Sprucedale" isdirected="false">
+		<edge id="e13a" from="Magnetawan" to="Sprucedale" isdirected="true">
 			<attr name="label">
 				<string>20</string>
 			</attr>
@@ -134,7 +134,7 @@
 		</edge>
 		<node id="Kearny">
 		</node>
-		<edge id="e13" from="Kearny" to="Sprucedale" isdirected="false">
+		<edge id="e13" from="Kearny" to="Sprucedale" isdirected="true">
 			<attr name="label">
 				<string>13</string>
 			</attr>
@@ -142,7 +142,7 @@
 				<string>13</string>
 			</attr>
 		</edge>
-		<edge id="e14" from="Kearny" to="Novar" isdirected="false">
+		<edge id="e14" from="Kearny" to="Novar" isdirected="true">
 			<attr name="label">
 				<string>8</string>
 			</attr>
@@ -152,7 +152,7 @@
 		</edge>
 		<node id="Glen Orchard">
 		</node>
-		<edge id="e15" from="Glen Orchard" to="Bracebridge" isdirected="false">
+		<edge id="e15" from="Glen Orchard" to="Bracebridge" isdirected="true">
 			<attr name="label">
 				<string>15</string>
 			</attr>
@@ -162,7 +162,7 @@
 		</edge>
 		<node id="Sprucedale">
 		</node>
-		<edge id="e16" from="Sprucedale" to="Novar" isdirected="false">
+		<edge id="e16" from="Sprucedale" to="Novar" isdirected="true">
 			<attr name="label">
 				<string>18</string>
 			</attr>
@@ -170,7 +170,7 @@
 				<string>18</string>
 			</attr>
 		</edge>
-		<edge id="e17" from="Sprucedale" to="Huntsville" isdirected="false">
+		<edge id="e17" from="Sprucedale" to="Huntsville" isdirected="true">
 			<attr name="label">
 				<string>15</string>
 			</attr>
@@ -180,7 +180,7 @@
 		</edge>
 		<node id="Novar">
 		</node>
-		<edge id="e18" from="Novar" to="Huntsville" isdirected="false">
+		<edge id="e18" from="Novar" to="Huntsville" isdirected="true">
 			<attr name="label">
 				<string>5</string>
 			</attr>
@@ -190,7 +190,7 @@
 		</edge>
 		<node id="Huntsville">
 		</node>
-		<edge id="e19" from="Huntsville" to="Bracebridge" isdirected="false">
+		<edge id="e19" from="Huntsville" to="Bracebridge" isdirected="true">
 			<attr name="label">
 				<string>30</string>
 			</attr>
@@ -198,7 +198,7 @@
 				<string>30</string>
 			</attr>
 		</edge>
-		<edge id="e20" from="Huntsville" to="Bent River" isdirected="false">
+		<edge id="e20" from="Huntsville" to="Bent River" isdirected="true">
 			<attr name="label">
 				<string>30</string>
 			</attr>

@@ -3,47 +3,77 @@
 	<graph id="GG" edgeids="true" edgemode="undirected">
 		<node id="A">
 		</node>
-		<edge from="A" to="B" isdirected="false" id="A--B">
+		<edge from="A" to="B" isdirected="false" id="A##B">
 		</edge>
-		<edge from="A" to="C" isdirected="false" id="A--C">
+		<edge from="B" to="A" isdirected="false" id="B##A">
 		</edge>
-		<edge from="A" to="D" isdirected="false" id="A--D">
+		<edge from="A" to="C" isdirected="false" id="A##C">
+		</edge>
+		<edge from="C" to="A" isdirected="false" id="C##A">
+		</edge>
+		<edge from="A" to="D" isdirected="false" id="A##D">
+		</edge>
+		<edge from="D" to="A" isdirected="false" id="D##A">
 		</edge>
 		<node id="B">
 		</node>
-		<edge from="B" to="C" isdirected="false" id="B--C">
+		<edge from="B" to="C" isdirected="false" id="B##C">
 		</edge>
-		<edge from="B" to="D" isdirected="false" id="B--D">
+		<edge from="B" to="D" isdirected="false" id="B##D">
+		</edge>
+		<edge from="C" to="B" isdirected="false" id="C##B">
+		</edge>
+		<edge from="D" to="B" isdirected="false" id="D##B">
 		</edge>
 		<node id="C">
 		</node>
-		<edge from="C" to="D" isdirected="false" id="C--D">
+		<edge from="C" to="D" isdirected="false" id="C##D">
+		</edge>
+		<edge from="D" to="C" isdirected="false" id="D##C">
 		</edge>
 		<node id="D">
 		</node>
-		<edge from="D" to="E" isdirected="false" id="D--E">
+		<edge from="D" to="E" isdirected="false" id="D##E">
 		</edge>
-		<edge from="D" to="H" isdirected="false" id="D--H">
+		<edge from="D" to="H" isdirected="false" id="D##H">
+		</edge>
+		<edge from="E" to="D" isdirected="false" id="E##D">
+		</edge>
+		<edge from="H" to="D" isdirected="false" id="H##D">
 		</edge>
 		<node id="E">
 		</node>
-		<edge from="E" to="F" isdirected="false" id="E--F">
+		<edge from="E" to="F" isdirected="false" id="E##F">
 		</edge>
-		<edge from="E" to="G" isdirected="false" id="E--G">
+		<edge from="E" to="G" isdirected="false" id="E##G">
 		</edge>
-		<edge from="E" to="H" isdirected="false" id="E--H">
+		<edge from="E" to="H" isdirected="false" id="E##H">
+		</edge>
+		<edge from="F" to="E" isdirected="false" id="E###F">
+		</edge>
+		<edge from="G" to="E" isdirected="false" id="E###G">
+		</edge>
+		<edge from="H" to="E" isdirected="false" id="E###H">
 		</edge>
 		<node id="H">
 		</node>
 		<node id="F">
 		</node>
-		<edge from="F" to="G" isdirected="false" id="F--G">
+		<edge from="F" to="G" isdirected="false" id="F##G">
 		</edge>
-		<edge from="F" to="H" isdirected="false" id="F--H">
+		<edge from="F" to="H" isdirected="false" id="F##H">
+		</edge>
+		<edge from="G" to="F" isdirected="false" id="F###G">
+		</edge>
+		<edge from="H" to="F" isdirected="false" id="F###H">
 		</edge>
 		<node id="G">
 		</node>
-		<edge from="G" to="H" isdirected="false" id="G--H">
+		<edge from="G" to="H" isdirected="false" id="G##H">
+		</edge>
+		<edge from="H" to="G" isdirected="false" id="G###H">
 		</edge>
 	</graph>
 </gxl>
+<!--
+-->
