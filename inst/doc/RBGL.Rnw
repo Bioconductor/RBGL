@@ -179,6 +179,14 @@ print(strongComp(km))
 
 <<econndemo>>=
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+<<<<<<< RBGL.Rnw
+@
+\begin{figure}
+\includegraphics{coex}
+\caption{Ignore the edge directions.}
+\end{figure}
+<<econnRun>>=
+=======
 dcoex <- coex
 dcoex@edgemode <- "directed"
 udcoex <- ugraph(dcoex)
@@ -188,6 +196,7 @@ udcoex <- ugraph(dcoex)
 \caption{Edge connectivity example.}
 \end{figure}
 <<econnDemo2>>=
+>>>>>>> 1.25
 if (length(agrep("solaris", version[["platform"]]))==0)
 print(edgeConnectivity(coex)) else
 print("not running on solaris, use windows or linux")

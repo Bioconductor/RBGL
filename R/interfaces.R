@@ -58,20 +58,17 @@ setMethod("dfs", "graph", function(graph) {
 })
 
 
-dijkstra.sp <- function(x,init.ind=nodes(x)[1]) {
-    if (is.numeric(init.ind)) stop("init.ind must be a node name; numeric indices not allowed")
+dijkstra.sp <- function(x,init.node=nodes(x)[1]) {
+    if (is.numeric(init.node)) stop("init.node must be a node name; numeric indices not allowed")
     nN <- nodes(x)
-    if (is.character(init.ind))
-        II <- match(init.ind, nN, 0)
-    else
-        II <- init.ind
-    if (II < 1)
-        stop("bad value for init.ind, which must, if character, be a node name")
+    if (is.character(init.node))
+        II <- match(init.node, nN, 0)
+    if (II == 0) stop("init.node not found in nodes of x")
     nv <- length(nN)
-    if (II > nv)
-        stop(paste("only", nv, "nodes but init.ind is ", II,
-            sep = " "))
-    em <- edgeMatrix(x)
+    if (edgemode(x) == "directed")
+            em <- edgeMatrix(x)
+    else
+            em <- edgeMatrix(x,TRUE)
     ne <- ncol(em)
     eW <- eWV(x,em)
     ans <- .Call("BGL_dijkstra_shortest_paths_D", as.integer(nv),
