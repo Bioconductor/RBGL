@@ -49,10 +49,10 @@ bfs <- function(x,init.ind=1) {
  ans+1
 }
 
-if (!isGeneric("dfs")) 
-   setGeneric("dfs", function(object)standardGeneric("dfs"))
+if (!isGeneric("dfs2")) 
+   setGeneric("dfs2", function(object)standardGeneric("dfs2"))
 
-setMethod("dfs", "graph", function(object) {
+setMethod("dfs2", "graph", function(object) {
  nv <- length(nodes(object))
  ne <- length(unlist(edges(object)))
  ans <- .Call("BGL_dfs_D", as.integer(nv), as.integer(ne),
