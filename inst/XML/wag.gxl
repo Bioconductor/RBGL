@@ -1,5 +1,5 @@
 <gxl>
- <graph>
+ <graph id="G" edgeids="true" edgemode="directed">
   <node id="1"/>
   <node id="2"/>
   <node id="3"/>
