@@ -126,7 +126,7 @@ extern "C"
 	} //end BGL_KMST_D
 
 
-	SEXP BGL_BFS_D(SEXP num_verts_in, SEXP num_edges_in, 
+	SEXP BGL_bfs_D(SEXP num_verts_in, SEXP num_edges_in, 
 		SEXP R_edges_in, SEXP R_weights_in, SEXP init_ind)
 	{
 	using namespace boost;

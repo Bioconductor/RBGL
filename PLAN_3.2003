@@ -1,3 +1,10 @@
+Plan of July 2003
+1) state basic constraints:
+  a) all edge weights will be coerced to double on way in
+  b) separate C++ functions need to be written for directed
+     and undirected inputs
+2) simplify the C++ source of the R interfaces
+
 Plan of April 2003
 
 1) Use Boost 1.30.0 and make sure library
