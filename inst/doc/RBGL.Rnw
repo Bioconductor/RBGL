@@ -48,7 +48,8 @@ library(RBGL)
 data(FileDep)
 print(FileDep)
 # if dot is available, this will work
-x <- toDot(FileDep, outfile="fd.ps") 
+x <- toDot(FileDep, outDotFile="fd.dot") 
+try( system("dot -Tps fd.dot > fd.ps") )
 @
 \setkeys{Gin}{width=0.55\textwidth}
 \begin{figure}
@@ -110,7 +111,8 @@ for (i in 1:ncol(GGl)) GGE[[i]] <- GGl[,i]
 uan <- function(x) sort(unique(as.numeric(x)))
 GGV <- uan(GGl)
 sGG <- new("graf", edges=as.edgeStruct(GGE), vertices=GGV)
-toDot(sGG,outfile="sGG.ps")
+toDot(sGG,outDotFile="sGG.dot")
+try( system("dot -Tps sGG.dot > sGGd.ps") )
 print(sGG)
 print(tsort(sGG))
 @
@@ -148,7 +150,8 @@ Now let's make a big random graph:
 <<>>=
 rg <- rgraph(14,1)
 gg <- snag2graf(rg)
-toDot(gg, outfile="gg.ps")
+toDot(gg, outDotFile="gg.dot")
+try( system( "dot -Tps gg.dot > ggd.ps") )
 @
 
 \setkeys{Gin}{width=1.25\textwidth}
