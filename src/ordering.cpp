@@ -170,7 +170,7 @@ extern "C"
 	}
 
 	SEXP BGL_sloan_ordering(SEXP num_verts_in, SEXP num_edges_in,
-                     SEXP R_edges_in, SEXP R_weights_in, SEXP R_W1, SEXP R_W2 )
+                     SEXP R_edges_in, SEXP R_W1, SEXP R_W2 )
 	{
 		using namespace boost;
 
