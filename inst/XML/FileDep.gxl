@@ -1,5 +1,5 @@
 <gxl>
- <graph id="filedep">
+ <graph id="filedep" edgemode="directed">
   <node id="dax_h"/>
   <node id="yow_h"/>
   <node id="boz_h"/>

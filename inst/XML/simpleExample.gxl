@@ -3,7 +3,7 @@
 <?xml-stylesheet type="text/xsl" href="../../highlightme.xsl"?>
 <!-- simple example 05.02.2002, from GXL site  -->
 <gxl xmlns:xlink="http://www.w3.org/1999/xlink">
-	<graph id="simpleExample">
+	<graph id="simpleExample" edgemode="directed">
 		<type xlink:href="../../schema/gxl/simpleExampleSchema.gxl#simpleExampleSchema"/>
 		<node id="p">
 			<type xlink:href="../../schema/gxl/simpleExampleSchema.gxl#Proc"/>
