@@ -202,7 +202,7 @@ edgeConnectivity <- function (g)
 }
 
 
-unwindPen <- function(s, f, pens) {
+extractPath <- function(s, f, pens) {
 # use list of penultimates (from dijkstra.sp) to establish
 # linear path from node s to node f
     path <- f
@@ -215,7 +215,7 @@ unwindPen <- function(s, f, pens) {
         f <- pens[f]
         i <- i+1
     }
-    path
+    as.numeric(path)
 }
 
 
@@ -236,11 +236,22 @@ sp.between <- function (g, start, finish)
         thisf <- fl[[thiss]]
         for (j in 1:length(thisf) ) {
             ans[[paste(thiss, thisf[j], sep = ":")]] <-
-                nodes(g)[unwindPen(nodeind(thiss),
+                nodes(g)[extractPath(nodeind(thiss),
                                    nodeind(thisf[j]), curdi)]
         }
     }
-    ws <- lapply(ans, function(x) pathWeights(g,x))
+    ws <- list()
+    getw <- function(g, nl) {
+         # obtain weights in g for path of nodes in char vec nl
+	 if (length(nl)<2) stop("sp.between:getw should get paths of length 2 or more")
+         res <- rep(NA,length(nl)-1)   # only n-1 pairs
+	 wstr <- edgeWeights(g, match(nl, nodes(g)))
+         for (i in 1:(length(nl)-1)) 
+            res[i] <-  wstr[[i]][as.character(match(nl[i+1],nG))] # need to use numerical names of weights
+	names(res) <- paste(nl[-length(nl)],nl[-1],sep=ifelse(edgemode(g)=="undirected","--","->"))
+    res
+    }
+    ws <- lapply(ans, function(x) getw(g,x))
     ls <- lapply(ws, sum)
     ans2 <- list()
     ns <- names(ans)
