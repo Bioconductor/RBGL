@@ -22,14 +22,17 @@ ans <- .Call("BGL_KMST_D",
 }
 
 if (!isGeneric("bfs")) setGeneric("bfs",
-        function( object, node, checkConn=FALSE) standardGeneric("bfs"))
+        function( object, node, checkConn=TRUE) standardGeneric("bfs"))
 
 setMethod("bfs",c("graph", "missing", "missing"),
-  function( object, node, checkConn=FALSE)
-          bfs(object, nodes(object)[1], FALSE))
+  function( object, node, checkConn=TRUE)
+          bfs(object, nodes(object)[1], TRUE))
+setMethod("bfs",c("graph", "character", "logical"),
+  function( object, node, checkConn)
+          bfs(object, node, checkConn))
 
-setMethod("bfs",c("graph", "character", "ANY"),
-          function( object, node, checkConn=FALSE) {
+setMethod("bfs",c("graph", "character", "logical"),
+          function( object, node, checkConn=TRUE) {
               nodvec <- nodes(object)
               if (is.na(startind <- match(node,nodvec)))
                   stop("starting node not found in nodes of graph")
@@ -51,12 +54,12 @@ setMethod("bfs",c("graph", "character", "ANY"),
           })
 
 if (!isGeneric("dfs"))
-   setGeneric("dfs", function(object,node,checkConn=FALSE)
+   setGeneric("dfs", function(object,node,checkConn=TRUE)
               standardGeneric("dfs"))
 
 setMethod("dfs",c("graph", "missing", "missing"),
-          function( object, node, checkConn=FALSE)
-          dfs(object, nodes(object)[1], FALSE))
+          function( object, node, checkConn=TRUE)
+          dfs(object, nodes(object)[1], TRUE))
 
 setMethod("dfs",c("graph", "character", "ANY"),
           function( object, node, checkConn=FALSE) {

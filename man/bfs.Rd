@@ -2,7 +2,7 @@
 \alias{bfs}
 \alias{dfs}
 \alias{dfs,graph,character,ANY-method}
-\alias{bfs,graph,character,ANY-method}
+\alias{bfs,graph,character,logical-method}
 \alias{dfs,graph,missing,missing-method}
 \alias{bfs,graph,missing,missing-method}
 \alias{bfs,graph-method}
@@ -16,7 +16,7 @@
   routines from the BOOST library.  
 }
 \usage{
-bfs(object, node, checkConn=FALSE)
+bfs(object, node, checkConn=TRUE)
 \S4method{dfs}{object,node,checkConn}(graph)
 \S4method{bfs}{object,node,checkConn}(graph)
 }

@@ -13,6 +13,10 @@ Date: Wed, 23 Jun 2004 16:46:01 -0400
  "both dfs and bfs can handle unconnected graphs", precisely what is
   returned in this case? The example above suggests that this is an
  untrue statement.
+ 
+>>> now checkConn is defaulting to TRUE.  the example
+>>> above throws an error.  we may want to check without option.
+>>> need to try some big examples
 
  Can we ever expect to be able to supply the starting node for dfs? is
  the
@@ -39,6 +43,12 @@ Hi Vince,
     edges if it is undirected; you can either use ugraph or you can
     change your fromGXL function so that if it is deserializing to
     a graphNEL object it honors the structure of the graphNEL objects
+
+>>> This has been done.  NELhandler now runs ugraph to
+>>> get reciprocation.  note that ugraph will do nothing
+>>> if it gets an undirected graph, so i have to flip the
+>>> edgemode temporarily to get ugraph to compute reciprocal 
+>>> edges
 
    - and it seems that dfs and bfs on the undirected graph are
    correct, but
