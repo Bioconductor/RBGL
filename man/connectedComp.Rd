@@ -15,7 +15,7 @@ connectedComp(g)
 Uses a DFS based approach.
 Mathematical formalism can be
 found in graph package
-\code{\link{connComp}}, see also \code{\link{strongConnComp}}.  
+\code{\link{connComp}}, see also \code{\link{strongComp}}.  
 }
 
 \value{

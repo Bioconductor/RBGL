@@ -1,5 +1,5 @@
 tsort <- function(x) {
-# if (class(x) != "graphNEL") stop("presently only works for class graphNEL from Bioconductor graph library")
+ if (edgemode(x) != "directed") stop("requires directed graph")
  nv <- length(nodes(x))
  ne <- length(unlist(edges(x)))
  .Call("BGL_tsort_D", as.integer(nv), as.integer(ne),
@@ -7,7 +7,6 @@ tsort <- function(x) {
 }
 
 mstree.kruskal <- function(x) {
-# if (class(x) != "graphNEL") stop("presently only works for class graphNEL from Bioconductor graph library")
  nv <- length(nodes(x))
  ne <- length(unlist(edges(x)))
 # is.directed <- as.integer(edgemode(x) == "directed")
@@ -37,7 +36,6 @@ mstree.kruskal <- function(x) {
 }
 
 bfs <- function(x,init.ind=1) {
-# if (class(x) != "graphNEL") stop("presently only works for class graphNEL from Bioconductor graph library")
  if (init.ind < 1) stop("use 1-based counting for init.ind")
  nv <- length(nodes(x))
  if (init.ind > nv) stop(paste("only",nv,"nodes but init.ind is ",init.ind,sep=" "))
@@ -125,7 +123,12 @@ sp.between <- function (g, start, finish)
 
 connectedComp <- function (g) 
 {
-    if (edgemode(g) == "directed") stop("only applicable to undirected graphs")
+    if (length(agrep("solaris", version$platform))==1) stop(
+		"inoperative under solaris at present; try windows, linux or BSD")
+    if (edgemode(g) == "directed") {
+		warning("converting directed graph to undirected form")
+		g <- ugraph(g)
+		}
     nv <- length(nodes(g))
     ne <- length(unlist(edges(g)))
     x<-.Call("BGL_connected_components_U", as.integer(nv), as.integer(ne), 
@@ -145,6 +148,8 @@ strongComp <- function (g)
 
 edgeConnectivity <- function (g) 
 {
+    if (length(agrep("solaris", version$platform))==1) stop(
+		"inoperative under solaris at present; try windows, linux or BSD")
     if (edgemode(g) == "directed") stop("only applicable to undirected graphs")
     nv <- length(nodes(g))
     ne <- length(unlist(edges(g)))
