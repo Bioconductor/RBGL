@@ -1,212 +1,146 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0"?>
 <gxl>
-	<graph id="G" edgemode="directed">
-		<attr name="ratio" kind="graph">
-			<string>fill</string>
-		</attr>
-		<attr name="size" kind="graph">
-			<string>5,5.3</string>
-		</attr>
-		<attr name="style" kind="edge">
-			<string>bold</string>
-		</attr>
-		<node id="Nobel">
-		</node>
-		<edge id="e1" from="Nobel" to="McKellar" isdirected="true">
-			<attr name="label">
-				<string>9</string>
-			</attr>
-			<attr name="weights">
-				<string>9</string>
-			</attr>
-		</edge>
-		<edge id="e2" from="Nobel" to="Parry Sound" isdirected="true">
-			<attr name="label">
-				<string>3</string>
-			</attr>
-			<attr name="weights">
-				<string>3</string>
-			</attr>
-		</edge>
-		<node id="McKellar">
-		</node>
-		<edge id="e3" from="McKellar" to="Dunchurch" isdirected="true">
-			<attr name="label">
-				<string>11</string>
-			</attr>
-			<attr name="weights">
-				<string>11</string>
-			</attr>
-		</edge>
-		<edge id="e4" from="McKellar" to="Magnetawan" isdirected="true">
-			<attr name="label">
-				<string>30</string>
-			</attr>
-			<attr name="weights">
-				<string>30</string>
-			</attr>
-		</edge>
-		<node id="Parry Sound">
-		</node>
-		<edge id="e5" from="Parry Sound" to="Horseshoe Lake" isdirected="true">
-			<attr name="label">
-				<string>10</string>
-			</attr>
-			<attr name="weights">
-				<string>10</string>
-			</attr>
-		</edge>
-		<edge id="e6" from="Parry Sound" to="Dunchurch" isdirected="true">
-			<attr name="label">
-				<string>20</string>
-			</attr>
-			<attr name="weights">
-				<string>20</string>
-			</attr>
-		</edge>
-		<node id="Horseshoe Lake">
-		</node>
-		<node id="Rosseau">
-		</node>
-		<edge id="e7" from="Rosseau" to="Bent River" isdirected="true">
-			<attr name="label">
-				<string>8</string>
-			</attr>
-			<attr name="weights">
-				<string>8</string>
-			</attr>
-		</edge>
-		<edge id="e8" from="Rosseau" to="Horseshoe Lake" isdirected="true">
-			<attr name="label">
-				<string>8</string>
-			</attr>
-			<attr name="weights">
-				<string>8</string>
-			</attr>
-		</edge>
-		<node id="Mactier">
-		</node>
-		<edge id="e9" from="Mactier" to="Horseshoe Lake" isdirected="true">
-			<attr name="label">
-				<string>14</string>
-			</attr>
-			<attr name="weights">
-				<string>14</string>
-			</attr>
-		</edge>
-		<edge id="e10" from="Mactier" to="Glen Orchard" isdirected="true">
-			<attr name="label">
-				<string>9</string>
-			</attr>
-			<attr name="weights">
-				<string>9</string>
-			</attr>
-		</edge>
-		<node id="Bent River">
-		</node>
-		<node id="Dunchurch">
-		</node>
-		<edge id="e11" from="Dunchurch" to="Magnetawan" isdirected="true">
-			<attr name="label">
-				<string>12</string>
-			</attr>
-			<attr name="weights">
-				<string>12</string>
-			</attr>
-		</edge>
-		<node id="Magnetawan">
-		</node>
-		<edge id="e12" from="Magnetawan" to="Kearny" isdirected="true">
-			<attr name="label">
-				<string>20</string>
-			</attr>
-			<attr name="weights">
-				<string>20</string>
-			</attr>
-		</edge>
-		<edge id="e13a" from="Magnetawan" to="Sprucedale" isdirected="true">
-			<attr name="label">
-				<string>20</string>
-			</attr>
-			<attr name="weights">
-				<string>20</string>
-			</attr>
-		</edge>
-		<node id="Kearny">
-		</node>
-		<edge id="e13" from="Kearny" to="Sprucedale" isdirected="true">
-			<attr name="label">
-				<string>13</string>
-			</attr>
-			<attr name="weights">
-				<string>13</string>
-			</attr>
-		</edge>
-		<edge id="e14" from="Kearny" to="Novar" isdirected="true">
-			<attr name="label">
-				<string>8</string>
-			</attr>
-			<attr name="weights">
-				<string>8</string>
-			</attr>
-		</edge>
-		<node id="Glen Orchard">
-		</node>
-		<edge id="e15" from="Glen Orchard" to="Bracebridge" isdirected="true">
-			<attr name="label">
-				<string>15</string>
-			</attr>
-			<attr name="weights">
-				<string>15</string>
-			</attr>
-		</edge>
-		<node id="Sprucedale">
-		</node>
-		<edge id="e16" from="Sprucedale" to="Novar" isdirected="true">
-			<attr name="label">
-				<string>18</string>
-			</attr>
-			<attr name="weights">
-				<string>18</string>
-			</attr>
-		</edge>
-		<edge id="e17" from="Sprucedale" to="Huntsville" isdirected="true">
-			<attr name="label">
-				<string>15</string>
-			</attr>
-			<attr name="weights">
-				<string>15</string>
-			</attr>
-		</edge>
-		<node id="Novar">
-		</node>
-		<edge id="e18" from="Novar" to="Huntsville" isdirected="true">
-			<attr name="label">
-				<string>5</string>
-			</attr>
-			<attr name="weights">
-				<string>5</string>
-			</attr>
-		</edge>
-		<node id="Huntsville">
-		</node>
-		<edge id="e19" from="Huntsville" to="Bracebridge" isdirected="true">
-			<attr name="label">
-				<string>30</string>
-			</attr>
-			<attr name="weights">
-				<string>30</string>
-			</attr>
-		</edge>
-		<edge id="e20" from="Huntsville" to="Bent River" isdirected="true">
-			<attr name="label">
-				<string>30</string>
-			</attr>
-			<attr name="weights">
-				<string>30</string>
-			</attr>
-		</edge>
-		<node id="Bracebridge">
-		</node>
-	</graph>
+  <graph id="graphNEL" edgemode="undirected">
+    <node id="Nobel"/>
+    <node id="McKellar"/>
+    <node id="Parry Sound"/>
+    <node id="Horseshoe Lake"/>
+    <node id="Rosseau"/>
+    <node id="Mactier"/>
+    <node id="Bent River"/>
+    <node id="Dunchurch"/>
+    <node id="Magnetawan"/>
+    <node id="Kearny"/>
+    <node id="Glen Orchard"/>
+    <node id="Sprucedale"/>
+    <node id="Novar"/>
+    <node id="Huntsville"/>
+    <node id="Bracebridge"/>
+    <edge id="e1" from="Nobel" to="McKellar">
+      <attr name="weights">9</attr>
+    </edge>
+    <edge id="e2" from="Nobel" to="Parry Sound">
+      <attr name="weights">3</attr>
+    </edge>
+    <edge id="e3" from="McKellar" to="Nobel">
+      <attr name="weights">9</attr>
+    </edge>
+    <edge id="e4" from="McKellar" to="Dunchurch">
+      <attr name="weights">11</attr>
+    </edge>
+    <edge id="e5" from="McKellar" to="Magnetawan">
+      <attr name="weights">30</attr>
+    </edge>
+    <edge id="e6" from="Parry Sound" to="Nobel">
+      <attr name="weights">3</attr>
+    </edge>
+    <edge id="e7" from="Parry Sound" to="Horseshoe Lake">
+      <attr name="weights">10</attr>
+    </edge>
+    <edge id="e8" from="Parry Sound" to="Dunchurch">
+      <attr name="weights">20</attr>
+    </edge>
+    <edge id="e9" from="Horseshoe Lake" to="Mactier">
+      <attr name="weights">14</attr>
+    </edge>
+    <edge id="e10" from="Horseshoe Lake" to="Rosseau">
+      <attr name="weights">8</attr>
+    </edge>
+    <edge id="e11" from="Horseshoe Lake" to="Parry Sound">
+      <attr name="weights">10</attr>
+    </edge>
+    <edge id="e12" from="Rosseau" to="Bent River">
+      <attr name="weights">8</attr>
+    </edge>
+    <edge id="e13" from="Rosseau" to="Horseshoe Lake">
+      <attr name="weights">8</attr>
+    </edge>
+    <edge id="e14" from="Mactier" to="Horseshoe Lake">
+      <attr name="weights">14</attr>
+    </edge>
+    <edge id="e15" from="Mactier" to="Glen Orchard">
+      <attr name="weights">9</attr>
+    </edge>
+    <edge id="e16" from="Bent River" to="Huntsville">
+      <attr name="weights">30</attr>
+    </edge>
+    <edge id="e17" from="Bent River" to="Rosseau">
+      <attr name="weights">8</attr>
+    </edge>
+    <edge id="e18" from="Dunchurch" to="Parry Sound">
+      <attr name="weights">20</attr>
+    </edge>
+    <edge id="e19" from="Dunchurch" to="McKellar">
+      <attr name="weights">11</attr>
+    </edge>
+    <edge id="e20" from="Dunchurch" to="Magnetawan">
+      <attr name="weights">12</attr>
+    </edge>
+    <edge id="e21" from="Magnetawan" to="Dunchurch">
+      <attr name="weights">12</attr>
+    </edge>
+    <edge id="e22" from="Magnetawan" to="McKellar">
+      <attr name="weights">30</attr>
+    </edge>
+    <edge id="e23" from="Magnetawan" to="Kearny">
+      <attr name="weights">20</attr>
+    </edge>
+    <edge id="e24" from="Magnetawan" to="Sprucedale">
+      <attr name="weights">20</attr>
+    </edge>
+    <edge id="e25" from="Kearny" to="Magnetawan">
+      <attr name="weights">20</attr>
+    </edge>
+    <edge id="e26" from="Kearny" to="Sprucedale">
+      <attr name="weights">13</attr>
+    </edge>
+    <edge id="e27" from="Kearny" to="Novar">
+      <attr name="weights">8</attr>
+    </edge>
+    <edge id="e28" from="Glen Orchard" to="Mactier">
+      <attr name="weights">9</attr>
+    </edge>
+    <edge id="e29" from="Glen Orchard" to="Bracebridge">
+      <attr name="weights">15</attr>
+    </edge>
+    <edge id="e30" from="Sprucedale" to="Kearny">
+      <attr name="weights">13</attr>
+    </edge>
+    <edge id="e31" from="Sprucedale" to="Magnetawan">
+      <attr name="weights">20</attr>
+    </edge>
+    <edge id="e32" from="Sprucedale" to="Novar">
+      <attr name="weights">18</attr>
+    </edge>
+    <edge id="e33" from="Sprucedale" to="Huntsville">
+      <attr name="weights">15</attr>
+    </edge>
+    <edge id="e34" from="Novar" to="Sprucedale">
+      <attr name="weights">18</attr>
+    </edge>
+    <edge id="e35" from="Novar" to="Kearny">
+      <attr name="weights">8</attr>
+    </edge>
+    <edge id="e36" from="Novar" to="Huntsville">
+      <attr name="weights">5</attr>
+    </edge>
+    <edge id="e37" from="Huntsville" to="Novar">
+      <attr name="weights">5</attr>
+    </edge>
+    <edge id="e38" from="Huntsville" to="Sprucedale">
+      <attr name="weights">15</attr>
+    </edge>
+    <edge id="e39" from="Huntsville" to="Bracebridge">
+      <attr name="weights">30</attr>
+    </edge>
+    <edge id="e40" from="Huntsville" to="Bent River">
+      <attr name="weights">30</attr>
+    </edge>
+    <edge id="e41" from="Bracebridge" to="Huntsville">
+      <attr name="weights">30</attr>
+    </edge>
+    <edge id="e42" from="Bracebridge" to="Glen Orchard">
+      <attr name="weights">15</attr>
+    </edge>
+  </graph>
 </gxl>

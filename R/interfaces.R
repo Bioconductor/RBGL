@@ -9,7 +9,7 @@ tsort <- function(x) {
 
 mstree.kruskal <- function(x) {
  nv <- length(nodes(x))
- em <- edgeMatrix(x)
+ em <- edgeMatrix(x, duplicates=TRUE) # conform with edgeWeights unlisted
  ne <- ncol(em)
 ans <- .Call("BGL_KMST_D", 
       		as.integer(nv), as.integer(ne),
@@ -111,9 +111,6 @@ connectedComp <- function (g)
 {
     if (length(agrep("solaris", version$platform))==1) return(
 		"inoperative under solaris at present; try windows, linux or BSD")
-    if (edgemode(g) == "directed") {
-		warning("converting directed graph to undirected form")
-		}
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
