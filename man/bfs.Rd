@@ -7,7 +7,7 @@ returns integer vector of indices with
 order of discovery by BFS
 }
 \usage{
-bfs(x) # now x assumed to be Bioconductor graph graphNEL
+bfs(x,init.ind=1) # now x assumed to be Bioconductor graph graphNEL
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
