@@ -127,8 +127,8 @@ sp.between <- function (g, start, finish)
 connComp <- function(g) 
    {
    if (edgemode(g) == "directed")
-    .Call("BGL_connected_components_D", as.integer(nv), 
+    .Call("BGL_connected_components_U", as.integer(nv), 
         as.integer(ne), as.integer(adjListBGL(x)), 
         as.double(unlist(edgeWeights(x))))
-   else stop("only supporting directed presently")
+   else stop("only supporting undirected presently")
    }

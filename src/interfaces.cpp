@@ -319,7 +319,7 @@ extern "C"
 	return(ansList);
 	}
 
-	SEXP BGL_connected_components_D (SEXP num_verts_in, 
+	SEXP BGL_connected_components_U (SEXP num_verts_in, 
 		SEXP num_edges_in, SEXP R_edges_in,
 		SEXP R_weights_in )
 	{
@@ -328,17 +328,19 @@ extern "C"
 	
 	setupGraphTypes
 	setTraits( Graph_ud )
-	setWeightedDoubleEdges( Graph_dd )
+	setWeightedDoubleEdges( Graph_ud )
 
 	int nvert = INTEGER(num_verts_in)[0] ;
 
         std::vector<int> component(num_vertices(g));
         int num = connected_components(g, &component[0]);
+
+    std::vector<int>::size_type k;
     
 	PROTECT(outvec = allocVector(REALSXP,nvert));
 
-	for (int i = 0; i < component.size(); i++ )
-	    REAL(outvec)[i] = component[i];
+	for (k = 0; k < component.size(); k++ )
+	    REAL(outvec)[k] = component[k];
 	
 	UNPROTECT(1);
 	return(outvec);
