@@ -28,7 +28,7 @@ example in boost graph library }
   ..$ : chr [1:2] "zag\_cpp" "zag\_o"
   ..$ : chr [1:2] "zag\_o" "libzigzag\_a"
   ..$ : chr [1:2] "libzigzag\_a" "killerapp"
-  ..- attr(*, "costs")= symbol NULL
+  ..- attr(*, "costs")= symbol NULL
   ..- attr(*, "class")= chr "edgeStruct"
  - attr(*, "accL")= list()
  - attr(*, "adjL")= list()
