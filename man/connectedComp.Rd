@@ -26,8 +26,6 @@ List of node names defining the connected components.
 \author{ interface by Vince Carey <stvjc@channing.harvard.edu>}
 
 \examples{
-if (length(agrep("solaris", version[["platform"]]))==0)
-{
 km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
 km@nodes <- c(km@nodes,"F","G","H")
 km@edgeL$F <- list(edges=character(0))
@@ -37,9 +35,5 @@ ukm <- ugraph(km)
 ukm
 edges(ukm)
 connectedComp(ukm)
-} else {
- cat("this function is not working in solaris at present,\n")
- cat("please use a windows or linux platform")
- }
 }
 \keyword{models }
