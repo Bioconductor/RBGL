@@ -31,7 +31,7 @@ the nodes in that component.
 \examples{
 km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
 km@nodes <- c(km@nodes,"F","G","H")
-km@edgeL$F <- list(edges=character(0))
+km@edgeL$F <- list(edges=numeric(0))
 km@edgeL$G <- list(edges=8)
 km@edgeL$H <- list(edges=7)
 strongComp(km)

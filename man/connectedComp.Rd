@@ -35,7 +35,7 @@ found in graph package or in any good book on graph theory.
 \examples{
 km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
 km@nodes <- c(km@nodes,"F","G","H")
-km@edgeL$F <- list(edges=character(0))
+km@edgeL$F <- list(edges=numeric(0))
 km@edgeL$G <- list(edges=8)
 km@edgeL$H <- list(edges=7)
 ukm <- ugraph(km)
