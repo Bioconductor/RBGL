@@ -170,9 +170,8 @@ connectedComp <- function (g)
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
-    eV <- eWV(g, em)
     x<-.Call("BGL_connected_components_U", as.integer(nv), as.integer(ne),
-        as.integer(em-1), as.double(eV), PACKAGE="RBGL")
+        as.integer(em-1), as.double(rep(1,ne)), PACKAGE="RBGL")
     split(nodes(g),x+1)
 }
 
@@ -183,7 +182,7 @@ strongComp <- function (g)
     em <- edgeMatrix(g)
     ne <- ncol(em)
     x <- .Call("BGL_strong_components_D", as.integer(nv), as.integer(ne),
-        as.integer(em-1), as.double(eWV(g,em)), PACKAGE="RBGL")
+        as.integer(em-1), as.double(rep(1,ne)), PACKAGE="RBGL")
     split(nodes(g),x+1)
 }
 
