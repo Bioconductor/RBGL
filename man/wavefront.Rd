@@ -26,7 +26,8 @@ Given a graph G=(V, E),
 
 \examples{
 coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
-ith.wavefront(coex)
+ss <- 1
+ith.wavefront(coex, ss)
 max.wavefront(coex)
 aver.wavefront(coex)
 rms.wavefront(coex)
