@@ -1,7 +1,8 @@
 graph GG {
  A -- B
- B -- C
  A -- C
+ A -- D
+ B -- C
  B -- D
  C -- D
  D -- E

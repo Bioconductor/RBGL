@@ -141,3 +141,15 @@ strongComp <- function (g)
     .Call("BGL_strong_components_D", as.integer(nv), as.integer(ne), 
         as.integer(adjListBGL(g)), as.double(unlist(edgeWeights(g))))
 }
+
+edgeConnectivity <- function (g) 
+{
+    if (edgemode(g) == "directed") stop("only applicable to undirected graphs")
+    nv <- length(nodes(g))
+    ne <- length(unlist(edges(g)))
+    ans <- .Call("BGL_edge_connectivity_U", as.integer(nv), as.integer(ne), 
+        as.integer(adjListBGL(g)), as.double(unlist(edgeWeights(g))))
+    mes <- ans[[2]]
+    mes <- lapply(mes,function(x,y) y[x+1], nodes(g)) # +1 for zero-based BGL
+    list(connectivity=ans[[1]], minDisconSet=mes)
+}

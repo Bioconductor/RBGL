@@ -143,7 +143,31 @@ print(nodes(bf)[o])
 dd <- fromGXL(file(system.file("XML/dijkex.gxl", package="RBGL")))
 print( dijkstra.sp(dd) )
 @
+\subsection{Connected components }
+<<conndemo>>=
+km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
+km@nodes <- c(km@nodes,"F","G","H")
+km@edgeL$F <- list(edges=character(0))
+km@edgeL$G <- list(edges=8)
+km@edgeL$H <- list(edges=7)
+km@edgemode <- "undirected"
+print(connectedComp(km))
+@
+\subsection{Strongly connected components }
+<<sconndemo>>=
+km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
+km@nodes <- c(km@nodes,"F","G","H")
+km@edgeL$F <- list(edges=character(0))
+km@edgeL$G <- list(edges=8)
+km@edgeL$H <- list(edges=7)
+km@edgemode <- "directed"
+print(strongComp(km))
+@
+\subsection{Edge connectivity and minimum disconnecting set}
 
+<<econndemo>>=
+coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+print(edgeConnectivity(coex))
 @
 \end{document}
 

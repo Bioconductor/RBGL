@@ -372,6 +372,51 @@ extern "C"
 	UNPROTECT(1);
 	return(outvec);
 	}
+
+	SEXP BGL_edge_connectivity_U (SEXP num_verts_in, 
+		SEXP num_edges_in, SEXP R_edges_in,
+		SEXP R_weights_in )
+	{
+	using namespace boost;
+        SEXP outvec, ansList, conn, edTmp;
+	
+	setupGraphTypes
+	setTraits( Graph_ud )
+	setWeightedDoubleEdges( Graph_ud )
+
+	int nvert = INTEGER(num_verts_in)[0] ;
+
+    typedef graph_traits<Graph_ud>::degree_size_type dst;
+    std::vector<Edge> disconnecting_set;
+    std::vector<Edge>::iterator ei;
+    dst c = edge_connectivity( g, std::back_inserter(disconnecting_set) );
+
+    PROTECT(conn = NEW_NUMERIC(1));
+    REAL(conn)[0] = (double)c;
+
+    SEXP eList;
+    PROTECT(ansList = allocVector(VECSXP,2));
+
+    PROTECT(eList = allocVector(VECSXP,(int)c));
+
+    SET_VECTOR_ELT(ansList,0,conn);
+
+    int sind = 0;
+        for (ei = disconnecting_set.begin(); ei != disconnecting_set.end();
+			++ei)
+          {
+          PROTECT(edTmp = NEW_NUMERIC(2));
+          REAL(edTmp)[0] = (double)source(*ei,g);
+          REAL(edTmp)[1] = (double)target(*ei,g);
+          SET_VECTOR_ELT(eList,sind,edTmp);
+          sind=sind+1;
+          UNPROTECT(1);
+          }
+
+        SET_VECTOR_ELT(ansList,1,eList);
+	UNPROTECT(3);
+	return(ansList);
+	}
 		
 		
 }
