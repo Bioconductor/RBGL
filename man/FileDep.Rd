@@ -7,7 +7,7 @@ example in boost graph library }
 \format{
   The format is:
  list()
- - attr(*, "vertices")= chr [1:15] "dax_h" "yow_h" "boz_h" "zow_h" ...
+ - attr(*, "vertices")= chr [1:15] "dax\_h" "yow\_h" "boz\_h" "zow\_h" ...
  - attr(*, "edges")=List of 19
   ..$ : chr [1:2] "dax\_h" "foo\_cpp"
   ..$ : chr [1:2] "dax\_h" "bar\_cpp"
