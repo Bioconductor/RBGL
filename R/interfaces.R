@@ -51,7 +51,9 @@ bfs <- function(x,init.ind=1) {
  ans+1
 }
 
-if (!isGeneric("dfs")) setGeneric("dfs", function(object)standardGeneric("dfs"))
+if (!isGeneric("dfs")) 
+   setGeneric("dfs", function(object)standardGeneric("dfs"))
+
 setMethod("dfs", "graph", function(object) {
  nv <- length(nodes(object))
  ne <- length(unlist(edges(object)))
@@ -60,9 +62,6 @@ setMethod("dfs", "graph", function(object) {
  names(ans) <- c("discovered", "finish")
  lapply(ans,function(x)x+1)
 })
-
-#setMethod("dfs", "graph", function(object)
-# stop("dfs only defined at present for graphNEL"))
 
 
 dijkstra.sp <- function(x,init.ind=1) {

@@ -1,21 +1,19 @@
 \name{bfs}
 \alias{bfs}
 \alias{dfs}
-\alias{dfs,graphNEL-method}
 \alias{dfs,graph-method}
-%- Also NEED an `\alias' for EACH other topic documented here.
 \title{ breadth/depth-first search using boost C++ }
 \description{
 returns integer vector of indices with
 order of discovery by BFS or DFS
 }
 \usage{
-bfs(x,init.ind=1) 
-dfs(x)
+bfs(x, init.ind=1) 
+\S4method{dfs}{graph}(object)
 }
-%- maybe also `usage' for other objects documented here.
 \arguments{
   \item{x}{ instance of class graph from Bioconductor graph class}
+  \item{object}{ instance of class graph from Bioconductor graph class}
   \item{init.ind}{ index (1 based) of where to start search}
 }
 \details{
@@ -40,4 +38,4 @@ bfs(dd,2)
 dd <- fromGXL(file(system.file("XML/dfsex.gxl",package="RBGL")))
 dfs(dd)
 }
-\keyword{ graphs }% at least one, from doc/KEYWORDS
+\keyword{ graphs }
