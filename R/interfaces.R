@@ -58,8 +58,9 @@ setMethod("dfs", "graph", function(graph) {
 })
 
 
-dijkstra.sp <- function(g,start) {
+dijkstra.sp <- function(g,start=nodes(g)[1]) {
     if (!is.character(start)) stop("start must be character")
+    if (length(start) !=1 ) stop("start must have length 1")
     nN <- nodes(g)
     if (is.character(start))
         II <- match(start, nN, 0)

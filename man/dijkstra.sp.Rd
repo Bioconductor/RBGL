@@ -8,14 +8,14 @@
 dijkstra's shortest paths
 }
 \usage{
-dijkstra.sp(g,start)
+dijkstra.sp(g,start=nodes(g)[1])
 sp.between(g,start,finish) 
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
   \item{g}{ instance of class graph }
-if character, name of node where search begins}
-  \item{start}{ character vector: node name for start of path}
+  \item{start}{ character vector: node name for start of path;
+must have length 1 for dijkstra.sp}
   \item{finish}{ character vector: node name for end of path}
 }
 \details{
