@@ -4,7 +4,6 @@
 #include <boost/graph/bandwidth.hpp>
 #include <boost/graph/profile.hpp>
 #include <boost/graph/wavefront.hpp>
-//#include <boost/graph/sequential_vertex_coloring.hpp>
 #include <boost/graph/minimum_degree_ordering.hpp>
 #include <boost/graph/sloan_ordering.hpp>
 
@@ -124,30 +123,6 @@ extern "C"
 		SET_VECTOR_ELT(ansList,2,rbw);
 
 		UNPROTECT(4);
-		return(ansList);
-	}
-
-	// NOTICE: this is not documented in BGL
-	SEXP BGL_sequential_vertex_coloring(SEXP num_verts_in, SEXP num_edges_in,
-                         SEXP R_edges_in,   SEXP R_weights_in )
-	{
-		using namespace boost;
-
-		typedef graph_traits<Graph_ud>::vertex_descriptor Vertex;
-		typedef graph_traits<Graph_ud>::vertices_size_type size_type;
-
-		Graph_ud g(num_verts_in, num_edges_in, R_edges_in);
-
-		const int N = asInteger(num_verts_in);
-		std::vector < Vertex > order(N);
-		std::vector < default_color_type > color(N);
-		property_map<Graph_ud, vertex_index_t>::type id=get(vertex_index, g);
-
-		//size_type mc = sequential_vertex_coloring(g, get(vertex_index, g), &color[0]);
-
-		SEXP ansList;
-		PROTECT(ansList = allocVector(VECSXP,3));
-		UNPROTECT(1);
 		return(ansList);
 	}
 
