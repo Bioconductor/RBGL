@@ -127,8 +127,9 @@ node indexed by {\tt init.ind}.
 bf <- fromGXL(file(system.file("XML/bfsex.gxl", package="RBGL")))
 bf@edgemode <- "undirected"
 print(o <- bfs(bf,init.ind=2))
+# currently 8/03 bf non reciprocal and validity check fails so plot fails
 <<fig=TRUE>>=
-z <- plot(bf)
+#z <- plot(bf)
 @
 The nodes in BFS order starting with the second node are
 <<>>=
