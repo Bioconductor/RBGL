@@ -1,4 +1,4 @@
-#include "RBGL2.h"
+#include "RBGL.h"
 
 extern "C" {
 #include <R.h>
@@ -19,6 +19,27 @@ public:
     put(m_timemap, u, m_time++);
   }
   TimeMap m_timemap;
+  T & m_time;
+};
+
+template < typename TimeMap > class dfs_time_visitor:public default_dfs_visitor {
+  typedef typename property_traits < TimeMap >::value_type T;
+public:
+  dfs_time_visitor(TimeMap dmap, TimeMap fmap, T & t)
+:  m_dtimemap(dmap), m_ftimemap(fmap), m_time(t) {
+  }
+  template < typename Vertex, typename Graph >
+    void discover_vertex(Vertex u, const Graph & g) const
+  {
+    put(m_dtimemap, u, m_time++);
+  }
+  template < typename Vertex, typename Graph >
+    void finish_vertex(Vertex u, const Graph & g) const
+  {
+    put(m_ftimemap, u, m_time++);
+  }
+  TimeMap m_dtimemap;
+  TimeMap m_ftimemap;
   T & m_time;
 };
 
@@ -148,4 +169,92 @@ extern "C"
 	return(disc);
 	}
 
+
+	SEXP BGL_dfs_D(SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in,
+	    SEXP R_weights_in)
+	{
+	using namespace boost;
+	
+	setupGraphTypes
+	setTraits( Graph_dd )
+	setWeightedDoubleEdges( Graph_dd )
+	
+	typedef graph_traits < Graph_dd >::vertices_size_type size_type;
+	
+	const int N = INTEGER(num_verts_in)[0];
+	  // Typedefs
+	typedef size_type* Iiter;
+	
+	  // discover time and finish time properties
+	std::vector < size_type > dtime(num_vertices(g));
+	std::vector < size_type > ftime(num_vertices(g));
+	size_type t = 0;
+	dfs_time_visitor < size_type * >vis(&dtime[0], &ftime[0], t);
+	
+	depth_first_search(g, visitor(vis));
+	
+	  // use std::sort to order the vertices by their discover time
+	std::vector < size_type > discover_order(N);
+	integer_range < size_type > r(0, N);
+	std::copy(r.begin(), r.end(), discover_order.begin());
+	std::sort(discover_order.begin(), discover_order.end(),
+	            indirect_cmp < Iiter, std::less < size_type > >(&dtime[0]));
+	std::vector < size_type > finish_order(N);
+	std::copy(r.begin(), r.end(), finish_order.begin());
+	std::sort(finish_order.begin(), finish_order.end(),
+	            indirect_cmp < Iiter, std::less < size_type > >(&ftime[0]));
+	
+	SEXP ansList;
+	PROTECT(ansList = allocVector(VECSXP,2));
+	SEXP disc;
+	PROTECT(disc = allocVector(INTSXP,N));
+	SEXP fin;
+	PROTECT(fin = allocVector(INTSXP,N));
+	
+	int i;
+	for (i = 0; i < N; ++i)
+	    {
+	    INTEGER(disc)[i] = discover_order[i];
+	    INTEGER(fin)[i] = finish_order[i];
+	    }
+	
+	SET_VECTOR_ELT(ansList,0,disc);
+	SET_VECTOR_ELT(ansList,1,fin);
+	UNPROTECT(3);
+	return(ansList);
+	}
+
+	SEXP BGL_dijkstra_shortest_paths_D (SEXP num_verts_in, 
+		SEXP num_edges_in, SEXP R_edges_in,
+		SEXP R_weights_in, SEXP init_ind)
+	{
+	using namespace boost;
+	
+	setupGraphTypes
+	setTraits( Graph_dd )
+	setWeightedDoubleEdges( Graph_dd )
+	
+	int N = num_vertices(g);
+	std::vector<Vertex> p(N);
+	std::vector<double> d(N);
+	
+	dijkstra_shortest_paths(g, vertex((int)INTEGER(init_ind)[0], g),
+	         predecessor_map(&p[0]).distance_map(&d[0]));
+	
+	SEXP dists, pens, ansList;
+	PROTECT(dists = allocVector(REALSXP,N));
+	PROTECT(pens = allocVector(INTSXP,N));
+	graph_traits < Graph_dd >::vertex_iterator vi, vend;
+	for (tie(vi, vend) = vertices(g); vi != vend; ++vi) {
+	    REAL(dists)[*vi] = d[*vi];
+	    INTEGER(pens)[*vi] = p[*vi];
+	  }
+	PROTECT(ansList = allocVector(VECSXP,2));
+	SET_VECTOR_ELT(ansList,0,dists);
+	SET_VECTOR_ELT(ansList,1,pens);
+	
+	UNPROTECT(3);
+	return(ansList);
+	}
+		
 }
