@@ -9,8 +9,9 @@ extern "C" {
 /* need a template with C++ linkage for BFS */
 /* adapted from Siek's bfs-example.cpp */
 
-template < typename TimeMap > class bfs_time_visitor:public default_bfs_visitor {
-  typedef typename property_traits < TimeMap >::value_type T;
+template < typename TimeMap > class bfs_time_visitor
+    : public boost::default_bfs_visitor {
+  typedef typename boost::property_traits < TimeMap >::value_type T;
 public:
   bfs_time_visitor(TimeMap tmap, T & t):m_timemap(tmap), m_time(t) { }
   template < typename Vertex, typename Graph >
@@ -22,8 +23,9 @@ public:
   T & m_time;
 };
 
-template < typename TimeMap > class dfs_time_visitor:public default_dfs_visitor {
-  typedef typename property_traits < TimeMap >::value_type T;
+template < typename TimeMap > class dfs_time_visitor
+    : public boost::default_dfs_visitor {
+  typedef typename boost::property_traits < TimeMap >::value_type T;
 public:
   dfs_time_visitor(TimeMap dmap, TimeMap fmap, T & t)
 :  m_dtimemap(dmap), m_ftimemap(fmap), m_time(t) {
@@ -49,17 +51,16 @@ extern "C"
 	{
 	// tsortbCG -- for bioConductor graph objects 
 	  
+    using namespace boost;
     typedef graph_traits < Graph_dd >::edge_descriptor Edge;
     typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
-    Graph_dd g = BGL_createGraphUnweighted<Graph_dd>(num_verts_in,
-                                                     num_edges_in,
-                                                     R_edges_in);
+    Graph_dd g(num_verts_in, num_edges_in, R_edges_in);
     property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 
     typedef property_map<Graph_dd, vertex_color_t>::type Color;
 	graph_traits<Graph_dd>::vertex_iterator viter, viter_end;
 	 
-	typedef list<Vertex> tsOrder;
+	typedef std::list<Vertex> tsOrder;
 	tsOrder tsord;
 	SEXP tsout;
 	
@@ -97,10 +98,7 @@ extern "C"
 	
     typedef graph_traits < Graph_dd >::edge_descriptor Edge;
     typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
-    Graph_dd g = BGL_createGraphDoubleWeighted<Graph_dd>(num_verts_in,
-                                                         num_edges_in,
-                                                         R_edges_in,
-                                                         R_weights_in);
+    Graph_dd g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
     property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	std::vector < Edge > spanning_tree;
@@ -140,10 +138,7 @@ extern "C"
 	
     typedef graph_traits < Graph_ud >::edge_descriptor Edge;
     typedef graph_traits < Graph_ud >::vertex_descriptor Vertex;
-    Graph_ud g = BGL_createGraphDoubleWeighted<Graph_ud>(num_verts_in,
-                                                         num_edges_in,
-                                                         R_edges_in,
-                                                         R_weights_in);
+    Graph_ud g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
     property_map < Graph_ud, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	std::vector < Edge > spanning_tree;
@@ -183,10 +178,7 @@ extern "C"
 	
     typedef graph_traits < Graph_ud >::edge_descriptor Edge;
     typedef graph_traits < Graph_ud >::vertex_descriptor Vertex;
-    Graph_ud g = BGL_createGraphDoubleWeighted<Graph_ud>(num_verts_in,
-                                                         num_edges_in,
-                                                         R_edges_in,
-                                                         R_weights_in);
+    Graph_ud g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
     property_map < Graph_ud, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	std::vector <Vertex> parent;
@@ -210,10 +202,7 @@ extern "C"
 	
     typedef graph_traits < Graph_dd >::edge_descriptor Edge;
     typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
-    Graph_dd g = BGL_createGraphDoubleWeighted<Graph_dd>(num_verts_in,
-                                                         num_edges_in,
-                                                         R_edges_in,
-                                                         R_weights_in);
+    Graph_dd g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
     property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	typedef graph_traits < Graph_dd >::vertices_size_type size_type;
@@ -258,10 +247,7 @@ extern "C"
 	
     typedef graph_traits < Graph_dd >::edge_descriptor Edge;
     typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
-    Graph_dd g = BGL_createGraphDoubleWeighted<Graph_dd>(num_verts_in,
-                                                         num_edges_in,
-                                                         R_edges_in,
-                                                         R_weights_in);
+    Graph_dd g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
     property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	typedef graph_traits < Graph_dd >::vertices_size_type size_type;
@@ -317,10 +303,7 @@ extern "C"
 	
     typedef graph_traits < Graph_dd >::edge_descriptor Edge;
     typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
-    Graph_dd g = BGL_createGraphDoubleWeighted<Graph_dd>(num_verts_in,
-                                                         num_edges_in,
-                                                         R_edges_in,
-                                                         R_weights_in);
+    Graph_dd g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
     property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 	
 	int N = num_vertices(g);
@@ -355,10 +338,7 @@ extern "C"
 	
     typedef graph_traits < Graph_ud >::edge_descriptor Edge;
     typedef graph_traits < Graph_ud >::vertex_descriptor Vertex;
-    Graph_ud g = BGL_createGraphDoubleWeighted<Graph_ud>(num_verts_in,
-                                                         num_edges_in,
-                                                         R_edges_in,
-                                                         R_weights_in);
+    Graph_ud g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
     property_map < Graph_ud, edge_weight_t >::type weight = get(edge_weight, g);
 
 	int nvert = INTEGER(num_verts_in)[0] ;
@@ -386,10 +366,7 @@ extern "C"
 	
     typedef graph_traits < Graph_dd >::edge_descriptor Edge;
     typedef graph_traits < Graph_dd >::vertex_descriptor Vertex;
-    Graph_dd g = BGL_createGraphDoubleWeighted<Graph_dd>(num_verts_in,
-                                                         num_edges_in,
-                                                         R_edges_in,
-                                                         R_weights_in);
+    Graph_dd g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
     property_map < Graph_dd, edge_weight_t >::type weight = get(edge_weight, g);
 
 	int nvert = INTEGER(num_verts_in)[0] ;
@@ -417,10 +394,7 @@ extern "C"
 	
     typedef graph_traits < Graph_ud >::edge_descriptor Edge;
     typedef graph_traits < Graph_ud >::vertex_descriptor Vertex;
-    Graph_ud g = BGL_createGraphDoubleWeighted<Graph_ud>(num_verts_in,
-                                                         num_edges_in,
-                                                         R_edges_in,
-                                                         R_weights_in);
+    Graph_ud g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
     property_map < Graph_ud, edge_weight_t >::type weight = get(edge_weight, g);
 
 	int nvert = INTEGER(num_verts_in)[0] ;

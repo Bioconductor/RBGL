@@ -31,112 +31,109 @@ extern "C" {
 #include <Rinternals.h>
 }
 
-using namespace std;
-using namespace boost;
+template <class DirectedS = boost::directedS,
+          typename WeightT = double>
+class R_adjacency_list
+    : public boost::adjacency_list<boost::vecS, boost::vecS, DirectedS,
+                                   boost::property<boost::vertex_color_t,
+                                                   boost::default_color_type>,
+                                   boost::property<boost::edge_weight_t,
+                                                   WeightT> >
+{
+    typedef boost::adjacency_list<boost::vecS, boost::vecS, DirectedS,
+                                  boost::property<boost::vertex_color_t,
+                                                  boost::default_color_type>,
+                                  boost::property<boost::edge_weight_t,
+                                                  WeightT> > Base;
+    typedef WeightT R_weight_type;
+    BOOST_STATIC_ASSERT(boost::is_arithmetic<R_weight_type>::value);
+public:
+    typedef typename Base::graph_property_type graph_property_type;
+    typedef typename Base::vertices_size_type vertices_size_type;
+    typedef typename Base::edges_size_type edges_size_type;
+
+    inline R_adjacency_list()
+        : Base() { }
+    inline R_adjacency_list(const graph_property_type& p)
+        : Base(p) { }
+    inline R_adjacency_list(const Base& x)
+        : Base(x) { }
+    inline R_adjacency_list(vertices_size_type num_vertices)
+        : Base(num_vertices) { }
+    inline R_adjacency_list(vertices_size_type num_vertices, 
+                            const graph_property_type& p)
+        : Base(num_vertices, p) { }
+#if !defined(BOOST_MSVC) || BOOST_MSVC > 1300
+    // Required by Iterator Constructible Graph
+    template <class EdgeIterator>
+    inline R_adjacency_list(EdgeIterator first, EdgeIterator last,
+                            vertices_size_type n,
+                            edges_size_type m = 0,
+                            const graph_property_type& p = graph_property_type())
+        : Base(first, last, n, m, p) { }
+
+    template <class EdgeIterator, class EdgePropertyIterator>
+    inline R_adjacency_list(EdgeIterator first, EdgeIterator last,
+                            EdgePropertyIterator ep_iter,
+                            vertices_size_type n,
+                            edges_size_type m = 0,
+                            const graph_property_type& p = graph_property_type())
+        : Base(first, last, ep_iter, n, m, p) { }
+#endif
+
+    inline R_adjacency_list(SEXP num_verts_in,
+                            SEXP num_edges_in,
+                            SEXP R_edges_in,
+                            SEXP R_weights_in)
+        : Base(asInteger(num_verts_in))
+    {
+        if (!isNumeric(R_weights_in)) error("R_weights_in should be Numeric");
+        if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
+        int num_nodes = asInteger(num_verts_in);
+        int NE = asInteger(num_edges_in);
+        int* edges_in = INTEGER(R_edges_in);
+        if (isReal(R_weights_in)) {
+            if (boost::is_integral<R_weight_type>::value)
+                error("R_weights_in should be integer");
+            else {
+                double* weights_in = REAL(R_weights_in);
+                for (int i = 0; i < NE ; i++, edges_in += 2, weights_in++) {
+                    boost::add_edge(*edges_in, *(edges_in+1),
+                                    *weights_in, *this);
+                }
+            }
+        } else {
+            int* weights_in = INTEGER(R_weights_in);
+            for (int i = 0; i < NE ; i++, edges_in += 2, weights_in++) {
+                boost::add_edge(*edges_in, *(edges_in+1), *weights_in, *this);
+            }
+        }
+    }
+
+    inline R_adjacency_list(SEXP num_verts_in,
+                            SEXP num_edges_in,
+                            SEXP R_edges_in)
+        : Base(asInteger(num_verts_in))
+    {
+        if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
+        int num_nodes = asInteger(num_verts_in);
+        int NE = asInteger(num_edges_in);
+        int* edges_in = INTEGER(R_edges_in);
+        for (int i = 0; i < NE ; i++, edges_in += 2) {
+            boost::add_edge(*edges_in, *(edges_in+1), 1, *this);
+        }
+    }
+};
 
 /* Graph_di is directed with integer weights
 /* Graph_ui is undirected with integer weights
 /* Graph_dd is directed with double weights
 /* Graph_ud is undirected with double weights */
 
-typedef adjacency_list<vecS, vecS, directedS,
-                       property<vertex_color_t, default_color_type>,
-                       property<edge_weight_t, int> > Graph_di;
-                                      
-typedef adjacency_list<vecS, vecS, undirectedS,
-                       property<vertex_color_t, default_color_type>,
-                       property<edge_weight_t, int> > Graph_ui;
-typedef adjacency_list<vecS, vecS, directedS,
-                              property<vertex_color_t, default_color_type>,
-                              property<edge_weight_t, double> > Graph_dd;
-typedef adjacency_list<vecS, vecS, undirectedS,
-                       property<vertex_color_t, default_color_type>,
-                       property<edge_weight_t, double> > Graph_ud;
-
-template <class GTYPE>
-inline GTYPE
-BGL_createGraphIntWeighted(SEXP num_verts_in,
-                           SEXP num_edges_in,
-                           SEXP R_edges_in,
-                           SEXP R_weights_in)
-{
-    typedef std::pair<int, int> E;
-    if (!isInteger(R_weights_in)) error("R_weights_in should be integer");
-    if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
-    int num_nodes = asInteger(num_verts_in);
-    int NE = asInteger(num_edges_in);
-    std::vector<E> edge_vector;
-    edge_vector.reserve(NE);
-    std::vector<int> weights(INTEGER(R_weights_in),
-                             INTEGER(R_weights_in)+NE);
-    for (int i = 0, cur = 0; i < NE ; i++, cur += 2) {
-        edge_vector.push_back(std::make_pair((int) INTEGER(R_edges_in)[cur], 
-                                             (int) INTEGER(R_edges_in)[cur+1]));
-    }
-
-    return GTYPE(edge_vector.begin(), edge_vector.end(),
-                 weights.begin(), num_nodes);
-}
-
-template <class GTYPE>
-inline GTYPE
-BGL_createGraphDoubleWeighted(SEXP num_verts_in,
-                              SEXP num_edges_in,
-                              SEXP R_edges_in,
-                              SEXP R_weights_in)
-{
-    typedef std::pair<int, int> E;
-    if (!isNumeric(R_weights_in)) error("R_weights_in should be double");
-    if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
-    int num_nodes = asInteger(num_verts_in);
-    int NE = asInteger(num_edges_in);
-    std::vector<E> edge_vector;
-    std::vector<double> weights;
-    edge_vector.reserve(NE);
-    weights.reserve(NE);
-    if (isReal(R_weights_in)) {
-        weights.insert(weights.end(),
-                       REAL(R_weights_in), REAL(R_weights_in)+NE);
-    } else {
-        weights.insert(weights.end(),
-                       INTEGER(R_weights_in), INTEGER(R_weights_in)+NE);
-    }
-    for (int i = 0, cur = 0; i < NE ; i++, cur += 2) {
-        edge_vector.push_back(std::make_pair((int) INTEGER(R_edges_in)[cur], 
-                                             (int) INTEGER(R_edges_in)[cur+1]));
-    }
-
-    return GTYPE(edge_vector.begin(), edge_vector.end(),
-                 weights.begin(), num_nodes);
-}
-
-struct unity_generator {
-    typedef double result_type;
-    double operator()() { return 1.0; }
-};
-
-template <class GTYPE>
-inline GTYPE
-BGL_createGraphUnweighted(SEXP num_verts_in,
-                          SEXP num_edges_in,
-                          SEXP R_edges_in)
-{
-    typedef std::pair<int, int> E;
-    if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
-    int num_nodes = asInteger(num_verts_in);
-    int NE = asInteger(num_edges_in);
-    std::vector<E> edge_vector;
-    edge_vector.reserve(NE);
-    for (int i = 0, cur = 0; i < NE ; i++, cur += 2) {
-        edge_vector.push_back(std::make_pair((int) INTEGER(R_edges_in)[cur], 
-                                             (int) INTEGER(R_edges_in)[cur+1]));
-    }
-
-    unity_generator gen;
-
-    return GTYPE(edge_vector.begin(), edge_vector.end(),
-                 make_generator_iterator(gen), num_nodes);
-}
+typedef R_adjacency_list<boost::directedS, int> Graph_di;
+typedef R_adjacency_list<boost::undirectedS, int> Graph_ui;
+typedef R_adjacency_list<boost::directedS, double> Graph_dd;
+typedef R_adjacency_list<boost::undirectedS, double> Graph_ud;
 
 
 namespace boost
