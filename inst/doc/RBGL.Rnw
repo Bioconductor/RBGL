@@ -2,6 +2,7 @@
 % NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
 % likely to be overwritten.
 %
+%\VignetteIndexEntry{RBGL Overview}
 \documentclass[12pt]{article}
 
 \usepackage{amsmath,pstricks}
