@@ -41,6 +41,8 @@ to STL programming for mathematical graph objects) is presented.
 {\it This 2003 update employs the {\em graph} class of Bioconductor.}
 \end{quotation}
 
+\tableofcontents
+
 \section{Working with the Bioconductor {\tt graph} class}
 An example object
 representing file dependencies is included, as shown
@@ -59,6 +61,7 @@ z <- plot(FileDep)
 \label{fdpic}
 \end{figure}
 
+\section{Algorithms supported by RBGL}
 \subsection{Topological sort}
 
 The {\tt tsort} function will return the indices of vertices
@@ -79,12 +82,12 @@ in the interface (a message is written to the console and zeroes are returned).
 
 \subsection{Kruskal's minimum spanning tree}
 
-This function just returns a list of edges, weights and nodes
+Function {\tt mstree.kruskal} just returns a list of edges, weights and nodes
 determining the minimum spanning tree (MST) by
 Kruskal's algorithm.
 <<KMSTdemo>>=
 km <- fromGXL(file(system.file("GXL/kmstEx.gxl", package="graph")))
-print(KMST(km))
+print(mstree.kruskal(km))
 @
 \begin{figure}
 <<fig=TRUE>>=
@@ -96,11 +99,11 @@ z <- plot(km)
 
 @
 \subsection{Depth first search}
-This function returns a list of node indices by
+The {\tt dfs} function returns a list of node indices by
 discovery and finish order.
 <<DFSdemo>>=
 df <- fromGXL(file(system.file("XML/dfsex.gxl", package="RBGL")))
-print(o <- dfsBGL(df))
+print(o <- dfs(df))
 @
 \begin{figure}
 <<fig=TRUE>>=
@@ -117,13 +120,13 @@ print(nodes(df)[o$discovered])
 
 @
 \subsection{Breadth first search}
-This function returns a vector of node indices
+The {\tt bfs} function returns a vector of node indices
 for a breadth-first search (BFS) starting at the
 node indexed by {\tt init.ind}.
 <<BFSdemo>>=
 bf <- fromGXL(file(system.file("XML/bfsex.gxl", package="RBGL")))
 bf@edgemode <- "undirected"
-print(o <- bfsBGL(bf,init.ind=2))
+print(o <- bfs(bf,init.ind=2))
 <<fig=TRUE>>=
 z <- plot(bf)
 @
@@ -132,6 +135,12 @@ The nodes in BFS order starting with the second node are
 print(nodes(bf)[o])
 @
 
+@
+\subsection{Dijkstra's shortest paths}
+<<dijkdemo>>=
+dd <- fromGXL(file(system.file("XML/dijkex.gxl", package="RBGL")))
+print( dijkstra.sp(dd) )
+@
 
 @
 \end{document}
