@@ -24,6 +24,7 @@
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/kruskal_min_spanning_tree.hpp>
 #include <fstream>
+#include <iostream>
 
 int
 main()

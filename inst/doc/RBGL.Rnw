@@ -45,11 +45,11 @@ in Figure \ref{fdpic}.
 library(RBGL)
 data(FileDep)
 print(FileDep)
-#library(Rgraphviz)
+library(Rgraphviz)
 @
 \begin{figure}
 <<fig=TRUE>>=
-plot(1)
+plot(FileDep)
 @
 \caption{File dependency digraph example from Boost library.}
 \label{fdpic}
