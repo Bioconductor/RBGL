@@ -37,5 +37,8 @@ dijkstra.sp(dd,2)
 ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL")))
 dijkstra.sp(ospf,6)
 sp.between(ospf, "RT6", "RT1")
+# this will trigger an error because of no path, maybe should
+# just return NA and warning...
+# sp.between(ospf,"N10", "N13")
 }
 \keyword{ graphs }% at least one, from doc/KEYWORDS

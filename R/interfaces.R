@@ -67,20 +67,28 @@ setMethod("dfs", "graph", function(object)
 
 
 dijkstra.sp <- function(x,init.ind=1) {
- if (class(x) != "graphNEL") stop("presently only works for class graphNEL from Bioconductor graph library")
- if (init.ind < 1) stop("use 1-based counting for init.ind")
- nv <- length(nodes(x))
- if (init.ind > nv) stop(paste("only",nv,"nodes but init.ind is ",init.ind,sep=" "))
- ne <- length(unlist(edges(x)))
- ans <- .Call("BGL_dijkstra_shortest_paths_D", as.integer(nv), as.integer(ne),
-      as.integer(adjListBGL(x)), as.double(unlist(edgeWeights(x))),
-      as.integer(init.ind-1))
- names(ans) <- c("distances", "penult")
- ans$penult <- ans$penult+1
- ans[["start"]] <- init.ind
- ans
+    if (class(x) != "graphNEL") 
+        stop("presently only works for class graphNEL from Bioconductor graph library")
+    if (is.character(init.ind)) 
+        if (init.ind %in% nodes(x)) 
+            init.ind <- (1:length(nodes(x)))[init.ind == nodes(x)]
+        else stop("character init.ind not in nodes(x)")
+    else if (init.ind < 1) 
+        stop("use 1-based counting for init.ind")
+    nv <- length(nodes(x))
+    if (init.ind > nv) 
+        stop(paste("only", nv, "nodes but init.ind is ", init.ind, 
+            sep = " "))
+    ne <- length(unlist(edges(x)))
+    ans <- .Call("BGL_dijkstra_shortest_paths_D", as.integer(nv), 
+        as.integer(ne), as.integer(adjListBGL(x)), as.double(unlist(edgeWeights(x))), 
+        as.integer(init.ind - 1))
+    names(ans) <- c("distances", "penult")
+    names(ans[[1]]) <- nodes(x)
+    ans$penult <- ans$penult + 1
+    ans[["start"]] <- init.ind
+    ans
 }
-
 
 sp.between <- function (g, s, f) 
 {
@@ -91,22 +99,27 @@ sp.between <- function (g, s, f)
 # return list with length of shortest path joining
 # s and f, and vector giving trajectory
 #
+# debugged 24 sep03, did not need to recompute
+# distance, and did not correctly step through
+# penultimates!
+#
     no <- nodes(g)
     if (any(is.na(lk <- match(c(s, f), no)))) 
         stop(paste(paste(c(s, f)[is.na(lk)], collapse = " "), 
             "not in nodes of g"))
     s <- (1:length(no))[no == s]
     f <- (1:length(no))[no == f]
+    ff <- f
     sp <- dijkstra.sp(g, s)
+    if (sp$distances[ff] > .Machine$double.base^(.Machine$double.max.exp-1))
+		stop(paste("no path from",no[s],"to",no[f]))
     pens <- sp$penult
     path <- f
     curind <- f
     len <- 0
     while (path[1] != s) {
-        curind <- pens[f]
-        path <- c(pens[curind], path)
-        len <- len + sp$dist[curind]
-        f <- curind
+        path <- c(pens[f], path)
+        f <- pens[f]
     }
-    list(length = len, path = no[path])
+    list(length = sp$distances[ff], path = no[path])
 }
