@@ -151,7 +151,9 @@ km@edgeL$F <- list(edges=character(0))
 km@edgeL$G <- list(edges=8)
 km@edgeL$H <- list(edges=7)
 km@edgemode <- "undirected"
-print(connectedComp(km))
+if (length(agrep("solaris", version[["platform"]]))==0)
+print(connectedComp(km)) else
+print("not running on solaris, use windows or linux")
 @
 \subsection{Strongly connected components }
 <<sconndemo>>=
@@ -167,7 +169,9 @@ print(strongComp(km))
 
 <<econndemo>>=
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
-print(edgeConnectivity(coex))
+if (length(agrep("solaris", version[["platform"]]))==0)
+print(edgeConnectivity(coex)) else
+print("not running on solaris, use windows or linux")
 @
 \end{document}
 
