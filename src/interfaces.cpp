@@ -90,7 +90,7 @@ extern "C"
 	{
 	using namespace boost;
 	
-	Rprintf("warning: directed graph supplied; directions ignored.\n");
+//	Rprintf("warning: directed graph supplied; directions ignored.\n");
 	
 	setupGraphTypes
 	setTraits( Graph_dd )

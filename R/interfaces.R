@@ -10,26 +10,26 @@ mstree.kruskal <- function(x) {
  if (class(x) != "graphNEL") stop("presently only works for class graphNEL from Bioconductor graph library")
  nv <- length(nodes(x))
  ne <- length(unlist(edges(x)))
- is.directed <- as.integer(edgemode(x) == "directed")
- if (is.directed)
- {
+# is.directed <- as.integer(edgemode(x) == "directed")
+# if (is.directed)
+# {
  	ans <- .Call("BGL_KMST_D", 
       		as.integer(nv), as.integer(ne),
       		as.integer(adjListBGL(x)), as.double(unlist(edgeWeights(x))))
- }
- else {
+# }
+# else {
 #
 # here we deal with the undirected graph representation, for
 # boost the adjacency list DOES NOT have reciprocal entries
 # if it has recip entries you should use a directed representation
 # for boost 
 #
-        adjlist <- adjListBGL(x)
-        wgts <- unlist(edgeWeights(x))
- 	ans <- .Call("BGL_KMST_U", 
-      		as.integer(nv), as.integer(ne),
-      		as.integer(adjlist), as.double(wgts))
- }
+#        adjlist <- adjListBGL(x)
+#        wgts <- unlist(edgeWeights(x))
+# 	ans <- .Call("BGL_KMST_U", 
+#      		as.integer(nv), as.integer(ne),
+#      		as.integer(adjlist), as.double(wgts))
+# }
  names(ans) <- c("edgeList", "weights")
  ans$nodes <- nodes(x)
  ans[["edgeList"]] <- ans[["edgeList"]] + 1  # bring to unit-based counting
@@ -51,7 +51,6 @@ bfs <- function(x,init.ind=1) {
  ans+1
 }
 
-require(graph)
 if (!isGeneric("dfs")) setGeneric("dfs", function(object)standardGeneric("dfs"))
 setMethod("dfs", "graphNEL", function(object) {
  nv <- length(nodes(object))
@@ -62,8 +61,8 @@ setMethod("dfs", "graphNEL", function(object) {
  lapply(ans,function(x)x+1)
 })
 
-setMethod("dfs", "graph", function(object)
- stop("dfs only defined at present for graphNEL"))
+#setMethod("dfs", "graph", function(object)
+# stop("dfs only defined at present for graphNEL"))
 
 
 dijkstra.sp <- function(x,init.ind=1) {
