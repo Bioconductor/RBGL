@@ -8,3 +8,5 @@ Depends: graph
 Description: demo of interface with full copy of all hpp defining boost
 License: LGPL
 URL: http://www.bioconductor.org
+ReleaseLevel: devel
+
