@@ -126,6 +126,68 @@ extern "C"
 	} //end BGL_KMST_D
 
 
+	SEXP BGL_KMST_U( SEXP num_verts_in, SEXP num_edges_in, 
+	    SEXP R_edges_in, SEXP R_weights_in)
+	{
+	using namespace boost;
+	
+	setupGraphTypes
+	setTraits( Graph_ud )
+	setWeightedDoubleEdges( Graph_ud )
+	
+	std::vector < Edge > spanning_tree;
+	
+	kruskal_minimum_spanning_tree(g, std::back_inserter(spanning_tree));
+	
+	SEXP ansList;
+	PROTECT(ansList = allocVector(VECSXP,2));
+	SEXP ans;
+	PROTECT(ans = allocMatrix(INTSXP,2,spanning_tree.size()));
+	SEXP answt;
+	PROTECT(answt = allocMatrix(REALSXP,1,spanning_tree.size()));
+	int k = 0;
+	int j = 0;
+	
+	for (std::vector < Edge >::iterator ei = spanning_tree.begin();
+		ei != spanning_tree.end(); ++ei) 
+		{
+	   		INTEGER(ans)[k] = source(*ei,g);
+		   	INTEGER(ans)[k+1] = target(*ei,g);
+	   		REAL(answt)[j] = weight[*ei];
+	   		k = k + 2;
+	   		j = j + 1;
+	  	}
+	
+	SET_VECTOR_ELT(ansList,0,ans);
+	SET_VECTOR_ELT(ansList,1,answt);
+	UNPROTECT(3);
+	return(ansList);
+	} //end BGL_KMST_U
+
+/*
+	SEXP BGL_PRIM_U( SEXP num_verts_in, SEXP num_edges_in, 
+	    SEXP R_edges_in, SEXP R_weights_in)
+	{
+	using namespace boost;
+	
+	setupGraphTypes
+	setTraits( Graph_ud )
+	setWeightedDoubleEdges( Graph_ud )
+	
+	std::vector <Vertex> parent;
+	
+	prim_minimum_spanning_tree(g, &parent[0]);
+
+        property_map<Graph_ud, edge_weight_t>::type weight = get(edge_weight, g);
+        int total_wgt = 0;
+        for (int v = 0; v < num_vertices(g); ++v)
+         if (parent([v]) != v)
+            total_wgt += get(weight, edge(parent[v], v, g).first);
+        Rprintf("total is %d\n", total_wgt);
+	
+	return(R_NilValue);
+	}   */
+
 	SEXP BGL_bfs_D(SEXP num_verts_in, SEXP num_edges_in, 
 		SEXP R_edges_in, SEXP R_weights_in, SEXP init_ind)
 	{

@@ -6,7 +6,6 @@ tsort <- function(x) {
       as.integer(adjListBGL(x)))
 }
 
-
 mstree.kruskal <- function(x) {
  if (class(x) != "graphNEL") stop("presently only works for class graphNEL from Bioconductor graph library")
  nv <- length(nodes(x))
@@ -19,9 +18,17 @@ mstree.kruskal <- function(x) {
       		as.integer(adjListBGL(x)), as.double(unlist(edgeWeights(x))))
  }
  else {
+#
+# here we deal with the undirected graph representation, for
+# boost the adjacency list DOES NOT have reciprocal entries
+# if it has recip entries you should use a directed representation
+# for boost 
+#
+        adjlist <- adjListBGL(x)
+        wgts <- unlist(edgeWeights(x))
  	ans <- .Call("BGL_KMST_U", 
       		as.integer(nv), as.integer(ne),
-      		as.integer(adjListBGL(x)), as.double(unlist(edgeWeights(x))))
+      		as.integer(adjlist), as.double(wgts))
  }
  names(ans) <- c("edgeList", "weights")
  ans$nodes <- nodes(x)

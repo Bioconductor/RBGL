@@ -29,5 +29,7 @@ staring node, assumes
 dd <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 dijkstra.sp(dd)
 dijkstra.sp(dd,2)
+ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL")))
+dijkstra.sp(ospf,6)
 }
 \keyword{ graphs }% at least one, from doc/KEYWORDS
