@@ -188,11 +188,7 @@ print(get(cc[1], env=GOcellularcomponent))
 Order here is significant: as we move from left to
 right, we get less specific in the GO hierarchy.
 
-Let's visualize the DAG to depth three.  To do this,
-we will isolate the three-vectors that conclude the
-path from each leaf to the root.  We will obtain the
-unique set of edges by some character manipulations,
-then build the associated graph for rendering.
+To visualize this DAG, we proceed as follows.
 
 First we set up a function that extracts adjacent pairs
 from any vector:
