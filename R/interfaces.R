@@ -3,7 +3,7 @@ tsort <- function(x) {
  nv <- length(nodes(x))
  ne <- length(unlist(edges(x)))
  .Call("BGL_tsort_D", as.integer(nv), as.integer(ne),
-      as.integer(adjListBGL(x)))
+      as.integer(edgeMatrix(x)-1))
 }
 
 mstree.kruskal <- function(x) {
@@ -14,7 +14,7 @@ mstree.kruskal <- function(x) {
 # {
  	ans <- .Call("BGL_KMST_D", 
       		as.integer(nv), as.integer(ne),
-      		as.integer(adjListBGL(x)), as.double(unlist(edgeWeights(x))))
+      		as.integer(edgeMatrix(x)-1), as.double(unlist(edgeWeights(x))))
 # }
 # else {
 #
@@ -41,7 +41,7 @@ bfs <- function(x,init.ind=1) {
  if (init.ind > nv) stop(paste("only",nv,"nodes but init.ind is ",init.ind,sep=" "))
  ne <- length(unlist(edges(x)))
  ans <- .Call("BGL_bfs_D", as.integer(nv), as.integer(ne),
-      as.integer(adjListBGL(x)), as.integer(unlist(edgeWeights(x))),
+      as.integer(edgeMatrix(x)-1), as.integer(unlist(edgeWeights(x))),
       as.integer(init.ind-1))
 # names(ans) <- c("edgeList", "weights")
 # ans$nodes <- nodes(x)
@@ -56,7 +56,7 @@ setMethod("dfs", "graph", function(object) {
  nv <- length(nodes(object))
  ne <- length(unlist(edges(object)))
  ans <- .Call("BGL_dfs_D", as.integer(nv), as.integer(ne),
-      as.integer(adjListBGL(object)), as.double(unlist(edgeWeights(object))))
+      as.integer(edgeMatrix(object)-1), as.double(unlist(edgeWeights(object))))
  names(ans) <- c("discovered", "finish")
  lapply(ans,function(x)x+1)
 })
@@ -78,7 +78,7 @@ dijkstra.sp <- function(x,init.ind=1) {
             sep = " "))
     ne <- length(unlist(edges(x)))
     ans <- .Call("BGL_dijkstra_shortest_paths_D", as.integer(nv), 
-        as.integer(ne), as.integer(adjListBGL(x)), as.double(unlist(edgeWeights(x))), 
+        as.integer(ne), as.integer(edgeMatrix(x)-1), as.double(unlist(edgeWeights(x))), 
         as.integer(init.ind.ok - 1))
     names(ans) <- c("distances", "penult")
     names(ans[[1]]) <- nodes(x)
@@ -132,7 +132,7 @@ connectedComp <- function (g)
     nv <- length(nodes(g))
     ne <- length(unlist(edges(g)))
     x<-.Call("BGL_connected_components_U", as.integer(nv), as.integer(ne), 
-        as.integer(adjListBGL(g)), as.double(unlist(edgeWeights(g))))
+        as.integer(edgeMatrix(g)-1), as.double(unlist(edgeWeights(g))))
     split(nodes(g),x+1)
 }
 
@@ -142,7 +142,7 @@ strongComp <- function (g)
     nv <- length(nodes(g))
     ne <- length(unlist(edges(g)))
     x <- .Call("BGL_strong_components_D", as.integer(nv), as.integer(ne), 
-        as.integer(adjListBGL(g)), as.double(unlist(edgeWeights(g))))
+        as.integer(edgeMatrix(g)-1), as.double(unlist(edgeWeights(g))))
     split(nodes(g),x+1)
 }
 
@@ -154,7 +154,7 @@ edgeConnectivity <- function (g)
     nv <- length(nodes(g))
     ne <- length(unlist(edges(g)))
     ans <- .Call("BGL_edge_connectivity_U", as.integer(nv), as.integer(ne), 
-        as.integer(adjListBGL(g)), as.double(unlist(edgeWeights(g))))
+        as.integer(edgeMatrix(g)-1), as.double(unlist(edgeWeights(g))))
     mes <- ans[[2]]
     mes <- lapply(mes,function(x,y) y[x+1], nodes(g)) # +1 for zero-based BGL
     list(connectivity=ans[[1]], minDisconSet=mes)
