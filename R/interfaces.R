@@ -80,3 +80,33 @@ dijkstra.sp <- function(x,init.ind=1) {
  ans[["start"]] <- init.ind
  ans
 }
+
+
+sp.between <- function (g, s, f) 
+{
+# (c) 2003 VJ Carey, all rights reserved
+#
+# function uses BGL dijkstra shortest paths
+# given s=start node, f=end node in graph g,
+# return list with length of shortest path joining
+# s and f, and vector giving trajectory
+#
+    no <- nodes(g)
+    if (any(is.na(lk <- match(c(s, f), no)))) 
+        stop(paste(paste(c(s, f)[is.na(lk)], collapse = " "), 
+            "not in nodes of g"))
+    s <- (1:length(no))[no == s]
+    f <- (1:length(no))[no == f]
+    sp <- dijkstra.sp(g, s)
+    pens <- sp$penult
+    path <- f
+    curind <- f
+    len <- 0
+    while (path[1] != s) {
+        curind <- pens[f]
+        path <- c(pens[curind], path)
+        len <- len + sp$dist[curind]
+        f <- curind
+    }
+    list(length = len, path = no[path])
+}
