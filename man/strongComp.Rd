@@ -18,7 +18,7 @@ found in graph package
 \code{\link{connComp}}, see also \code{\link{connectedComp}}.  
 }
 \value{
-zero-based vector corresponding to nodes
+list of node names grouped into strong components
 }
 \references{Boost Graph Library  }
 \author{ interface by Vince Carey <stvjc@channing.harvard.edu>}
