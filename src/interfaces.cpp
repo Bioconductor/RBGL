@@ -345,6 +345,33 @@ extern "C"
 	UNPROTECT(1);
 	return(outvec);
 	}
+
+	SEXP BGL_strong_components_D (SEXP num_verts_in, 
+		SEXP num_edges_in, SEXP R_edges_in,
+		SEXP R_weights_in )
+	{
+	using namespace boost;
+        SEXP outvec;
+	
+	setupGraphTypes
+	setTraits( Graph_dd )
+	setWeightedDoubleEdges( Graph_dd )
+
+	int nvert = INTEGER(num_verts_in)[0] ;
+
+        std::vector<int> component(num_vertices(g));
+        int num = strong_components(g, &component[0]);
+
+    std::vector<int>::size_type k;
+    
+	PROTECT(outvec = allocVector(REALSXP,nvert));
+
+	for (k = 0; k < component.size(); k++ )
+	    REAL(outvec)[k] = component[k];
+	
+	UNPROTECT(1);
+	return(outvec);
+	}
 		
 		
 }

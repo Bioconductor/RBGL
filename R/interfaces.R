@@ -132,3 +132,12 @@ connectedComp <- function (g)
     .Call("BGL_connected_components_U", as.integer(nv), as.integer(ne), 
         as.integer(adjListBGL(g)), as.double(unlist(edgeWeights(g))))
 }
+
+strongComp <- function (g) 
+{
+    if (edgemode(g) == "undirected") stop("only applicable to directed graphs")
+    nv <- length(nodes(g))
+    ne <- length(unlist(edges(g)))
+    .Call("BGL_strong_components_D", as.integer(nv), as.integer(ne), 
+        as.integer(adjListBGL(g)), as.double(unlist(edgeWeights(g))))
+}
