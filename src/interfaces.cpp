@@ -319,7 +319,7 @@ extern "C"
 	return(ansList);
 	}
 
-	SEXP BGL_connected_components_U (SEXP num_verts_in, 
+	SEXP BGL_connected_components_D (SEXP num_verts_in, 
 		SEXP num_edges_in, SEXP R_edges_in,
 		SEXP R_weights_in )
 	{
@@ -328,7 +328,7 @@ extern "C"
 	
 	setupGraphTypes
 	setTraits( Graph_ud )
-	setWeightedDoubleEdges( Graph_ud )
+	setWeightedDoubleEdges( Graph_dd )
 
 	int nvert = INTEGER(num_verts_in)[0] ;
 

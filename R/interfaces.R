@@ -1,5 +1,5 @@
 tsort <- function(x) {
- if (class(x) != "graphNEL") stop("presently only works for class graphNEL from Bioconductor graph library")
+# if (class(x) != "graphNEL") stop("presently only works for class graphNEL from Bioconductor graph library")
  nv <- length(nodes(x))
  ne <- length(unlist(edges(x)))
  .Call("BGL_tsort_D", as.integer(nv), as.integer(ne),
@@ -7,7 +7,7 @@ tsort <- function(x) {
 }
 
 mstree.kruskal <- function(x) {
- if (class(x) != "graphNEL") stop("presently only works for class graphNEL from Bioconductor graph library")
+# if (class(x) != "graphNEL") stop("presently only works for class graphNEL from Bioconductor graph library")
  nv <- length(nodes(x))
  ne <- length(unlist(edges(x)))
 # is.directed <- as.integer(edgemode(x) == "directed")
@@ -37,7 +37,7 @@ mstree.kruskal <- function(x) {
 }
 
 bfs <- function(x,init.ind=1) {
- if (class(x) != "graphNEL") stop("presently only works for class graphNEL from Bioconductor graph library")
+# if (class(x) != "graphNEL") stop("presently only works for class graphNEL from Bioconductor graph library")
  if (init.ind < 1) stop("use 1-based counting for init.ind")
  nv <- length(nodes(x))
  if (init.ind > nv) stop(paste("only",nv,"nodes but init.ind is ",init.ind,sep=" "))
@@ -52,7 +52,7 @@ bfs <- function(x,init.ind=1) {
 }
 
 if (!isGeneric("dfs")) setGeneric("dfs", function(object)standardGeneric("dfs"))
-setMethod("dfs", "graphNEL", function(object) {
+setMethod("dfs", "graph", function(object) {
  nv <- length(nodes(object))
  ne <- length(unlist(edges(object)))
  ans <- .Call("BGL_dfs_D", as.integer(nv), as.integer(ne),
@@ -66,8 +66,8 @@ setMethod("dfs", "graphNEL", function(object) {
 
 
 dijkstra.sp <- function(x,init.ind=1) {
-    if (class(x) != "graphNEL") 
-        stop("presently only works for class graphNEL from Bioconductor graph library")
+#    if (class(x) != "graphNEL") 
+#        stop("presently only works for class graphNEL from Bioconductor graph library")
     init.ind.ok <- init.ind
     if (is.character(init.ind)) 
         if (init.ind %in% nodes(x)) 
@@ -123,3 +123,12 @@ sp.between <- function (g, start, finish)
     }
     list(length = sp$distances[ff], path = no[path])
 }
+
+connComp <- function(g) 
+   {
+   if (edgemode(g) == "directed")
+    .Call("BGL_connected_components_D", as.integer(nv), 
+        as.integer(ne), as.integer(adjListBGL(x)), 
+        as.double(unlist(edgeWeights(x))))
+   else stop("only supporting directed presently")
+   }
