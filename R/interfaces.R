@@ -70,9 +70,10 @@ setMethod("dfs",c("graph", "character", "logical"),
           function( object, node, checkConn=TRUE) {
               nodvec <- nodes(object)
               if (is.na(startind <- match(node,nodvec)))
+          {
           warning("starting node not found in nodes of graph,\nnodes element 1 used")
-              if (match(node,nodvec) != 1)
-          warning("dfs does not use start node")
+          startind <- 1
+          }
  if (checkConn)
    {
    if (length(connectedComp(object))>1) stop("graph is not connected")
@@ -80,22 +81,22 @@ setMethod("dfs",c("graph", "character", "logical"),
  nv <- length(nodvec)
  em <- edgeMatrix(object,duplicates=TRUE)
  ne <- ncol(em)
-# if (startind != 1)  # here we rearrange the node references in edgematrix
-#   {          # to reflect altered start index
-#   tem <- em
-#   em[tem == 1] <- startind
-#   em[tem == startind] <- 1
-#   }
+ if (startind != 1)  # here we rearrange the node references in edgematrix
+   {          # to reflect altered start index
+   tem <- em
+   em[tem == 1] <- startind
+   em[tem == startind] <- 1
+   }
  ans <- .Call("BGL_dfs_D", as.integer(nv), as.integer(ne),
       as.integer(em-1), as.integer(rep(1,ne)),
       PACKAGE="RBGL")
-# fixup <- function(x) { 
-#    tm <- x;
-#    x[tm==(1-1)] <- startind
-#    x[tm==(startind-1)] <- (1-1)
-#    x
-#    }
-# ans <- lapply(ans, fixup)
+ fixup <- function(x) { 
+    tm <- x;
+    x[tm==(1-1)] <- startind-1
+    x[tm==(startind-1)] <- (1-1)
+    x
+    }
+ ans <- lapply(ans, fixup)
  names(ans) <- c("discovered", "finish")
  lapply(ans,function(x)x+1)
 })
