@@ -233,5 +233,16 @@ sp.between <- function (g, start, finish)
                 nodeind(thisf[j]), curdi)]
         }
     }
-    ans
+    ws <- lapply(ans, function(x) pathWeights(g,x))
+    ls <- lapply(ws, sum)
+    ans2 <- list()
+    ns <- names(ans)
+    for (i in 1:length(ns))
+      {
+      ans2[[ns[i]]] <- list()
+      ans2[[ns[i]]]$path <- ans[[ns[i]]]
+      ans2[[ns[i]]]$length <- ls[[i]]
+      ans2[[ns[i]]]$pweights <- ws[[i]]
+      }
+    ans2
 }

@@ -25,6 +25,9 @@ routines for Dijkstra's shortest paths.
 \code{sp.between.scalar} returns a list with elements:
 \item{length}{length (using edge weights) of shortest path}
 \item{path}{vector of node names describing the path}
+\item{pweights}{named vector of edge weights for all
+weights constituting the path -- see \code{\link[graph]{pathWeights}}
+for caveats about undirected graph representation.}
 
 Note that if \code{start} or \code{finish} are vectors,
 a list of results of repeated application of \code{sp.between.scalar}
