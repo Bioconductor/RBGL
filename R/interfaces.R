@@ -58,6 +58,7 @@ setMethod("dfs", "graph", function(graph) {
 
 
 dijkstra.sp <- function(x,init.ind=1) {
+    if (is.numeric(init.ind)) warning("future versions will require init.ind to be a node name")
     nN <- nodes(x)
     if (is.character(init.ind)) 
         II <- match(init.ind, nN, 0)
@@ -76,13 +77,42 @@ dijkstra.sp <- function(x,init.ind=1) {
         as.integer(ne), as.integer(em-1), as.double(eW), 
         as.integer(II - 1))
     names(ans) <- c("distances", "penult")
-    names(ans[[1]]) <- nN
+    ans[["distances"]][ ans[["distances"]] == .Machine$double.xmax ] <- Inf
+    names(ans[["distances"]]) <- names(ans[["penult"]]) <- nN
     ans$penult <- ans$penult + 1
     ans[["start"]] <- II
+    names(ans[["start"]]) <- nN[II]
     ans
 }
 
-sp.between <- function (g, start, finish) 
+sp.between <- function(g, start, finish) {
+#
+#simple vectorization  of previous sp.between
+#
+ if (length(start) == 1) {
+  if (length(finish) == 1) return( sp.between.scalar(g, start, finish) )
+  else { ans <- lapply( finish, function(x,g,start) 
+            sp.between.scalar(g,start,x), g=g, start=start )
+         names(ans)<-paste(start, finish, sep=":")
+         return(ans)
+       }
+  }
+ else if (length(finish) == 1)  {
+          ans <- lapply(start,function(x,g,finish)
+            sp.between.scalar(g,x,finish), g=g, finish=finish)
+          names(ans)  <- paste(start, finish, sep=":")
+	  return(ans) 
+         }
+ else if (length(finish) != length(start)) stop("cannot have different nonunity lengths of start and finish")
+ else {
+       sf <- list();for (i in 1:length(start))  sf[[i]] <- c(start[i],finish[i]);
+       ans <- lapply( sf,function(x) sp.between.scalar(g,x[1],x[2])) 
+          names(ans)  <- paste(start, finish, sep=":")
+       return(ans)
+      }
+ }
+
+sp.between.scalar <- function (g, start, finish) 
 {
 # (c) 2003 VJ Carey, all rights reserved
 #
@@ -97,6 +127,8 @@ sp.between <- function (g, start, finish)
 #
     f <- finish
     s <- start
+    if (length(f) >1) stop("finish must be scalar")
+    if (length(s) >1) stop("start must be scalar")
     no <- nodes(g)
     if (any(is.na(lk <- match(c(s, f), no)))) 
         stop(paste(paste(c(s, f)[is.na(lk)], collapse = " "), 
@@ -104,7 +136,7 @@ sp.between <- function (g, start, finish)
     s <- (1:length(no))[no == s]
     f <- (1:length(no))[no == f]
     ff <- f
-    sp <- dijkstra.sp(g, s)
+    sp <- dijkstra.sp(g, start)
     if (sp$distances[ff] >= .Machine$double.xmax)
 		stop(paste("no path from",no[s],"to",no[f]))
     pens <- sp$penult
