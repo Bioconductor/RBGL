@@ -67,7 +67,7 @@ dijkstra.sp <- function(x,init.ind=1) {
         stop("bad value for init.ind")
     nv <- length(nN)
     if (II > nv) 
-        stop(paste("only", nv, "nodes but init.ind is ", init.ind.ok, 
+        stop(paste("only", nv, "nodes but init.ind is ", II,
             sep = " "))
     em <- edgeMatrix(x)
     ne <- ncol(em)
@@ -78,7 +78,7 @@ dijkstra.sp <- function(x,init.ind=1) {
     names(ans) <- c("distances", "penult")
     names(ans[[1]]) <- nN
     ans$penult <- ans$penult + 1
-    ans[["start"]] <- init.ind.ok
+    ans[["start"]] <- II
     ans
 }
 
