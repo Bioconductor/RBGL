@@ -4,13 +4,13 @@ RBGL.dll.  I find the following to succeed with either mingw
 or cygwin tools:
    1) attempt a standard installation and wait for the error
    2) edit RBGL/src/RBGL.def and remove all lines containing periods
-   3) manually perform the creation of the dll with a command like 
+   3) in RBGL/src, MANUALLY perform the creation of the dll with a command like 
 g++ --shared -s -o RBGL.dll RBGL.def RBGL.a RBGL_res.o -LC:{$R_HOME}/src/gnuwin32 -lg2c -lR
    [in the above you will probably need to expand {$R_HOME} manually]
    4) attempt the standard installation of the modified source
-package.  the boost header set will be removed and untarred needlessly
-but this has no significance.  INSTALL should not try to recreate the
-dll, so the ld error will not recur.
+package.  The .dll will not be remade.  The boost header set will be 
+removed and untarred needlessly but this has no significance.  
+INSTALL will not try to recreate the dll, so the ld error will not recur.
 
 This package does not fully conform to the instructions in rw-FAQ
 for including C++ in packages for R for windows.  It does not
