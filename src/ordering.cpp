@@ -4,7 +4,7 @@
 #include <boost/graph/bandwidth.hpp>
 #include <boost/graph/profile.hpp>
 #include <boost/graph/wavefront.hpp>
-#include <boost/graph/sequential_vertex_coloring.hpp>
+//#include <boost/graph/sequential_vertex_coloring.hpp>
 #include <boost/graph/minimum_degree_ordering.hpp>
 #include <boost/graph/sloan_ordering.hpp>
 
