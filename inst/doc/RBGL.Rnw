@@ -1,9 +1,9 @@
 %
-% NOTE -- ONLY EDIT Biobase.Rnw!!!
+% NOTE -- ONLY EDIT RBGL.Rnw!!!
 % RBGL.tex file will get overwritten.
 %
 %\VignetteIndexEntry{RBGL Overview}
-%\VignetteDepends{RBGL, graph}
+%\VignetteDepends{graph,Rgraphviz}
 %\VignetteKeywords{Graphs}
 %\VignettePackage{RBGL}
 
