@@ -20,30 +20,47 @@ ans <- .Call("BGL_KMST_D",
  ans
 }
 
-bfs <- function(x,init.ind=1) {
- if (init.ind < 1) stop("use 1-based counting for init.ind")
- nv <- length(nodes(x))
- if (init.ind > nv) stop(paste("only",nv,"nodes but init.ind is ",init.ind,sep=" "))
- em <- edgeMatrix(x)
+if (!isGeneric("bfs")) setGeneric("bfs",
+        function( graph, init.node, checkConn) standardGeneric("bfs"))
+
+setMethod("bfs",c("graph", "numeric", "logical"), 
+  function( graph, init.node, checkConn) 
+    bfs(graph,init.node,checkConn))
+setMethod("bfs",c("graph", "numeric", "missing"), 
+  function( graph, init.node, checkConn) 
+    bfs(graph,init.node,checkConn=FALSE))
+setMethod("bfs",c("graph", "missing", "missing"), 
+  function( graph, init.node, checkConn) 
+    bfs(graph,init.node=1,checkConn=FALSE))
+
+bfs <- function(graph,init.node=1,checkConn=FALSE) {
+ if (init.node < 1) stop("use 1-based counting for init.node")
+ if (checkConn)
+   {
+   if (length(connectedComp(graph)>1)) stop("graph is not connected")
+   }
+ nv <- length(nodes(graph))
+ if (init.node > nv) stop(paste("only",nv,"nodes but init.node is ",init.node,sep=" "))
+ em <- edgeMatrix(graph)
  ne <- ncol(em)
  ans <- .Call("BGL_bfs_D", as.integer(nv), as.integer(ne),
-      as.integer(em-1), as.integer(edgeWeightVector(x)),
-      as.integer(init.ind-1))
+      as.integer(em-1), as.integer(edgeWeightVector(graph)),
+      as.integer(init.node-1))
 # names(ans) <- c("edgeList", "weights")
-# ans$nodes <- nodes(x)
+# ans$nodes <- nodes(graph)
 # ans[["edgeList"]] <- ans[["edgeList"]] + 1  # bring to unit-based counting
  ans+1
 }
 
 if (!isGeneric("dfs")) 
-   setGeneric("dfs", function(object)standardGeneric("dfs"))
+   setGeneric("dfs", function(graph)standardGeneric("dfs"))
 
-setMethod("dfs", "graph", function(object) {
- nv <- length(nodes(object))
- em <- edgeMatrix(object)
+setMethod("dfs", "graph", function(graph) {
+ nv <- length(nodes(graph))
+ em <- edgeMatrix(graph)
  ne <- ncol(em)
  ans <- .Call("BGL_dfs_D", as.integer(nv), as.integer(ne),
-      as.integer(em-1), as.double(edgeWeightVector(object)))
+      as.integer(em-1), as.double(edgeWeightVector(graph)))
  names(ans) <- c("discovered", "finish")
  lapply(ans,function(x)x+1)
 })

@@ -2,22 +2,25 @@
 \alias{bfs}
 \alias{dfs}
 \alias{dfs,graph-method}
+\alias{bfs,graph,numeric,logical-method}
 \title{ breadth/depth-first search using boost C++ }
 \description{
 returns integer vector of indices with
 order of discovery by BFS or DFS
 }
 \usage{
-bfs(x, init.ind=1) 
-\S4method{dfs}{graph}{object}
+bfs(graph, init.node=1, checkConn=FALSE) 
+\S4method{dfs}{graph}{graph}
+\S4method{bfs}{graph,numeric,logical}{graph,init.node,checkConn}
 }
 \arguments{
-  \item{x}{ instance of class graph from Bioconductor graph class}
-  \item{object}{ instance of class graph from Bioconductor graph class}
-  \item{init.ind}{ index (1 based) of where to start search}
+  \item{graph}{ instance of class graph from Bioconductor graph class}
+  \item{init.node}{ index (1 based) of where to start search}
+  \item{checkConn}{ logical indicating whether connectivity of
+input graph should be checked }
 }
 \details{
-calls to boost bfs
+calls to boost bfs or dfs procedures
 }
 \value{
 for bfs: vector of indices in order of BFS visit
