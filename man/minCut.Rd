@@ -12,7 +12,9 @@ minCut(g)
 }
 \details{
 Given an undirected graph G=(V, E) of a single connected component, a cut is 
-a partition of the set of vertices into two non-empty subsets S and V-S, a cost is the number of edges that are incident on one vertex in S and one vertex in V-S.  The min-cut problem is to find a cut (S, V-S) of minimum cost.
+a partition of the set of vertices into two non-empty subsets S and V-S, a 
+cost is the number of edges that are incident on one vertex in S and one 
+vertex in V-S.  The min-cut problem is to find a cut (S, V-S) of minimum cost.
 }
 \value{
 \item{mincut}{the number of edges that must be severed to obtain the mincut}

@@ -12,17 +12,12 @@ bellman.ford.sp(g,start=nodes(g)[1])
   \item{start}{ character: node name for start of path }
 }
 \details{
-These functions are interfaces to the Boost graph library C++
-routines for Bellman-Ford shortest paths.  If you only need to 
-solve the shortest paths problem for positive edge weights, 
-Dijkstra's algorithm provides a more efficient alternative. 
-If all the edge weights are all equal to one then breadth-first 
-search provides an even more efficient alternative.  If there 
-is a negative cycle in the graph, then there will be edges in 
-the graph that were not properly minimized. The algorithm loops 
-over the edges in the graph one final time to check if all the 
-edges were minimized, returning true if they were and returning 
-false otherwise.
+This function interfaces to the Boost graph library C++
+routines for Bellman-Ford shortest paths.  
+Choose the appropriate algorithm to calculate the shortest path 
+carefully based on the properties of the given graph.
+See documentation on Bellman-Ford algorithm in Boost Graph Library 
+for more details.
 }
 
 \value{

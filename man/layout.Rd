@@ -16,9 +16,14 @@ kamada.kawai.spring.layout( g, edge_or_side=1, es_length=1 )
   \item{es_length}{the length of an edge or a side for layout }
 }
 \details{
-\code{circle.layout} layouts the graph with the vertices at the points of a regular n-polygon.  The distance from the center of the polygon to each point is determined by the \code{radius} parameter.
+According to the documentation on these algorithms in Boost Graph Library:
+\code{circle.layout} layouts the graph with the vertices at the points of a 
+regular n-polygon.  The distance from the center of the polygon to each point 
+is determined by the \code{radius} parameter.
 
-\code{kamada.kawai.spring.layout} provides Kamada-Kawai spring layout for connected, undirected graphs.  User provides either the unit length e of an edge in the layout or the length of a side s of the display area.
+\code{kamada.kawai.spring.layout} provides Kamada-Kawai spring layout for 
+connected, undirected graphs.  User provides either the unit length e of an 
+edge in the layout or the length of a side s of the display area.
 }
 \value{
 \item{circle.layout}{ the (x, y)-coordinates of the vertices }

@@ -13,14 +13,8 @@ brandes.betweenness.centrality(g)
 \details{
 \code{brandes.betweenness.centrality} computes the betweenness centrality of 
 each vertex or each edge in the graph.  
-The edge betweenness centrality indicates for each edge the betweenness 
-centrality that was contributed to the target(s) of the edge (plural for 
-undirected graphs).  
-Edge betweenness centrality can be used to determine the edges through which 
-most shortest paths must pass.
-Relative betweenness centrality scales each absolute centrality by 
-\dQuote{2/(n*n - 3n + 2)} (where n is the number of vertices in the graph).
-Dominance vertex is a measure of the maximum "betweenness" of any point in the graph: it will be 0 for complete graphs and 1 for "wheel" graphs.
+You can find the definitions of betweenness centrality for vertex and edges and the details of the algorithm in 
+the documentation on brandes betweenness centrality in Boost Graph Library.
 }
 \value{
 \item{betweenness.centrality.vertices}{betweenness centrality of each vertex}

@@ -14,7 +14,13 @@ push.relabel.max.flow(g, source, sink)
   \item{sink}{ node name (character) or node number (int) for the sink of the flow }
 }
 \details{
-Given a directed graph G=(V, E) of a single connected component with a vertex \code{source} and a vertex \code{sink}.  Each arc has a positive real valued capacity, currently it's equivalent to the weight of the arc.  The flow of the network is the net flow entering the vertex \code{sink}. The maximum flow problem is to determine the maximum possible value for the flow to the \code{sink} and the corresponding flow values for each arc. 
+Given a directed graph G=(V, E) of a single connected component with a vertex 
+\code{source} and a vertex \code{sink}.  Each arc has a positive real valued 
+capacity, currently it's equivalent to the weight of the arc.  The flow of the 
+network is the net flow entering the vertex \code{sink}. The maximum flow 
+problem is to determine the maximum possible value for the flow to the 
+\code{sink} and the corresponding flow values for each arc. 
+See documentation on these algorithms in Boost Graph Library for more details.
 }
 \value{
 \item{edmunds.karp.max.flow}{the max flow from \code{source} to \code{sink} using Edmuns-Karp algorithm}

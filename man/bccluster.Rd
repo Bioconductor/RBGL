@@ -15,9 +15,10 @@ betweenness.centrality.clustering(g, threshold = -1, normalize = T))
      threshold is compared with the absolute edge centrality}
 }
 \details{
-This algorithm implements graph clustering based on edge betweenness centrality.
-It is an iterative algorithm, where in each step it compute the edge betweenness
+To implement graph clustering based on edge betweenness centrality.
+The algorithm is iterative, at each step it computes the edge betweenness
 centrality and removes the edge with the maximum betweenness centrality.
+See documentation on Clustering algorithms in Boost Graph Library for details.
 }
 \value{
 \item{edges}{}

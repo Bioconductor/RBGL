@@ -12,8 +12,11 @@ dag.sp(g,start=nodes(g)[1])
   \item{start}{ character: node name for start of path }
 }
 \details{
-These functions are interfaces to the Boost graph library C++
-routines for DAG shortest paths.  Don't input cyclic graph.
+These functions are interfaces to the Boost graph library C++ routines 
+for single-source shortest-paths on a weighted directed acyclic graph. 
+Choose appropriate shortest-path algorithms carefully based on the properties 
+of the input graph.  See documentation on dag_shortest_paths in Boost Graph 
+Library for more details.
 }
 
 \value{

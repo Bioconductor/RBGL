@@ -14,16 +14,18 @@ same.component(g, node1, node2)
   \item{node2}{another vertex of the given graph }
 }
 \details{
-This is a family of functions that work together to calculate the connected 
-components of an undirected graph. The algorithm used here is based on the 
-disjoint-sets (fast union-find) data structure which is a good method to use for
-situations where the graph is growing (edges are being added) and the connected 
-components information needs to be updated repeatedly. This method does not 
-cover the situation where edges are both added and removed from the graph, 
-hence it is called incremental (and not fully dynamic). 
+This family of functions work together to calculate the connected 
+components of an undirected graph. The algorithm is based on the 
+disjoint-sets.  It works where the graph is growing by adding new edges.
+Call "init.incremental.components" to initialize the calculation on a new graph.
+Call "incremental.components" to re-calculate connected components after 
+growing the graph.  Call "same.component" to learn if two given vertices 
+are in the same connected components. 
 Currently, the codes can only handle ONE incremental graph at a time.  When you
 start working on another graph by calling "init.incremental.components", the
 disjoint-sets info on the previous graph is lost. 
+See documentation on Incremental Connected Components in Boost Graph Library 
+for more details.
 }
 \value{
 \item{}{the number of connected components in the current graph }

@@ -11,6 +11,7 @@ isomorphism(g1, g2)
   \item{g2}{one instance of the \code{graph} class }
 }
 \details{
+As stated in documentation on isomorphism in Boost Graph Library:
 An isomorphism is a 1-to-1 mapping of the vertices in one graph to the vertices 
 of another graph such that adjacency is preserved. Another words, given graphs 
 G1 = (V1,E1) and G2 = (V2,E2) an isomorphism is a function f such that for all 

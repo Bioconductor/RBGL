@@ -10,9 +10,8 @@ transitive.closure(g)
   \item{g}{an instance of the \code{graph} class }
 }
 \details{
-The transitive closure of a graph G = (V,E) is a graph G* = (V,E*) such that E* 
-contains an edge (u,v) if and only if G contains a path (of at least one edge) 
-from u to v. 
+This function calculates the transitive closure of a given graph.  
+See documentation on this function in Boost Graph Library for more details.
 }
 \value{
 \item{vertices}{the vertices of the transitive closure }

@@ -12,9 +12,8 @@ prim.minST(g)
 }
 \details{
 This is Prim's algorithm for solving the minimum spanning tree problem for an 
-undirected graph with weighted edges. A MST is a set of edges that connects all
-the vertices in the graph where the total weight of the edges in the tree is 
-minimized.
+undirected graph with weighted edges. 
+See documentations on this function in Boost Graph Library for more details.
 }
 \value{
 \item{edges}{the edges that form the minimum spanning tree}

@@ -14,7 +14,7 @@ rms.wavefront(g)
   \item{g}{an instance of the \code{graph} class }
 }
 \details{
-Given a graph G=(V, E), 
+Assorted functions on wavefront of a graph.
 }
 \value{
 \item{ith.wavefront}{the number of edges that must be severed to obtain the mincut}
