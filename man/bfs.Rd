@@ -9,7 +9,7 @@ order of discovery by BFS or DFS
 }
 \usage{
 bfs(x, init.ind=1) 
-\S4method{dfs}{graph}(object)
+\S4method{dfs}{graph}{object}
 }
 \arguments{
   \item{x}{ instance of class graph from Bioconductor graph class}
