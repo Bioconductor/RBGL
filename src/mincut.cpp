@@ -1,4 +1,7 @@
 #include "RBGL.hpp"
+#include "mincut.hpp"
+#include <boost/graph/edmunds_karp_max_flow.hpp>
+#include <boost/graph/push_relabel_max_flow.hpp>
 
 extern "C" {
 #include <R.h>
@@ -40,6 +43,7 @@ static SEXP BGL_max_flow_internal(SEXP num_verts_in, SEXP num_edges_in,
 
     if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
 
+    int NV = INTEGER(num_verts_in)[0];
     int NE = asInteger(num_edges_in);
     int* edges_in = INTEGER(R_edges_in);
     int*    capacity_i = (isReal(R_capacity_in)) ? 0 : INTEGER(R_capacity_in);
@@ -61,14 +65,20 @@ static SEXP BGL_max_flow_internal(SEXP num_verts_in, SEXP num_edges_in,
         rev_edge[e2] = e1;
     }
 
-    vertex_descriptor s, t;
+    double maxflow = 0;
 
-    s = vertex((int)INTEGER(src)[0], flow_g);
-    t = vertex((int)INTEGER(sink)[0], flow_g);
+    int vsrc = INTEGER(src)[0];
+    int vsink = INTEGER(sink)[0];
 
-    double maxflow = ( method == E_MF_Push_Relabel ) ?
+    if ( 0 <= vsrc && vsrc < NV && 0 <= vsink && vsink < NV )
+    {
+    	vertex_descriptor s = vertex(vsrc, flow_g);
+    	vertex_descriptor t = vertex(vsink, flow_g);
+
+    	maxflow = ( method == E_MF_Push_Relabel ) ?
                      push_relabel_max_flow(flow_g, s, t) :
                      edmunds_karp_max_flow(flow_g, s, t);
+    }
 
     SEXP ansList, conn, eList, fList;
     PROTECT(ansList = allocVector(VECSXP,3));

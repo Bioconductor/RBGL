@@ -19,15 +19,11 @@
 #include <boost/graph/depth_first_search.hpp>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
 #include <boost/graph/visitors.hpp>
-#include <boost/graph/kruskal_min_spanning_tree.hpp>
 #include <boost/pending/integer_range.hpp>
 #include <boost/pending/indirect_cmp.hpp>
 #include <boost/graph/graphviz.hpp>
 #include <boost/graph/breadth_first_search.hpp>
-#include <boost/graph/connected_components.hpp>
 #include <boost/graph/strong_components.hpp>
-#include <boost/graph/edmunds_karp_max_flow.hpp>
-#include <boost/graph/push_relabel_max_flow.hpp>
 #include <boost/generator_iterator.hpp>
 #include <boost/graph/johnson_all_pairs_shortest.hpp>
 #include <boost/graph/edge_connectivity.hpp>
@@ -36,7 +32,6 @@
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/transitive_closure.hpp>
 #include <boost/property_map.hpp>
-#include <boost/graph/bellman_ford_shortest_paths.hpp>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
 #include <boost/pending/ct_if.hpp>
 #include <boost/type_traits/same_traits.hpp>
@@ -47,18 +42,15 @@ extern "C" {
 #include <Rinternals.h>
 }
 
-template <class DirectedS = boost::directedS,
-typename WeightT = double>
+template <class DirectedS = boost::directedS, typename WeightT = double>
 class R_adjacency_list
             : public boost::adjacency_list<boost::vecS, boost::vecS, DirectedS,
             boost::property<boost::vertex_color_t, boost::default_color_type>,
             boost::property<boost::edge_weight_t, WeightT> >
 {
     typedef boost::adjacency_list<boost::vecS, boost::vecS, DirectedS,
-    boost::property<boost::vertex_color_t,
-    boost::default_color_type>,
-    boost::property<boost::edge_weight_t,
-    WeightT> > Base;
+    boost::property<boost::vertex_color_t, boost::default_color_type>,
+    boost::property<boost::edge_weight_t, WeightT> > Base;
     typedef WeightT R_weight_type;
     BOOST_STATIC_ASSERT(boost::is_arithmetic<R_weight_type>::value);
 public:
@@ -146,8 +138,6 @@ typedef R_adjacency_list<boost::directedS, int> Graph_di;
 typedef R_adjacency_list<boost::undirectedS, int> Graph_ui;
 typedef R_adjacency_list<boost::directedS, double> Graph_dd;
 typedef R_adjacency_list<boost::undirectedS, double> Graph_ud;
-
-#include "mincut.hpp"
 
 #endif // RBGL_RBGL_H
 
