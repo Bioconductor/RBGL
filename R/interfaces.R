@@ -57,7 +57,6 @@ setMethod("dfs", "graph", function(graph) {
 })
 
 
-%%FIXME: is this supposed to be vectorized?
 dijkstra.sp <- function(x,init.ind=1) {
     nN <- nodes(x)
     if (is.character(init.ind)) 
