@@ -1,29 +1,32 @@
 \name{strongComp}
 \alias{strongComp}
-\title{identify strongly connected components in
-a directed graph  }
-\description{identify strongly connected components in
-an directed graph
+\title{Identify Strongly Connected Components}
+
+\description{The strongly connected components in
+a directed graph are identified and returned as a list.
 }
 \usage{
 strongComp(g)
 }
 \arguments{
-  \item{g}{ g: graph with edgemode directed}
+  \item{g}{ g: graph with \code{edgemode} \dQuote{directed}.}
 }
 \details{
-Uses Tarjan's algorithm.
-Mathematical formalism can be
-found in graph package
-\code{\link{connComp}}, see also \code{\link{connectedComp}}.  
+Tarjan's algorithm is used to determine all strongly connected
+components of a \emph{directed graph}.
+The mathematical formalism is described in the \pkg{graph} package
+or any good book on graph theory.
 }
 \value{
-list of node names grouped into strong components
+A list whose length is the number of strongly connected components in
+\code{g}. Each element of the list is a vector of the node labels for
+the nodes in that component.
 }
-\references{Boost Graph Library  }
-\author{ interface by Vince Carey <stvjc@channing.harvard.edu>}
 
-\seealso{connectedComp  }
+\references{Boost Graph Library  }
+\author{Vince Carey <stvjc@channing.harvard.edu>}
+
+\seealso{\code{\link[graph]{connComp}},\code{\link{connectedComp}} }
 
 \examples{
 km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
