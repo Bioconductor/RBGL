@@ -49,7 +49,7 @@ library(Rgraphviz)
 @
 \begin{figure}
 <<fig=TRUE>>=
-plot(FileDep)
+z <- plot(FileDep)
 @
 \caption{File dependency digraph example from Boost library.}
 \label{fdpic}
