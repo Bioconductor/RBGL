@@ -59,6 +59,6 @@ coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 coex@edgemode <- "undirected"
 cuthill.mckee.ordering(coex)
 min.degree.ordering(coex)
-#sloan.ordering(coex)
+sloan.ordering(coex)
 }
 \keyword{ models }
