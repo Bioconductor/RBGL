@@ -1,0 +1,10 @@
+useDynLib(RBGL)
+
+export(
+ "connectedComp",        
+ "dijkstra.sp",          "edgeConnectivity",     "extractPath",
+ "johnson.all.pairs.sp", "mstree.kruskal",       "sp.between",
+ "sp.between.old",       "sp.between.scalar",    "strongComp",
+ "tsort")
+
+exportMethods("bfs", "dfs")
