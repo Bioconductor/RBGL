@@ -34,7 +34,5 @@
   <edge id="e17" from="zag_cpp"  to="zag_o"/>
   <edge id="e18" from="zag_o" to="libzigzag_a"/>
   <edge id="e19" from="libzigzag_a" to="killerapp"/>
- </gxl>
-</graph>
-
-
+ </graph>
+</gxl>
