@@ -506,7 +506,7 @@ min.degree.ordering <- function(g, delta=0)
    ans[[1]] <- ans[[1]] + 1
    ans[[2]] <- ans[[2]] + 1
 
-   list("inverse_permutation"=ans[[1]], "permutaion"=ans[[2]])
+   list("inverse_permutation"=ans[[1]], "permutation"=ans[[2]])
 }
 
 sloan.ordering <- function(g, w1=1, w2=2)
