@@ -1,6 +1,6 @@
 \name{bellman.ford.sp}
 \alias{bellman.ford.sp}
-\title{ DAG shortest paths using boost C++ }
+\title{ Bellman-Ford shortest paths using boost C++ }
 \description{
 Algorithm for the single-source shortest paths problem for a graph with both positive and negative edge weights. 
 }
