@@ -1,0 +1,15 @@
+graph GG {
+ A -- B
+ B -- C
+ A -- C
+ B -- D
+ C -- D
+ D -- E
+ D -- H
+ E -- F
+ E -- G
+ E -- H
+ F -- G
+ F -- H
+ G -- H
+}
