@@ -4,7 +4,8 @@
 #include <boost/config.hpp>
 
 #include <iostream>
-#include <stdio.h>
+#include <cstdio>
+#include <vector>
 #include <iterator>
 #include <algorithm>
 #include <time.h>
