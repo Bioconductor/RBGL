@@ -24,9 +24,14 @@ disconnecting set
 \seealso{connectedComp  }
 
 \examples{
+if (length(agrep("solaris", version$platform))==0) {
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 edgeConnectivity(coex)
 coex2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
 edgeConnectivity(coex2)
+} else {
+  cat("this function is currently inoperative on solaris,\n")
+  cat("please try a windows or linux platform")
+}
 }
 \keyword{ models }
