@@ -294,3 +294,29 @@ sp.between <- function (g, start, finish)
       }
     ans2
 }
+
+johnson.all.pairs.sp <- function (g) 
+{
+    nv <- length(nodes(g))
+    if (edgemode(g) == "directed") 
+        em <- edgeMatrix(g)
+    else em <- edgeMatrix(g, TRUE)
+    ne <- ncol(em)
+    eW <- unlist(edgeWeights(g))
+    ans <- .Call("BGL_johnson_all_pairs_shortest_paths_D", as.integer(nv), 
+        as.integer(ne), as.integer(em - 1), as.double(eW), PACKAGE="RBGL")
+    tmp <- matrix(ans, nr = length(nodes(g)))
+    dimnames(tmp) <- list(nodes(g), nodes(g))
+    t(tmp)
+}
+
+#transitive.closure <- function (g) 
+#{
+#    nv <- length(nodes(g))
+#    if (edgemode(g) == "directed") 
+#        em <- edgeMatrix(g)
+#    else em <- edgeMatrix(g, TRUE)
+#    ne <- ncol(em)
+#    ans <- .Call("BGL_transitive_closure_D", as.integer(nv), 
+#        as.integer(ne), as.integer(em - 1), PACKAGE="RBGL")
+#}

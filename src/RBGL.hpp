@@ -26,6 +26,18 @@
 #include <boost/graph/edmunds_karp_max_flow.hpp>
 #include <boost/graph/push_relabel_max_flow.hpp>
 #include <boost/generator_iterator.hpp>
+#include <boost/graph/johnson_all_pairs_shortest.hpp>
+
+/* added vc 7 aug 04 */
+#include <boost/graph/graph_traits.hpp>
+#include <boost/graph/transitive_closure.hpp>
+#include <boost/property_map.hpp>
+#include <boost/graph/bellman_ford_shortest_paths.hpp>
+#include <boost/graph/dijkstra_shortest_paths.hpp>
+#include <boost/pending/ct_if.hpp>
+#include <boost/type_traits/same_traits.hpp>
+/* END added vc 7 aug 04 */
+
 
 extern "C" {
 #include <Rinternals.h>
