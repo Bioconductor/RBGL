@@ -208,8 +208,8 @@ extern "C"
 		PROTECT(rbw = NEW_INTEGER(1));
 		PROTECT(rpf = NEW_INTEGER(1));
 		PROTECT(rmw = NEW_INTEGER(1));
-		PROTECT(raw = NEW_INTEGER(1));
-		PROTECT(rrw = NEW_INTEGER(1));
+		PROTECT(raw = NEW_NUMERIC(1));
+		PROTECT(rrw = NEW_NUMERIC(1));
 
 		std::vector<Vertex>::const_iterator i;
 		int j = 0;
@@ -223,8 +223,8 @@ extern "C"
 		INTEGER(rbw)[0] = bandwidth(g, make_iterator_property_map(&perm[0], index_map, perm[0]));
 		INTEGER(rpf)[0] = profile(g, make_iterator_property_map(&perm[0], index_map, perm[0]));
 		INTEGER(rmw)[0] = max_wavefront(g, make_iterator_property_map(&perm[0], index_map, perm[0]));
-		INTEGER(raw)[0] = aver_wavefront(g, make_iterator_property_map(&perm[0], index_map, perm[0]));
-		INTEGER(rrw)[0] = rms_wavefront(g, make_iterator_property_map(&perm[0], index_map, perm[0]));
+		REAL(raw)[0] = aver_wavefront(g, make_iterator_property_map(&perm[0], index_map, perm[0]));
+		REAL(rrw)[0] = rms_wavefront(g, make_iterator_property_map(&perm[0], index_map, perm[0]));
 
 		SET_VECTOR_ELT(ansList,0,sList);
 		SET_VECTOR_ELT(ansList,1,rbw);
