@@ -13,6 +13,9 @@ strongComp(g)
 }
 \details{
 Uses Tarjan's algorithm.
+Mathematical formalism can be
+found in graph package
+\code{\link{connComp}}, see also \code{\link{connectedComp}}.  
 }
 \value{
 zero-based vector corresponding to nodes
