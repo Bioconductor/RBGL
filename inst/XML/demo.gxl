@@ -1,0 +1,23 @@
+<gxl>
+<node id="P" type="Proc">
+ <attr name="File" value="main.c"/>
+</node>
+<node id="Q" type="Proc">
+ <attr name="File" value="test.c"/>
+</node>
+<node id="V" type="Var">
+ <attr name="Line" value="225"/>
+</node>
+<node id="W" type="Var">
+ <attr name="Line" value="316"/>
+</node>
+<edge begin="P" end="Q" type="Call">
+ <attr name="Line" value="42"/>
+</edge>
+<edge begin="P" end="V" type="Ref">
+ <attr name="Line" value="127"/>
+</edge>
+<edge begin="Q" end="W" type="Ref">
+ <attr name="Line" value="316"/>
+</edge>
+</gxl>
