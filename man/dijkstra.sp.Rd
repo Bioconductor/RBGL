@@ -8,14 +8,12 @@
 dijkstra's shortest paths
 }
 \usage{
-dijkstra.sp(x,init.ind=nodes(x)[1]) # now x assumed to be Bioconductor graph graphNEL
-sp.between(g,start,finish) # now x assumed to be Bioconductor graph graphNEL
+dijkstra.sp(g,start)
+sp.between(g,start,finish) 
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
-  \item{x}{ instance of class graphNEL from Bioconductor graph class}
-  \item{g}{ instance of class graphNEL from Bioconductor graph class}
-  \item{init.ind}{ if numeric, numerical index (1 based) of where to start search;
+  \item{g}{ instance of class graph }
 if character, name of node where search begins}
   \item{start}{ character vector: node name for start of path}
   \item{finish}{ character vector: node name for end of path}
@@ -32,7 +30,7 @@ If a distance is requested between two nodes that are disconnected,
 Inf is returned.
 
 sp.between returns a list whose size depends upon the start and
-finish arguments.  If start and finish are both atoms, then
+finish arguments.  If start and finish are both scalar, then
 a list is returned with elements the length of the shortest
 path and the vector of nodes comprising that path.  If one of start
 or finish is an n-vector, n>1, and the other is an atom,

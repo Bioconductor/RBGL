@@ -162,7 +162,7 @@ km@edgeL$G <- list(edges=8, weights=1)
 km@edgeL$H <- list(edges=7, weights=1)
 km@edgemode <- "undirected"
 if (length(agrep("solaris", version[["platform"]]))==0)
-print(connectedComp(makeRecip(km))) else
+print(connectedComp(ugraph(km))) else
 print("not running on solaris, use windows or linux")
 @
 \subsection{Strongly connected components }
