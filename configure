@@ -1,2 +1,2 @@
 echo "untarring boost include tree..."
-cd src; zcat boostIncl.tar.gz | tar xf -
+cd src; tar zxf boostIncl.tar.gz
