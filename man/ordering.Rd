@@ -1,5 +1,7 @@
 \name{Ordering}
-\alias{Ordering}
+\alias{cuthill.mckee.ordering}
+\alias{min.degree.ordering}
+\alias{sloan.ordering}
 \title{Compute vertex ordering for an undirected graph}
 \description{Compute vertex ordering for an undirected graph}
 }
@@ -15,8 +17,8 @@ sloan.ordering(g, w1=1, w2=2)
     equal to zero then multiple elimination is enabled. The value of delta 
     specifies the difference between the minimum degree and the degree of 
     vertices that are to be eliminated.}
-  \item{w1} {Heuristical weight for the Sloan algorithm }
-  \item{w2} {Heuristical weight for the Sloan algorithm }
+  \item{w1}{ 1st Heuristical weight for the Sloan algorithm }
+  \item{w2}{ 2nd Heuristical weight for the Sloan algorithm }
 }
 \details{
 According to the documentations on these algorithms in Boost Graph Library:
@@ -30,9 +32,22 @@ wavefront of a graph by reordering the indices assigned to each vertex.
 See documentations on these algorithms in Boost Graph Library for more details.
 }
 \value{
-\item{cuthill.mckee.ordering}{the vertices in the new ordering}
-\item{min.degree.ordering}{the vertices in the new ordering}
-\item{sloan.ordering}{the vertices in the new ordering}
+\item{cuthill.mckee.ordering}{ returns a list with elements:}
+     \item{reverse cuthill.mckee.ordering}{the vertices in the new ordering}
+     \item{original bandwidth}{bandwidth before reordering vertices}
+     \item{new bandwidth}{bandwidth after reordering of vertices}
+
+\item{min.degree.ordering}{ return a list with elements:}
+     \item{inverse_permutation}{the new vertex ordering, given as the mapping from the new indices to the old indices }
+     \item{permutation}{the new vertex ordering, given as the mapping from the old indices to the new indices }
+
+\item{sloan.ordering}{ returns a list with elements:}
+     \item{sloan.ordering}{the vertices in the new ordering}
+     \item{bandwidth}{bandwidth of the graph after reordering}
+     \item{profile}{profile of the graph after reordering}
+     \item{max.wavefront}{max.wavefront of the graph after reordering}
+     \item{aver.wavefront}{aver.wavefront of the graph after reordering}
+     \item{rms.wavefront}{rms.wavefront of the graph after reordering}
 }
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}

@@ -4,8 +4,7 @@
 \title{ Kruskal's minimum spanning tree in boost }
 \description{
 compute the minimum spanning tree (MST) for
-a graph and return a representation
-in matrices
+a graph and return a representation in matrices
 }
 \usage{
 mstree.kruskal(x) 

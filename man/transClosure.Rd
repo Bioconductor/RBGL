@@ -14,6 +14,7 @@ This function calculates the transitive closure of a given graph.
 See documentation on this function in Boost Graph Library for more details.
 }
 \value{
+  A list of
 \item{vertices}{the vertices of the transitive closure }
 \item{edges}{the edges of the transitive closure }
 }

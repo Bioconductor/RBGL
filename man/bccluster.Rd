@@ -21,8 +21,11 @@ centrality and removes the edge with the maximum betweenness centrality.
 See documentation on Clustering algorithms in Boost Graph Library for details.
 }
 \value{
-\item{edges}{}
-\item{betweenness.centrality.clustering}{}
+A list of
+\item{betweenness.centrality.vertices}{betweenness centrality of each vertex}
+\item{betweenness.centrality.edges}{betweenness centrality of each edge}
+\item{relative.betweenness.centrality.vertices}{relative betweenness centrality of each vertex}
+\item{dominance}{central point dominance}
 }
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}

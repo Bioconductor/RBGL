@@ -16,8 +16,9 @@ undirected graph with weighted edges.
 See documentations on this function in Boost Graph Library for more details.
 }
 \value{
+  A list of
 \item{edges}{the edges that form the minimum spanning tree}
-\item{weight}{the total weight of the minimum spanning tree}
+\item{weights}{the total weight of the minimum spanning tree}
 }
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}

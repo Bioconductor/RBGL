@@ -17,6 +17,7 @@ cost is the number of edges that are incident on one vertex in S and one
 vertex in V-S.  The min-cut problem is to find a cut (S, V-S) of minimum cost.
 }
 \value{
+  A list of 
 \item{mincut}{the number of edges that must be severed to obtain the mincut}
 \item{S}{one subset of vertex in the mincut}
 \item{V-S}{the other subset of vertex in the mincut}

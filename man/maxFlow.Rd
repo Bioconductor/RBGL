@@ -1,5 +1,6 @@
 \name{max.flow}
-\alias{max.flow}
+\alias{edmunds.karp.max.flow}
+\alias{push.relabel.max.flow}
 \title{Compute max flow for a directed graph }
 \description{Compute max flow for a directed graph }
 }
@@ -23,8 +24,8 @@ problem is to determine the maximum possible value for the flow to the
 See documentation on these algorithms in Boost Graph Library for more details.
 }
 \value{
-\item{edmunds.karp.max.flow}{the max flow from \code{source} to \code{sink} using Edmuns-Karp algorithm}
-\item{push.relabel.max.flow}{the max flow from \code{source} to \code{sink} using Push-Relabel algorithm}
+  A list of
+\item{maxflow}{the max flow from \code{source} to \code{sink} }
 \item{edges}{the nodes of the arcs with non-zero capacities}
 \item{flows}{the flow values of the arcs with non-zero capacities}
 }

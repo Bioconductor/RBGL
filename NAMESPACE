@@ -29,7 +29,7 @@ export(
  "push.relabel.max.flow",
  "rms.wavefront",
  "same.component",
- "sequential.vertex.coloring",
+#  "sequential.vertex.coloring",   NOT IMPLEMENTED YET
  "sloan.ordering",
  "sp.between",
  "sp.between.old",       

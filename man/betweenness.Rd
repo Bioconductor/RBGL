@@ -17,6 +17,7 @@ You can find the definitions of betweenness centrality for vertex and edges and 
 the documentation on brandes betweenness centrality in Boost Graph Library.
 }
 \value{
+  A list of
 \item{betweenness.centrality.vertices}{betweenness centrality of each vertex}
 \item{betweenness.centrality.edges}{betweenness centrality of each edge}
 \item{relative.betweenness.centrality.vertices}{relative betweenness centrality of each vertex}

@@ -1,5 +1,6 @@
 \name{layout}
-\alias{layout}
+\alias{circle.layout}
+\alias{kamada.kawai.spring.layout}
 \title{Layout an undirected graph in 2D}
 \description{Layout an undirected graph in 2D}
 }
@@ -26,8 +27,7 @@ connected, undirected graphs.  User provides either the unit length e of an
 edge in the layout or the length of a side s of the display area.
 }
 \value{
-\item{circle.layout}{ the (x, y)-coordinates of the vertices }
-\item{kamada.kawai.spring.layout}{ the (x, y)-coordinates of the vertices }
+  A list of the (x, y)-coordinates for vertices in the graph.
 }
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}

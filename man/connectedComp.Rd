@@ -1,7 +1,6 @@
 \name{connectedComp}
 \alias{connectedComp}
-\title{Identify Connected Components in
-an Undirected Graph  }
+\title{Identify Connected Components in an Undirected Graph  }
 \description{The connected components in
 an undirected graph are identified. If the graph is directed then the
 weakly connected components are identified.
@@ -10,7 +9,7 @@ weakly connected components are identified.
 connectedComp(g)
 }
 \arguments{
-  \item{g}{ g: graph with \code{edgemode} \dQuote{undirected}}
+  \item{g}{ graph with \code{edgemode} \dQuote{undirected}}
 }
 \details{
 Uses a depth first search approach to identifying all the connected

@@ -20,8 +20,7 @@ is in E2.
 
 }
 \value{
-\item{isomorphism}{true if there exists an isomorphism between g1 and g2 and 
-false otherwise}
+  Output is true if there exists an isomorphism between g1 and g2, otherwise it's false.
 }
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}

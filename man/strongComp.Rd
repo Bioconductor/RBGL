@@ -9,7 +9,7 @@ a directed graph are identified and returned as a list.
 strongComp(g)
 }
 \arguments{
-  \item{g}{ g: graph with \code{edgemode} \dQuote{directed}.}
+  \item{g}{ graph with \code{edgemode} \dQuote{directed}.}
 }
 \details{
 Tarjan's algorithm is used to determine all strongly connected

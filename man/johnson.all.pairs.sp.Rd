@@ -8,12 +8,10 @@ compute shortest path distance matrix for all pairs of nodes
 johnson.all.pairs.sp(g)
 }
 \arguments{
-  \item{g}{ g: graph object for which edgeMatrix and edgeWeights
-are defined}
+  \item{g}{ graph object for which edgeMatrix and edgeWeights are defined}
 }
 \details{
-uses BGL algorithm, currently cannot accept graph with more
-than 200 nodes.
+Uses BGL algorithm.
 }
 \value{
 matrix of shortest path lengths, read from row node to col node

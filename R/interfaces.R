@@ -552,7 +552,7 @@ gprofile <- function (g)
    list("profile"=ans[[1]])
 }
 
-ith.wavefront <- function (g, start)
+ith.wavefront <- function (g, start=nodes(g)[1])
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
