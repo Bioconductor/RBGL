@@ -20,6 +20,7 @@ extern "C"
 	static std::vector<size_type> rank(1);
 	static std::vector<Vertex> parent(1);
 	static disjoint_sets<Rank, Parent> ds(&rank[0], &parent[0]);
+	static bool initialized = false;
 
 	typedef component_index<unsigned int> Components;
 
@@ -36,18 +37,21 @@ extern "C"
 
         Graph_ud g(num_verts_in, num_edges_in, R_edges_in);
 
-	if ( method == E_IC_INIT_INCREMENTAL_COMPONENT )
+	if ( !initialized || method == E_IC_INIT_INCREMENTAL_COMPONENT )
 	{
-	rank.clear();   rank.resize(NV, 0);
-	parent.clear(); parent.resize(NV, 0);
+	    rank.clear();   rank.resize(NV, 0);
+	    parent.clear(); parent.resize(NV, 0);
 
-  	disjoint_sets<Rank, Parent>  ds1(&rank[0], &parent[0]);
-  	ds = ds1;
-	initialize_incremental_components(g, ds);
+  	    disjoint_sets<Rank, Parent>  ds1(&rank[0], &parent[0]);
+  	    ds = ds1;
+	    initialize_incremental_components(g, ds);
+
+	    initialized = true;
 	}
-	else if ( method == E_IC_INCREMENTAL_COMPONENT )
+
+	if ( method == E_IC_INCREMENTAL_COMPONENT )
 	{
-	incremental_components(g, ds);
+	    incremental_components(g, ds);
 	}
 
 	Components components(&parent[0], &parent[0] + parent.size());
