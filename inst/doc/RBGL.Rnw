@@ -55,6 +55,8 @@ z <- plot(FileDep)
 \label{fdpic}
 \end{figure}
 
+\subsection{Topological sort}
+
 The {\tt tsort} function will return the indices of vertices
 in topological sort order:
 <<>>=
@@ -70,6 +72,62 @@ in the interface (a message is written to the console and zeroes are returned).
 #FD2@edgeL[["bar_cpp"]]$edges <- c(8,1)
 #tsort(FD2)
 \end{verbatim}
+
+\subsection{Kruskal's minimum spanning tree}
+
+This function just returns a list of edges, weights and nodes
+determining the minimum spanning tree (MST) by
+Kruskal's algorithm.
+<<>>=
+km <- fromGXL(file(system.file("GXL/kmstEx.gxl", package="graph")))
+print(KMST(km))
+@
+\begin{figure}
+<<fig=TRUE>>=
+z <- plot(km)
+@
+\caption{Kruskal MST example from Boost library.}
+\label{mspic}
+\end{figure}
+
+@
+\subsection{Depth first search}
+This function returns a list of node indices by
+discovery and finish order.
+<<>>=
+df <- fromGXL(file(system.file("XML/dfsex.gxl", package="RBGL")))
+print(o <- dfsBGL(df))
+@
+\begin{figure}
+<<fig=TRUE>>=
+z <- plot(df)
+@
+\caption{DFS example from Boost library.}
+\label{dfspic}
+\end{figure}
+@
+Here is the list of nodes in DFS discovery order.
+<<>>=
+print(nodes(df)[o$discovered])
+@
+
+@
+\subsection{Breadth first search}
+This function returns a vector of node indices
+for a breadth-first search (BFS) starting at the
+node indexed by {\tt init.ind}.
+<<>>=
+bf <- fromGXL(file(system.file("XML/bfsex.gxl", package="RBGL")))
+bf@edgemode <- "undirected"
+print(o <- bfsBGL(bf,init.ind=2))
+<<fig=TRUE>>=
+z <- plot(bf)
+@
+The nodes in BFS order starting with the second node are
+<<>>=
+print(nodes(bf)[o])
+@
+
 
 @
 \end{document}
