@@ -7,11 +7,11 @@ returns vector of zero-based indices of vertices
 of a DAG in topological sort order
 }
 \usage{
-tsort(x)
+tsort(x) # now x assumed to be Bioconductor graph graphNEL
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
-  \item{x}{ instance of class graf (definition supplied with RBGL)}
+  \item{x}{ instance of class graphNEL from Bioconductor graph class}
 }
 \details{
 calls to the topological\_sort algorithm of BGL.  will check in BGL
@@ -27,10 +27,10 @@ topological sort sequence, 0-based
 
 \examples{
 data(FileDep)
-vertices(FileDep)[tsort(FileDep)+1]
+nodes(FileDep)[tsort(FileDep)+1]
 FD2 <- FileDep
 # now introduce a cycle
-FD2@edges[[20]] <- c("bar_cpp", "dax_h")
+FD2@edgeL[["bar_cpp"]]$edges <- c(8,1)
 tsort(FD2)
 }
 \keyword{ models }% at least one, from doc/KEYWORDS
