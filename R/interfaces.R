@@ -662,3 +662,69 @@ same.component <- function (g, node1, node2)
    ans
 }
 
+circle.layout <- function ( g, radius=1 )
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_circle_layout", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+		as.double(radius),
+                PACKAGE="RBGL")
+
+   rownames(ans[[1]]) <- c("x", "y")
+   list("circle.layout"=ans[[1]])
+}
+
+kamada.kawai.spring.layout <- function ( g, edge_or_side=1, es_length=1 )
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+   eW <- unlist(edgeWeights(g))
+
+   ans <- .Call("BGL_kamada_kawai_spring_layout", 
+	       as.integer(nv), as.integer(ne), as.integer(em-1), as.integer(eW),
+	       as.logical(edge_or_side), as.double(es_length),
+               PACKAGE="RBGL")
+
+   rownames(ans[[1]]) <- c("x", "y")
+   list("kamada.kawai.spring.layout"=ans[[1]])
+}
+
+brandes.betweenness.centrality <- function ( g )
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+   eW <- unlist(edgeWeights(g))
+
+   ans <- .Call("BGL_brandes_betweenness_centrality", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+		as.integer(eW),
+                PACKAGE="RBGL")
+
+   list("betweenness.centrality.vertices"=ans[[1]],
+   "betweenness.centrality.edges"=ans[[2]],
+   "relative.betweenness.centrality.vertices"=ans[[3]],
+   "dominance"=ans[[4]]
+   )
+}
+
+betweenness.centrality.clustering <- function(g, threshold=-1, normalize=T )
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+   eW <- unlist(edgeWeights(g))
+
+   ans <- .Call("BGL_betweenness_centrality_clustering", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+		as.integer(eW), as.double(threshold), as.logical(normalize),
+                PACKAGE="RBGL")
+
+   list("no.of.edges" = ans[[1]], 
+        "edges"=ans[[2]],
+        "betweenness.centrality.clustering"=ans[[3]])
+}

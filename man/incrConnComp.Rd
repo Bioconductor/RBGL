@@ -6,12 +6,12 @@
 \usage{
 init.incremental.components(g)
 incremental.components(g)
-same.component(g, v1, v2)
+same.component(g, node1, node2)
 }
 \arguments{
   \item{g}{an instance of the \code{graph} class }
-  \item{v1}{one vertex of the given graph }
-  \item{v2}{another vertex of the given graph }
+  \item{node1}{one vertex of the given graph }
+  \item{node2}{another vertex of the given graph }
 }
 \details{
 This is a family of functions that work together to calculate the connected 

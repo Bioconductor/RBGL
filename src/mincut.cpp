@@ -52,7 +52,7 @@ static SEXP BGL_max_flow_internal(SEXP num_verts_in, SEXP num_edges_in,
     for (int i = 0; i < NE ; i++, edges_in += 2)
     {
         tie(e1, in1) = boost::add_edge(*edges_in, *(edges_in+1), flow_g);
-        tie(e2, in1) = boost::add_edge(*(edges_in+1), *edges_in, flow_g);
+        tie(e2, in2) = boost::add_edge(*(edges_in+1), *edges_in, flow_g);
         if ( !in1 || in2 )
             error("unable to add edge: (%d, %d)", *edges_in, *(edges_in+1));
 

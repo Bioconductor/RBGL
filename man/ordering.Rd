@@ -4,7 +4,7 @@
 \description{Compute vertex ordering for an undirected graph}
 }
 \usage{
-cuthill.mckeee.ordering(g)
+cuthill.mckee.ordering(g)
 min.degree.ordering(g, delta=0)
 sloan.ordering(g, w1=1, w2=2)
 }
@@ -15,8 +15,8 @@ sloan.ordering(g, w1=1, w2=2)
     equal to zero then multiple elimination is enabled. The value of delta 
     specifies the difference between the minimum degree and the degree of 
     vertices that are to be eliminated.}
-  \item{W1} {Heuristical weight for the Sloan algorithm }
-  \item{W2} {Heuristical weight for the Sloan algorithm }
+  \item{w1} {Heuristical weight for the Sloan algorithm }
+  \item{w2} {Heuristical weight for the Sloan algorithm }
 }
 \details{
 The goal of the Cuthill-Mckee (and reverse Cuthill-Mckee) ordering algorithm is
