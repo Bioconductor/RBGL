@@ -1,0 +1,20 @@
+Plan of April 2003
+
+1) Use Boost 1.30.0 and make sure library
+still works for tsort and DAG cycle check
+
+2) convert tsort application to .Call interface
+
+3) get a better grip on how R data can be converted
+to Boost graphs, and bring in a graph with weights
+or distances
+
+4) deploy their MST method and compare to R mstree
+
+5) list the applications we want to have and try
+to get a generic interface
+
+6) consider building boost graphs in R by
+manipulating pointer structures.  perhaps this
+should be the highest priority!  boostGraph
+as a descendant of graph
