@@ -1,13 +1,13 @@
 \name{Ordering}
 \alias{cuthill.mckee.ordering}
-\alias{min.degree.ordering}
+\alias{minDegreeOrdering}
 \alias{sloan.ordering}
 \title{Compute vertex ordering for an undirected graph}
 \description{Compute vertex ordering for an undirected graph}
 }
 \usage{
 cuthill.mckee.ordering(g)
-min.degree.ordering(g, delta=0)
+minDegreeOrdering(g, delta=0)
 sloan.ordering(g, w1=1, w2=2)
 }
 \arguments{
@@ -37,7 +37,7 @@ See documentations on these algorithms in Boost Graph Library for more details.
      \item{original bandwidth}{bandwidth before reordering vertices}
      \item{new bandwidth}{bandwidth after reordering of vertices}
 
-\item{min.degree.ordering}{ return a list with elements:}
+\item{minDegreeOrdering}{ return a list with elements:}
      \item{inverse_permutation}{the new vertex ordering, given as the mapping from the new indices to the old indices }
      \item{permutation}{the new vertex ordering, given as the mapping from the old indices to the new indices }
 
@@ -45,7 +45,7 @@ See documentations on these algorithms in Boost Graph Library for more details.
      \item{sloan.ordering}{the vertices in the new ordering}
      \item{bandwidth}{bandwidth of the graph after reordering}
      \item{profile}{profile of the graph after reordering}
-     \item{max.wavefront}{max.wavefront of the graph after reordering}
+     \item{maxWavefront}{maxWavefront of the graph after reordering}
      \item{aver.wavefront}{aver.wavefront of the graph after reordering}
      \item{rms.wavefront}{rms.wavefront of the graph after reordering}
 }
@@ -58,7 +58,7 @@ See documentations on these algorithms in Boost Graph Library for more details.
 coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 coex@edgemode <- "undirected"
 cuthill.mckee.ordering(coex)
-min.degree.ordering(coex)
+minDegreeOrdering(coex)
 sloan.ordering(coex)
 }
 \keyword{ models }

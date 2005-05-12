@@ -156,7 +156,7 @@ extern "C"
         PROTECT(pens = allocVector(INTSXP,N));
         graph_traits < Graph_dd >::vertex_iterator vi, vend;
         for (tie(vi, vend) = vertices(g); vi != vend; ++vi) {
-            if ( d[*vi] == std::numeric_limits<int>::max() )
+            if ( int(d[*vi]) == std::numeric_limits<int>::max() )
             {
                 REAL(dists)[*vi] = R_NaN;
                 INTEGER(pens)[*vi] = *vi;

@@ -493,7 +493,7 @@ sequential.vertex.coloring <- function(g)
    list("sequential.vertex.coloring not ready yet")
 }
 
-min.degree.ordering <- function(g, delta=0)
+minDegreeOrdering <- function(g, delta=0)
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -522,7 +522,7 @@ sloan.ordering <- function(g, w1=1, w2=2)
    ans[[1]] <- ans[[1]] + 1
 
    list("sloan.ordering"=ans[[1]], "bandwidth"=ans[[2]], 
-	"profile"=ans[[3]], "max.wavefront"=ans[[4]], 
+	"profile"=ans[[3]], "maxWavefront"=ans[[4]], 
 	"aver.wavefront"=ans[[5]], "rms.wavefront"=ans[[6]])
 }
 
@@ -572,7 +572,7 @@ ith.wavefront <- function (g, start=nodes(g)[1])
    list("ith.wavefront"=ans[[1]])
 }
 
-max.wavefront <- function (g)
+maxWavefront <- function (g)
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -582,7 +582,7 @@ max.wavefront <- function (g)
 	        as.integer(nv), as.integer(ne), as.integer(em-1), 
                 PACKAGE="RBGL")
 
-   list("max.wavefront"=ans[[1]])
+   list("maxWavefront"=ans[[1]])
 }
 
 aver.wavefront <- function (g)

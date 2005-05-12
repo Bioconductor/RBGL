@@ -1,6 +1,6 @@
 \name{wavefront}
 \alias{ith.wavefront}
-\alias{max.wavefront}
+\alias{maxWavefront}
 \alias{aver.wavefront}
 \alias{rms.wavefront}
 \title{Compute the i-th/max/average/rms wavefront for a graph}
@@ -8,7 +8,7 @@
 }
 \usage{
 ith.wavefront(g, start)
-max.wavefront(g)
+maxWavefront(g)
 aver.wavefront(g)
 rms.wavefront(g)
 }
@@ -21,7 +21,7 @@ Assorted functions on wavefront of a graph.
 }
 \value{
 \item{ith.wavefront}{wavefront of the given vertex}
-\item{max.wavefront}{maximum wavefront of a graph}
+\item{maxWavefront}{maximum wavefront of a graph}
 \item{aver.wavefront}{average wavefront of a graph}
 \item{rms.wavefront}{root mean square of all wavefronts}
 }
@@ -34,7 +34,7 @@ Assorted functions on wavefront of a graph.
 coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 ss <- 1
 ith.wavefront(coex, ss)
-max.wavefront(coex)
+maxWavefront(coex)
 aver.wavefront(coex)
 rms.wavefront(coex)
 }
