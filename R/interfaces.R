@@ -197,7 +197,7 @@ spBetweenScalar <- function (g, start, finish)
     s <- (1:length(no))[no == s]
     f <- (1:length(no))[no == f]
     ff <- f
-    sp <- dijkstra.sp(g, start)
+    sp <- dijkstraSP(g, start)
     if (sp$distances[ff] >= .Machine$double.xmax)
 		stop(paste("no path from",no[s],"to",no[f]))
     pens <- sp$penult
@@ -260,7 +260,7 @@ minCut <- function (g)
 
 
 extractPath <- function(s, f, pens) {
-# use list of penultimates (from dijkstra.sp) to establish
+# use list of penultimates (from dijkstraSP) to establish
 # linear path from node s to node f
     path <- f
     maxl <- length(pens)
@@ -288,7 +288,7 @@ spBetween <- function (g, start, finish)
     ust <- unique(start)
     ans <- list()
     for (i in 1:length(ust)) {
-        curdi <- dijkstra.sp(g, ust[i])$penult
+        curdi <- dijkstraSP(g, ust[i])$penult
         thiss <- ust[i]
         thisf <- fl[[thiss]]
         for (j in 1:length(thisf) ) {
