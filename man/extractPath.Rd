@@ -1,9 +1,9 @@
 \name{extractPath}
 \alias{extractPath}
-\title{convert a dijkstraSP predecessor structure into the path joining two nodes   }
+\title{convert a dijkstra.sp predecessor structure into the path joining two nodes   }
 \description{
 determine a path between two nodes in a graph,
-using output of \code{\link{dijkstraSP}}.
+using output of \code{\link{dijkstra.sp}}.
 }
 \usage{
 extractPath(s, f, pens)
@@ -13,7 +13,7 @@ extractPath(s, f, pens)
 of the graph from which \code{pens} was derived}
   \item{f}{ index of ending node in nodes vector }
   \item{pens}{ predecessor index vector as returned
-in the \code{preds} component of \code{\link{dijkstraSP}} output}
+in the \code{preds} component of \code{\link{dijkstra.sp}} output}
 }
 %\details{
 %}
@@ -28,7 +28,7 @@ in the \code{preds} component of \code{\link{dijkstraSP}} output}
 
 \examples{
 data(FileDep)
-dd <- dijkstraSP(FileDep)
+dd <- dijkstra.sp(FileDep)
 extractPath(1,9,dd$pen)
 }
 \keyword{ models }

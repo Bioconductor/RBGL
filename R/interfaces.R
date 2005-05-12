@@ -7,7 +7,7 @@ tsort <- function(x) {
       as.integer(em-1), PACKAGE="RBGL")
 }
 
-mstreeKruskal <- function(x) {
+mstree.kruskal <- function(x) {
  nv <- length(nodes(x))
  em <- edgeMatrix(x, duplicates=TRUE) # conform with edgeWeights unlisted
  ne <- ncol(em)
@@ -21,7 +21,7 @@ ans <- .Call("BGL_KMST_D",
  ans
 }
 
-primMinST <- function ( g ) 
+prim.minST <- function ( g ) 
 {
     nv <- length(nodes(g))
     em <- edgeMatrix(g, duplicates=TRUE) # conform with edgeWeights unlisted
@@ -118,7 +118,7 @@ setMethod("dfs",c("graph", "character", "logical"),
  lapply(ans,function(x)x+1)
 })
 
-dijkstraSP <- function(g,start=nodes(g)[1]) {
+dijkstra.sp <- function(g,start=nodes(g)[1]) {
     if (!is.character(start)) stop("start must be character")
     if (length(start) !=1 ) stop("start must have length 1")
     nN <- nodes(g)
@@ -144,7 +144,7 @@ dijkstraSP <- function(g,start=nodes(g)[1]) {
     ans
 }
 
-spBetweenOld <- function(g, start, finish) {
+sp.between.old <- function(g, start, finish) {
 #
 #simple vectorization  of previous sp.between
 #
@@ -173,7 +173,7 @@ if (any(is.numeric(c(start,finish)))) stop("start and finish are required to be 
       }
  }
 
-spBetweenScalar <- function (g, start, finish)
+sp.between.scalar <- function (g, start, finish)
 {
 # (c) 2003 VJ Carey, all rights reserved
 #
@@ -197,7 +197,7 @@ spBetweenScalar <- function (g, start, finish)
     s <- (1:length(no))[no == s]
     f <- (1:length(no))[no == f]
     ff <- f
-    sp <- dijkstraSP(g, start)
+    sp <- dijkstra.sp(g, start)
     if (sp$distances[ff] >= .Machine$double.xmax)
 		stop(paste("no path from",no[s],"to",no[f]))
     pens <- sp$penult
@@ -260,7 +260,7 @@ minCut <- function (g)
 
 
 extractPath <- function(s, f, pens) {
-# use list of penultimates (from dijkstraSP) to establish
+# use list of penultimates (from dijkstra.sp) to establish
 # linear path from node s to node f
     path <- f
     maxl <- length(pens)
@@ -276,7 +276,7 @@ extractPath <- function(s, f, pens) {
 }
 
 
-spBetween <- function (g, start, finish)
+sp.between <- function (g, start, finish)
 {
     nG = nodes(g)
     ##get the node index, given the name
@@ -288,7 +288,7 @@ spBetween <- function (g, start, finish)
     ust <- unique(start)
     ans <- list()
     for (i in 1:length(ust)) {
-        curdi <- dijkstraSP(g, ust[i])$penult
+        curdi <- dijkstra.sp(g, ust[i])$penult
         thiss <- ust[i]
         thisf <- fl[[thiss]]
         for (j in 1:length(thisf) ) {
@@ -323,7 +323,7 @@ spBetween <- function (g, start, finish)
     ans2
 }
 
-johnsonAllPairsSP <- function (g) 
+johnson.all.pairs.sp <- function (g) 
 {
     nv <- length(nodes(g))
     if (edgemode(g) == "directed") 
@@ -339,7 +339,7 @@ johnsonAllPairsSP <- function (g)
     t(tmp)
 }
 
-bellmanFordSP <- function(g, start=nodes(g)[1])
+bellman.ford.sp <- function(g, start=nodes(g)[1])
 {
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
@@ -362,7 +362,7 @@ bellmanFordSP <- function(g, start=nodes(g)[1])
          "penult"=ans[[3]], "start"=nodes(g)[s])
 }
 
-dagSP <- function(g, start=nodes(g)[1])
+dag.sp <- function(g, start=nodes(g)[1])
 {
     if (edgemode(g) == "undirected") 
        stop("only applicable to directed graphs")
@@ -385,7 +385,7 @@ dagSP <- function(g, start=nodes(g)[1])
     list("distance"=ans[[1]], "penult"=ans[[2]], "start"=nodes(g)[s])
 }
 
-transitiveClosure <- function (g) 
+transitive.closure <- function (g) 
 {
     nv <- length(nodes(g))
     if (edgemode(g) == "directed") 
@@ -405,7 +405,7 @@ transitiveClosure <- function (g)
     list("nodes"= ans[[1]], "edges"=ans[[2]])
 }
 
-maxFlowInternal <- function (g, source, sink, method="Edmunds.Karp")
+max.flow.internal <- function (g, source, sink, method="Edmunds.Karp")
 {
     if (edgemode(g) == "undirected") 
        stop("only applicable to directed graphs")
@@ -441,17 +441,17 @@ maxFlowInternal <- function (g, source, sink, method="Edmunds.Karp")
     rownames(ans[[3]]) <- c("flow")
     ans[[2]][1,] <- ans[[2]][1,] + 1
     ans[[2]][2,] <- ans[[2]][2,] + 1
-    list("maxFlow"=ans[[1]], "edges"=ans[[2]], "flows"=ans[[3]])
+    list("maxflow"=ans[[1]], "edges"=ans[[2]], "flows"=ans[[3]])
 }
 
-edmundsKarpMaxFlow <- function (g, source, sink)
+edmunds.karp.max.flow <- function (g, source, sink)
 {
-    maxFlowInternal(g, source, sink, "Edmunds.Karp")
+    max.flow.internal(g, source, sink, "Edmunds.Karp")
 }
 
-pushRelabelMaxFlow <- function (g, source, sink)
+push.relabel.max.flow <- function (g, source, sink)
 {
-    maxFlowInternal(g, source, sink, "Push.Relabel")
+    max.flow.internal(g, source, sink, "Push.Relabel")
 }
 
 isomorphism <- function(g1, g2)
@@ -472,7 +472,7 @@ isomorphism <- function(g1, g2)
    list("isomorphism"=ans[[1]])
 }
 
-cuthillMckeeOrdering <- function(g)
+cuthill.mckee.ordering <- function(g)
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -484,13 +484,13 @@ cuthillMckeeOrdering <- function(g)
 
    ans[[1]] <- ans[[1]] + 1
 
-   list("reverse cuthillMckeeOrdering"=ans[[1]],
+   list("reverse cuthill.mckee.ordering"=ans[[1]],
  	"original bandwidth"=ans[[2]], "new bandwidth"=ans[[3]])
 }
 
-sequentialVertexColoring <- function(g)
+sequential.vertex.coloring <- function(g)
 {
-   list("sequentialVertexColoring not ready yet")
+   list("sequential.vertex.coloring not ready yet")
 }
 
 minDegreeOrdering <- function(g, delta=0)
@@ -509,7 +509,7 @@ minDegreeOrdering <- function(g, delta=0)
    list("inverse_permutation"=ans[[1]], "permutation"=ans[[2]])
 }
 
-sloanOrdering <- function(g, w1=1, w2=2)
+sloan.ordering <- function(g, w1=1, w2=2)
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -521,9 +521,9 @@ sloanOrdering <- function(g, w1=1, w2=2)
 
    ans[[1]] <- ans[[1]] + 1
 
-   list("sloanOrdering"=ans[[1]], "bandwidth"=ans[[2]], 
+   list("sloan.ordering"=ans[[1]], "bandwidth"=ans[[2]], 
 	"profile"=ans[[3]], "maxWavefront"=ans[[4]], 
-	"averWavefront"=ans[[5]], "rmsWavefront"=ans[[6]])
+	"aver.wavefront"=ans[[5]], "rms.wavefront"=ans[[6]])
 }
 
 bandwidth <- function (g)
@@ -539,7 +539,7 @@ bandwidth <- function (g)
    list("bandwidth"=ans[[1]])
 }
 
-graphProfile <- function (g)
+gprofile <- function (g)
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -549,10 +549,10 @@ graphProfile <- function (g)
 	        as.integer(nv), as.integer(ne), as.integer(em-1), 
                 PACKAGE="RBGL")
 
-   list("graphProfile"=ans[[1]])
+   list("profile"=ans[[1]])
 }
 
-ithWavefront <- function (g, start=nodes(g)[1])
+ith.wavefront <- function (g, start=nodes(g)[1])
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -569,7 +569,7 @@ ithWavefront <- function (g, start=nodes(g)[1])
 		as.integer(s-1),
                 PACKAGE="RBGL")
 
-   list("ithWavefront"=ans[[1]])
+   list("ith.wavefront"=ans[[1]])
 }
 
 maxWavefront <- function (g)
@@ -585,7 +585,7 @@ maxWavefront <- function (g)
    list("maxWavefront"=ans[[1]])
 }
 
-averWavefront <- function (g)
+aver.wavefront <- function (g)
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -595,10 +595,10 @@ averWavefront <- function (g)
 	        as.integer(nv), as.integer(ne), as.integer(em-1), 
                 PACKAGE="RBGL")
 
-   list("averWavefront"=ans[[1]])
+   list("aver.wavefront"=ans[[1]])
 }
 
-rmsWavefront <- function (g)
+rms.wavefront <- function (g)
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -608,10 +608,10 @@ rmsWavefront <- function (g)
 	        as.integer(nv), as.integer(ne), as.integer(em-1), 
                 PACKAGE="RBGL")
 
-   list("rmsWavefront"=ans[[1]])
+   list("rms.wavefront"=ans[[1]])
 }
 
-initIncrementalComponents <- function (g)
+init.incremental.components <- function (g)
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -625,7 +625,7 @@ initIncrementalComponents <- function (g)
    ans
 }
 
-incrementalComponents <- function (g)
+incremental.components <- function (g)
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -639,7 +639,7 @@ incrementalComponents <- function (g)
    ans
 }
 
-sameComponent <- function (g, node1, node2)
+same.component <- function (g, node1, node2)
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -662,7 +662,7 @@ sameComponent <- function (g, node1, node2)
    ans
 }
 
-circleLayout <- function ( g, radius=1 )
+circle.layout <- function ( g, radius=1 )
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -674,10 +674,10 @@ circleLayout <- function ( g, radius=1 )
                 PACKAGE="RBGL")
 
    rownames(ans[[1]]) <- c("x", "y")
-   list("circleLayout"=ans[[1]])
+   list("circle.layout"=ans[[1]])
 }
 
-kamadaKawaiSpringLayout <- function ( g, edge_or_side=1, es_length=1 )
+kamada.kawai.spring.layout <- function ( g, edge_or_side=1, es_length=1 )
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -690,10 +690,10 @@ kamadaKawaiSpringLayout <- function ( g, edge_or_side=1, es_length=1 )
                PACKAGE="RBGL")
 
    rownames(ans[[1]]) <- c("x", "y")
-   list("kamadaKawaiSpringLayout"=ans[[1]])
+   list("kamada.kawai.spring.layout"=ans[[1]])
 }
 
-brandesBetweennessCentrality <- function ( g )
+brandes.betweenness.centrality <- function ( g )
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -705,14 +705,14 @@ brandesBetweennessCentrality <- function ( g )
 		as.integer(eW),
                 PACKAGE="RBGL")
 
-   list("betweennessCentralityVertices"=ans[[1]],
-   "betweennessCentralityEdges"=ans[[2]],
-   "relativeBetweennessCentralityVertices"=ans[[3]],
+   list("betweenness.centrality.vertices"=ans[[1]],
+   "betweenness.centrality.edges"=ans[[2]],
+   "relative.betweenness.centrality.vertices"=ans[[3]],
    "dominance"=ans[[4]]
    )
 }
 
-betweennessCentralityClustering <- function(g, threshold=-1, normalize=T )
+betweenness.centrality.clustering <- function(g, threshold=-1, normalize=T )
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -724,7 +724,7 @@ betweennessCentralityClustering <- function(g, threshold=-1, normalize=T )
 		as.integer(eW), as.double(threshold), as.logical(normalize),
                 PACKAGE="RBGL")
 
-   list("numberOfEdges" = ans[[1]], 
+   list("no.of.edges" = ans[[1]], 
         "edges"=ans[[2]],
-        "betweennessCentralityClustering"=ans[[3]])
+        "betweenness.centrality.clustering"=ans[[3]])
 }

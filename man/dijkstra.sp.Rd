@@ -1,11 +1,11 @@
-\name{dijkstraSP}
-\alias{dijkstraSP}
+\name{dijkstra.sp}
+\alias{dijkstra.sp}
 \title{ Dijkstra's shortest paths using boost C++ }
 \description{
 dijkstra's shortest paths
 }
 \usage{
-dijkstraSP(g,start=nodes(g)[1])
+dijkstra.sp(g,start=nodes(g)[1])
 }
 \arguments{
   \item{g}{ instance of class graph }
@@ -27,18 +27,18 @@ element one of this vector has value \code{10}, that means that the
 predecessor of node \code{1} is node \code{10}. The next predecessor is
 found by examining \code{penult[10]}.
 \item{start}{The start node that was supplied in the call to
-\code{dijkstraSP}.}
+\code{dijkstra.sp}.}
 }
 
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
 
-\seealso{\code{\link{spBetween}}}
+\seealso{\code{\link{sp.between}}}
 
 \examples{
 dd <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
-dijkstraSP(dd)
-dijkstraSP(dd,nodes(dd)[2])
+dijkstra.sp(dd)
+dijkstra.sp(dd,nodes(dd)[2])
 ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL")))
-dijkstraSP(ospf,nodes(ospf)[6])
+dijkstra.sp(ospf,nodes(ospf)[6])
 }
 \keyword{ graphs }

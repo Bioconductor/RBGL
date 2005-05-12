@@ -1,16 +1,16 @@
-\name{spBetween}
-\alias{spBetween}
-\alias{spBetweenOld}
-\alias{spBetweenScalar}
+\name{sp.between}
+\alias{sp.between}
+\alias{sp.between.old}
+\alias{sp.between.scalar}
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{ Dijkstra's shortest paths using boost C++ }
 \description{
 dijkstra's shortest paths
 }
 \usage{
-spBetweenScalar(g,start,finish) 
-spBetween(g,start,finish) 
-spBetweenOld(g,start,finish) 
+sp.between.scalar(g,start,finish) 
+sp.between(g,start,finish) 
+sp.between.old(g,start,finish) 
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
@@ -24,7 +24,7 @@ routines for Dijkstra's shortest paths.
 }
 
 \value{
-\code{spBetweenScalar} returns a list with elements:
+\code{sp.between.scalar} returns a list with elements:
 \item{length}{length (using edge weights) of shortest path}
 \item{path}{vector of node names describing the path}
 \item{pweights}{named vector of edge weights for all
@@ -32,13 +32,13 @@ weights constituting the path -- see \code{\link[graph]{pathWeights}}
 for caveats about undirected graph representation.}
 
 Note that if \code{start} or \code{finish} are vectors,
-a list of results of repeated application of \code{spBetweenScalar}
+a list of results of repeated application of \code{sp.between.scalar}
 is returned.
 }
 
 
 \note{
-spBetween returns a list whose size depends upon the start and
+sp.between returns a list whose size depends upon the start and
 finish arguments.  If start and finish are both scalar, then
 a list is returned with elements the length of the shortest
 path and the vector of nodes comprising that path.  If one of start
@@ -49,18 +49,18 @@ are n-vectors, a list of n elements is returned, with ith element the distance
 and path between start[i] and finish[i].  It is an error to have
 start and finish of different nonunity lengths.
 
-spBetweenOld is included for archival purposes.
+sp.between.old is included for archival purposes.
 }
-\seealso{\code{\link{dijkstraSP}}}
+\seealso{\code{\link{dijkstra.sp}}}
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
 
 \examples{
 ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL")))
-dijkstraSP(ospf,nodes(ospf)[6])
-spBetween(ospf, "RT6", "RT1")
-spBetween(ospf, c("RT6", "RT2"), "RT1")
-spBetween(ospf, c("RT6", "RT2"), c("RT1","RT5"))
+dijkstra.sp(ospf,nodes(ospf)[6])
+sp.between(ospf, "RT6", "RT1")
+sp.between(ospf, c("RT6", "RT2"), "RT1")
+sp.between(ospf, c("RT6", "RT2"), c("RT1","RT5"))
 if (interactive()) # see an error for query on nonexistent path
-spBetween(ospf,"N10", "N13")
+sp.between(ospf,"N10", "N13")
 }
 \keyword{ graphs }% at least one, from doc/KEYWORDS

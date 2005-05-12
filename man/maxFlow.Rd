@@ -1,12 +1,12 @@
-\name{maxFlow}
-\alias{edmundsKarpMaxFlow}
-\alias{pushRelabelMaxFlow}
+\name{max.flow}
+\alias{edmunds.karp.max.flow}
+\alias{push.relabel.max.flow}
 \title{Compute max flow for a directed graph }
 \description{Compute max flow for a directed graph }
 }
 \usage{
-edmundsKarpMaxFlow(g, source, sink)
-pushRelabelMaxFlow(g, source, sink)
+edmunds.karp.max.flow(g, source, sink)
+push.relabel.max.flow(g, source, sink)
 }
 \arguments{
   \item{g}{an instance of the \code{graph} class with \code{edgemode}
@@ -37,10 +37,10 @@ See documentation on these algorithms in Boost Graph Library for more details.
 \examples{
 g <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 
-ans1 <- edmundsKarpMaxFlow(g, "B", "D")
-ans2 <- edmundsKarpMaxFlow(g, 3, 2)     # 3 and 2 equivalent to "C" and "B"
+ans1 <- edmunds.karp.max.flow(g, "B", "D")
+ans2 <- edmunds.karp.max.flow(g, 3, 2)     # 3 and 2 equivalent to "C" and "B"
 
-ans3 <- pushRelabelMaxFlow(g, 2, 4)     # 2 and 4 equivalent to "B" and "D"
-ans4 <- pushRelabelMaxFlow(g, "C", "B")
+ans3 <- push.relabel.max.flow(g, 2, 4)     # 2 and 4 equivalent to "B" and "D"
+ans4 <- push.relabel.max.flow(g, "C", "B")
 }
 \keyword{ models }

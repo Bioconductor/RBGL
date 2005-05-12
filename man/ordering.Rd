@@ -1,14 +1,14 @@
 \name{Ordering}
-\alias{cuthillMckeeOrdering}
+\alias{cuthill.mckee.ordering}
 \alias{minDegreeOrdering}
-\alias{sloanOrdering}
+\alias{sloan.ordering}
 \title{Compute vertex ordering for an undirected graph}
 \description{Compute vertex ordering for an undirected graph}
 }
 \usage{
-cuthillMckeeOrdering(g)
+cuthill.mckee.ordering(g)
 minDegreeOrdering(g, delta=0)
-sloanOrdering(g, w1=1, w2=2)
+sloan.ordering(g, w1=1, w2=2)
 }
 \arguments{
   \item{g}{an instance of the \code{graph} class with \code{edgemode}
@@ -32,8 +32,8 @@ wavefront of a graph by reordering the indices assigned to each vertex.
 See documentations on these algorithms in Boost Graph Library for more details.
 }
 \value{
-\item{cuthillMckeeOrdering}{ returns a list with elements:}
-     \item{reverse cuthillMckeeOrdering}{the vertices in the new ordering}
+\item{cuthill.mckee.ordering}{ returns a list with elements:}
+     \item{reverse cuthill.mckee.ordering}{the vertices in the new ordering}
      \item{original bandwidth}{bandwidth before reordering vertices}
      \item{new bandwidth}{bandwidth after reordering of vertices}
 
@@ -41,8 +41,8 @@ See documentations on these algorithms in Boost Graph Library for more details.
      \item{inverse_permutation}{the new vertex ordering, given as the mapping from the new indices to the old indices }
      \item{permutation}{the new vertex ordering, given as the mapping from the old indices to the new indices }
 
-\item{sloanOrdering}{ returns a list with elements:}
-     \item{sloanOrdering}{the vertices in the new ordering}
+\item{sloan.ordering}{ returns a list with elements:}
+     \item{sloan.ordering}{the vertices in the new ordering}
      \item{bandwidth}{bandwidth of the graph after reordering}
      \item{profile}{profile of the graph after reordering}
      \item{maxWavefront}{maxWavefront of the graph after reordering}
@@ -57,8 +57,8 @@ See documentations on these algorithms in Boost Graph Library for more details.
 \examples{
 coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 coex@edgemode <- "undirected"
-cuthillMckeeOrdering(coex)
+cuthill.mckee.ordering(coex)
 minDegreeOrdering(coex)
-sloanOrdering(coex)
+sloan.ordering(coex)
 }
 \keyword{ models }

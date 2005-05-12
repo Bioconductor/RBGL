@@ -1,10 +1,10 @@
-\name{transitiveClosure}
-\alias{transitiveClosure}
+\name{transitive.closure}
+\alias{transitive.closure}
 \title{Compute transitive closure of a graph}
 \description{Compute  transitive closure of a graph}
 }
 \usage{
-transitiveClosure(g)
+transitive.closure(g)
 }
 \arguments{
   \item{g}{an instance of the \code{graph} class }
@@ -25,6 +25,6 @@ See documentation on this function in Boost Graph Library for more details.
 
 \examples{
 coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
-transitiveClosure(coex)
+transitive.closure(coex)
 }
 \keyword{ models }

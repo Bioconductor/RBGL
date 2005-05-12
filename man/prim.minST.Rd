@@ -1,10 +1,10 @@
-\name{primMinST}
-\alias{primMinST}
+\name{prim.minST}
+\alias{prim.minST}
 \title{Compute minimum spanning tree for an undirected graph}
 \description{Compute minimum spanning tree for an undirected graph}
 }
 \usage{
-primMinST(g)
+prim.minST(g)
 }
 \arguments{
   \item{g}{an instance of the \code{graph} class with \code{edgemode}
@@ -27,6 +27,6 @@ See documentations on this function in Boost Graph Library for more details.
 
 \examples{
 coex <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
-primMinST(coex)
+prim.minST(coex)
 }
 \keyword{ models }
