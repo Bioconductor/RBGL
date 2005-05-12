@@ -1,14 +1,14 @@
-\name{incremental.components}
-\alias{init.incremental.components}
-\alias{incremental.components}
-\alias{same.component}
+\name{incrementalComponents}
+\alias{initIncrementalComponents}
+\alias{incrementalComponents}
+\alias{sameComponent}
 \title{Compute connected components for an undirected graph}
 \description{Compute connected components for an undirected graph}
 }
 \usage{
-init.incremental.components(g)
-incremental.components(g)
-same.component(g, node1, node2)
+initIncrementalComponents(g)
+incrementalComponents(g)
+sameComponent(g, node1, node2)
 }
 \arguments{
   \item{g}{an instance of the \code{graph} class }
@@ -19,22 +19,22 @@ same.component(g, node1, node2)
 This family of functions work together to calculate the connected 
 components of an undirected graph. The algorithm is based on the 
 disjoint-sets.  It works where the graph is growing by adding new edges.
-Call "init.incremental.components" to initialize the calculation on a new graph.
-Call "incremental.components" to re-calculate connected components after 
-growing the graph.  Call "same.component" to learn if two given vertices 
+Call "initIncrementalComponents" to initialize the calculation on a new graph.
+Call "incrementalComponents" to re-calculate connected components after 
+growing the graph.  Call "sameComponent" to learn if two given vertices 
 are in the same connected components. 
 Currently, the codes can only handle ONE incremental graph at a time.  When you
-start working on another graph by calling "init.incremental.components", the
+start working on another graph by calling "initIncrementalComponents", the
 disjoint-sets info on the previous graph is lost. 
 See documentation on Incremental Connected Components in Boost Graph Library 
 for more details.
 }
 \value{
-  Output from init.incremental.components is a list of component numbers for each vertex in the graph.
+  Output from initIncrementalComponents is a list of component numbers for each vertex in the graph.
 
-  Output from incremental.components is a list of component numbers for each vertex in the graph.
+  Output from incrementalComponents is a list of component numbers for each vertex in the graph.
 
-  Output from same.component is true if both nodes are in the same connected component, otherwise it's false. 
+  Output from sameComponent is true if both nodes are in the same connected component, otherwise it's false. 
 }
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}
@@ -43,10 +43,10 @@ for more details.
 
 \examples{
 coex <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
-init.incremental.components(coex)
-incremental.components(coex)
+initIncrementalComponents(coex)
+incrementalComponents(coex)
 v1 <- 1
 v2 <- 5
-same.component(coex, v1, v2)
+sameComponent(coex, v1, v2)
 }
 \keyword{ models }

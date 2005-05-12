@@ -1,11 +1,11 @@
-\name{dag.sp}
-\alias{dag.sp}
+\name{dagSP}
+\alias{dagSP}
 \title{ DAG shortest paths using boost C++ }
 \description{
 Algorithm for the single-source shortest-paths problem on a weighted, directed acyclic graph (DAG)
 }
 \usage{
-dag.sp(g,start=nodes(g)[1])
+dagSP(g,start=nodes(g)[1])
 }
 \arguments{
   \item{g}{ instance of class graph }
@@ -31,7 +31,7 @@ predecessor of node \code{1} is node \code{10}. The next predecessor is
 found by examining \code{penult[10]}.}
 
 \item{start}{The start node that was supplied in the call to
-\code{dag.sp}.}
+\code{dagSP}.}
 }
 
 \author{ Li Long <li.long@isb-sib.ch> }
@@ -40,8 +40,8 @@ found by examining \code{penult[10]}.}
 
 \examples{
 dd <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
-dag.sp(dd)
-dag.sp(dd,nodes(dd)[2])
+dagSP(dd)
+dagSP(dd,nodes(dd)[2])
 }
 \keyword{ graphs }
 

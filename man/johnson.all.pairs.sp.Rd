@@ -1,11 +1,11 @@
-\name{johnson.all.pairs.sp}
-\alias{johnson.all.pairs.sp}
+\name{johnsonAllPairsSP}
+\alias{johnsonAllPairsSP}
 \title{compute shortest path distance matrix for all pairs of nodes}
 \description{
 compute shortest path distance matrix for all pairs of nodes
 }
 \usage{
-johnson.all.pairs.sp(g)
+johnsonAllPairsSP(g)
 }
 \arguments{
   \item{g}{ graph object for which edgeMatrix and edgeWeights are defined}
@@ -25,6 +25,6 @@ matrix of shortest path lengths, read from row node to col node
 
 \examples{
 z <- fromGXL(file(system.file("dot/joh.gxl", package="RBGL")))
-johnson.all.pairs.sp(z)
+johnsonAllPairsSP(z)
 }
 \keyword{ models }

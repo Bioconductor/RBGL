@@ -1,16 +1,16 @@
 \name{wavefront}
-\alias{ith.wavefront}
+\alias{ithWavefront}
 \alias{maxWavefront}
-\alias{aver.wavefront}
-\alias{rms.wavefront}
+\alias{averWavefront}
+\alias{rmsWavefront}
 \title{Compute the i-th/max/average/rms wavefront for a graph}
 \description{Compute the i-th/max/average/rms wavefront for a graph}
 }
 \usage{
-ith.wavefront(g, start)
+ithWavefront(g, start)
 maxWavefront(g)
-aver.wavefront(g)
-rms.wavefront(g)
+averWavefront(g)
+rmsWavefront(g)
 }
 \arguments{
   \item{start}{a vertex of the \code{graph} class }
@@ -20,10 +20,10 @@ rms.wavefront(g)
 Assorted functions on wavefront of a graph.
 }
 \value{
-\item{ith.wavefront}{wavefront of the given vertex}
+\item{ithWavefront}{wavefront of the given vertex}
 \item{maxWavefront}{maximum wavefront of a graph}
-\item{aver.wavefront}{average wavefront of a graph}
-\item{rms.wavefront}{root mean square of all wavefronts}
+\item{averWavefront}{average wavefront of a graph}
+\item{rmsWavefront}{root mean square of all wavefronts}
 }
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}
@@ -33,9 +33,9 @@ Assorted functions on wavefront of a graph.
 \examples{
 coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 ss <- 1
-ith.wavefront(coex, ss)
+ithWavefront(coex, ss)
 maxWavefront(coex)
-aver.wavefront(coex)
-rms.wavefront(coex)
+averWavefront(coex)
+rmsWavefront(coex)
 }
 \keyword{ models }

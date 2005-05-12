@@ -1,12 +1,12 @@
 \name{layout}
-\alias{circle.layout}
-\alias{kamada.kawai.spring.layout}
+\alias{circleLayout}
+\alias{kamadaKawaiSpringLayout}
 \title{Layout an undirected graph in 2D}
 \description{Layout an undirected graph in 2D}
 }
 \usage{
-circle.layout(g, radius=1)
-kamada.kawai.spring.layout( g, edge_or_side=1, es_length=1 )
+circleLayout(g, radius=1)
+kamadaKawaiSpringLayout( g, edge_or_side=1, es_length=1 )
 }
 \arguments{
   \item{g}{an instance of the \code{graph} class with \code{edgemode}
@@ -18,11 +18,11 @@ kamada.kawai.spring.layout( g, edge_or_side=1, es_length=1 )
 }
 \details{
 According to the documentation on these algorithms in Boost Graph Library:
-\code{circle.layout} layouts the graph with the vertices at the points of a 
+\code{circleLayout} layouts the graph with the vertices at the points of a 
 regular n-polygon.  The distance from the center of the polygon to each point 
 is determined by the \code{radius} parameter.
 
-\code{kamada.kawai.spring.layout} provides Kamada-Kawai spring layout for 
+\code{kamadaKawaiSpringLayout} provides Kamada-Kawai spring layout for 
 connected, undirected graphs.  User provides either the unit length e of an 
 edge in the layout or the length of a side s of the display area.
 }
@@ -37,7 +37,7 @@ edge in the layout or the length of a side s of the display area.
 \examples{
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 coex@edgemode <- "undirected"
-circle.layout(coex)
-kamada.kawai.spring.layout(coex)
+circleLayout(coex)
+kamadaKawaiSpringLayout(coex)
 }
 \keyword{ models }

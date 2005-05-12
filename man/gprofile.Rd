@@ -1,10 +1,10 @@
-\name{gprofile}
-\alias{gprofile}
+\name{graphProfile}
+\alias{graphProfile}
 \title{Compute profile for a graph}
 \description{Compute profile for a graph}
 }
 \usage{
-gprofile(g)
+graphProfile(g)
 }
 \arguments{
   \item{g}{an instance of the \code{graph} class} 
@@ -22,6 +22,6 @@ The profile of a given graph is the sum of bandwidths for all the vertices in th
 
 \examples{
 coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
-gprofile(coex)
+graphProfile(coex)
 }
 \keyword{ models }

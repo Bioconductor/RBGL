@@ -1,10 +1,10 @@
-\name{betweenness.centrality.clustering}
-\alias{betweenness.centrality.clustering}
+\name{betweennessCentralityClustering}
+\alias{betweennessCentralityClustering}
 \title{Graph clustering based on edge betweenness centrality}
 \description{Graph clustering based on edge betweenness centrality}
 }
 \usage{
-betweenness.centrality.clustering(g, threshold = -1, normalize = T))
+betweennessCentralityClustering(g, threshold = -1, normalize = T))
 }
 \arguments{
   \item{g}{an instance of the \code{graph} class with \code{edgemode}
@@ -22,9 +22,9 @@ See documentation on Clustering algorithms in Boost Graph Library for details.
 }
 \value{
 A list of
-\item{betweenness.centrality.vertices}{betweenness centrality of each vertex}
-\item{betweenness.centrality.edges}{betweenness centrality of each edge}
-\item{relative.betweenness.centrality.vertices}{relative betweenness centrality of each vertex}
+\item{betweennessCentralityVertices}{betweenness centrality of each vertex}
+\item{betweennessCentralityEdges}{betweenness centrality of each edge}
+\item{relativeBetweennessCentralityVertices}{relative betweenness centrality of each vertex}
 \item{dominance}{central point dominance}
 }
 \references{Boost Graph Library by Siek et al.  }
@@ -35,6 +35,6 @@ A list of
 \examples{
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 coex@edgemode <- "undirected"
-betweenness.centrality.clustering(coex)
+betweennessCentralityClustering(coex)
 }
 \keyword{ models }

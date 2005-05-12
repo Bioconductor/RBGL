@@ -1,5 +1,5 @@
-\name{mstree.kruskal}
-\alias{mstree.kruskal}
+\name{mstreeKruskal}
+\alias{mstreeKruskal}
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{ Kruskal's minimum spanning tree in boost }
 \description{
@@ -7,7 +7,7 @@ compute the minimum spanning tree (MST) for
 a graph and return a representation in matrices
 }
 \usage{
-mstree.kruskal(x) 
+mstreeKruskal(x) 
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
@@ -28,11 +28,11 @@ columns of \code{edgeList}}
 
 \examples{
 km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
-mstree.kruskal(km)
+mstreeKruskal(km)
 km@edgeL$B$weights <- c(1.1,.95)
-mstree.kruskal(km)
+mstreeKruskal(km)
 km2 <- fromGXL(file(system.file("XML/telenet.gxl",package="RBGL")))
-m <- mstree.kruskal(km2)
+m <- mstreeKruskal(km2)
 print(sum(m[[2]]))
 }
 \keyword{ graphs }% at least one, from doc/KEYWORDS
