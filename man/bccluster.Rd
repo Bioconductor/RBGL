@@ -4,7 +4,7 @@
 \description{Graph clustering based on edge betweenness centrality}
 }
 \usage{
-betweenness.centrality.clustering(g, threshold = -1, normalize = T))
+betweenness.centrality.clustering(g, threshold = -1, normalize = T)
 }
 \arguments{
   \item{g}{an instance of the \code{graph} class with \code{edgemode}
