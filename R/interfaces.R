@@ -258,6 +258,33 @@ minCut <- function (g)
     list(mincut=ans[[1]], "S"=ans[[2]]+1, "V-S"=ans[[3]]+1)
 }
 
+highlyConnSG <- function (g, sat=3, ldv=c(3, 2, 1))
+{
+    lldv <- length(ldv)
+    x = ldv[1:lldv-1] - ldv[2:lldv]
+   
+    if ( length(ldv) <= 1 ||
+         length(ldv[ldv>0]) != length(ldv) || 
+         length(x[x>0]) != length(x) )
+       stop("ldv has to be decreasing sequence of positive integers")
+    
+    if ( sat <= 0 ) stop("sat has to be positive")
+
+    if (edgemode(g) == "directed")
+       stop("only applicable to undirected graphs")
+
+    nv <- length(nodes(g))
+    em <- edgeMatrix(g)
+    ne <- ncol(em)
+
+    ans <- .Call("BGL_highly_conn_sg", as.integer(nv), as.integer(ne),
+                 as.integer(em-1), as.double(rep(1.,ne)), 
+                 as.integer(sat), as.integer(lldv), as.integer(ldv),
+                 PACKAGE="RBGL")
+
+    list(clusters=ans)
+}
+
 
 extractPath <- function(s, f, pens) {
 # use list of penultimates (from dijkstra.sp) to establish
