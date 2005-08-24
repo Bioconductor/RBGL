@@ -38,8 +38,9 @@ prim.minST <- function ( g )
     list("edges"=ans[[1]], "weights"=ans[[2]])
 }
 
-if (!isGeneric("bfs")) setGeneric("bfs",
-        function( object, node, checkConn=TRUE) standardGeneric("bfs"))
+if (!isGeneric("bfs")) 
+  setGeneric("bfs", function( object, node, checkConn=TRUE) 
+             standardGeneric("bfs"))
 
 setMethod("bfs",c("graph", "missing", "missing"),
   function( object, node, checkConn=TRUE)
@@ -83,40 +84,45 @@ setMethod("dfs",c("graph", "missing", "missing"),
           function( object, node, checkConn=TRUE)
           dfs(object, nodes(object)[1], TRUE))
 
+setMethod("dfs",c("graph", "character", "missing"),
+          function( object, node, checkConn=TRUE)
+          dfs(object, node, TRUE))
+
 setMethod("dfs",c("graph", "character", "logical"),
           function( object, node, checkConn=TRUE) {
-              nodvec <- nodes(object)
-              if (is.na(startind <- match(node,nodvec)))
+          nodvec <- nodes(object)
+          if (is.na(startind <- match(node,nodvec)))
           {
-          warning("starting node not found in nodes of graph,\nnodes element 1 used")
-          startind <- 1
+              warning("starting node not found in nodes of graph,\nnodes element 1 used")
+              startind <- 1
           }
- if (checkConn)
-   {
-   if (length(connectedComp(object))>1) stop("graph is not connected")
-   }
- nv <- length(nodvec)
- em <- edgeMatrix(object,duplicates=TRUE)
- ne <- ncol(em)
- if (startind != 1)  # here we rearrange the node references in edgematrix
-   {          # to reflect altered start index
-   tem <- em
-   em[tem == 1] <- startind
-   em[tem == startind] <- 1
-   }
- ans <- .Call("BGL_dfs_D", as.integer(nv), as.integer(ne),
-      as.integer(em-1), as.integer(rep(1,ne)),
-      PACKAGE="RBGL")
- fixup <- function(x) { 
-    tm <- x;
-    x[tm==(1-1)] <- startind-1
-    x[tm==(startind-1)] <- (1-1)
-    x
-    }
- ans <- lapply(ans, fixup)
- names(ans) <- c("discovered", "finish")
- lapply(ans,function(x)x+1)
-})
+          if (checkConn)
+            {
+            if (length(connectedComp(object))>1) 
+                stop("graph is not connected")
+            }
+          nv <- length(nodvec)
+          em <- edgeMatrix(object,duplicates=TRUE)
+          ne <- ncol(em)
+          if (startind != 1)  # here we rearrange the node references in edgematrix
+          {          # to reflect altered start index
+            tem <- em
+            em[tem == 1] <- startind
+            em[tem == startind] <- 1
+          }
+          ans <- .Call("BGL_dfs_D", as.integer(nv), as.integer(ne),
+               as.integer(em-1), as.integer(rep(1,ne)),
+               PACKAGE="RBGL")
+          fixup <- function(x) { 
+             tm <- x;
+             x[tm==(1-1)] <- startind-1
+             x[tm==(startind-1)] <- (1-1)
+             x
+             }
+          ans <- lapply(ans, fixup)
+          names(ans) <- c("discovered", "finish")
+          lapply(ans,function(x)x+1)
+         })
 
 dijkstra.sp <- function(g,start=nodes(g)[1]) {
     if (!is.character(start)) stop("start must be character")

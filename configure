@@ -12,5 +12,5 @@ if test -d ./src/boostIncl;
 #		fi;
 	else
 		echo "untarring boost include tree...";
-		cd src; tar zxf boostIncl.tar.gz;
+		cd src; gunzip -dc boostIncl.tar.gz | tar xf -;
 fi;
