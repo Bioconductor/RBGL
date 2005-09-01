@@ -14,11 +14,11 @@ extern "C"
 
    	typedef adjacency_list<vecS, vecS, undirectedS,
     		// vertex properties
-    		property<vertex_index_t, int>, 
+                property<vertex_index_t, int, 
+    		property<vertex_centrality_t, double> >, 
     		// edge properties
     		property<edge_weight_t, double, 
-    		property<edge_centrality_t, double, 
-    		property<edge_index_t, int> > > >
+    		property<edge_centrality_t, double> > >
     		BCGraph;
 	typedef graph_traits<BCGraph>::edge_descriptor Edge;
 
@@ -42,23 +42,30 @@ extern "C"
 		PROTECT(rbcvlst = allocMatrix(REALSXP, 1, NV));
 		PROTECT(dom = NEW_NUMERIC(1));
 
-		std::vector<double> c_map(NV);
-		std::vector<double> e_map(NE);
-
 		brandes_betweenness_centrality(g, 
-			make_iterator_property_map(c_map.begin(), get(vertex_index, g), double()),
-			make_iterator_property_map(e_map.begin(), get(edge_index, g), double()));
+                        get(vertex_centrality, g), get(edge_centrality, g));
 
-		for ( int v = 0; v < NV; v++ ) REAL(bcvlst)[v] = c_map[v];
-		for ( int e = 0; e < NE; e++ ) REAL(bcelst)[e] = e_map[e];
+                property_map<BCGraph, vertex_centrality_t>::type v_map = get(vertex_centrality, g);
+                property_map<BCGraph, edge_centrality_t>::type e_map = get(edge_centrality, g);
 
-		relative_betweenness_centrality(g, 
-			make_iterator_property_map(c_map.begin(), get(vertex_index, g), double())); 
+                graph_traits < BCGraph>::vertex_iterator vi, v_end;
+                graph_traits < BCGraph>::edge_iterator ei, e_end;
 
-		for ( int v = 0; v < NV; v++ ) REAL(rbcvlst)[v] = c_map[v];
+                int v = 0, e = 0;
+
+		for ( tie(vi, v_end) = vertices(g); vi != v_end; vi++ ) 
+                    REAL(bcvlst)[v++] = v_map[*vi];
+		for ( tie(ei, e_end) = edges(g); ei != e_end ; ei++ ) 
+                    REAL(bcelst)[e++] = e_map[*ei];
+
+		relative_betweenness_centrality(g, get(vertex_centrality, g));
+                v_map = get(vertex_centrality, g);
+
+		for ( v = 0, tie(vi, v_end) = vertices(g); vi != v_end; vi++ ) 
+                    REAL(rbcvlst)[v++] = v_map[*vi];
 		
 		double dominance = central_point_dominance(g,
-			make_iterator_property_map(c_map.begin(), get(vertex_index, g), double())); 
+		                  get(vertex_centrality, g));
 
 		REAL(dom)[0] = dominance;
 
@@ -73,15 +80,16 @@ extern "C"
 	class clustering_threshold : public bc_clustering_threshold<double>
 	{
 		typedef bc_clustering_threshold<double> inherited;
+
 	public:
-	clustering_threshold(double threshold, const BCGraph& g, bool normalize)
+	        clustering_threshold(double threshold, const BCGraph& g, bool normalize)
 		: inherited(threshold, g, normalize), iter(1) { }
 
-	bool operator()(double max_centrality, Edge e, const BCGraph& g)
-	 {
+	        bool operator()(double max_centrality, Edge e, const BCGraph& g)
+	        {
 		  ++iter;
 		  return inherited::operator()(max_centrality, e, g);
-	 }
+	        }
 
 	private:
 		 unsigned int iter;
@@ -116,7 +124,7 @@ extern "C"
 		INTEGER(cnt)[0] = num_edges(g);
 
 		property_map < BCGraph, edge_centrality_t >::type
-		ec = get(edge_centrality, g);
+		         ec = get(edge_centrality, g);
 
 		typedef graph_traits<BCGraph>::edge_iterator   edge_iterator;
 		edge_iterator ei, e_end;
