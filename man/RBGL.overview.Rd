@@ -7,7 +7,7 @@ C++ library for graph algorithms.  This page follows, approximately,
 the chapter structure of the monograph on the Boost Graph Library
 by Siek et al., and gives hyperlinks to documentation on
 R functions currently available, along with the names
-of formal parameters to these functions.
+of formal parameters to these functions. }
 
 \section{ basicAlgs }{
 
@@ -108,4 +108,4 @@ Functions \tab parameters \cr
 \code{\link[RBGL:wavefront]{rms.wavefront}}\tab\code{g}\cr
 }
 }
-\keywords{models}
+\keyword{models}
