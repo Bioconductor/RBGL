@@ -25,7 +25,7 @@ vertex in V-S.  The min-cut problem is to find a cut (S, V-S) of minimum cost.
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{\code{\link{edgeConnectivity}}  }
+\seealso{\code{\link{edgeConnectivity}}, \code{\link{edmunds.karp.max.flow}}, \code{\link{push.relabel.max.flow}}  }
 
 \examples{
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))

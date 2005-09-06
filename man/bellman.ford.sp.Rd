@@ -37,7 +37,7 @@ found by examining \code{penult[10]}.
 
 \author{ Li Long <li.long@isb-sib.ch> }
 
-\seealso{}
+\seealso{\code{\link{dag.sp}}, \code{\link{dijkstra.sp}}, \code{\link{johnson.all.pairs.sp}}, \code{\link{sp.between}} }
 
 \examples{
 dd <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))

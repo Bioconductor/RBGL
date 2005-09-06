@@ -26,6 +26,8 @@ columns of \code{edgeList}}
 }
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
 
+\seealso{\code{\link{prim.minST}}}
+
 \examples{
 km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
 mstree.kruskal(km)

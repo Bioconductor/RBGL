@@ -32,7 +32,7 @@ See documentation on these algorithms in Boost Graph Library for more details.
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{ }
+\seealso{\code{\link{minCut}}, \code{\link{edgeConnectivity}}}
 
 \examples{
 g <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))

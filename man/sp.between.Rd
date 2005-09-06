@@ -51,8 +51,9 @@ start and finish of different nonunity lengths.
 
 sp.between.old is included for archival purposes.
 }
-\seealso{\code{\link{dijkstra.sp}}}
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
+
+\seealso{\code{\link{bellman.ford.sp}}, \code{\link{dag.sp}}, \code{\link{dijkstra.sp}}, \code{\link{johnson.all.pairs.sp}}}
 
 \examples{
 ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL")))

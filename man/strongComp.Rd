@@ -24,7 +24,7 @@ the nodes in that component.
 \references{Boost Graph Library  }
 \author{Vince Carey <stvjc@channing.harvard.edu>}
 
-\seealso{\code{\link[graph]{connComp}},\code{\link{connectedComp}} }
+\seealso{\code{\link[graph]{connComp}},\code{\link{connectedComp}}, \code{\link{same.component}} }
 
 \examples{
 km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))

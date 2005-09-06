@@ -32,7 +32,7 @@ found by examining \code{penult[10]}.
 
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
 
-\seealso{\code{\link{sp.between}}}
+\seealso{\code{\link{bellman.ford.sp}}, \code{\link{dag.sp}}, \code{\link{johnson.all.pairs.sp}}, \code{\link{sp.between}} }
 
 \examples{
 dd <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))

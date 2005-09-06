@@ -20,8 +20,7 @@ matrix of shortest path lengths, read from row node to col node
 \author{Vince Carey <stvjc@channing.harvard.edu>}
 \note{  }
 
-
-\seealso{  }
+\seealso{\code{\link{bellman.ford.sp}}, \code{\link{dag.sp}}, \code{\link{dijkstra.sp}}, \code{\link{sp.between}} }
 
 \examples{
 z <- fromGXL(file(system.file("dot/joh.gxl", package="RBGL")))

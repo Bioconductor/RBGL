@@ -23,7 +23,7 @@ See documentations on this function in Boost Graph Library for more details.
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{}
+\seealso{\code{\link{mstree.kruskal}}}
 
 \examples{
 coex <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))

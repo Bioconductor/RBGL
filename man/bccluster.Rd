@@ -4,7 +4,7 @@
 \description{Graph clustering based on edge betweenness centrality}
 }
 \usage{
-betweenness.centrality.clustering(g, threshold = -1, normalize = T)
+betweenness.centrality.clustering(g, threshold = -1, normalize = T))
 }
 \arguments{
   \item{g}{an instance of the \code{graph} class with \code{edgemode}
@@ -30,7 +30,7 @@ A list of
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{}
+\seealso{\code{\link{brandes.betweenness.centrality}}} 
 
 \examples{
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))

@@ -26,7 +26,7 @@ the documentation on brandes betweenness centrality in Boost Graph Library.
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{}
+\seealso{\code{\link{betweenness.centrality.clustering}}}
 
 \examples{
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))

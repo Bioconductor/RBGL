@@ -26,8 +26,8 @@ graph it is first transformed to an undirected graph (using
 \references{Boost Graph Library}
 
 \author{ Vince Carey <stvjc@channing.harvard.edu>}
-\seealso{\code{\link[graph]{connComp}},\code{\link{strongComp}},
-  \code{\link[graph]{ugraph}}}
+
+\seealso{\code{\link[graph]{connComp}},\code{\link{strongComp}}, \code{\link[graph]{ugraph}}, \code{\link{same.component}} }
 
 \examples{
 km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))

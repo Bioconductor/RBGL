@@ -6,8 +6,8 @@ Author: Vince Carey <stvjc@channing.harvard.edu>, Li Long
         <lilong@isb-sib.ch>
 Maintainer: Li Long <lilong@isb-sib.ch>
 Depends: graph
-Description: demo of interface with full copy of all hpp defining
-        boost
+Description: demo of interface with full copy of all hpp defining boost
+biocViews: GraphsAndNetworks
 License: LGPL
 URL: http://www.bioconductor.org
 Packaged: Wed Sep 15 02:53:00 2004; madman
