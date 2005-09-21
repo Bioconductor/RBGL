@@ -757,6 +757,8 @@ betweenness.centrality.clustering <- function(g, threshold=-1, normalize=T )
 		as.integer(eW), as.double(threshold), as.logical(normalize),
                 PACKAGE="RBGL")
 
+   rownames(ans[[2]]) <- c("from", "to")
+   ans[[2]] <- ans[[2]] + 1 
    list("no.of.edges" = ans[[1]], 
         "edges"=ans[[2]],
         "edge.betweenness.centrality"=ans[[3]])

@@ -87,6 +87,10 @@ extern "C"
 
 	        bool operator()(double max_centrality, Edge e, const BCGraph& g)
 	        {
+#if DEBUG
+                  std::cout << "Iter: " << iter << " Max Centrality: "
+                       << (max_centrality / dividend) << std::endl;
+#endif
 		  ++iter;
 		  return inherited::operator()(max_centrality, e, g);
 	        }
@@ -128,6 +132,14 @@ extern "C"
 
 		typedef graph_traits<BCGraph>::edge_iterator   edge_iterator;
 		edge_iterator ei, e_end;
+
+#if DEBUG
+                std::cout << " edge centralities: ";
+		for ( tie(ei, e_end) = edges(g); ei != e_end; ++ei )
+                        std::cout << " " << ec[*ei];
+                std::cout << std::endl;
+#endif
+
 		int i = 0, j = 0;
 		for ( tie(ei, e_end) = edges(g); ei != e_end; ++ei )
 		{
