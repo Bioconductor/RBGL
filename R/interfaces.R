@@ -759,5 +759,5 @@ betweenness.centrality.clustering <- function(g, threshold=-1, normalize=T )
 
    list("no.of.edges" = ans[[1]], 
         "edges"=ans[[2]],
-        "betweenness.centrality.clustering"=ans[[3]])
+        "edge.betweenness.centrality"=ans[[3]])
 }
