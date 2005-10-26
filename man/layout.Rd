@@ -29,7 +29,7 @@ is determined by the \code{radius} parameter.
 connected, undirected graphs.  User provides either the unit length e of an 
 edge in the layout or the length of a side s of the display area.
 
-TO_BE_FILLED_IN
+TO BE FILLED IN
 }
 \value{
   A list of the (x, y)-coordinates for vertices in the graph.

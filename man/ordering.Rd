@@ -32,7 +32,7 @@ The goal of the Sloan ordering algorithm is to reduce the profile and the
 wavefront of a graph by reordering the indices assigned to each vertex. 
 See documentations on these algorithms in Boost Graph Library for more details.
 
-TO_BE_FILLED_IN
+TO BE FILLED IN
 }
 \value{
 \item{cuthill.mckee.ordering}{ returns a list with elements:}
