@@ -261,7 +261,13 @@ minCut <- function (g)
     ans <- .Call("BGL_min_cut_U", as.integer(nv), as.integer(ne),
                  as.integer(em-1), as.double(rep(1.,ne)), PACKAGE="RBGL")
 
-    list(mincut=ans[[1]], "S"=ans[[2]]+1, "V-S"=ans[[3]]+1)
+    s_names <- sapply(ans[[2]]+1, function(x) { nodes(g)[x] })
+    vs_names <- sapply(ans[[3]]+1, function(x) { nodes(g)[x] })
+
+    if ( length(s_names) > length(vs_names) )
+    {  temp <- s_names; s_names <- vs_names; vs_names <- temp }
+
+    list(mincut=ans[[1]], "S"=s_names, "V-S"=vs_names)
 }
 
 highlyConnSG <- function (g, sat=3, ldv=c(3, 2, 1))
@@ -288,7 +294,8 @@ highlyConnSG <- function (g, sat=3, ldv=c(3, 2, 1))
                  as.integer(sat), as.integer(lldv), as.integer(ldv),
                  PACKAGE="RBGL")
 
-    list(clusters=ans)
+    ans_names <- sapply(ans, function(x) { nodes(g)[x] })
+    list(clusters=ans_names)
 }
 
 
@@ -428,12 +435,14 @@ transitive.closure <- function (g)
     ans <- .Call("BGL_transitive_closure_D", as.integer(nv), 
         as.integer(ne), as.integer(em - 1), PACKAGE="RBGL")
     
-    rownames(ans[[1]]) <- c("vertex")
-    ans[[1]] <- ans[[1]] + 1
+    v_names <- sapply(ans[[1]]+1, function(x) { nodes(g)[x] })
+    ans[[1]] <- v_names
 
     rownames(ans[[2]]) <- c("from", "to")
-    ans[[2]][1,] <- ans[[2]][1,] + 1
-    ans[[2]][2,] <- ans[[2]][2,] + 1
+    f_names <- sapply(ans[[2]][1,]+1, function(x) { nodes(g)[x] })
+    t_names <- sapply(ans[[2]][2,]+1, function(x) { nodes(g)[x] })
+    ans[[2]][1,] <- f_names
+    ans[[2]][2,] <- t_names
 
     list("nodes"= ans[[1]], "edges"=ans[[2]])
 }
@@ -472,8 +481,10 @@ max.flow.internal <- function (g, source, sink, method="Edmunds.Karp")
 
     rownames(ans[[2]]) <- c("from", "to")
     rownames(ans[[3]]) <- c("flow")
-    ans[[2]][1,] <- ans[[2]][1,] + 1
-    ans[[2]][2,] <- ans[[2]][2,] + 1
+    f_names <- sapply(ans[[2]][1,]+1, function(x) { nodes(g)[x] })
+    t_names <- sapply(ans[[2]][2,]+1, function(x) { nodes(g)[x] })
+    ans[[2]][1,] <- f_names
+    ans[[2]][2,] <- t_names
     list("maxflow"=ans[[1]], "edges"=ans[[2]], "flows"=ans[[3]])
 }
 
@@ -515,9 +526,9 @@ cuthill.mckee.ordering <- function(g)
 	        as.integer(nv), as.integer(ne), as.integer(em-1), 
                 PACKAGE="RBGL")
 
-   ans[[1]] <- ans[[1]] + 1
+   r_names <- sapply(ans[[1]]+1, function(x) { nodes(g)[x] })
 
-   list("reverse cuthill.mckee.ordering"=ans[[1]],
+   list("reverse cuthill.mckee.ordering"=r_names,
  	"original bandwidth"=ans[[2]], "new bandwidth"=ans[[3]])
 }
 
@@ -536,10 +547,10 @@ minDegreeOrdering <- function(g, delta=0)
 	        as.integer(nv), as.integer(ne), as.integer(em-1), as.integer(delta),
                 PACKAGE="RBGL")
 
-   ans[[1]] <- ans[[1]] + 1
-   ans[[2]] <- ans[[2]] + 1
+    ip_names <- sapply(ans[[1]]+1, function(x) { nodes(g)[x] })
+    p_names <- sapply(ans[[2]]+1, function(x) { nodes(g)[x] })
 
-   list("inverse_permutation"=ans[[1]], "permutation"=ans[[2]])
+   list("inverse_permutation"=ip_names, "permutation"=p_names)
 }
 
 sloan.ordering <- function(g, w1=1, w2=2)
@@ -552,9 +563,9 @@ sloan.ordering <- function(g, w1=1, w2=2)
 	        as.integer(nv), as.integer(ne), as.integer(em-1), w1, w2,
                 PACKAGE="RBGL")
 
-   ans[[1]] <- ans[[1]] + 1
+   s_names <- sapply(ans[[1]]+1, function(x) { nodes(g)[x] })
 
-   list("sloan.ordering"=ans[[1]], "bandwidth"=ans[[2]], 
+   list("sloan.ordering"=s_names, "bandwidth"=ans[[2]], 
 	"profile"=ans[[3]], "maxWavefront"=ans[[4]], 
 	"aver.wavefront"=ans[[5]], "rms.wavefront"=ans[[6]])
 }
@@ -758,8 +769,9 @@ betweenness.centrality.clustering <- function(g, threshold=-1, normalize=T )
                 PACKAGE="RBGL")
 
    rownames(ans[[2]]) <- c("from", "to")
-   ans[[2]] <- ans[[2]] + 1 
+   s_names <- sapply(ans[[2]]+1, function(x) { nodes(g)[x] })
    list("no.of.edges" = ans[[1]], 
-        "edges"=ans[[2]],
+        "edges"=s_names,
         "edge.betweenness.centrality"=ans[[3]])
 }
+
