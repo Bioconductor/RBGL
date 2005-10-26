@@ -1,6 +1,9 @@
 \name{layout}
 \alias{circle.layout}
 \alias{kamada.kawai.spring.layout}
+\alias{fruchtermanReingoldForceDirectedLayout}
+\alias{gursoyAtunLayout}
+\alias{randomGraphLayout}
 \title{Layout an undirected graph in 2D}
 \description{Layout an undirected graph in 2D}
 }
@@ -25,6 +28,8 @@ is determined by the \code{radius} parameter.
 \code{kamada.kawai.spring.layout} provides Kamada-Kawai spring layout for 
 connected, undirected graphs.  User provides either the unit length e of an 
 edge in the layout or the length of a side s of the display area.
+
+TO_BE_FILLED_IN
 }
 \value{
   A list of the (x, y)-coordinates for vertices in the graph.

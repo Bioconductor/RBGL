@@ -6,6 +6,7 @@
 #include <boost/graph/wavefront.hpp>
 #include <boost/graph/minimum_degree_ordering.hpp>
 #include <boost/graph/sloan_ordering.hpp>
+#include <boost/graph/king_ordering.hpp>
 
 extern "C"
 {
@@ -141,6 +142,52 @@ extern "C"
 			&perm[0], 
 			make_iterator_property_map(&supernode_sizes[0], id, supernode_sizes[0]), 
 			delta, id);
+
+		SEXP ansList, invpermList, permList;
+		PROTECT(ansList = allocVector(VECSXP,2));
+		PROTECT(invpermList = allocVector(INTSXP,NV));
+		PROTECT(permList = allocVector(INTSXP,NV));
+
+		std::vector<int>::const_iterator i;
+		int j = 0;
+
+		for ( i = inverse_perm.begin(); i != inverse_perm.end(); i++ )
+			INTEGER(invpermList)[j++] = inverse_perm[*i];
+
+		j = 0;
+		for ( i = perm.begin(); i != perm.end(); i++ )
+			INTEGER(permList)[j++] = perm[*i];
+
+		SET_VECTOR_ELT(ansList,0,invpermList);
+		SET_VECTOR_ELT(ansList,1,permList);
+		UNPROTECT(3);
+		return(ansList);
+	}
+
+	SEXP BGL_king_ordering(SEXP num_verts_in, SEXP num_edges_in,
+                         SEXP R_edges_in,   SEXP R_delta)
+	{
+		using namespace boost;
+
+		int delta = asInteger(R_delta);
+		const int NV = asInteger(num_verts_in);
+		typedef graph_traits<Graph_dd>::vertex_descriptor Vertex;
+		Graph_dd g(num_verts_in, num_edges_in, R_edges_in);
+		std::vector<int> inverse_perm(NV, 0);
+		std::vector<int> perm(NV, 0);
+		std::vector<int> degree(NV, 0);
+		std::vector<int> supernode_sizes(NV, 1);
+		property_map<Graph_dd, vertex_index_t>::type id = get(vertex_index, g);
+
+                // TODO: fill in
+/*
+		king_ordering(g, 
+			make_iterator_property_map(&degree[0], id, degree[0]), 
+			&inverse_perm[0], 
+			&perm[0], 
+			make_iterator_property_map(&supernode_sizes[0], id, supernode_sizes[0]), 
+			delta, id);
+*/
 
 		SEXP ansList, invpermList, permList;
 		PROTECT(ansList = allocVector(VECSXP,2));

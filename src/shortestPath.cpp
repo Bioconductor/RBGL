@@ -1,9 +1,10 @@
 #include "RBGL.hpp"
 #include "Basic2DMatrix.hpp"
-#include <boost/graph/dag_shortest_paths.hpp>
-#include <boost/graph/bellman_ford_shortest_paths.hpp>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
 #include <boost/graph/johnson_all_pairs_shortest.hpp>
+#include <boost/graph/dag_shortest_paths.hpp>
+#include <boost/graph/bellman_ford_shortest_paths.hpp>
+#include <boost/graph/floyd_warshall_shortest.hpp>
 
 extern "C"
 {
@@ -169,6 +170,36 @@ extern "C"
 
         UNPROTECT(3);
         return(ansList);
+    }
+
+    SEXP BGL_floyd_warshall_all_pairs_shortest_paths_D(SEXP num_verts_in,
+            SEXP num_edges_in, SEXP R_edges_in,
+            SEXP R_weights_in)
+    {
+        using namespace boost;
+        typedef adjacency_list<vecS, vecS, directedS, no_property,
+        property< edge_weight_t, double, property< edge_weight2_t, double > > > Graph;
+        int nv = INTEGER(num_verts_in)[0];
+        SEXP out;
+        const int V = nv;
+        typedef std::pair < int, int >Edge;
+
+        Graph_dd g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
+
+        Basic2DMatrix<double> D(nv, nv);
+
+        floyd_warshall_all_pairs_shortest_paths(g, D);
+
+        PROTECT(out = NEW_NUMERIC(nv*nv));
+        int k = 0;
+        for (int i = 0 ; i < nv ; i++)
+            for (int j = 0; j < nv; j++ )
+            {
+                REAL(out)[k] = D[i][j];
+                k++;
+            }
+        UNPROTECT(1);
+        return out;
     }
 }
 

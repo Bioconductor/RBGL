@@ -379,6 +379,22 @@ johnson.all.pairs.sp <- function (g)
     t(tmp)
 }
 
+floyd.warshall.all.pairs.sp <- function (g) 
+{
+    nv <- length(nodes(g))
+    if (edgemode(g) == "directed") 
+        em <- edgeMatrix(g)
+    else em <- edgeMatrix(g, TRUE)
+    ne <- ncol(em)
+    eW <- unlist(edgeWeights(g))
+    ans <- .Call("BGL_floyd_warshall_all_pairs_shortest_paths_D", as.integer(nv), 
+        as.integer(ne), as.integer(em - 1), as.double(eW), PACKAGE="RBGL")
+    tmp <- matrix(ans, nr = length(nodes(g)))
+    dimnames(tmp) <- list(nodes(g), nodes(g))
+    tmp[ tmp >= .Machine$double.xmax ] <- Inf
+    t(tmp)
+}
+
 bellman.ford.sp <- function(g, start=nodes(g)[1])
 {
     nv <- length(nodes(g))
@@ -534,7 +550,16 @@ cuthill.mckee.ordering <- function(g)
 
 sequential.vertex.coloring <- function(g)
 {
-   list("sequential.vertex.coloring not ready yet")
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_sequential_vertex_coloring", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1),
+                PACKAGE="RBGL")
+
+   names(ans[[2]]) = nodes(g)
+   list("no. of colors needed"=ans[[1]], "colors of nodes"=ans[[2]])
 }
 
 minDegreeOrdering <- function(g, delta=0)
@@ -773,5 +798,75 @@ betweenness.centrality.clustering <- function(g, threshold=-1, normalize=T )
    list("no.of.edges" = ans[[1]], 
         "edges"=s_names,
         "edge.betweenness.centrality"=ans[[3]])
+}
+
+biConnComp <- function(g)
+{
+    nv <- length(nodes(g))
+    em <- edgeMatrix(g)
+    ne <- ncol(em)
+    x<-.Call("BGL_biconnected_components_U", as.integer(nv), as.integer(ne),
+        as.integer(em-1), as.double(rep(1,ne)), PACKAGE="RBGL")
+
+    list("no. of biconnected components"= x[[1]],
+         "biconnected components" = x[[2]])
+}
+
+articulationPoints <- function(g)
+{
+    nv <- length(nodes(g))
+    em <- edgeMatrix(g)
+    ne <- ncol(em)
+    x<-.Call("BGL_articulation_points_U", as.integer(nv), as.integer(ne),
+        as.integer(em-1), as.double(rep(1,ne)), PACKAGE="RBGL")
+
+    a_names <- sapply(x[[2]]+1, function(x) { nodes(g)[x] })
+    list("no. of articulation points"= x[[1]],
+         "articulation points" = a_names)
+}
+
+kingOrdering <- function(g)
+{
+   list("kingOrdering is not implemented yet")
+}
+
+randomGraphLayout<- function(g, width=1, height=1)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_random_layout", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+		as.double(width), as.double(height),
+                PACKAGE="RBGL")
+
+   rownames(ans[[1]]) <- c("x", "y")
+   list("randomGraphLayout"=ans[[1]])
+}
+
+fruchtermanReingoldForceDirectedLayout<- function(g, width=1, height=1)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_FRFD_layout", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+		as.double(width), as.double(height),
+                PACKAGE="RBGL")
+
+   rownames(ans[[1]]) <- c("x", "y")
+   list("fruchtermanReingoldForceDirectedLayout"=ans[[1]])
+}
+
+gursoyAtunLayout <- function(g)
+{
+   list("gursoyAtunLayout is not implemented yet")
+}
+
+astarSearch <- function(g)
+{
+   list("astarSearch is not implemented yet")
 }
 

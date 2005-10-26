@@ -6,7 +6,8 @@
 #include <boost/graph/strong_components.hpp>
 #include <boost/graph/edge_connectivity.hpp>
 #include <boost/graph/transitive_closure.hpp>
-
+#include <boost/graph/biconnected_components.hpp>
+#include <boost/graph/sequential_vertex_coloring.hpp>
 
 /* need a template with C++ linkage for BFS */
 /* adapted from Siek's bfs-example.cpp */
@@ -242,6 +243,73 @@ extern "C"
         return(outvec);
     }
 
+    SEXP BGL_biconnected_components_U (SEXP num_verts_in,
+                                  SEXP num_edges_in, SEXP R_edges_in,
+                                  SEXP R_weights_in )
+    {
+        using namespace boost;
+        SEXP outvec;
+
+        typedef graph_traits < Graph_ud >::edge_descriptor Edge;
+        typedef graph_traits < Graph_ud >::vertex_descriptor Vertex;
+        Graph_ud g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
+
+        int ne = INTEGER(num_edges_in)[0] ;
+
+        // this is a bit cheating: use "edge_weight_t" for "edge_component_t"
+        property_map < Graph_ud, edge_weight_t >::type 
+              component = get(edge_weight, g);
+        graph_traits < Graph_ud >::edge_iterator ei, ei_end;
+        for (tie(ei, ei_end) = edges(g); ei != ei_end; ++ei)
+            component[*ei] = (int)-1;
+        int num_comps = biconnected_components(g, component);
+
+        SEXP ansList, nc;
+        PROTECT(ansList = allocVector(VECSXP,2));
+        PROTECT(nc = NEW_INTEGER(1));
+        PROTECT(outvec = allocVector(INTSXP,ne));
+
+        INTEGER(nc)[0] = num_comps;
+        int k = 0;
+        for (tie(ei, ei_end) = edges(g); ei != ei_end; ++ei)
+            INTEGER(outvec)[k++] = (int)component[*ei];
+
+        SET_VECTOR_ELT(ansList,0,nc);
+        SET_VECTOR_ELT(ansList,1,outvec);
+        UNPROTECT(3);
+        return(ansList);
+    }
+
+    SEXP BGL_articulation_points_U (SEXP num_verts_in,
+                                  SEXP num_edges_in, SEXP R_edges_in,
+                                  SEXP R_weights_in )
+    {
+        using namespace boost;
+        SEXP outvec;
+
+        typedef graph_traits < Graph_ud >::edge_descriptor Edge;
+        typedef graph_traits < Graph_ud >::vertex_descriptor Vertex;
+        Graph_ud g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
+
+        std::vector<Vertex> art_points;
+        articulation_points(g, std::back_inserter(art_points));
+
+        SEXP ansList, nc;
+        PROTECT(ansList = allocVector(VECSXP,2));
+        PROTECT(nc = NEW_INTEGER(1));
+        PROTECT(outvec = allocVector(INTSXP,art_points.size()));
+
+        INTEGER(nc)[0] = art_points.size();
+
+        for (int k = 0; k < art_points.size(); k++ )
+            INTEGER(outvec)[k] = art_points[k];
+
+        SET_VECTOR_ELT(ansList,0,nc);
+        SET_VECTOR_ELT(ansList,1,outvec);
+        UNPROTECT(3);
+        return(ansList);
+    }
+
     SEXP BGL_edge_connectivity_U (SEXP num_verts_in,
                                   SEXP num_edges_in, SEXP R_edges_in,
                                   SEXP R_weights_in )
@@ -320,4 +388,49 @@ extern "C"
         return(ansList);
     }
 
+    SEXP BGL_sequential_vertex_coloring (SEXP num_verts_in, 
+    		SEXP num_edges_in, SEXP R_edges_in)
+    {
+        using namespace boost;
+
+        typedef graph_traits < Graph_ud >::edge_descriptor Edge;
+        typedef graph_traits < Graph_ud >::vertex_descriptor Vertex;
+        typedef graph_traits < Graph_ud >::vertices_size_type Vertex_Size_Type;
+        typedef property_map < Graph_ud, vertex_index_t >::const_type vertex_index_map;
+
+        Graph_ud g(num_verts_in, num_edges_in, R_edges_in);
+
+        std::vector<Vertex_Size_Type> color_vec(num_vertices(g));
+        iterator_property_map < Vertex_Size_Type*, vertex_index_map >
+             color(&color_vec.front(), get(vertex_index, g));
+        Vertex_Size_Type n = sequential_vertex_coloring( g, color );
+
+        SEXP ansList, nc, cList;
+        PROTECT(ansList = allocVector(VECSXP,2));
+        PROTECT(nc = NEW_INTEGER(1));
+        PROTECT(cList = allocVector(INTSXP, num_vertices(g)));
+        INTEGER(nc)[0] = (int)n;
+
+        Graph_ud::vertex_iterator vi, v_end;
+        int i = 0;
+        for (tie(vi, v_end) = vertices(g); vi != v_end; ++vi)
+        {
+            INTEGER(cList)[i++] = color_vec[*vi];
+        }
+    
+        SET_VECTOR_ELT(ansList, 0, nc);
+        SET_VECTOR_ELT(ansList, 1, cList);
+        UNPROTECT(3);
+        return(ansList);
+    }
+
+    SEXP BGL_astar_search_D (SEXP num_verts_in, 
+    		SEXP num_edges_in, SEXP R_edges_in )
+    {
+        // TODO: fill in
+    	using namespace boost;
+
+        SEXP ansList;
+        return(ansList);
+    }
 }

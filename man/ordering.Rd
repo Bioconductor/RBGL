@@ -2,6 +2,7 @@
 \alias{cuthill.mckee.ordering}
 \alias{minDegreeOrdering}
 \alias{sloan.ordering}
+\alias{kingOrdering}
 \title{Compute vertex ordering for an undirected graph}
 \description{Compute vertex ordering for an undirected graph}
 }
@@ -30,6 +31,8 @@ algorithm.
 The goal of the Sloan ordering algorithm is to reduce the profile and the
 wavefront of a graph by reordering the indices assigned to each vertex. 
 See documentations on these algorithms in Boost Graph Library for more details.
+
+TO_BE_FILLED_IN
 }
 \value{
 \item{cuthill.mckee.ordering}{ returns a list with elements:}

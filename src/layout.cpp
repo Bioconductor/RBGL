@@ -1,6 +1,12 @@
 #include "RBGL.hpp"
 #include <boost/graph/circle_layout.hpp>
 #include <boost/graph/kamada_kawai_spring_layout.hpp>
+#include <boost/graph/random_layout.hpp>
+#include <boost/graph/fruchterman_reingold.hpp>
+#include <boost/graph/gursoy_atun_layout.hpp>
+
+#include <boost/graph/simple_point.hpp>
+#include <boost/random/linear_congruential.hpp>
 
 using namespace boost;
 
@@ -9,21 +15,26 @@ namespace boost { BOOST_INSTALL_PROPERTY(vertex, position); }
 
 struct point { double x, y; };
 
-typedef enum { E_LAYOUT_CIRCLE, E_LAYOUT_KKSL } E_LAYOUT_METHOD;
+typedef enum { E_LAYOUT_CIRCLE, 
+               E_LAYOUT_KKSL, 
+               E_LAYOUT_RANDOM, 
+               E_LAYOUT_FRFD, 
+               E_LAYOUT_GA } E_LAYOUT_METHOD;
 
 extern "C"
 {
     typedef adjacency_list<vecS, vecS, undirectedS,
     // vertex properties
     property<vertex_index_t, int,
-    property<vertex_position_t, point> >,
+    property<vertex_position_t, simple_point<double> > >,
     // edge properties
     property<edge_weight_t, double> >
     IndexGraph;
 
-    SEXP BGL_layout_internal
-    (E_LAYOUT_METHOD method, SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in, SEXP radius,
-     SEXP R_weights_in, SEXP edge_or_side, SEXP es_length)
+    SEXP BGL_layout_internal (E_LAYOUT_METHOD method, 
+         SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in, 
+         SEXP radius,
+         SEXP R_weights_in, SEXP edge_or_side, SEXP es_length)
     {
         IndexGraph g;
 
@@ -99,8 +110,142 @@ extern "C"
      SEXP R_weights_in, SEXP edge_or_side, SEXP es_length)
     {
         SEXP anslst, dummy=0;
-        anslst = BGL_layout_internal(E_LAYOUT_KKSL, num_verts_in, num_edges_in, R_edges_in, dummy, R_weights_in, edge_or_side, es_length);
+        anslst = BGL_layout_internal(E_LAYOUT_KKSL, 
+                 num_verts_in, num_edges_in, R_edges_in, 
+                 dummy, R_weights_in, edge_or_side, es_length);
         return(anslst);
     }
+
+    SEXP BGL_random_layout
+    (SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in, SEXP R_width, SEXP R_height)
+    {
+        IndexGraph g;
+
+        if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
+
+        int NE = asInteger(num_edges_in);
+        int* edges_in = INTEGER(R_edges_in);
+
+        for (int i = 0; i < NE ; i++, edges_in += 2)
+            boost::add_edge(*edges_in, *(edges_in+1), g);
+
+        double w = REAL(R_width)[0];
+        double h = REAL(R_height)[0];
+            
+        typedef std::vector<simple_point<double> > PositionVec;
+        PositionVec position_vec(num_vertices(g));
+        typedef iterator_property_map<PositionVec::iterator,
+                   property_map<IndexGraph, vertex_index_t>::type >
+                PositionMap;
+        PositionMap position(position_vec.begin(), get(vertex_index, g));
+
+        minstd_rand gen;
+        random_graph_layout(g, position, -w/2, w/2, -h/2, h/2, gen);
+
+        SEXP anslst, poslst;
+        PROTECT(anslst = allocVector(VECSXP,1));
+        PROTECT(poslst = allocMatrix(REALSXP,2, num_vertices(g)));
+
+        int i = 0;
+        graph_traits<IndexGraph>::vertex_iterator vi, vi_end;
+        for (tie(vi, vi_end) = vertices(g); vi != vi_end; ++vi)
+        {
+            REAL(poslst)[i++] = (double)position[*vi].x;
+            REAL(poslst)[i++] = (double)position[*vi].y;
+        }
+
+        SET_VECTOR_ELT(anslst,0,poslst);
+        UNPROTECT(2);
+        return(anslst);
+    }
+
+    SEXP BGL_FRFD_layout
+    (SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in, SEXP R_width, SEXP R_height)
+    {
+        IndexGraph g;
+
+        if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
+
+        int NE = asInteger(num_edges_in);
+        int* edges_in = INTEGER(R_edges_in);
+
+        for (int i = 0; i < NE ; i++, edges_in += 2)
+            boost::add_edge(*edges_in, *(edges_in+1), g);
+
+        double w = REAL(R_width)[0];
+        double h = REAL(R_height)[0];
+            
+        typedef std::vector<simple_point<double> > PositionVec;
+        PositionVec position_vec(num_vertices(g));
+        typedef iterator_property_map<PositionVec::iterator,
+                   property_map<IndexGraph, vertex_index_t>::type >
+                PositionMap;
+        PositionMap position(position_vec.begin(), get(vertex_index, g));
+
+        minstd_rand gen;
+        random_graph_layout(g, position, -w/2, w/2, -h/2, h/2, gen);
+        fruchterman_reingold_force_directed_layout(g, position, w, h);
+
+        SEXP anslst, poslst;
+        PROTECT(anslst = allocVector(VECSXP,1));
+        PROTECT(poslst = allocMatrix(REALSXP,2, num_vertices(g)));
+
+        int i = 0;
+        graph_traits<IndexGraph>::vertex_iterator vi, vi_end;
+        for (tie(vi, vi_end) = vertices(g); vi != vi_end; ++vi)
+        {
+            REAL(poslst)[i++] = (double)position[*vi].x;
+            REAL(poslst)[i++] = (double)position[*vi].y;
+        }
+
+        SET_VECTOR_ELT(anslst,0,poslst);
+        UNPROTECT(2);
+        return(anslst);
+    }
+
+    SEXP BGL_gursov_atun_layout
+    (SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in, SEXP R_width, SEXP R_height, SEXP R_radius)
+    {
+        IndexGraph g;
+
+        if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
+
+        int NE = asInteger(num_edges_in);
+        int* edges_in = INTEGER(R_edges_in);
+
+        for (int i = 0; i < NE ; i++, edges_in += 2)
+            boost::add_edge(*edges_in, *(edges_in+1), g);
+
+        double w = REAL(R_width)[0];
+        double h = REAL(R_height)[0];
+            
+        // TODO: fill in correct codes
+        typedef std::vector< point > PositionVec;
+        PositionVec position_vec(num_vertices(g));
+        typedef iterator_property_map<PositionVec::iterator,
+                   property_map<IndexGraph, vertex_index_t>::type >
+                PositionMap;
+        PositionMap position(position_vec.begin(), get(vertex_index, g));
+
+        //square_topology < > lst;
+        //gursoy_atun_layout(g, lst, p);
+
+        SEXP anslst, poslst;
+        PROTECT(anslst = allocVector(VECSXP,1));
+        PROTECT(poslst = allocMatrix(REALSXP,2, num_vertices(g)));
+
+        int i = 0;
+        graph_traits<IndexGraph>::vertex_iterator vi, vi_end;
+        for (tie(vi, vi_end) = vertices(g); vi != vi_end; ++vi)
+        {
+            REAL(poslst)[i++] = (double)position[*vi].x;
+            REAL(poslst)[i++] = (double)position[*vi].y;
+        }
+
+        SET_VECTOR_ELT(anslst,0,poslst);
+        UNPROTECT(2);
+        return(anslst);
+    }
+
 }
 
