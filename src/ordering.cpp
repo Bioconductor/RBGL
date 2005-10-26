@@ -7,12 +7,6 @@
 #include <boost/graph/minimum_degree_ordering.hpp>
 #include <boost/graph/sloan_ordering.hpp>
 
-extern "C" {
-#include <R.h>
-#include <Rmath.h>
-#include <Rdefines.h>
-}
-
 extern "C"
 {
 	// These are more easily done in R alone, no point to use BGL

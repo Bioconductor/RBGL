@@ -2,12 +2,6 @@
 #include <boost/graph/betweenness_centrality.hpp>
 #include <boost/graph/bc_clustering.hpp>
 
-extern "C" {
-#include <R.h>
-#include <Rmath.h>
-#include <Rdefines.h>
-}
-
 extern "C"
 {
 	using namespace boost;

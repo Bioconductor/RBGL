@@ -2,12 +2,8 @@
 #include "Basic2DMatrix.hpp"
 #include <boost/graph/dag_shortest_paths.hpp>
 #include <boost/graph/bellman_ford_shortest_paths.hpp>
-
-extern "C" {
-#include <R.h>
-#include <Rmath.h>
-#include <Rdefines.h>
-}
+#include <boost/graph/dijkstra_shortest_paths.hpp>
+#include <boost/graph/johnson_all_pairs_shortest.hpp>
 
 extern "C"
 {

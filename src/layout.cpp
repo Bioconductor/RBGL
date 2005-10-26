@@ -2,12 +2,6 @@
 #include <boost/graph/circle_layout.hpp>
 #include <boost/graph/kamada_kawai_spring_layout.hpp>
 
-extern "C" {
-#include <R.h>
-#include <Rmath.h>
-#include <Rdefines.h>
-}
-
 using namespace boost;
 
 enum vertex_position_t { vertex_position };

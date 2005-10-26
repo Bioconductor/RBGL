@@ -1,12 +1,6 @@
 #include "RBGL.hpp"
 #include "mincut.hpp"
 
-extern "C" {
-#include <R.h>
-#include <Rmath.h>
-#include <Rdefines.h>
-}
-
 // low-degree-vertice removal: external input of a decreasing sequence of int
 std::vector<int> LDV;
 

@@ -3,12 +3,6 @@
 #include <boost/graph/profile.hpp>
 #include <boost/graph/wavefront.hpp>
 
-extern "C" {
-#include <R.h>
-#include <Rmath.h>
-#include <Rdefines.h>
-}
-
 extern "C"
 {
 

@@ -2,24 +2,19 @@
 #include <boost/pending/disjoint_sets.hpp>
 #include <boost/graph/incremental_components.hpp>
 
-extern "C" {
-#include <R.h>
-#include <Rmath.h>
-#include <Rdefines.h>
-}
-
 extern "C"
 {
 	using namespace boost;
+	using namespace std;
 
         typedef graph_traits<Graph_ud>::vertex_descriptor Vertex;
         typedef graph_traits<Graph_ud>::vertices_size_type size_type;
 	typedef Vertex* Parent;
 	typedef size_type* Rank;
 
-	static std::vector<size_type> rank(1);
-	static std::vector<Vertex> parent(1);
-	static disjoint_sets<Rank, Parent> ds(&rank[0], &parent[0]);
+	static vector<size_type> rrank(1);
+	static vector<Vertex> parent(1);
+	static disjoint_sets<Rank, Parent> ds( &rrank[0], &parent[0]);
 	static bool initialized = false;
 
 	typedef component_index<unsigned int> Components;
@@ -39,10 +34,10 @@ extern "C"
 
 	if ( !initialized || method == E_IC_INIT_INCREMENTAL_COMPONENT )
 	{
-	    rank.clear();   rank.resize(NV, 0);
+	    rrank.clear();   rrank.resize(NV, 0);
 	    parent.clear(); parent.resize(NV, 0);
 
-  	    disjoint_sets<Rank, Parent>  ds1(&rank[0], &parent[0]);
+  	    disjoint_sets<Rank, Parent>  ds1(&rrank[0], &parent[0]);
   	    ds = ds1;
 	    initialize_incremental_components(g, ds);
 

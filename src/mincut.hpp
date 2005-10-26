@@ -1,6 +1,8 @@
 #ifndef RBGL_MINCUT_H
 #define RBGL_MINCUT_H
 
+#include <boost/graph/edge_connectivity.hpp>
+
 namespace boost 
 {
 

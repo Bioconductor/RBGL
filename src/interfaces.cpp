@@ -1,11 +1,12 @@
 #include "RBGL.hpp"
 #include "Basic2DMatrix.hpp"
+#include <boost/graph/depth_first_search.hpp>
+#include <boost/graph/breadth_first_search.hpp>
+#include <boost/graph/topological_sort.hpp>
+#include <boost/graph/strong_components.hpp>
+#include <boost/graph/edge_connectivity.hpp>
+#include <boost/graph/transitive_closure.hpp>
 
-extern "C" {
-#include <R.h>
-#include <Rmath.h>
-#include <Rdefines.h>
-}
 
 /* need a template with C++ linkage for BFS */
 /* adapted from Siek's bfs-example.cpp */

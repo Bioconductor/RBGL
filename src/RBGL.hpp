@@ -4,8 +4,6 @@
 #ifndef RBGL_RBGL_H
 #define RBGL_RBGL_H
 
-#include <boost/config.hpp>
-
 #include <iostream>
 #include <cstdio>
 #include <vector>
@@ -13,33 +11,24 @@
 #include <algorithm>
 #include <time.h>
 
+#include <boost/config.hpp>
 #include <boost/utility.hpp>
-#include <boost/graph/adjacency_list.hpp>
-#include <boost/graph/topological_sort.hpp>
-#include <boost/graph/depth_first_search.hpp>
-#include <boost/graph/dijkstra_shortest_paths.hpp>
-#include <boost/graph/visitors.hpp>
+#include <boost/property_map.hpp>
+#include <boost/generator_iterator.hpp>
+
 #include <boost/pending/integer_range.hpp>
 #include <boost/pending/indirect_cmp.hpp>
-#include <boost/graph/graphviz.hpp>
-#include <boost/graph/breadth_first_search.hpp>
-#include <boost/graph/strong_components.hpp>
-#include <boost/generator_iterator.hpp>
-#include <boost/graph/johnson_all_pairs_shortest.hpp>
-#include <boost/graph/edge_connectivity.hpp>
-
-/* added vc 7 aug 04 */
-#include <boost/graph/graph_traits.hpp>
-#include <boost/graph/transitive_closure.hpp>
-#include <boost/property_map.hpp>
-#include <boost/graph/dijkstra_shortest_paths.hpp>
 #include <boost/pending/ct_if.hpp>
-#include <boost/type_traits/same_traits.hpp>
-/* END added vc 7 aug 04 */
 
+#include <boost/type_traits/same_traits.hpp>
+
+#include <boost/graph/graphviz.hpp>
+#include <boost/graph/graph_traits.hpp>
+#include <boost/graph/adjacency_list.hpp>
+#include <boost/graph/visitors.hpp>
 
 extern "C" {
-#include <Rinternals.h>
+#include <Rdefines.h>
 }
 
 template <class DirectedS = boost::directedS, typename WeightT = double>
