@@ -15,8 +15,8 @@ tsort(x) # now x assumed to be Bioconductor graph graphNEL
 }
 \details{
 calls to the topological\_sort algorithm of BGL.  will check in BGL
-whether the input is a DAG and will report to cerr and return
-zeroes if it is not.  Thus this function can be used to check for
+whether the input is a DAG and return a vector of
+zeroes (of length length(nodes(x))) if it is not.  Thus this function can be used to check for
 cycles in a digraph.
 }
 \value{
@@ -26,13 +26,14 @@ topological sort sequence, 0-based
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
 
 \examples{
-data(FileDep)
-nodes(FileDep)[tsort(FileDep)+1]
-FD2 <- FileDep
-if (interactive()) {
-  # now introduce a cycle
-  FD2@edgeL[["bar_cpp"]]$edges <- c(8,1)
-  tsort(FD2)
-  }
+ data(FileDep)
+ tsind <- tsort(FileDep)
+ tsind
+ nodes(FileDep)[tsind+1]
+ FD2 <- FileDep
+ # now introduce a cycle
+ FD2 <- addEdge("bar_o", "dax_h", FD2, 1)
+ tsort(FD2)
+ }
 }
 \keyword{ graphs }% at least one, from doc/KEYWORDS
