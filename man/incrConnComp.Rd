@@ -30,11 +30,11 @@ See documentation on Incremental Connected Components in Boost Graph Library
 for more details.
 }
 \value{
-  Output from init.incremental.components is a list of component numbers for each vertex in the graph.
+  Output from \code{init.incremental.components} is a list of component numbers for each vertex in the graph.
 
-  Output from incremental.components is a list of component numbers for each vertex in the graph.
+  Output from \code{incremental.components} is a list of component numbers for each vertex in the graph.
 
-  Output from same.component is true if both nodes are in the same connected component, otherwise it's false. 
+  Output from \code{same.component} is true if both nodes are in the same connected component, otherwise it's false. 
 }
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}

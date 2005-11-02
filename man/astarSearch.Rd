@@ -1,7 +1,7 @@
 \name{astarSearch}
 \alias{astarSearch}
-\title{Compute astarSearchfor a graph}
-\description{Compute astarSearchfor a graph}
+\title{Compute astarSearch for a graph}
+\description{Compute astarSearch for a graph}
 }
 \usage{
 astarSearch(g)
@@ -10,10 +10,9 @@ astarSearch(g)
   \item{g}{an instance of the \code{graph} class} 
 }
 \details{
-TO BE FILLED IN
+NOT IMPLEMENTED YET.  TO BE FILLED IN
 }
 \value{
-\item{profile}{the profile of the graph}
 }
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}

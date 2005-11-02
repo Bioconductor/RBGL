@@ -23,16 +23,22 @@ sloan.ordering(g, w1=1, w2=2)
 }
 \details{
 According to the documentations on these algorithms in Boost Graph Library:
+
 The goal of the Cuthill-Mckee (and reverse Cuthill-Mckee) ordering algorithm is
 to reduce the bandwidth of a graph by reordering the indices assigned to each
 vertex. 
+
 The minimum degree ordering algorithm is a fill-in reduction matrix reordering
 algorithm. 
+
 The goal of the Sloan ordering algorithm is to reduce the profile and the
 wavefront of a graph by reordering the indices assigned to each vertex. 
+
+The goal of the King ordering algorithm is to reduce the bandwidth of a graph 
+by reordering the indices assigned to each vertex.
+
 See documentations on these algorithms in Boost Graph Library for more details.
 
-TO BE FILLED IN
 }
 \value{
 \item{cuthill.mckee.ordering}{ returns a list with elements:}

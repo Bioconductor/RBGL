@@ -10,7 +10,7 @@ highlyConnSG(g, sat, ldv)
   \item{g}{an instance of the \code{graph} class with \code{edgemode}
     \dQuote{undirected}}
   \item{sat}{singleton adoption threshold, positive integer }
-  \item{ldv}{to remove lower degree vertice, a decreasing sequence of positive integer }
+  \item{ldv}{heuristics to remove lower degree vertice, a decreasing sequence of positive integer }
 }
 \details{
 A graph G with n vertices is highly connected if its connectivity k(G) > n/2.  The HCS algorithm partitions a given graph into a set of highly connected subgraphs, by using minimum-cut algorithm recursively.  To improve performance, the approach is refined by adopting singletons, removing low degree vertices and merging clusters.    

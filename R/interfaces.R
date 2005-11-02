@@ -743,6 +743,7 @@ circle.layout <- function ( g, radius=1 )
                 PACKAGE="RBGL")
 
    rownames(ans[[1]]) <- c("x", "y")
+   colnames(ans[[1]]) <- nodes(g)
    list("circle.layout"=ans[[1]])
 }
 
@@ -759,6 +760,7 @@ kamada.kawai.spring.layout <- function ( g, edge_or_side=1, es_length=1 )
                PACKAGE="RBGL")
 
    rownames(ans[[1]]) <- c("x", "y")
+   colnames(ans[[1]]) <- nodes(g)
    list("kamada.kawai.spring.layout"=ans[[1]])
 }
 
@@ -842,6 +844,7 @@ randomGraphLayout<- function(g, width=1, height=1)
                 PACKAGE="RBGL")
 
    rownames(ans[[1]]) <- c("x", "y")
+   colnames(ans[[1]]) <- nodes(g)
    list("randomGraphLayout"=ans[[1]])
 }
 
@@ -857,6 +860,7 @@ fruchtermanReingoldForceDirectedLayout<- function(g, width=1, height=1)
                 PACKAGE="RBGL")
 
    rownames(ans[[1]]) <- c("x", "y")
+   colnames(ans[[1]]) <- nodes(g)
    list("fruchtermanReingoldForceDirectedLayout"=ans[[1]])
 }
 

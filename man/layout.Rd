@@ -29,7 +29,16 @@ is determined by the \code{radius} parameter.
 connected, undirected graphs.  User provides either the unit length e of an 
 edge in the layout or the length of a side s of the display area.
 
-TO BE FILLED IN
+\code{randomGraphLayout} places the points of the graph at random locations.
+
+\code{fruchtermanReingoldForceDirectedLayout} performs layout of unweighted, 
+undirected graphs.  It handles disconnected graphs.  It's a force-directed 
+algorithm. 
+
+\code{gursoyAtunLayout} performs layout by distributing vertices within a 
+topology.  It's based on self-organized maps.
+
+See documentation on this function in Boost Graph Library for more details.
 }
 \value{
   A list of the (x, y)-coordinates for vertices in the graph.
@@ -44,5 +53,7 @@ coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 coex@edgemode <- "undirected"
 circle.layout(coex)
 kamada.kawai.spring.layout(coex)
+randomGraphLayout(coex)
+fruchtermanReingoldForceDirectedLayout(coex)
 }
 \keyword{ models }

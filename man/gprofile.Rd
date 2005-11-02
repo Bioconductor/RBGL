@@ -10,7 +10,10 @@ gprofile(g)
   \item{g}{an instance of the \code{graph} class} 
 }
 \details{
-The profile of a given graph is the sum of bandwidths for all the vertices in the graph.
+The profile of a given graph is the sum of bandwidths for all the vertices in 
+the graph.
+
+See documentation on this function in Boost Graph Library for more details.
 }
 \value{
 \item{profile}{the profile of the graph}
