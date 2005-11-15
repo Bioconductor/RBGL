@@ -1,0 +1,12 @@
+
+Oct 15, 2005
+============
+New functions:
+ "articulationPoints",
+ "biConnComp",
+ "floyd.warshall.all.pairs.sp",
+ "fruchtermanReingoldForceDirectedLayout",
+ "highlyConnSG",
+ "randomGraphLayout",
+ "sequential.vertex.coloring", 
+
