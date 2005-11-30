@@ -1,4 +1,10 @@
 
+Nov 30, 2005
+============
+New functions:
+  "is.triangulated",
+  "maxClique"
+
 Oct 15, 2005
 ============
 New functions:
