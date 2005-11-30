@@ -874,3 +874,30 @@ astarSearch <- function(g)
    list("astarSearch is not implemented yet")
 }
 
+is.triangulated <- function(g)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("isTriangulated", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+                PACKAGE="RBGL")
+
+   list("is.triangulated"=ans[1])
+}
+
+maxClique <- function(g)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("maxClique", 
+	        as.integer(nv), as.integer(ne), as.integer(em-1), 
+                PACKAGE="RBGL")
+
+   ans_names <- sapply(ans, function(x) { nodes(g)[x] })
+   list("maxCliques"=ans_names)
+}
+
