@@ -28,7 +28,7 @@ matrix of shortest path lengths, read from row node to col node
 \seealso{\code{\link{johnson.all.pairs.sp}}} 
 
 \examples{
-coex <- fromGXL(file(system.file("dot/conn.gxl", package="RBGL")))
+coex <- fromGXL(file(system.file("XML/conn.gxl", package="RBGL")))
 floyd.warshall.all.pairs.sp(coex)
 }
 \keyword{ models }
