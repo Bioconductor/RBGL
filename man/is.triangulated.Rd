@@ -10,11 +10,6 @@ is.triangulated(g)
   \item{g}{an instance of the \code{graph} class }
 }
 \details{
-Our implementation is based on the following:
-
-Combinatorial Optimization: algorithms and complexity  (p. 403)
-by C. H. Papadimitriou, K. Steiglitz
-
 A graph G = (V, E) is triangulated (i.e. chordal) if all cycles
 [v1, v2, ..., vk] of length 4 or more have a chord, i.e., an edge
 [vi, vj] with j != i +/- 1 (mod k)
@@ -23,14 +18,20 @@ An equivalent definition of chordal graphs is:
 
 G is chordal iff either G is an empty graph, or
 there is an v in V such that
-(i) the neighborhood of v (i.e., v and its adjacent nodes) forms a clique, and
-(ii) recursively, G-v is chordal
+\enumerate{
+\item the neighborhood of v (i.e., v and its adjacent nodes) forms a clique, and
+\item recursively, G-v is chordal
+}
 
 }
 \value{
-Output is true if \code{g} is triangulated, false otherwise.
+The return value is \code{TRUE} if \code{g} is triangulated
+ and \code{FALSE} otherwise.
 }
-\references{}
+\references{
+Combinatorial Optimization: algorithms and complexity  (p. 403)
+by C. H. Papadimitriou, K. Steiglitz}
+
 \author{Li Long <li.long@isb-sib.ch>}
 
 \seealso{}
