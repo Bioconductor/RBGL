@@ -876,6 +876,8 @@ astarSearch <- function(g)
 
 is.triangulated <- function(g)
 {
+   if( edgemode(g) != "undirected")
+      stop("only appropriate for undirected graphs")
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
    ne <- ncol(em)
