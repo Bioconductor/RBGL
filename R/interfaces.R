@@ -884,7 +884,7 @@ is.triangulated <- function(g)
 	        as.integer(nv), as.integer(ne), as.integer(em-1), 
                 PACKAGE="RBGL")
 
-   list("is.triangulated"=ans[1])
+   if(ans[1] == 0 ) FALSE else TRUE
 }
 
 maxClique <- function(g)
