@@ -255,9 +255,11 @@ typedef vector<oneCliqueType>    allCliquesType;
 
         bron_kerbosch_all_cliques(g, cliques);
 
+        allCliquesType::iterator ci;
+
+/*
         // keep only the max cliques
         int max_clique_size = 0;
-        allCliquesType::iterator ci;
         for ( ci = cliques.begin(); ci != cliques.end(); ci++ )
         {
             if ( (*ci).size() > max_clique_size )
@@ -267,6 +269,7 @@ typedef vector<oneCliqueType>    allCliquesType;
         for ( ci--; ci != cliques.begin(); ci-- )
             if ( (*ci).size() < max_clique_size )
                cliques.erase(ci);
+*/
 
 #if DEBUG
         print_all_cliques(cliques, " max clique(s): ");
