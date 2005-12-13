@@ -40,6 +40,7 @@ export(
  "randomGraphLayout",
  "rms.wavefront",
  "same.component",
+ "separates",
  "sequential.vertex.coloring", 
  "sloan.ordering",
  "sp.between",
