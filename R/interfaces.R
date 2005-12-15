@@ -154,6 +154,7 @@ sp.between.old <- function(g, start, finish) {
 #
 #simple vectorization  of previous sp.between
 #
+.Deprecated("sp.between", "RBGL")
 if (any(is.numeric(c(start,finish)))) stop("start and finish are required to be node names; numeric indices not allowed")
 #
  if (length(start) == 1) {
