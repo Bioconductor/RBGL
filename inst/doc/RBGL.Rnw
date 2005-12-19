@@ -24,11 +24,21 @@
 \newcommand{\scscst}{\scriptscriptstyle}
 \newcommand{\scst}{\scriptstyle}
 
+\newcommand\Rpackage[1]{{\textsf{#1}\index{#1 (package)}}}
+\newcommand\RpackageNoindex[1]{{\textsf{#1}}}
+\newcommand\Rclass[1]{{\textit{#1}\index{#1 (class)}}}
+\newcommand\Rfunction[1]{{{\small\texttt{#1}}\index{#1 (function)}}}
+\newcommand\Rmethod[1]{{\small\texttt{#1}}}
+\newcommand\Rcommand[1]{{{\small\texttt{#1}}\index{#1 (function)}}}
+\newcommand\Rfunarg[1]{{\small\texttt{#1}}}
+\newcommand\Robject[1]{{\small\texttt{#1}}}
+
+
 %\setkeys{Gin}{width=0.55\textwidth}
 
 
-\bibliographystyle{plainnat} 
- 
+\bibliographystyle{plainnat}
+
 \begin{document}
 
 <<echo=false, results=hide>>=
@@ -38,15 +48,14 @@ library("XML")
 @
 
 \title{{\it RBGL}: R interface to boost graph library}
-\author{VJ Carey {\tt stvjc@channing.harvard.edu}}
+\author{L. Long, VJ Carey, and R. Gentleman}
 \maketitle
 
-\begin{quotation} {\it Summary}.  
-An interface from R to the Boost Graph Library (BGL, an alternative
-to STL programming for mathematical graph objects) is described.
-It includes some graph algorithms built on top of those from BGL and 
-some algorithms independent of those from BGL.
-{\it This 2003 update employs the {\em graph} class of Bioconductor.}
+\begin{quotation} {\it Summary}.
+The \Rpackage{RBGL} package is primarily
+an interface from R to the Boost Graph Library (BGL).
+It includes some graph algorithms built on top of those from BGL and
+some algorithms independent of BGL.
 \end{quotation}
 
 \tableofcontents
@@ -55,10 +64,11 @@ some algorithms independent of those from BGL.
 
 \subsection{Basics Notations}
 
-We use the following notations:
+We use the following notation:
 
-{\em G}: a graph, represented as G = (V, E); 
-{\em V} = {v1, v2, ..., vn}: a set of vertices (or nodes); 
+%%Define DAG here?
+{\em G}: a graph, represented as G = (V, E);
+{\em V} = {v1, v2, ..., vn}: a set of vertices (or nodes);
 {\em E} = {e1, e2, ..., em}: a set of edges with ei = [vj, vk], with vj, vk are in V;
 {\em W} = {w1, w2, ..., wm}: a set of weights of the edges, i.e., wi is the weight on edge ei.
 
@@ -69,61 +79,67 @@ A {\em directed} graph is a graph with direction assigned to its edges, therefor
 
 An {\em in-degree} of vertex v is the total number of edges [u, v] in E; an {\em out-degree} of v is the total number of edges [v, u] in {\em E}.
 
-A network {\em N} is a directed graph {\em G} with (a) a source {\em s} whose in-degree is 0, 
-(b) a sink {\em t} whose out-degree is 0, and 
+A network {\em N} is a directed graph {\em G} with (a) a source {\em s} whose in-degree is 0,
+(b) a sink {\em t} whose out-degree is 0, and
 (c) a {\em capacity} for each edge in a network.
 
-A {\em flow} in {\em N} assigns a value on each edge that doesn't exceed its capacity, 
-all the internal vertices has the same incoming flow as the outgoing flow, 
+A {\em flow} in {\em N} assigns a value on each edge that doesn't exceed its capacity,
+all the internal vertices have the same incoming flow as the outgoing flow,
 {\em s} has outgoing flow only, {\em t} has incoming flow only.
-@
- 
+
+
 \subsection{Examples in use}
 We are going to use the following graphs repeatedly in the examples.
 
 <<dijkstraDemo>>=
 dijk <- fromGXL(file(system.file("XML/dijkex.gxl", package="RBGL")))
 @
-\begin{figure}
-<<fig=TRUE, echo=false>>=
-z <- plot(dijk)
-@
-\caption{Example Dijkstra example}
-\end{figure}
+
+
+<<figdijk, fig=TRUE, echo=FALSE, results=hide, include=FALSE>>=
+ plot(dijk, main="a) Dijkstra's Example")
 @
 
 <<connDemo>>=
 coex <- fromGXL(file(system.file("XML/conn.gxl", package="RBGL")))
 @
-\begin{figure}
-<<fig=TRUE, echo=false>>=
-z <- plot(coex)
-@
-\caption{Example connectivity example 1}
-\end{figure}
+
+<<figcoex, fig=TRUE, echo=FALSE, results=hide, include=FALSE>>=
+ plot(coex, main="b) Coex Example")
 @
 
 <<conn2Demo>>=
 coex2 <- fromGXL(file(system.file("XML/conn2.gxl", package="RBGL")))
 @
-\begin{figure}
-<<fig=TRUE, echo=false>>=
-z <- plot(coex2)
+
+<<figcoex2, fig=TRUE, echo=FALSE, results=hide, include=FALSE >>=
+  plot(coex2, main="c) Coex2 Example")
 @
-\caption{Example connectivity example 2}
-\end{figure}
-@
+
 
 <<hcsDemo>>=
 hcs <- fromGXL(file(system.file("XML/hcs.gxl", package="RBGL")))
 @
-\begin{figure}
-<<fig=TRUE, echo=false>>=
-z <- plot(hcs)
+
+<<fighcs, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
+  plot(hcs, main="d) HCS Example")
 @
-\caption{Example highly connected subgraph example}
+
+\begin{figure}[tp]
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[width=0.49\textwidth]{RBGL-figdijk} &
+\includegraphics[width=0.49\textwidth]{RBGL-figcoex} \\
+\includegraphics[width=0.49\textwidth]{RBGL-figcoex2}&
+\includegraphics[width=0.49\textwidth]{RBGL-fighcs} \\
+\end{tabular}
+\end{center}
+\caption{\label{fig:graphex}%
+a) The graph for Dijkstra's example.
+b) The graph for the Coex example.
+c) The graph for the Coex2 example.
+d) The graph for the HCS example.}
 \end{figure}
-@
 
 <<kmstDemo>>=
 km <- fromGXL(file(system.file("GXL/kmstEx.gxl", package="graph")))
@@ -134,11 +150,11 @@ z <- plot(km)
 @
 \caption{Example Kruskal minimum spanning tree example}
 \end{figure}
-@
+
 
 \section{Working with the Bioconductor {\tt graph} class}
 An example object representing file dependencies is included, as shown
-in Figure \ref{fdpic}.  
+in Figure \ref{fdpic}.
 <<showFileDep>>=
 data(FileDep)
 print(FileDep)
@@ -156,13 +172,19 @@ z <- plot(FileDep)
 
 \subsection{Depth First Search}
 
+%%FIXME: I believe that it matters what node you start with, and it
+%%would help if that was explicitly set here. Note also, the figures
+%%in our monograph where we plot with the search indices - that might
+%%be nice here.
+
 The {\tt dfs} function returns a list of node indices by
 discovery and finish order.
 
 <<DFSdemo1>>=
 df <- fromGXL(file(system.file("XML/dfsex.gxl", package="RBGL")))
 # TODO: OUTPUT NODE NAMES INSTEAD OF INDEXES???
-print(o <- dfs(df))      
+## RGsays - yes, we really should use names and not indices IMHO
+print(o <- dfs(df))
 @
 \begin{figure}
 <<fig=TRUE, echo=false>>=
@@ -182,7 +204,8 @@ node indexed by {\tt init.node}.
 <<BFSdemo1>>=
 bf <- fromGXL(file(system.file("XML/bfsex.gxl", package="RBGL")))
 # TODO: OUTPUT NODE NAMES INSTEAD OF INDEXES???
-print(o <- bfs(bf,nodes(bf)[2]))  
+## Yes please.
+print(o <- bfs(bf,nodes(bf)[2]))
 @
 \begin{figure}
 <<fig=TRUE, echo=false>>=
@@ -191,25 +214,37 @@ z <- plot(bf)
 \caption{Example bfs example}
 \end{figure}
 
+%%use the name of the node, which one was the second one?
 The nodes in BFS order starting with the second node are
 <<BFSdemo2>>=
 print(nodes(bf)[o])
 @
 
 \subsection{Shortest paths}
-The shortest path problem is to find a path between two vertices where the 
+
+The shortest path problem is to find a path between two vertices where the
 sum of all the edge weights on this path is minimum.
 
-The single-source shortest-paths problem is to find the shortest paths from 
+The single-source shortest-paths problem is to find the shortest paths from
 one vertex to all the other vertices in a graph.
 
-TO-BE-FINALIZED: 
-When an edge is not available, we consider its weight {\em NA}.  When there 
-is no path between two vertices, the distance between them is {\em Inf}.  
-When there is a loop of negative weight between two vertices, the distance 
-between them is {\em -Inf}.
+TO-BE-FINALIZED:
+When an edge is not available, we consider its weight \Robject{NA}.  When there
+is no path between two vertices, the distance between them is \Robject{Inf}.
+When there is a loop of negative weight between two vertices, the distance
+between them is \Robject{-Inf}.
 
-{\em Dijkstra's algorithm } is for the single-source shortest-paths problem on 
+%%FIXME: yes, but I think not available is different than you are
+%%using it here. Vince seemed to have in mind the idea that there
+%%would be some subject matter knowledge that a node exists, but it
+%%has not yet been measured.
+
+%%FIXME: I think it would be helpful to first list the possibilities,
+%%maybe with a brief description of what they do, say in a table, then
+%%have more complete examples in the sections. Otherwise, it is hard
+%%for a reader to see what we have.
+
+{\em Dijkstra's algorithm } is for the single-source shortest-paths problem on
 graphs (directed or undirected) with non-negative weights on edges.
 If all the edges have the same weight, use depth-first-search instead.
 
@@ -217,9 +252,14 @@ If all the edges have the same weight, use depth-first-search instead.
 dd <- fromGXL(file(system.file("XML/dijkex.gxl", package="RBGL")))
 print( dijkstra.sp(dd) )
 @
-Function {\em dijkstra.sp} finds the shortest paths from {\em start A} 
-to all other vertices in the graph: {\em B, C, D, E}, shown in the 
+The function \Rfunction{dijkstra.sp} finds the shortest paths from A
+to all other vertices in the graph: {\em B, C, D, E}, shown in the
 {\em distances} part.  The {\em penult} shows TO-BE-FILLED-IN.
+
+%%the use of penult is unfortunate. This is very hard for non-native
+%%speakers and should have been penultimate, if anything. But mostly
+%%it needs a good description of what it is and what it can be used
+%%for --- Vince?
 
 <<dijkdemo2>>=
 ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL")))
@@ -227,9 +267,9 @@ dijkstra.sp(ospf,nodes(ospf)[6])
 sp.between(ospf, "RT6", "RT1")
 @
 
-The first part of this example finds the shortest paths from {\em start RT6} 
+The first part of this example finds the shortest paths from {\em start RT6}
 to all the other vertices in the graph, and the second part finds the shortest
-path between two vertices: {\em RT6} and {\em RT1}.  Since no edge weights 
+path between two vertices: {\em RT6} and {\em RT1}.  Since no edge weights
 are available, {\em length} and {\em pweights} are all {\em NA}.
 
 \begin{figure}
@@ -237,13 +277,13 @@ are available, {\em length} and {\em pweights} are all {\em NA}.
 <<fig=TRUE, echo=false>>=
 z <- plot(ospf)
 @
-\caption{Network example from BGL.} 
+\caption{Network example from BGL.}
 \end{figure}
 
 
-{\em Bellman-Ford's algorithm} is for the single-source shortest-paths problem 
-on graphs (directed or undirected) with both positive and negative weights on 
-edges.
+{\em Bellman-Ford's algorithm} is for the single-source shortest-paths problem
+on graphs (directed or undirected) with both positive and negative
+edge weights.
 
 <<bellmanfordDemo>>=
 dd <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
@@ -252,15 +292,15 @@ bellman.ford.sp(dd)
 bellman.ford.sp(dd,nodes(dd)[2])
 @
 
-The first {\em bellman.ford.sp}-call shows that the shortest paths from first
-vertex in the given graph, i.e., {\em start A},
-to all other vertices.  The second call shows the shortest paths from 
-{\em start B} to all other vertices, since there's no path from {\em B} to 
-{\em A}, {\em distance} between them is {\em Inf}.
+The function \Rfunction{bellman.ford.sp} returns the shortest paths from first
+vertex in the given graph (FIXME: what is first?), i.e., A,
+to all other vertices.  The second call shows the shortest paths from
+{\em start B} to all other vertices, since there is no path from {\em B} to
+{\em A}, the {\em distance} between them is \Robject{Inf}.
 
-{\em DAG algorithm} is for the single-source shortest-paths problem on a 
-weighted, directed acyclic graph (DAG), which is more efficient for DAG than 
-both Dijkstra's and Bellman-Ford's algorithms.  When all the edges have the 
+The {\em DAG algorithm} is for the single-source shortest-paths problem on a
+weighted, directed acyclic graph (DAG), which is more efficient for DAG than
+both Dijkstra's and Bellman-Ford's algorithms.  When all the edges have the
 same weight, use depth-first-search instead.
 
 <<DAGDemo>>=
@@ -270,13 +310,13 @@ dag.sp(dd)
 dag.sp(dd,nodes(dd)[2])
 @
 It's easy to see that {\em conn2.gxl} doesn't contain any cycle, so we could
-use function {\em dag.sp} on it.  The first call to {\em dag.sp} finds the 
+use function {\em dag.sp} on it.  The first call to {\em dag.sp} finds the
 shortest paths from the {\em start A} to all other vertices.  The second call
 finds the shortest paths from {\em start B} to all other vertices, since no
 path goes from {\em B} to {\em A}, the distance is {\em Inf}.
 
 
-{\em Johnson's algorithm} finds the shortest path between every pair of 
+{\em Johnson's algorithm} finds the shortest path between every pair of
 vertices in a sparse graph.  Its time complexity is {\it O(V E log V)}.
 
 <<johnsonDemo>>=
@@ -295,26 +335,26 @@ This example uses a graph with negative edge weights.
 
 The shortest paths between all pairs of vertices are presented in the matrix,
 entry [i, j] gives the distance from vertex {\em i} to vertex {\em j}.
-For example, the shortest path from vertex {\em c} to vertex {\em d} is of 
+For example, the shortest path from vertex {\em c} to vertex {\em d} is of
 length 5; the shortest path from vertex {\em a} to vertex {\em e} is of
 length -4, since edge {\em a->e} is available and of distance -4; the shortest
-distance from {\em a} to {\em c} is -3.  
+distance from {\em a} to {\em c} is -3.
 
-{\em Floyd-Warshall's algorithm} finds the shortest path between every pair 
+{\em Floyd-Warshall's algorithm} finds the shortest path between every pair
 of vertices in a dense graph.
 
 <<floydwarshallDemo>>=
 coex <- fromGXL(file(system.file("XML/conn.gxl", package="RBGL")))
 floyd.warshall.all.pairs.sp(coex)
 @
-All edge distances are assumed to be 1, if not given.  Since the graph is 
-undirected, the distance matrix is symmetric, for example, distance from 
+All edge distances are assumed to be 1, if not given.  Since the graph is
+undirected, the distance matrix is symmetric, for example, distance from
 {\em C} to {\em G} is the same as that from {\em G} to {\em C}.
 
 \subsection{Minimum spanning tree}
 
-There are two algorithms available: {\em Kruskal's algorithm} and 
-{\em Prim's algorithm}.  Both are for undirected graph with weighted edges.
+There are two algorithms available: {\em Kruskal's algorithm} and
+{\em Prim's algorithm}.  Both are for undirected graphs with weighted edges.
 
 Function {\tt mstree.kruskal} just returns a list of edges, weights and nodes
 determining the minimum spanning tree (MST) by
@@ -331,10 +371,10 @@ z <- plot(km)
 \caption{Kruskal MST example from Boost library.}
 \end{figure}
 
-The graph is treated as undirected graph with corresponding weights.  
+The graph is treated as undirected graph with corresponding weights.
 MST consists of 4 edges, each is of weight 1.
 
-Function {\tt prim.minST} returns edges that form the minimum spanning 
+Function {\tt prim.minST} returns edges that form the minimum spanning
 tree and the weights of the edges in MST.
 
 <<primDemo>>=
@@ -382,11 +422,11 @@ km@edgemode <- "directed"
 print(strongComp(km))
 @
 
-After adding three vertices, {\em F, G, H} and an edge {\em G-H}, 
+After adding three vertices, {\em F, G, H} and an edge {\em G-H},
 there are three components in the graph now.
 
 A {\em biconnected} graph is a connected graph that removal of any single vertex
-doesn't disconnect it.  If the removal of a vertex increases the number of 
+doesn't disconnect it.  If the removal of a vertex increases the number of
 components in a graph, this vertex is call an {\em articulation point}.
 Function {\em biConnComp} computes the biconnected components in an undirected graph.
 Function {\em articulationPoints} finds the all the articulation points in a graph.
@@ -404,23 +444,23 @@ z <- plot(bicoex)
 \caption{Biconnected components example from Boost library.}
 \end{figure}
 
-There are 4 connected components: 
+There are 4 connected components:
 one with vertices {\em A, B, E, F} and edges {\em A-B, B-E, E-F, A-F} labeled 1,
-one with vertices {\em B, C, D} and edges {\em B-C, C-D, B-D} labeled 0, 
-one with vertices {\em A, G} and edges {\em A-G} labeled 3, and 
+one with vertices {\em B, C, D} and edges {\em B-C, C-D, B-D} labeled 0,
+one with vertices {\em A, G} and edges {\em A-G} labeled 3, and
 one with vertices {\em G, H, I} and edges {\em G-I, G-H, I-H} labeled 2.
 
 There are 3 articulation points: {\em A, B, G}, removing
-any one of them will result more connected components in the graph. 
+any one of them will result more connected components in the graph.
 
-When you add edges to a graph and want to get updated information on the 
-connected components, you could use the following functions: 
-{\em init.incremental.components} to initialize the process; 
+When you add edges to a graph and want to get updated information on the
+connected components, you could use the following functions:
+{\em init.incremental.components} to initialize the process;
 after adding edges to the graph, use {\em incremental.components} to update
-the connected component information; use {\em same.component} to find out 
+the connected component information; use {\em same.component} to find out
 if two vertices are in the same component.
 Currently, only one incremental graph is allowed at any given time.
-To start on a new graph, you need to call {\em init.incremental.components} 
+To start on a new graph, you need to call {\em init.incremental.components}
 first.
 
 <<incrCompdemo>>=
@@ -434,7 +474,7 @@ v2 <- 5
 print(same.component(coex, v1, v2))
 @
 
-There is only one connected component in the beginning, it consists of all 
+There is only one connected component in the beginning, it consists of all
 the vertices in the graph.
 Vertices {\em 1} and {\em 5} are in the same connected component.
 
@@ -450,7 +490,7 @@ edmunds.karp.max.flow(dijk, "B", "D")
 push.relabel.max.flow(dijk, "C", "B")
 @
 
-Call to {\em edmunds.karp.max.flow} finds the maximum flow from vertex {\em B} 
+Call to {\em edmunds.karp.max.flow} finds the maximum flow from vertex {\em B}
 to {\em D}: 2, one part of flow 1 is {\em B -> D} directly, another
 part of flow 1 is {\em B -> E -> A -> C -> D}.
 
@@ -458,7 +498,7 @@ Call to {\em push.relabel.max.flow} find the maximum flow from vertex {\em C}
 to {\em B}: 8, one part of flow 7 is {\em C -> B} directly, another part of
 flow 1 is {\em C -> D -> E -> B}.
 
-You can see the flow on each edge in the output, and each is no more than 
+You can see the flow on each edge in the output, and each is no more than
 the capacity of the edge.
 
 \subsection{Sparse Matrix Ordering}
@@ -466,15 +506,15 @@ the capacity of the edge.
 Functions {\em cuthill.mckee.ordering}, {\em minDegreeOrdering} and
 {\em sloan.ordering} are available.
 
-{\em Cuthill-McKee's algorithm} tries to reduce the bandwidth of a graph by 
-renumbering its vertices.  The outputs are the vertices in the new ordering 
+{\em Cuthill-McKee's algorithm} tries to reduce the bandwidth of a graph by
+renumbering its vertices.  The outputs are the vertices in the new ordering
 and reverse ordering.
 
-{\em Minimum degree Ordering} is one approach that tries to reduce fill-ins 
-in matrix reordering, which turns a system of equations {\em A x = b} to 
+{\em Minimum degree Ordering} is one approach that tries to reduce fill-ins
+in matrix reordering, which turns a system of equations {\em A x = b} to
 {\em (P A PT)(P x) = P b}.
 
-{\em Sloan Ordering} tries to reduce the profile and wavefront of a graph by 
+{\em Sloan Ordering} tries to reduce the profile and wavefront of a graph by
 renumbering its vertices.
 
 <<SparseMatrixOrderingdemo>>=
@@ -489,13 +529,17 @@ TODO: EXPLAIN THESE OUTPUT.
 
 \subsection{Edge connectivity and minimum disconnecting set}
 
-For a single connected undirected graph, function {\em edgeConnectivity} 
-calculates the minimum number of edges that have to be removed to create 
+%%FIXME: I am a bit confused about the relationship between the stuff
+%%here, and the cutsets and betweenness centrality stuff? Is there
+%%anything that should be commented on?
+
+For a single connected undirected graph, function {\em edgeConnectivity}
+calculates the minimum number of edges that have to be removed to create
 two disconnected components.
 
 <<edgeConndemo>>=
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
-print(edgeConnectivity(coex)) 
+print(edgeConnectivity(coex))
 @
 
 Mimimum of two edges must be removed to create two disconnected components:
@@ -523,19 +567,24 @@ in the interface (a message is written to the console and zeroes are returned).
 
 \subsection{Layout}
 
-Following functions are available: 
+Following functions are available:
+
+%%FIXME: how do these relate to the stuff in  Rgraphviz? Is there any
+%%way to get info on the edges? Can we/should we write some code to
+%%plot the nodes? I think this is only likely to be of real use if we
+%%do have a plot function.
 
 {\em randomGraphLayout} puts the vertices randomly on a plane;
 
 {\em circle.layout} puts the vertices as vertices of a regular polygon;
 
-{\em kamada.kawai.spring.layout} is for connected, undirected graphs, it 
-treats the edges as springs and tries to minimize the energy of the whole 
+{\em kamada.kawai.spring.layout} is for connected, undirected graphs, it
+treats the edges as springs and tries to minimize the energy of the whole
 system;
 
 {\em fruchtermanReingoldForceDirectedLayout} is for unweighted, undirected,
-possibly disconnected graphs, it treats the edges as forces that pull 
-vertices together, no-edges as forces that push vertices apart, vertices 
+possibly disconnected graphs, it treats the edges as forces that pull
+vertices together, no-edges as forces that push vertices apart, vertices
 move to a position as environment changes; initial positions of the vertices
 are set randomly by calling {\em randomGraphLayout}.
 
@@ -553,7 +602,7 @@ kamada.kawai.spring.layout(coex)
 \end{verbatim}
 @
 
-TODO: EXPLAIN THESE NUMBERS 
+TODO: EXPLAIN THESE NUMBERS
 
 \subsection{Isomorphism}
 
@@ -575,7 +624,7 @@ z <- plot(coex2i)
 \end{figure}
 @
 
-The function treats graphs as undirected, i.e., ignores the directions of the 
+The function treats graphs as undirected, i.e., ignores the directions of the
 edges.  There are more vertices in example {\em conn2} than {dijkstra}, so
 it's impossible to find a one-to-one mapping between them.
 One the other hand, example {\em conn2i} is basically the same graph as {\em conn2} except the vertices have different names, so they are isomorphism.
@@ -585,7 +634,7 @@ One the other hand, example {\em conn2i} is basically the same graph as {\em con
 Function {\em sequential.vertex.coloring} assigns colors (as numbers 1, 2, ...)
 to vertices in a graph
 so that two vertices connected by an edge are of different colors.  It does not
-guarantee minimum number of colors are used, and the result depends on the 
+guarantee minimum number of colors are used, and the result depends on the
 input ordering of the vertices in the graph.
 
 <<VertexColoringdemo>>=
@@ -594,23 +643,71 @@ sequential.vertex.coloring(coex)
 @
 
 We need 4 colors for the vertices of this graph, one color scheme is to give
-color 0 to vertices {\em A, E}, color 1 to vertices {\em B, H}, 
+color 0 to vertices {\em A, E}, color 1 to vertices {\em B, H},
 color 2 to vertices {\em C, F} and color 3 to vertices {\em D, G}.
 
 \subsection{Transitive Closure}
 
-Function {\em transitive.closure} returns the transitive closure of a graph.
+%%FIXME: I added some stuff here - but it seems a bit esoteric. Also,
+%%I think that the concept is only relevant for directed graphs (if
+%%true, this should be reflected in the docs and code for this function).
+
+Directed graphs can be used to represent relations, $R$, on a finite set
+of objects, V. For example, the objects could be integers and the
+relation could be less than. An edge exists in the graph, between two
+nodes, $(u,v)$ if the $(u,v) \in R$. A \textit{transitive digraph} is
+a digraph whose corresponding relation is transitive. That is, if
+there is an edge $(u, v)$ and an edge $(v, w)$, then there must be an
+edge $(u, w)$. Finally, the transitive closure, $R^*$ of an arbitrary
+relation $R$ is the smallest transitive relation that contains $R$.
+
+Finally, if $D$ is the directed graph that represents the relation
+$R$, then the directed graph $D^*$ that represents the relation $R^*$
+is called the transitive closure of $D$.
+
+The function \Rfunction{transitive.closure} returns the transitive
+closure of a directed graph.
+
+In the code below we compute the transitive closure for the example
+graph \Robject{dijk} and then plot both the original graph, and the
+transitive closure in Figure~\ref{fig:graphTC}.
+
+%%FIXME: surely this should return a graph of the same class as the
+%%input, not some list? Not sure this is the most elegant, but it
+%%seems to work - someone should check that the output is actually the
+%%transitive closure - I do not much like the self-loops, but maybe
+%%they are part of it.
 
 <<transClosuredemo>>=
-dijk <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
-transitive.closure(dijk)
+dijk.tc = transitive.closure(dijk)
+
+im = ftM2adjM(t(dijk.tc$edges))
+g.tc = as(im, "graphNEL")
+edgemode(g.tc) = "directed"
 @
+
+<<figdijkTC, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
+  plot(g.tc, main="b) Transitive closure")
+@
+
+\begin{figure}[tp]
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[width=0.49\textwidth]{RBGL-figdijk} &
+\includegraphics[width=0.49\textwidth]{RBGL-figdijkTC} \\
+\end{tabular}
+\end{center}
+\caption{\label{fig:graphTC}%
+a) The graph for Dijkstra's example.
+b) The transitive closure of the graph in panel a)}
+\end{figure}
+
 
 In this graph, you can reach each vertex from any vertex.
 
 \subsection{Wavefront, Profiles}
 
-Functions {\em ith.wavefront}, {\em maxWavefront}, {\em aver.wavefront} and 
+Functions {\em ith.wavefront}, {\em maxWavefront}, {\em aver.wavefront} and
 {\em rms.wavefront} are available.
 
 TODO: EXPLAIN THESE TERMS
@@ -626,16 +723,16 @@ rms.wavefront(coex)
 
 \subsection{Betweenness Centrality and Clustering}
 
-{\em Betweenness centrality} of a vertex (or an edge) measures its importance 
-in a graph, i.e., among all the shortest paths between every pair of vertices 
+{\em Betweenness centrality} of a vertex (or an edge) measures its importance
+in a graph, i.e., among all the shortest paths between every pair of vertices
 in the graph, how many of them have to go through this vertex (or edge).
 {\em Relative} betweenness centrality is calculated by scaling the {\em absolute} betweenness centrality by factor {\em 2/((n-1)(n-2))}, where {\em n} is the
-number of vertices in the graph.  
+number of vertices in the graph.
 
-Function {\em brandes.betweenness.centrality} implements Brandes' algorithm 
+Function {\em brandes.betweenness.centrality} implements Brandes' algorithm
 in calculating betweenness centrality.
 
-Function {\em betweenness.centrality.clustering} implements clustering in a 
+Function {\em betweenness.centrality.clustering} implements clustering in a
 graph based on edge betweenness centrality.
 
 TODO: EXPLAIN MORE
@@ -671,9 +768,9 @@ partition the graph into two subsets: subset {\em A, B, C, D} and subset
 \subsection{highlyConnSG}
 
 A graph {\em G} with {\em n} vertices is highly connected if its connectivity
-{\em k(G) > n/2}.  Function {\em highlyConnSG} partitions a graph into a set 
-of highly connected subgraphs, by using minimum-cut algorithm repeatedly. 
-To improve performance, it takes special care of singletons, low degree 
+{\em k(G) > n/2}.  Function {\em highlyConnSG} partitions a graph into a set
+of highly connected subgraphs, by using minimum-cut algorithm repeatedly.
+To improve performance, it takes special care of singletons, low degree
 vertices and merges clusters.
 
 <<highlyConnSGdemo>>=
@@ -684,17 +781,22 @@ hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
 print(highlyConnSG(hcs))
 @
 
-In graph {\em conn}, two highly-connected-subgraphs are found: subgraph 
+In graph {\em conn}, two highly-connected-subgraphs are found: subgraph
 with vertices {\em A, B, C, D} and subgraph with vertices {\em E, H, F, G}.
 
-In graph {\em hcs}, 3 highly-connected-subgraphs are found: subgraph with vertices {\em A1, A2, A3, A4, A5}, subgraph with vertices {\em B1, B2, B3, B4} and subgraph with vertices {\em X, Y, Z}.
+In graph {\em hcs}, 3 highly-connected-subgraphs are found: subgraph
+with vertices {\em A1, A2, A3, A4, A5}, subgraph with vertices {\em
+  B1, B2, B3, B4} and subgraph with vertices {\em X, Y, Z}.
 
 
 \section{Algorithms independent from RBGL}
 \subsection{maxClique}
 
-A {\em clique} is a complete graph.  
-Function {\em maxClique} finds all the cliques in a graph.  
+A {\em clique} is a complete graph.
+Function {\em maxClique} finds all the cliques in a graph.
+
+%%FIXME: please provide complete references for the algorithms
+%%etc. This is a bit too vague for the reader.
 
 <<MaxCliquedemo>>=
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
@@ -703,14 +805,15 @@ hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
 print(maxClique(hcs))
 @
 
-In graph {\em conn}, 3 cliques are found: 
+In graph {\em conn}, 3 cliques are found:
 clique with vertices {\em D, B, C, A},
-clique with vertices {\em D, E, H} and 
+clique with vertices {\em D, E, H} and
 clique with vertices {\em F, E, H, H}.
 
 In graph {\em hcs}, 10 cliques are found.  For instance, vertices {\em A2, A4, A3} form a clique, vertices {\em B1, Y} form a clique.
 
 \subsection{is.triangulated}
+%%please provide a reference to the algorithm used.
 
 A graph is {\em triangulated} if all cycles of length 4 or more have a chord.
 Function {\em is.triangulated} returns TRUE or FALSE, accordingly.
