@@ -6,6 +6,7 @@
 }
 \usage{
 biConnComp(g)
+articulationPoints(g)
 }
 \arguments{
   \item{g}{an instance of the \code{graph} class} 
