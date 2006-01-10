@@ -264,19 +264,26 @@ extern "C"
             component[*ei] = (int)-1;
         int num_comps = biconnected_components(g, component);
 
-        SEXP ansList, nc;
-        PROTECT(ansList = allocVector(VECSXP,2));
+        SEXP ansList, eList, nc;
+        PROTECT(ansList = allocVector(VECSXP,3));
         PROTECT(nc = NEW_INTEGER(1));
-        PROTECT(outvec = allocVector(INTSXP,ne));
+        PROTECT(eList = allocMatrix(INTSXP, 2, ne));
+        PROTECT(outvec = allocMatrix(INTSXP, 1, ne));
 
         INTEGER(nc)[0] = num_comps;
+        int ke = 0;
         int k = 0;
         for (tie(ei, ei_end) = edges(g); ei != ei_end; ++ei)
+        {
+            INTEGER(eList)[ke++] = (int)source(*ei, g);
+            INTEGER(eList)[ke++] = (int)target(*ei, g);
             INTEGER(outvec)[k++] = (int)component[*ei];
+        }
 
         SET_VECTOR_ELT(ansList,0,nc);
-        SET_VECTOR_ELT(ansList,1,outvec);
-        UNPROTECT(3);
+        SET_VECTOR_ELT(ansList,1,eList);
+        SET_VECTOR_ELT(ansList,2,outvec);
+        UNPROTECT(4);
         return(ansList);
     }
 

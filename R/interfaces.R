@@ -3,8 +3,10 @@ tsort <- function(x) {
  nv <- length(nodes(x))
  em <- edgeMatrix(x)
  ne <- ncol(em)
- .Call("BGL_tsort_D", as.integer(nv), as.integer(ne),
+ ans <- .Call("BGL_tsort_D", as.integer(nv), as.integer(ne),
       as.integer(em-1), PACKAGE="RBGL")
+ if ( any(ans != 0) ) ans <- nodes(x)[ans+1]
+ ans
 }
 
 mstree.kruskal <- function(x) {
@@ -15,10 +17,14 @@ ans <- .Call("BGL_KMST_D",
       		as.integer(nv), as.integer(ne),
       		as.integer(em-1), as.double(unlist(edgeWeights(x))),
              PACKAGE="RBGL")
- names(ans) <- c("edgeList", "weights")
- ans$nodes <- nodes(x)
- ans[["edgeList"]] <- ans[["edgeList"]] + 1  # bring to unit-based counting
- ans
+
+    ans[[1]] <- apply(ans[[1]], 2, function(x, y) y[x+1], nodes(x))
+    rownames(ans[[1]]) <- c("from", "to")
+    rownames(ans[[2]]) <- c("weight")
+    names(ans) <- c("edgeList", "weights")
+    ans$nodes <- nodes(x)
+    ans
+
 }
 
 prim.minST <- function ( g ) 
@@ -31,11 +37,12 @@ prim.minST <- function ( g )
     ans <- .Call("BGL_PRIM_U", as.integer(nv), as.integer(ne), 
                  as.integer(em-1), as.integer(eW), PACKAGE="RBGL")
 
+    ans[[1]] <- apply(ans[[1]], 2, function(x, y) y[x+1], nodes(g))
     rownames(ans[[1]]) <- c("from", "to")
     rownames(ans[[2]]) <- c("weight")
-    ans[[1]][1,] <- ans[[1]][1,] + 1
-    ans[[1]][2,] <- ans[[1]][2,] + 1
-    list("edges"=ans[[1]], "weights"=ans[[2]])
+    names(ans) <- c("edgeList", "weights")
+    ans$nodes <- nodes(g)
+    ans
 }
 
 if (!isGeneric("bfs")) 
@@ -73,7 +80,7 @@ setMethod("bfs",c("graph", "character", "logical"),
               ## names(ans) <- c("edgeList", "weights")
               ## ans$nodes <- nodes(object)
               ## ans[["edgeList"]] <- ans[["edgeList"]] + 1
-              ans+1
+              sapply((ans+1), function(x, y) y[x], nodes(object))
           })
 
 if (!isGeneric("dfs"))
@@ -121,7 +128,7 @@ setMethod("dfs",c("graph", "character", "logical"),
              }
           ans <- lapply(ans, fixup)
           names(ans) <- c("discovered", "finish")
-          lapply(ans,function(x)x+1)
+          lapply(ans, function(x, y) y[x+1], nodes(object))
          })
 
 dijkstra.sp <- function(g,start=nodes(g)[1]) {
@@ -295,7 +302,7 @@ highlyConnSG <- function (g, sat=3, ldv=c(3, 2, 1))
                  as.integer(sat), as.integer(lldv), as.integer(ldv),
                  PACKAGE="RBGL")
 
-    ans_names <- sapply(ans, function(x) { nodes(g)[x] })
+    ans_names <- lapply(ans, function(x) { nodes(g)[x] })
     list(clusters=ans_names)
 }
 
@@ -415,6 +422,8 @@ bellman.ford.sp <- function(g, start=nodes(g)[1])
     ans[[2]][ ans[[2]] >= .Machine$double.xmax ] <- Inf
     ans[[3]] <- ans[[3]] + 1
 
+    names(ans[[2]]) <- names(ans[[3]]) <- nodes(g)
+
     list("all edges minimized"=ans[[1]], "distance"=ans[[2]], 
          "penult"=ans[[3]], "start"=nodes(g)[s])
 }
@@ -439,6 +448,9 @@ dag.sp <- function(g, start=nodes(g)[1])
     
     ans[[1]][ ans[[1]] >= .Machine$double.xmax ] <- Inf
     ans[[2]] <- ans[[2]] + 1
+
+    names(ans[[1]]) <- names(ans[[2]]) <- nodes(g)
+
     list("distance"=ans[[1]], "penult"=ans[[2]], "start"=nodes(g)[s])
 }
 
@@ -691,7 +703,8 @@ init.incremental.components <- function (g)
 	        as.integer(nv), as.integer(ne), as.integer(em-1), 
                 PACKAGE="RBGL")
 
-   for ( i in 1:ans[[1]] ) ans[-1][[i]] <- ans[-1][[i]] + 1
+   ans[-1] <- lapply(ans[-1], function(x, y) y[x+1], nodes(g))
+   names(ans[[1]]) = "no. of initial components"
    ans
 }
 
@@ -705,7 +718,8 @@ incremental.components <- function (g)
 	        as.integer(nv), as.integer(ne), as.integer(em-1), 
                 PACKAGE="RBGL")
 
-   for ( i in 1:ans[[1]] ) ans[-1][[i]] <- ans[-1][[i]] + 1
+   ans[-1] <- lapply(ans[-1], function(x, y) y[x+1], nodes(g))
+   names(ans[[1]]) = "no. of connected components"
    ans
 }
 
@@ -808,11 +822,15 @@ biConnComp <- function(g)
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
-    x<-.Call("BGL_biconnected_components_U", as.integer(nv), as.integer(ne),
+    ans <-.Call("BGL_biconnected_components_U", as.integer(nv), as.integer(ne),
         as.integer(em-1), as.double(rep(1,ne)), PACKAGE="RBGL")
 
-    list("no. of biconnected components"= x[[1]],
-         "biconnected components" = x[[2]])
+    ans[[2]] <- apply(ans[[2]], 2, function(x, y) y[x+1], nodes(g))
+    rownames(ans[[2]]) <- c("from", "to")
+    rownames(ans[[3]]) <- c("index")
+    list("no. of biconnected components"= ans[[1]],
+         "edges" = ans[[2]],
+         "biconnected components" = ans[[3]])
 }
 
 articulationPoints <- function(g)
@@ -820,12 +838,12 @@ articulationPoints <- function(g)
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
-    x<-.Call("BGL_articulation_points_U", as.integer(nv), as.integer(ne),
+    ans <-.Call("BGL_articulation_points_U", as.integer(nv), as.integer(ne),
         as.integer(em-1), as.double(rep(1,ne)), PACKAGE="RBGL")
 
-    a_names <- sapply(x[[2]]+1, function(x) { nodes(g)[x] })
-    list("no. of articulation points"= x[[1]],
-         "articulation points" = a_names)
+    ans[[2]] <- sapply(ans[[2]]+1, function(x) { nodes(g)[x] })
+    list("no. of articulation points"= ans [[1]],
+         "articulation points" = ans[[2]])
 }
 
 kingOrdering <- function(g)
