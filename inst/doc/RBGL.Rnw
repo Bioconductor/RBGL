@@ -66,7 +66,6 @@ some algorithms independent of BGL.
 
 We use the following notation:
 
-%%Define DAG here?
 {\em G}: a graph, represented as G = (V, E);
 {\em V} = {v1, v2, ..., vn}: a set of vertices (or nodes);
 {\em E} = {e1, e2, ..., em}: a set of edges with ei = [vj, vk], with vj, vk are in V;
@@ -74,8 +73,11 @@ We use the following notation:
 
 A {\em walk} is a sequence of vertices {v1, v2, ..., vk} such that for all i, [vi, vi+1] in {\em E}.
 A {\em path} is a walk without repeated vertices.
+A {\em cycle} is a path that begins and ends at the same vertice.
 
 A {\em directed} graph is a graph with direction assigned to its edges, therefore, [vj, vk] != [vk, vj].
+
+A {\em directed acyclic graph (DAG)} is a directed graph with no directed cycle.
 
 An {\em in-degree} of vertex v is the total number of edges [u, v] in E; an {\em out-degree} of v is the total number of edges [v, u] in {\em E}.
 
@@ -94,7 +96,6 @@ We are going to use the following graphs repeatedly in the examples.
 <<dijkstraDemo>>=
 dijk <- fromGXL(file(system.file("XML/dijkex.gxl", package="RBGL")))
 @
-
 
 <<figdijk, fig=TRUE, echo=FALSE, results=hide, include=FALSE>>=
  plot(dijk, main="a) Dijkstra's Example")
@@ -115,7 +116,6 @@ coex2 <- fromGXL(file(system.file("XML/conn2.gxl", package="RBGL")))
 <<figcoex2, fig=TRUE, echo=FALSE, results=hide, include=FALSE >>=
   plot(coex2, main="c) Coex2 Example")
 @
-
 
 <<hcsDemo>>=
 hcs <- fromGXL(file(system.file("XML/hcs.gxl", package="RBGL")))
@@ -157,7 +157,7 @@ An example object representing file dependencies is included, as shown
 in Figure \ref{fdpic}.
 <<showFileDep>>=
 data(FileDep)
-print(FileDep)
+FileDep
 @
 \begin{figure}
 <<fig=TRUE, echo=false>>=
@@ -182,55 +182,50 @@ discovery and finish order.
 
 <<DFSdemo1>>=
 df <- fromGXL(file(system.file("XML/dfsex.gxl", package="RBGL")))
-# TODO: OUTPUT NODE NAMES INSTEAD OF INDEXES???
-## RGsays - yes, we really should use names and not indices IMHO
-print(o <- dfs(df))
+print(dfs.res <- dfs(df, "y"))
 @
+
 \begin{figure}
 <<fig=TRUE, echo=false>>=
-z <- plot(df)
+dfsNattrs <- makeNodeAttrs(df)
+dfsNattrs$label[dfs.res$discovered] <- paste(dfs.res$discovered, 1:numNodes(df))
+z <- plot(df, "neato", nodeAttrs=dfsNattrs) 
 @
-\caption{Example dfs example}
+\caption{DFS example: numbers indicates the discovered order of the node}
 \end{figure}
-Here is the list of nodes in DFS discovery order.
-<<DFSdemo2>>=
-print(nodes(df)[o$discovered])
-@
 
 \subsection{Breadth First Search}
 The {\tt bfs} function returns a vector of node indices
 for a breadth-first search (BFS) starting at the
 node indexed by {\tt init.node}.
-<<BFSdemo1>>=
+<<BFSdemo>>=
 bf <- fromGXL(file(system.file("XML/bfsex.gxl", package="RBGL")))
-# TODO: OUTPUT NODE NAMES INSTEAD OF INDEXES???
-## Yes please.
-print(o <- bfs(bf,nodes(bf)[2]))
+print(bfs.res <- bfs(bf,"s"))
 @
 \begin{figure}
 <<fig=TRUE, echo=false>>=
-z <- plot(bf)
+bfsNattrs <- makeNodeAttrs(bf)
+bfsNattrs$label[bfs.res] <- paste(bfs.res, 1:numNodes(bf))
+z <- plot(bf, "neato", nodeAttrs=bfsNattrs) 
 @
-\caption{Example bfs example}
+\caption{BFS example: numbers indicates the discovered order of the node}
 \end{figure}
-
-%%use the name of the node, which one was the second one?
-The nodes in BFS order starting with the second node are
-<<BFSdemo2>>=
-print(nodes(bf)[o])
-@
 
 \subsection{Shortest paths}
 
-The shortest path problem is to find a path between two vertices where the
-sum of all the edge weights on this path is minimum.
-
-The single-source shortest-paths problem is to find the shortest paths from
-one vertex to all the other vertices in a graph.
-
 TO-BE-FINALIZED:
-When an edge is not available, we consider its weight \Robject{NA}.  When there
-is no path between two vertices, the distance between them is \Robject{Inf}.
+Possibilities between two vertices:
+(1) we know there is an edge and there is a measured value on it;
+(2) we know there is an edge but there is NO measured value on it;
+(3) we know there is NO edge;
+(4) we DO NOT know if there is an edge. 
+
+Corresponding edge weights are:
+case 1: measured value;
+case 2: \Robject{NA};  
+case 3: \Robject{Inf};
+case 4: TO-BE-DETERMINED
+
 When there is a loop of negative weight between two vertices, the distance
 between them is \Robject{-Inf}.
 
@@ -238,6 +233,15 @@ between them is \Robject{-Inf}.
 %%using it here. Vince seemed to have in mind the idea that there
 %%would be some subject matter knowledge that a node exists, but it
 %%has not yet been measured.
+
+The shortest path problem is to find a path between two vertices where the
+sum of all the edge weights on this path is minimum.
+
+There are two sets of algorithms available: 
+(1) find shortest paths between a single vertex and all other vertices, 
+available algorithms are: {\em Dijkstra's}, {\em Bellman Ford's} and {\em DAG},
+and 
+(2) find shortest paths between all pairs of vertices, available algorithms are: {\em Johnson's} and {\em Floyd Warshall's}.
 
 %%FIXME: I think it would be helpful to first list the possibilities,
 %%maybe with a brief description of what they do, say in a table, then
@@ -250,7 +254,7 @@ If all the edges have the same weight, use depth-first-search instead.
 
 <<dijkdemo1>>=
 dd <- fromGXL(file(system.file("XML/dijkex.gxl", package="RBGL")))
-print( dijkstra.sp(dd) )
+dijkstra.sp(dd)
 @
 The function \Rfunction{dijkstra.sp} finds the shortest paths from A
 to all other vertices in the graph: {\em B, C, D, E}, shown in the
@@ -287,7 +291,6 @@ edge weights.
 
 <<bellmanfordDemo>>=
 dd <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
-# TODO: PUT NODE NAMES AS INDEX TO DISTANCES
 bellman.ford.sp(dd)
 bellman.ford.sp(dd,nodes(dd)[2])
 @
@@ -305,7 +308,6 @@ same weight, use depth-first-search instead.
 
 <<DAGDemo>>=
 dd <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
-# TODO: PUT NODE NAMES AS INDEX TO DISTANCES
 dag.sp(dd)
 dag.sp(dd,nodes(dd)[2])
 @
@@ -361,8 +363,7 @@ determining the minimum spanning tree (MST) by
 Kruskal's algorithm.
 <<KMSTdemo>>=
 km <- fromGXL(file(system.file("GXL/kmstEx.gxl", package="graph")))
-# TODO: OUTPUT NODE NAMES INSTEAD OF INDEXES
-print(mstree.kruskal(km))
+mstree.kruskal(km)
 @
 \begin{figure}
 <<fig=TRUE, echo=false>>=
@@ -379,7 +380,6 @@ tree and the weights of the edges in MST.
 
 <<primDemo>>=
 coex2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
-#TODO: OUTPUT NODE NAMES INSTEAD OF INDEXES
 prim.minST(coex2)
 @
 
@@ -398,7 +398,7 @@ km@edgeL$F <- list(edges=numeric(0))
 km@edgeL$G <- list(edges=8, weights=1)
 km@edgeL$H <- list(edges=7, weights=1)
 km@edgemode <- "undirected"
-print(connectedComp(ugraph(km)))
+connectedComp(ugraph(km))
 @
 \begin{figure}
 <<fig=TRUE, echo=false>>=
@@ -419,7 +419,7 @@ km@edgeL$F <- list(edges=numeric(0))
 km@edgeL$G <- list(edges=8, weights=1)
 km@edgeL$H <- list(edges=7, weights=1)
 km@edgemode <- "directed"
-print(strongComp(km))
+strongComp(km)
 @
 
 After adding three vertices, {\em F, G, H} and an edge {\em G-H},
@@ -433,9 +433,8 @@ Function {\em articulationPoints} finds the all the articulation points in a gra
 
 <<biConnCompdemo>>=
 bicoex <- fromGXL(file(system.file("XML/biconn.gxl",package="RBGL")))
-# TODO: INDEX WITH NODE NAMES
-print(biConnComp(bicoex))
-print(articulationPoints(bicoex))
+biConnComp(bicoex)
+articulationPoints(bicoex)
 @
 \begin{figure}
 <<fig=TRUE, echo=false>>=
@@ -464,14 +463,16 @@ To start on a new graph, you need to call {\em init.incremental.components}
 first.
 
 <<incrCompdemo>>=
-coex2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
-x <- init.incremental.components(coex2)
-# TODO: OUTPUT NODE NAMES INSTEAD OF INDEXES
-# TODO: MODIFY THE GRAPH TO CHANGE THE NUMBER OF CONNECTED COMPONENTS
-print(incremental.components(coex2))
-v1 <- 1
-v2 <- 5
-print(same.component(coex, v1, v2))
+coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
+jcoex <- join(coex, hcs)
+x <- init.incremental.components(jcoex)
+incremental.components(jcoex)
+v1 <- "A"
+v2 <- "F"
+v3 <- "A1"
+same.component(jcoex, v1, v2)
+same.component(jcoex, v1, v3)
 @
 
 There is only one connected component in the beginning, it consists of all
@@ -535,11 +536,16 @@ TODO: EXPLAIN THESE OUTPUT.
 
 For a single connected undirected graph, function {\em edgeConnectivity}
 calculates the minimum number of edges that have to be removed to create
+two disconnected components.  No edge weight is taken into account and the 
+output is the edges that need to be removed.
+
+This is very similar to the {\em minCut} algorithm, which takes the edge 
+weight into account when removing edges and outputs the vertices on the 
 two disconnected components.
 
 <<edgeConndemo>>=
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
-print(edgeConnectivity(coex))
+edgeConnectivity(coex)
 @
 
 Mimimum of two edges must be removed to create two disconnected components:
@@ -550,20 +556,19 @@ edges {\em D-E} and {\em D-H}.
 The {\tt tsort} function will return the indices of vertices
 in topological sort order:
 
-<<tsortDemo>>=
-ts <- tsort(FileDep)
-print(nodes(FileDep)[ts + 1])
+<<tsortDemo1>>=
+tsort(FileDep)
 @
 
 Note that if the input graph is not a DAG, BGL {\tt topological\_sort}
 will check this and throw 'not a dag'.  This is crudely captured
 in the interface (a message is written to the console and zeroes are returned).
-\begin{verbatim}
-#FD2 <- FileDep
+<<tsortDemo2>>=
+FD2 <- FileDep
 # now introduce a cycle
-#FD2@edgeL[["bar_cpp"]]$edges <- c(8,1)
-#tsort(FD2)
-\end{verbatim}
+FD2@edgeL[["bar_cpp"]]$edges <- c(8,1)
+tsort(FD2)
+@
 
 \subsection{Layout}
 
@@ -573,6 +578,9 @@ Following functions are available:
 %%way to get info on the edges? Can we/should we write some code to
 %%plot the nodes? I think this is only likely to be of real use if we
 %%do have a plot function.
+
+TODO: in "graphviz", "neato" uses Kamada-Kawai and "fdp" uses 
+Fruchterman-Reingold.  Probably we should just skip this part completely???
 
 {\em randomGraphLayout} puts the vertices randomly on a plane;
 
@@ -586,7 +594,8 @@ system;
 possibly disconnected graphs, it treats the edges as forces that pull
 vertices together, no-edges as forces that push vertices apart, vertices
 move to a position as environment changes; initial positions of the vertices
-are set randomly by calling {\em randomGraphLayout}.
+are set randomly by calling {\em randomGraphLayout}.  Notice that the choice 
+of "width" and "height" values has dramatic impact on the performance.
 
 Outputs are the coordinates of the vertices in the layout.
 
@@ -595,11 +604,7 @@ coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 randomGraphLayout(coex)
 circle.layout(coex)
 kamada.kawai.spring.layout(coex)
-@
-\begin{verbatim}
-------FIX THES EXAMPLES------
-#fruchtermanReingoldForceDirectedLayout(coex)
-\end{verbatim}
+fruchtermanReingoldForceDirectedLayout(coex, 10, 10)
 @
 
 TODO: EXPLAIN THESE NUMBERS
@@ -622,10 +627,9 @@ z <- plot(coex2i)
 @
 \caption{Example conn2i}
 \end{figure}
-@
 
 The function treats graphs as undirected, i.e., ignores the directions of the
-edges.  There are more vertices in example {\em conn2} than {dijkstra}, so
+edges.  There are more vertices in example {\em conn2} than {\em dijkstra}, so
 it's impossible to find a one-to-one mapping between them.
 One the other hand, example {\em conn2i} is basically the same graph as {\em conn2} except the vertices have different names, so they are isomorphism.
 
@@ -677,6 +681,9 @@ transitive closure in Figure~\ref{fig:graphTC}.
 %%seems to work - someone should check that the output is actually the
 %%transitive closure - I do not much like the self-loops, but maybe
 %%they are part of it.
+
+%%LL: yes, I checked them and it seems containing all the edges.  Self-loops
+%% are presented in BGL's example, as well.
 
 <<transClosuredemo>>=
 dijk.tc = transitive.closure(dijk)
@@ -757,7 +764,7 @@ For simplicity, subset {\em S} is the smaller of the two.
 
 <<mincutdemo>>=
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
-print(minCut(coex))
+minCut(coex)
 @
 
 TODO: FIX OR DOCUMENT: CURRENTLY all edge weights are assumed 1.
@@ -775,10 +782,9 @@ vertices and merges clusters.
 
 <<highlyConnSGdemo>>=
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
-# TODO: BETTER OUTPUT FORMAT
-print(highlyConnSG(coex))
+highlyConnSG(coex)
 hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
-print(highlyConnSG(hcs))
+highlyConnSG(hcs)
 @
 
 In graph {\em conn}, two highly-connected-subgraphs are found: subgraph
@@ -792,17 +798,25 @@ with vertices {\em A1, A2, A3, A4, A5}, subgraph with vertices {\em
 \section{Algorithms independent from RBGL}
 \subsection{maxClique}
 
-A {\em clique} is a complete graph.
-Function {\em maxClique} finds all the cliques in a graph.
+A {\em clique} is a complete subgraph, i.e., there is an edge between 
+every pair of vertices.
+
+{\em Maximum Clique} problem is to find the largest clique in a graph.  
+This problem is NP-complete, which means it cannot be solved by any known
+polynomial algorithm.
+
+Function {\em maxClique} implements the algorithm from {\em Finding all 
+cliques of an undirected graph}, by C. Bron and J. Kerbosch (CACM, Sept 1973,
+Vol 16, No. 9.), which finds all the cliques in a graph.
 
 %%FIXME: please provide complete references for the algorithms
 %%etc. This is a bit too vague for the reader.
 
 <<MaxCliquedemo>>=
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
-print(maxClique(coex))
+maxClique(coex)
 hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
-print(maxClique(hcs))
+maxClique(hcs)
 @
 
 In graph {\em conn}, 3 cliques are found:
@@ -818,11 +832,15 @@ In graph {\em hcs}, 10 cliques are found.  For instance, vertices {\em A2, A4, A
 A graph is {\em triangulated} if all cycles of length 4 or more have a chord.
 Function {\em is.triangulated} returns TRUE or FALSE, accordingly.
 
+We implemented the following algorithm from {\em Combinatorial Optimization: algorithms and complexity} (p. 403) by C. H. Papadimitriou, K. Steiglitz:
+G is chordal iff either G is an empty graph, or there is a {\em v} in {\em V}
+such that (i) the neighborhood of {\em v}, i.e., {\em v} and its adjacent vertices, forms a clique, and (ii) recursively, {\em G-v} is chordal.
+
 <<IsTriangulateddemo>>=
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
-print(is.triangulated(coex))
+is.triangulated(coex)
 coex <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
-print(is.triangulated(coex))
+is.triangulated(coex)
 @
 
 \subsection{separates}
@@ -832,8 +850,8 @@ subsets of vertices, and returns TRUE or FALSE, accordingly.
 
 <<Separatesdemo>>=
 coex <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
-print(separates("B", "A", "E", km))
-print(separates("B", "A", "C", km))
+separates("B", "A", "E", km)
+separates("B", "A", "C", km)
 @
 
 \end{document}

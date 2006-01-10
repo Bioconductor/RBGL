@@ -54,6 +54,6 @@ coex@edgemode <- "undirected"
 circle.layout(coex)
 kamada.kawai.spring.layout(coex)
 randomGraphLayout(coex)
-fruchtermanReingoldForceDirectedLayout(coex)
+fruchtermanReingoldForceDirectedLayout(coex, 10, 10)
 }
 \keyword{ models }
