@@ -32,8 +32,7 @@ dfs(object, node, checkConn=TRUE)
 }
 \arguments{
   \item{object}{ instance of class graph from Bioconductor graph class}
-  \item{node}{ node name where search starts -- note that this is ignored
-for dfs }
+  \item{node}{ node name where search starts}
   \item{checkConn}{ logical indicating whether connectivity of
 input graph should be checked }
 }
