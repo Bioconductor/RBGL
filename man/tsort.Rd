@@ -29,7 +29,6 @@ topological sort sequence, 0-based
  data(FileDep)
  tsind <- tsort(FileDep)
  tsind
- nodes(FileDep)[tsind+1]
  FD2 <- FileDep
  # now introduce a cycle
  FD2 <- addEdge("bar_o", "dax_h", FD2, 1)
