@@ -35,7 +35,7 @@ prim.minST <- function ( g )
     eW <- unlist(edgeWeights(g))
 
     ans <- .Call("BGL_PRIM_U", as.integer(nv), as.integer(ne), 
-                 as.integer(em-1), as.integer(eW), PACKAGE="RBGL")
+                 as.integer(em-1), as.double(eW), PACKAGE="RBGL")
 
     ans[[1]] <- apply(ans[[1]], 2, function(x, y) y[x+1], nodes(g))
     rownames(ans[[1]]) <- c("from", "to")
@@ -498,13 +498,13 @@ max.flow.internal <- function (g, source, sink, method="Edmunds.Karp")
     if ( method == "Push.Relabel" )
          ans <- .Call("BGL_push_relabel_max_flow", 
                  as.integer(nv), as.integer(ne), 
-                 as.integer(em-1), as.integer(eW), 
+                 as.integer(em-1), as.double(eW), 
                  as.integer(s-1), as.integer(t-1), 
                  PACKAGE="RBGL")
     else  # Edmunds.Karp
          ans <- .Call("BGL_edmunds_karp_max_flow", 
                  as.integer(nv), as.integer(ne), 
-                 as.integer(em-1), as.integer(eW), 
+                 as.integer(em-1), as.double(eW), 
                  as.integer(s-1), as.integer(t-1), 
                  PACKAGE="RBGL")
 
@@ -770,7 +770,7 @@ kamada.kawai.spring.layout <- function ( g, edge_or_side=1, es_length=1 )
    eW <- unlist(edgeWeights(g))
 
    ans <- .Call("BGL_kamada_kawai_spring_layout", 
-	       as.integer(nv), as.integer(ne), as.integer(em-1), as.integer(eW),
+	       as.integer(nv), as.integer(ne), as.integer(em-1), as.double(eW),
 	       as.logical(edge_or_side), as.double(es_length),
                PACKAGE="RBGL")
 
@@ -786,9 +786,12 @@ brandes.betweenness.centrality <- function ( g )
    ne <- ncol(em)
    eW <- unlist(edgeWeights(g))
 
+   if ( any(eW[eW <= 0]) ) 
+      stop("brandes.betweenness.centrality requies that all edge weights are positive")
+
    ans <- .Call("BGL_brandes_betweenness_centrality", 
 	        as.integer(nv), as.integer(ne), as.integer(em-1), 
-		as.integer(eW),
+		as.double(eW),
                 PACKAGE="RBGL")
 
    list("betweenness.centrality.vertices"=ans[[1]],
@@ -807,7 +810,7 @@ betweenness.centrality.clustering <- function(g, threshold=-1, normalize=T )
 
    ans <- .Call("BGL_betweenness_centrality_clustering", 
 	        as.integer(nv), as.integer(ne), as.integer(em-1), 
-		as.integer(eW), as.double(threshold), as.logical(normalize),
+		as.double(eW), as.double(threshold), as.logical(normalize),
                 PACKAGE="RBGL")
 
    rownames(ans[[2]]) <- c("from", "to")

@@ -24,7 +24,7 @@ extern "C"
 		int NV = asInteger(num_verts_in);
 		int NE = asInteger(num_edges_in);
 		int* edges_in = INTEGER(R_edges_in);
-		int* weights_in = INTEGER(R_weights_in);
+		double* weights_in = REAL(R_weights_in);
 
 		for (int i = 0; i < NE ; i++, edges_in += 2, weights_in++)
 		    boost::add_edge(*edges_in, *(edges_in+1), *weights_in, g);
@@ -37,10 +37,14 @@ extern "C"
 		PROTECT(dom = NEW_NUMERIC(1));
 
 		brandes_betweenness_centrality(g, 
-                        get(vertex_centrality, g), get(edge_centrality, g));
+                        centrality_map(get(vertex_centrality, g)).
+			edge_centrality_map(get(edge_centrality, g)).
+			weight_map(get(edge_weight, g)));
 
-                property_map<BCGraph, vertex_centrality_t>::type v_map = get(vertex_centrality, g);
-                property_map<BCGraph, edge_centrality_t>::type e_map = get(edge_centrality, g);
+                property_map<BCGraph, vertex_centrality_t>::type 
+			v_map = get(vertex_centrality, g);
+                property_map<BCGraph, edge_centrality_t>::type 
+			e_map = get(edge_centrality, g);
 
                 graph_traits < BCGraph>::vertex_iterator vi, v_end;
                 graph_traits < BCGraph>::edge_iterator ei, e_end;
@@ -101,7 +105,7 @@ extern "C"
 
 		int NE = asInteger(num_edges_in);
 		int* edges_in = INTEGER(R_edges_in);
-		int* weights_in = INTEGER(R_weights_in);
+		double* weights_in = REAL(R_weights_in);
 
 		for (int i = 0; i < NE ; i++, edges_in += 2, weights_in++)
 		    boost::add_edge(*edges_in, *(edges_in+1), *weights_in, g);
