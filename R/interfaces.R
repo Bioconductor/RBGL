@@ -145,6 +145,10 @@ dijkstra.sp <- function(g,start=nodes(g)[1]) {
             em <- edgeMatrix(g,TRUE)
     ne <- ncol(em)
     eW <- unlist(edgeWeights(g))
+
+    if ( any(eW[eW < 0]) ) 
+      stop("dijkstra.sp requies that all edge weights are nonnegative")
+
     ans <- .Call("BGL_dijkstra_shortest_paths_D", as.integer(nv),
         as.integer(ne), as.integer(em-1), as.double(eW),
         as.integer(II - 1), PACKAGE="RBGL")
@@ -347,15 +351,21 @@ sp.between <- function (g, start, finish)
     }
     ws <- list()
     eW = edgeWeights(g)
+
+    eWW <- unlist(eW)
+
+    if ( any(eWW[eWW < 0]) ) 
+      stop("sp.between requies that all edge weights are nonnegative")
+
     getw <- function(nl) {
          # obtain weights in g for path of nodes in char vec nl
 	 if (length(nl)<2) stop("sp.between:getw should get paths of length 2 or more")
          res <- rep(NA,length(nl)-1)   # only n-1 pairs
 	 wstr <- eW[match(nl, nG)]
          for (i in 1:(length(nl)-1))
-            res[i] <-  wstr[[i]][as.character(match(nl[i+1],nG))] # need to use numerical names of weights
+            res[i] <-  wstr[[i]][nl[i+1]] # need to use numerical names of weights
 	names(res) <- paste(nl[-length(nl)],nl[-1],sep=ifelse(edgemode(g)=="undirected","--","->"))
-    res
+        res
     }
     ws <- lapply(ans, function(x) getw(x))
     ls <- lapply(ws, sum)
