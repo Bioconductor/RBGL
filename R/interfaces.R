@@ -804,11 +804,18 @@ brandes.betweenness.centrality <- function ( g )
 		as.double(eW),
                 PACKAGE="RBGL")
 
+   colnames(ans[[1]]) <- nodes(g)
+   colnames(ans[[3]]) <- nodes(g)
+
+   rownames(ans[[2]]) <- c("centrality")
+   rownames(ans[[5]]) <- c("from", "to")
+   ans[[5]] <- apply(ans[[5]], 2, function(x, y) y[x+1], nodes(g))
+
    list("betweenness.centrality.vertices"=ans[[1]],
-   "betweenness.centrality.edges"=ans[[2]],
-   "relative.betweenness.centrality.vertices"=ans[[3]],
-   "dominance"=ans[[4]]
-   )
+        "edges"=ans[[5]],
+        "betweenness.centrality.edges"=ans[[2]],
+        "relative.betweenness.centrality.vertices"=ans[[3]],
+        "dominance"=ans[[4]])
 }
 
 betweenness.centrality.clustering <- function(g, threshold=-1, normalize=T )
@@ -823,10 +830,14 @@ betweenness.centrality.clustering <- function(g, threshold=-1, normalize=T )
 		as.double(eW), as.double(threshold), as.logical(normalize),
                 PACKAGE="RBGL")
 
-   rownames(ans[[2]]) <- c("from", "to")
-   s_names <- sapply(ans[[2]]+1, function(x) { nodes(g)[x] })
+   if ( ans[[1]] > 0 )
+   {
+      ans[[2]] <- apply(ans[[2]], 2, function(x, y) y[x+1], nodes(g))
+      rownames(ans[[2]]) <- c("from", "to")
+      rownames(ans[[3]]) <- c("centrality")
+   }
    list("no.of.edges" = ans[[1]], 
-        "edges"=s_names,
+        "edges"=ans[[2]],
         "edge.betweenness.centrality"=ans[[3]])
 }
 

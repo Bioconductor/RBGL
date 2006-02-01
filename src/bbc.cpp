@@ -29,9 +29,10 @@ extern "C"
 		for (int i = 0; i < NE ; i++, edges_in += 2, weights_in++)
 		    boost::add_edge(*edges_in, *(edges_in+1), *weights_in, g);
 
-		SEXP anslst, bcvlst, bcelst, rbcvlst, dom;
-		PROTECT(anslst = allocVector(VECSXP,4));
+		SEXP anslst, bcvlst, enlst, bcelst, rbcvlst, dom;
+		PROTECT(anslst = allocVector(VECSXP,5));
 		PROTECT(bcvlst = allocMatrix(REALSXP, 1, NV));
+		PROTECT(enlst = allocMatrix(INTSXP, 2, NE));
 		PROTECT(bcelst = allocMatrix(REALSXP, 1, NE));
 		PROTECT(rbcvlst = allocMatrix(REALSXP, 1, NV));
 		PROTECT(dom = NEW_NUMERIC(1));
@@ -53,8 +54,12 @@ extern "C"
 
 		for ( tie(vi, v_end) = vertices(g); vi != v_end; vi++ ) 
                     REAL(bcvlst)[v++] = v_map[*vi];
-		for ( tie(ei, e_end) = edges(g); ei != e_end ; ei++ ) 
+		for ( v = 0, tie(ei, e_end) = edges(g); ei != e_end ; ei++ ) 
+		{
+		    INTEGER(enlst)[v++] = source(*ei, g);
+		    INTEGER(enlst)[v++] = target(*ei, g);
                     REAL(bcelst)[e++] = e_map[*ei];
+                }
 
 		relative_betweenness_centrality(g, get(vertex_centrality, g));
                 v_map = get(vertex_centrality, g);
@@ -71,7 +76,8 @@ extern "C"
 		SET_VECTOR_ELT(anslst,1,bcelst);
 		SET_VECTOR_ELT(anslst,2,rbcvlst);
 		SET_VECTOR_ELT(anslst,3,dom);
-		UNPROTECT(5);
+		SET_VECTOR_ELT(anslst,4,enlst);
+		UNPROTECT(6);
 		return(anslst);
 	}
 
