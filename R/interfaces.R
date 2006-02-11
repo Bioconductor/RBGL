@@ -45,13 +45,16 @@ prim.minST <- function ( g )
     ans
 }
 
-if (!isGeneric("bfs")) 
   setGeneric("bfs", function( object, node, checkConn=TRUE) 
              standardGeneric("bfs"))
 
 setMethod("bfs",c("graph", "missing", "missing"),
   function( object, node, checkConn=TRUE)
           bfs(object, nodes(object)[1], TRUE))
+
+setMethod("bfs",c("graph", "missing", "logical"),
+  function( object, node, checkConn=TRUE)
+          bfs(object, nodes(object)[1], checkConn))
 
 setMethod("bfs",c("graph", "character", "missing"),
   function( object, node, checkConn=TRUE)
