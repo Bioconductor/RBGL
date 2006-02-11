@@ -7,6 +7,7 @@
 \alias{bfs,graph,character,logical-method}
 \alias{dfs,graph,character,logical-method}
 
+\alias{bfs,graph,missing,logical-method}
 \alias{bfs,graph,character,missing-method}
 \alias{dfs,graph,character,missing-method}
 
@@ -40,19 +41,15 @@ input graph should be checked }
   These two functions are interfaces to the
   BOOST graph library functions for breadth first
 and depth first search. Both methods can handle
-  unconnected graphs and unless \code{checkConn} is specified neither
-  tests connectivity. If \code{checkConn} is specified and the
+  unconnected graphs and if \code{checkConn} is \code{TRUE}
+then  the graph is tested for connectivity and if the
   graph is not connected an error is signalled.
 
-  Note that the parameter sequences for bfs and dfs agree, but that
-  at present the \code{node} argument to \code{dfs} is ignored.
   Cormen et al note (p 542) that `results of depth-first search
   may depend upon the order in which the vertices are examined ...
   These different visitation orders tend not to cause problems
   in practices, as any DFS result can usually be used effectively,
-  with essentially equivalent results'.  To fix the
-  starting node of \code{dfs}, order the graph vertex list so that the
-  desired start point is the first entry.
+  with essentially equivalent results'.  
 }
 \value{
 For \code{bfs} a vector of node indices in order of BFS visit.
