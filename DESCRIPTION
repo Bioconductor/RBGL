@@ -1,6 +1,6 @@
 Package: RBGL
-Version: 1.7.8
-Title: Test interface to boost C++ graph lib
+Version: 1.7.9
+Title: Interface to boost C++ graph lib
 Author: Vince Carey <stvjc@channing.harvard.edu>, Li Long
         <lilong@isb-sib.ch>
 Maintainer: Li Long <lilong@isb-sib.ch>

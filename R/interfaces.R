@@ -65,26 +65,56 @@ setMethod("bfs",c("graph", "character", "logical"),
           bfs(object, node, checkConn))
 
 setMethod("bfs",c("graph", "character", "logical"),
-          function( object, node, checkConn=TRUE) {
-              nodvec <- nodes(object)
-              if (is.na(startind <- match(node,nodvec)))
-                  stop("starting node not found in nodes of graph")
-              if (checkConn)
-              {
-                  if (length(connectedComp(object))>1)
-                      stop("graph is not connected")
-              }
-              nv <- length(nodvec)
-              em <- edgeMatrix(object,duplicates=TRUE)
-              ne <- ncol(em)
-              ans <- .Call("BGL_bfs_D", as.integer(nv), as.integer(ne),
-                           as.integer(em-1), as.integer(rep(1,ne)),
-                           as.integer(startind-1), PACKAGE="RBGL")
-              ## names(ans) <- c("edgeList", "weights")
-              ## ans$nodes <- nodes(object)
-              ## ans[["edgeList"]] <- ans[["edgeList"]] + 1
-              sapply((ans+1), function(x, y) y[x], nodes(object))
-          })
+#          function( object, node, checkConn=TRUE) {
+#              nodvec <- nodes(object)
+#              if (is.na(startind <- match(node,nodvec)))
+#                  stop("starting node not found in nodes of graph")
+#              if (checkConn)
+#              {
+#                  if (length(ccc <- connectedComp(object))>1)
+#                      warning("graph is not connected; returning bfs applied to each connected component")
+#		      alln <- lapply(ccc, function(x)nodes(subGraph(x, object)))
+#		      hasStart <- sapply( alln, function(x) node %in% x)
+#		      def <- lapply( ccc[-which(hasStart)], function(x) bfs(subGraph(x,object)))
+#                      wsta <- bfs( subGraph(ccc[[which(hasStart)]], object), node)
+#		      return( c(wsta, def) )
+#              }
+#              nv <- length(nodvec)
+#              em <- edgeMatrix(object,duplicates=TRUE)
+#              ne <- ncol(em)
+#              ans <- .Call("BGL_bfs_D", as.integer(nv), as.integer(ne),
+#                           as.integer(em-1), as.integer(rep(1,ne)),
+#                           as.integer(startind-1), PACKAGE="RBGL")
+#              ## names(ans) <- c("edgeList", "weights")
+#              ## ans$nodes <- nodes(object)
+#              ## ans[["edgeList"]] <- ans[["edgeList"]] + 1
+#              sapply((ans+1), function(x, y) y[x], nodes(object))
+#          })
+function (object, node = nodes(object)[1], checkConn = TRUE) 
+{
+    nodvec <- nodes(object)
+    if (!checkConn) warning("API is changing: checkConn is disregarded, connectivity always checked.")
+    if (is.na(startind <- match(node, nodvec))) 
+        stop("starting node not found in nodes of graph")
+    if (length(ccc <- connectedComp(object)) > 1) {
+        warning("graph is not connected; returning bfs applied to each connected component")
+        alln <- lapply(ccc, function(x) nodes(subGraph(x, object)))
+        hasStart <- sapply(alln, function(x) node %in% x)
+        def <- lapply(ccc[-which(hasStart)], function(x) bfs(subGraph(x, 
+            object)))
+	names(def) <- NULL
+        wsta <- bfs(subGraph(ccc[[which(hasStart)]], object), 
+            node)
+        return(c(list(wsta), def))
+    }
+    nv <- length(nodvec)
+    em <- edgeMatrix(object, duplicates = TRUE)
+    ne <- ncol(em)
+    ans <- .Call("BGL_bfs_D", as.integer(nv), as.integer(ne), 
+        as.integer(em - 1), as.integer(rep(1, ne)), as.integer(startind - 
+            1), PACKAGE = "RBGL")
+    sapply((ans + 1), function(x, y) y[x], nodes(object))
+})
 
 if (!isGeneric("dfs"))
    setGeneric("dfs", function(object,node,checkConn=TRUE)
@@ -100,17 +130,20 @@ setMethod("dfs",c("graph", "character", "missing"),
 
 setMethod("dfs",c("graph", "character", "logical"),
           function( object, node, checkConn=TRUE) {
+    	  if (!checkConn) warning("API is changing: checkConn is disregarded, connectivity always checked.")
           nodvec <- nodes(object)
           if (is.na(startind <- match(node,nodvec)))
           {
               warning("starting node not found in nodes of graph,\nnodes element 1 used")
               startind <- 1
           }
-          if (checkConn)
-            {
-            if (length(connectedComp(object))>1) 
-                stop("graph is not connected")
-            }
+        if (length(ccc <- connectedComp(object)) > 1) {
+            warning("graph is not connected; returning dfs applied to each connected component")
+            def <- lapply(ccc, function(x) dfs(subGraph(x, 
+                object)))
+       	    names(def) <- NULL
+            return(def)
+        }
           nv <- length(nodvec)
           em <- edgeMatrix(object,duplicates=TRUE)
           ne <- ncol(em)
