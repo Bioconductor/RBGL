@@ -46,12 +46,8 @@ extern "C"
             SEXP R_weights_in)
     {
         using namespace boost;
-        typedef adjacency_list<vecS, vecS, directedS, no_property,
-        property< edge_weight_t, double, property< edge_weight2_t, double > > > Graph;
         int nv = INTEGER(num_verts_in)[0];
         SEXP out;
-        const int V = nv;
-        typedef std::pair < int, int >Edge;
 
         Graph_dd g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
 

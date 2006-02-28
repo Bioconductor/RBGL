@@ -982,3 +982,21 @@ maxClique <- function(g)
    list("maxCliques"=ans_names)
 }
 
+kCliques <- function(g)
+{
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+   eW <- unlist(edgeWeights(g))
+
+   ans <- .Call("kCliques", as.integer(nv), as.integer(ne), 
+		as.integer(em-1), as.double(eW), 
+                PACKAGE="RBGL")
+
+   gn1 <- function(x) { nodes(g)[x+1] }
+   gn2 <- function(x) { lapply(x, gn1) }
+   ans_names <- lapply(ans, gn2)
+   names(ans_names) <- paste(1:length(ans_names), "-cliques", sep="")
+   ans_names
+}
+

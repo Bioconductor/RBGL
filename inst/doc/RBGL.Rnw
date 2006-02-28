@@ -295,10 +295,10 @@ graphs (directed or undirected) with non-negative weights on edges.
 If all the edges have the same weight, use depth-first-search instead.
 
 <<dijkdemo1>>=
-dd <- fromGXL(file(system.file("XML/dijkex.gxl", package="RBGL")))
-nodes(dd)
-edgeWeights(dd)
-dijkstra.sp(dd)
+#dijk <- fromGXL(file(system.file("XML/dijkex.gxl", package="RBGL")))
+nodes(dijk)
+edgeWeights(dijk)
+dijkstra.sp(dijk)
 @
 
 The function \Rfunction{dijkstra.sp} finds the shortest paths from A,
@@ -327,8 +327,6 @@ sp.between(ospf, "RT6", "RT1")
 The first part of this example finds the shortest paths from {\em start RT6}
 to all the other vertices in the graph, and the second part finds the shortest
 path between two vertices: {\em RT6} and {\em RT1}.  
-%%LL: seems there are edge weights from the graph... need to look at the codes
-TO-BE-VERIFIED: Since no edge weights are available, {\em length} and {\em pweights} are all {\em NA}.
 
 \begin{figure}
 @
@@ -404,7 +402,7 @@ distance from {\em a} to {\em c} is -3.
 of vertices in a dense graph.
 
 <<floydwarshallDemo>>=
-coex <- fromGXL(file(system.file("XML/conn.gxl", package="RBGL")))
+#coex <- fromGXL(file(system.file("XML/conn.gxl", package="RBGL")))
 floyd.warshall.all.pairs.sp(coex)
 @
 All edge distances are assumed to be 1, if not given.  Since the graph is
@@ -435,7 +433,7 @@ MST consists of 4 edges, {\em A->C, D->E, E->A, B->D}, each is of weight 1.
 The \Rfunction{prim.minST} function finds the MST by Prim's algorithm.
 
 <<primDemo>>=
-coex2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
+#coex2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
 prim.minST(coex2)
 @
 
@@ -540,8 +538,8 @@ start on a new graph, you need to call \Rfunction{init.incremental.components}
 first.
 
 <<incrCompdemo>>=
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
-hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
+#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+#hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
 jcoex <- join(coex, hcs)
 x <- init.incremental.components(jcoex)
 incremental.components(jcoex)
@@ -578,7 +576,7 @@ The functions, \Rfunction{edmunds.karp.max.flow} and
 available to find the maximum flow between source and sink.
 
 <<MaxFlowdemo>>=
-dijk <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
+#dijk <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 edgeWeights(dijk)
 edmunds.karp.max.flow(dijk, "B", "D")
 push.relabel.max.flow(dijk, "C", "B")
@@ -613,11 +611,12 @@ in matrix reordering, which turns a system of equations {\em A x = b} to
 renumbering its vertices.
 
 <<SparseMatrixOrderingdemo>>=
-dijk <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
-coex@edgemode <- "undirected"
-cuthill.mckee.ordering(dijk)
-minDegreeOrdering(dijk)
-sloan.ordering(dijk)
+#dijk <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
+dijk1 <- dijk
+dijk1@edgemode <- "undirected"
+cuthill.mckee.ordering(dijk1)
+minDegreeOrdering(dijk1)
+sloan.ordering(dijk1)
 @
 
 TODO: EXPLAIN THESE OUTPUT.
@@ -639,7 +638,7 @@ weights into account when removing edges and outputs the vertices on the
 two disconnected components.
 
 <<edgeConndemo>>=
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 edgeConnectivity(coex)
 @
 
@@ -701,7 +700,7 @@ impact on the performance.
 Outputs are the coordinates of the vertices in the layout.
 
 <<Layoutdemo>>=
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 randomGraphLayout(coex)
 circle.layout(coex)
 kamada.kawai.spring.layout(coex)
@@ -709,6 +708,47 @@ fruchtermanReingoldForceDirectedLayout(coex, 10, 10)
 @
 
 TODO: EXPLAIN THESE NUMBERS
+
+You can use Rgraphviz package to do the actual layouts: 
+a. "neato" uses Kamada-Kawai algorithm to make spring model layout, 
+b. "fdp" uses Fruchterman-Reingold algorithm to make spring model layout,
+c. "circo" does circular layout.
+
+<<Layoutdemo2>>=
+plot(coex, "neato")
+@
+
+If you want to draw the graphs based on the calculated coordinates, you need additional function.  The following is an example.
+
+<<Layoutdemo3>>=
+crudeGraphPlot <- function(g, alg=circle.layout, ...) {
+#
+# the alg parameter is a function that computes the
+# layout of g, returning it as a list of length 1
+# with two rows: top row is x coordinates, bottom is
+# y coordinates, and node names are used as colnames
+# the ... are passed to segments()
+#
+  layout <- alg(g)[[1]]
+  plot( layout[1,], layout[2,], pch=nodes(g), axes=FALSE,
+    xlab="", ylab="", main=substitute(g), cex=1.4 )
+  ee <- edges(g)
+  src <- names(ee)
+  ds <- function(nn1, nn2, lob) segments(lob[1,nn1], lob[2,nn1],
+        lob[1,nn2], lob[2,nn2], ...)
+  for (s in src) sapply(ee[[s]], function(x) ds(s, x, layout))
+  invisible(NULL)
+}
+
+crudeGraphPlot(coex)
+
+crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green")
+@
+
+Now crudeGraphPlot(coex) gives the default circular layout on your graphics device.
+
+crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green") shows you the spring layout with green edges.
+
 
 
 \subsection{Isomorphism}
@@ -719,8 +759,8 @@ one graph {\em g1} to the other {\em g2} such that edge {\em u -> v} is in
 {\em E(g1)} iff edge {\em f(u) -> f(v)} exists and is in {\em E(g2)}.
 
 <<Isomorphismdemo>>=
-dijk <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
-coex2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
+#dijk <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
+#coex2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
 coex2i <- fromGXL(file(system.file("XML/conn2iso.gxl",package="RBGL")))
 isomorphism(dijk, coex2)
 isomorphism(coex2i, coex2)
@@ -748,7 +788,7 @@ guarantee that minimum number of colors is used, and the result depends on the
 input ordering of the vertices in the graph.
 
 <<VertexColoringdemo>>=
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 sequential.vertex.coloring(coex)
 @
 
@@ -831,12 +871,12 @@ The following functions are available:
 \Rfunction{aver.wavefront} and \Rfunction{rms.wavefront}.
 
 <<wavefrontdemo>>=
-dijk <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
+#dijk <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 ss <- 1
-ith.wavefront(coex, ss)
-maxWavefront(coex)
-aver.wavefront(coex)
-rms.wavefront(coex)
+ith.wavefront(dijk, ss)
+maxWavefront(dijk)
+aver.wavefront(dijk)
+rms.wavefront(dijk)
 @
 
 TODO: EXPLAIN THESE RESULTS
@@ -860,7 +900,7 @@ clustering in a graph based on edge betweenness centrality.
 TODO: EXPLAIN MORE
 
 <<Centralitydemo>>=
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 brandes.betweenness.centrality(coex)
 betweenness.centrality.clustering(coex, 0.1, TRUE)
 @
@@ -881,7 +921,7 @@ min-cut problem is to find a cut (S, V-S) of minimum cost.
 For simplicity, subset {\em S} is the smaller of the two.
 
 <<mincutdemo>>=
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 minCut(coex)
 @
 
@@ -900,9 +940,9 @@ To improve performance, it takes special care of singletons, low degree
 vertices and merges clusters.
 
 <<highlyConnSGdemo>>=
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 highlyConnSG(coex)
-hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
+#hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
 highlyConnSG(hcs)
 @
 
@@ -929,9 +969,9 @@ cliques of an undirected graph}, by C. Bron and J. Kerbosch (CACM, Sept 1973,
 Vol 16, No. 9.), which finds all the cliques in a graph.
 
 <<MaxCliquedemo>>=
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 maxClique(coex)
-hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
+#hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
 maxClique(hcs)
 @
 
@@ -954,10 +994,10 @@ G is chordal iff either G is an empty graph, or there is a {\em v} in {\em V}
 such that (i) the neighborhood of {\em v}, i.e., {\em v} and its adjacent vertices, forms a clique, and (ii) recursively, {\em G-v} is chordal.
 
 <<IsTriangulateddemo>>=
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 is.triangulated(coex)
-coex <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
-is.triangulated(coex)
+#hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
+is.triangulated(hcs)
 @
 
 \subsection{separates}
@@ -966,9 +1006,41 @@ Function {\em separates} determines if a subset of vertices separates two other
 subsets of vertices, and returns TRUE or FALSE, accordingly.
 
 <<Separatesdemo>>=
-coex <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
+#km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
 separates("B", "A", "E", km)
 separates("B", "A", "C", km)
+@
+
+\subsection{kCores}
+Function {\em kCores} finds all the k-cores in an undirected graph.  It returns the core numbers for all the nodes in the graph.
+
+The implementation is based on the algorithm by V. Batagelj and M. Zaversnik, 2002.
+
+<<kCoresdemo>>=
+kcoex <- fromGXL(file(system.file("XML/snacoreex.gxl",package="RBGL")))
+kCores(kcoex)
+@
+
+\subsection{kCliques}
+
+In social network analysis, a k-cliques is a maximum subgraph that the shortest distance between any two nodes is no more than k.
+
+Function {\em kCliques} finds all the k-cliques in an undirected graph (k = 1, ..., N, where N is the length of the longest shortest-path).  It returns all the k-cliques.
+
+Let D be a matrix, D[i][j] is the shortest path from node i to node j.  
+Algorithm is outlined as following.
+o. use Johnson's algorithm to fill D; let N = max(D[i][j]) for all i, j;
+o. each edge is a 1-clique by itself;
+o. for k = 2, ..., N, try to expand each (k-1)-clique to k-clique:
+    o. consider a (k-1)-clique the current k-clique KC;
+    o. repeat the following:
+          if for all nodes j in KC, D[v][j] <= k, add node v to KC;
+    o. eliminate duplicates;
+o. the whole graph is N-clique.
+
+<<kCliquesdemo>>=
+kclex <- fromGXL(file(system.file("XML/snacliqueex.gxl",package="RBGL")))
+kCliques(kclex)
 @
 
 \end{document}

@@ -28,6 +28,8 @@ export(
  "isomorphism",
  "johnson.all.pairs.sp", 
  "kamada.kawai.spring.layout",
+ "kCores",
+ "kCliques",
  "kingOrdering",
  "maxClique",
  "maxWavefront",
