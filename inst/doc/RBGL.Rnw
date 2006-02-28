@@ -423,7 +423,7 @@ The \Rfunction{mstree.kruskal} function finds the MST
 by Kruskal's algorithm.
 
 <<KMSTdemo>>=
-km <- fromGXL(file(system.file("GXL/kmstEx.gxl", package="graph")))
+#km <- fromGXL(file(system.file("GXL/kmstEx.gxl", package="graph")))
 mstree.kruskal(km)
 @
 
@@ -453,17 +453,19 @@ The \Rfunction{connectedComp} function computes the connected components
 in an undirected graph.
 
 <<conndemo>>=
-km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
-km@nodes <- c(km@nodes,"F","G","H")
-km@edgeL$F <- list(edges=numeric(0))
-km@edgeL$G <- list(edges=8, weights=1)
-km@edgeL$H <- list(edges=7, weights=1)
-km@edgemode <- "undirected"
-connectedComp(ugraph(km))
+#km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
+km1 <- km
+km1@nodes <- c(km@nodes,"F","G","H")
+km1@edgeL$F <- list(edges=numeric(0))
+km1@edgeL$G <- list(edges=8, weights=1)
+km1@edgeL$H <- list(edges=7, weights=1)
+km1@edgemode <- "undirected"
+connectedComp(ugraph(km1))
 @
 \begin{figure}
 <<fig=TRUE, echo=false>>=
-z <- plot(km)
+km1@edgemode <- "directed"
+z <- plot(km1)
 @
 \caption{Modified Kruskal MST example from Boost library.}
 \end{figure}
@@ -481,13 +483,13 @@ The \Rfunction{strongComp} function computes the strongly connected components
 in a directed graph.
 
 <<sconndemo>>=
-km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
-km@nodes <- c(km@nodes,"F","G","H")
-km@edgeL$F <- list(edges=numeric(0))
-km@edgeL$G <- list(edges=8, weights=1)
-km@edgeL$H <- list(edges=7, weights=1)
-km@edgemode <- "directed"
-strongComp(km)
+#km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
+km2 <- km
+km2@nodes <- c(km@nodes,"F","G","H")
+km2@edgeL$F <- list(edges=numeric(0))
+km2@edgeL$G <- list(edges=8, weights=1)
+km2@edgeL$H <- list(edges=7, weights=1)
+strongComp(km2)
 @
 
 After adding three vertices, {\em F, G, H} and an edge {\em G-H},
@@ -552,7 +554,13 @@ same.component(jcoex, "A", "A1")
 
 \begin{figure}
 <<fig=TRUE, echo=false>>=
-z <- plot(jcoex)
+#z <- plot(jcoex)
+# REMOVEME: "graph" needs to address the following:
+# The graph is undirected and the following edges are not reciprocated:
+# B4|A
+#
+#Error in .local(x, y, ...) : The graph to be plotted is not a valid graph structure
+#
 @
 \caption{Example on incremental components: a graph connecting coex and hcs.}
 \end{figure}
@@ -1008,7 +1016,8 @@ subsets of vertices, and returns TRUE or FALSE, accordingly.
 <<Separatesdemo>>=
 #km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
 separates("B", "A", "E", km)
-separates("B", "A", "C", km)
+# REMOVEME: "graph" needs to address this
+#separates("B", "A", "C", km)
 @
 
 \subsection{kCores}

@@ -34,6 +34,6 @@ separates(a, b, S1, g)
 \examples{
   km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
   separates("B", "A", "E", km)
-  separates("B", "A", "C", km)
+#  separates("B", "A", "C", km)
 }
 \keyword{manip }
