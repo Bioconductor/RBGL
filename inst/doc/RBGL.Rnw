@@ -125,6 +125,14 @@ hcs <- fromGXL(file(system.file("XML/hcs.gxl", package="RBGL")))
   plot(hcs, main="d) HCS Example")
 @
 
+<<kmstDemo>>=
+km <- fromGXL(file(system.file("GXL/kmstEx.gxl", package="graph")))
+@
+
+<<figkmst, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
+  plot(km, main="d) Kruskal MST Example")
+@
+
 \begin{figure}[tp]
 \begin{center}
 \begin{tabular}{cc}
@@ -132,35 +140,27 @@ hcs <- fromGXL(file(system.file("XML/hcs.gxl", package="RBGL")))
 \includegraphics[width=0.49\textwidth]{RBGL-figcoex} \\
 \includegraphics[width=0.49\textwidth]{RBGL-figcoex2}&
 \includegraphics[width=0.49\textwidth]{RBGL-fighcs} \\
+\includegraphics[width=0.49\textwidth]{RBGL-figkmst}\\
 \end{tabular}
 \end{center}
 \caption{\label{fig:graphex}%
 a) The graph for Dijkstra's example.
 b) The graph for the Coex example.
 c) The graph for the Coex2 example.
-d) The graph for the HCS example.}
+d) The graph for the HCS example.
+e) The graph for the Kruskal MST example. }
 \end{figure}
-
-<<kmstDemo>>=
-km <- fromGXL(file(system.file("GXL/kmstEx.gxl", package="graph")))
-@
-\begin{figure}
-<<fig=TRUE, echo=false>>=
-z <- plot(km)
-@
-\caption{Example Kruskal minimum spanning tree example}
-\end{figure}
-
 
 \section{Working with the Bioconductor {\tt graph} class}
 An example object representing file dependencies is included, as shown
 in Figure \ref{fdpic}.
+
 <<showFileDep>>=
 data(FileDep)
 FileDep
 @
 \begin{figure}
-<<fig=TRUE, echo=false>>=
+<<figfd, fig=TRUE, echo=false>>=
 z <- plot(FileDep)
 @
 %\includegraphics{filedep}
@@ -330,7 +330,7 @@ path between two vertices: {\em RT6} and {\em RT1}.
 
 \begin{figure}
 @
-<<fig=TRUE, echo=false>>=
+<<figospf, fig=TRUE, echo=false>>=
 z <- plot(ospf)
 @
 \caption{Network example from BGL.}
@@ -382,7 +382,7 @@ edgeWeights(zz)
 johnson.all.pairs.sp(zz)
 @
 \begin{figure}
-<<fig=TRUE, echo=false>>=
+<<figjoh, fig=TRUE, echo=false>>=
 z <- plot(zz)
 @
 \caption{Example Johnson-all-pairs-shortest-paths example}
@@ -463,7 +463,7 @@ km1@edgemode <- "undirected"
 connectedComp(ugraph(km1))
 @
 \begin{figure}
-<<fig=TRUE, echo=false>>=
+<<figkm1, fig=TRUE, echo=false>>=
 km1@edgemode <- "directed"
 z <- plot(km1)
 @
@@ -512,7 +512,7 @@ articulationPoints(bicoex)
 @
 
 \begin{figure}
-<<fig=TRUE, echo=false>>=
+<<figbicoex, fig=TRUE, echo=false>>=
 z <- plot(bicoex)
 @
 \caption{Biconnected components example from Boost library.}
@@ -553,7 +553,7 @@ same.component(jcoex, "A", "A1")
 @
 
 \begin{figure}
-<<fig=TRUE, echo=false>>=
+<<figjcoex, fig=TRUE, echo=false>>=
 #z <- plot(jcoex)
 # REMOVEME: "graph" needs to address the following:
 # The graph is undirected and the following edges are not reciprocated:
@@ -676,15 +676,28 @@ tsort(FD2)
 
 \subsection{Layout}
 
+If you want to simply draw a graph, you should consider using package 
+{\em Rgraphviz}. 
+
+Package {\em Rgraphviz} provides a lot more functionalities in graph layout,
+you can use it to do the actual layouts: 
+a. "neato" uses Kamada-Kawai algorithm to make spring model layout, 
+b. "fdp" uses Fruchterman-Reingold algorithm to make spring model layout,
+c. "circo" does circular layout.
+
+<<Layoutdemo>>=
+# library(Rgraphviz)
+plot(coex, "neato")
+@
+<<figneato, fig=TRUE, echo=false, results=hide, include=FALSE>>=
+z <- plot(coex, "neato")
+@
+
+The following functions are interfaces to those in BGL, they only calculate 
+the (x, y)-coordinates of the vertices in the graph.  The actual layout is 
+achieved with additional function, we provide an example on how to do so.
+
 Following functions are available:
-
-%%FIXME: how do these relate to the stuff in  Rgraphviz? Is there any
-%%way to get info on the edges? Can we/should we write some code to
-%%plot the nodes? I think this is only likely to be of real use if we
-%%do have a plot function.
-
-%%LL: in "graphviz", "neato" uses Kamada-Kawai and "fdp" uses 
-%%Fruchterman-Reingold.  Probably we should just skip this part completely???
 
 The \Rfunction{randomGraphLayout} function puts the vertices randomly 
 on a plane;
@@ -700,14 +713,11 @@ The \Rfunction{fruchtermanReingoldForceDirectedLayout} function is for
 unweighted, undirected, possibly disconnected graphs, it treats the edges 
 as forces that pull vertices together, no-edges as forces that push 
 vertices apart, vertices move to a position as environment changes; 
-initial positions of the vertices
-are set randomly by calling \Rfunction{randomGraphLayout}.  
-Notice that the choice of "width" and "height" values has dramatic 
-impact on the performance.
+initial positions of the vertices are set randomly by calling 
+\Rfunction{randomGraphLayout}.  Notice that the choice of "width" and 
+"height" values has dramatic impact on the performance.
 
-Outputs are the coordinates of the vertices in the layout.
-
-<<Layoutdemo>>=
+<<Layoutdemo2>>=
 #coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 randomGraphLayout(coex)
 circle.layout(coex)
@@ -715,18 +725,10 @@ kamada.kawai.spring.layout(coex)
 fruchtermanReingoldForceDirectedLayout(coex, 10, 10)
 @
 
-TODO: EXPLAIN THESE NUMBERS
+Outputs are the (x, y)-coordinates of the vertices in the layout.
 
-You can use Rgraphviz package to do the actual layouts: 
-a. "neato" uses Kamada-Kawai algorithm to make spring model layout, 
-b. "fdp" uses Fruchterman-Reingold algorithm to make spring model layout,
-c. "circo" does circular layout.
-
-<<Layoutdemo2>>=
-plot(coex, "neato")
-@
-
-If you want to draw the graphs based on the calculated coordinates, you need additional function.  The following is an example.
+If you want to draw the graphs based on the calculated coordinates, you need 
+an additional function.  The following is an example.
 
 <<Layoutdemo3>>=
 crudeGraphPlot <- function(g, alg=circle.layout, ...) {
@@ -749,14 +751,34 @@ crudeGraphPlot <- function(g, alg=circle.layout, ...) {
 }
 
 crudeGraphPlot(coex)
-
 crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green")
 @
+
+<<figlayout1, fig=TRUE, echo=false, results=hide, include=FALSE>>=
+crudeGraphPlot(coex)
+@
+
+<<figlayout2, fig=TRUE, echo=false, results=hide, include=FALSE>>=
+crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green")
+@
+
+\begin{figure}[tp]
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[width=0.49\textwidth]{RBGL-figneato} &
+\includegraphics[width=0.49\textwidth]{RBGL-figlayout1} \\
+\includegraphics[width=0.49\textwidth]{RBGL-figlayout2} \\
+\end{tabular}
+\end{center}
+\caption{\label{fig:graphlayout}%
+a) use neato from Rgraphviz.
+b) use crudeGraphPlot with default.
+c) use crudeGraphPlot with spring layout. }
+\end{figure}
 
 Now crudeGraphPlot(coex) gives the default circular layout on your graphics device.
 
 crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green") shows you the spring layout with green edges.
-
 
 
 \subsection{Isomorphism}
@@ -774,7 +796,7 @@ isomorphism(dijk, coex2)
 isomorphism(coex2i, coex2)
 @
 \begin{figure}
-<<fig=TRUE, echo=false>>=
+<<figcoex2i, fig=TRUE, echo=false>>=
 z <- plot(coex2i)
 @
 \caption{Example conn2i}
@@ -806,10 +828,6 @@ color 2 to vertices {\em C, F} and color 3 to vertices {\em D, G}.
 
 
 \subsection{Transitive Closure}
-
-%%FIXME: I added some stuff here - but it seems a bit esoteric. Also,
-%%I think that the concept is only relevant for directed graphs (if
-%%true, this should be reflected in the docs and code for this function).
 
 Directed graphs can be used to represent relations, $R$, on a finite set
 of objects, V. For example, the objects could be integers and the
@@ -1021,7 +1039,15 @@ separates("B", "A", "E", km)
 @
 
 \subsection{kCores}
-Function {\em kCores} finds all the k-cores in an undirected graph.  It returns the core numbers for all the nodes in the graph.
+A {\em k-core} in a graph is a subgraph where each vertex is adjacent to 
+at least {\tt k} other vertices in the same subgraph.
+
+Function {\em kCores} finds all the k-cores in a graph.  It returns the core 
+numbers for all the nodes in the graph.  When the given graph is directed, 
+you can choose whether in-degree, out-degree or both should be considered.
+
+The k-core of a graph is not a necessarily connected subgraph.  If i > j, 
+the i-core of a graph contains the j-core of the same graph. 
 
 The implementation is based on the algorithm by V. Batagelj and M. Zaversnik, 2002.
 
@@ -1029,6 +1055,14 @@ The implementation is based on the algorithm by V. Batagelj and M. Zaversnik, 20
 kcoex <- fromGXL(file(system.file("XML/snacoreex.gxl",package="RBGL")))
 kCores(kcoex)
 @
+\begin{figure}
+<<figkcores, fig=TRUE, echo=false>>=
+z <- plot(kcoex)
+@
+\caption{K-cores Example.}
+\label{fdkcore}
+\end{figure}
+
 
 \subsection{kCliques}
 
@@ -1051,6 +1085,14 @@ o. the whole graph is N-clique.
 kclex <- fromGXL(file(system.file("XML/snacliqueex.gxl",package="RBGL")))
 kCliques(kclex)
 @
+\begin{figure}
+<<figkcliques, fig=TRUE, echo=false>>=
+z <- plot(kclex)
+@
+\caption{K-cliques Example.}
+\label{fdkcliques}
+\end{figure}
+
 
 \end{document}
 
