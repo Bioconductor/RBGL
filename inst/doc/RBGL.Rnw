@@ -547,20 +547,14 @@ x <- init.incremental.components(jcoex)
 incremental.components(jcoex)
 same.component(jcoex, "A", "F")
 same.component(jcoex, "A", "A1")
-jcoex@edgeL$A <- list(edges=c(2, 3, 4, 18))
+jcoex <- addEdge("A", "A1", jcoex)
 incremental.components(jcoex)
 same.component(jcoex, "A", "A1")
 @
 
 \begin{figure}
 <<figjcoex, fig=TRUE, echo=false>>=
-#z <- plot(jcoex)
-# REMOVEME: "graph" needs to address the following:
-# The graph is undirected and the following edges are not reciprocated:
-# B4|A
-#
-#Error in .local(x, y, ...) : The graph to be plotted is not a valid graph structure
-#
+z <- plot(jcoex)
 @
 \caption{Example on incremental components: a graph connecting coex and hcs.}
 \end{figure}
@@ -951,10 +945,9 @@ For simplicity, subset {\em S} is the smaller of the two.
 minCut(coex)
 @
 
-TODO: FIX OR DOCUMENT: CURRENTLY all edge weights are assumed 1.
-All edge weights are assumed to be 1, minimum cut is of weight 2, it will
-partition the graph into two subsets: subset {\em A, B, C, D} and subset
-{\em E, H, F, G}.
+Currently all edge weights are assumed to be 1, minimum cut is of weight 2, 
+it will partition the graph into two subsets: subset {\em A, B, C, D} and 
+subset {\em E, H, F, G}.
 
 
 \subsection{highlyConnSG}
