@@ -397,7 +397,7 @@ sp.between <- function (g, start, finish)
          # obtain weights in g for path of nodes in char vec nl
 	 if (length(nl)<2) stop("sp.between:getw should get paths of length 2 or more")
          res <- rep(NA,length(nl)-1)   # only n-1 pairs
-	 wstr <- eW[match(nl, nG)]
+	 wstr <- eW[nl]
          for (i in 1:(length(nl)-1))
             res[i] <-  wstr[[i]][nl[i+1]] # need to use numerical names of weights
 	names(res) <- paste(nl[-length(nl)],nl[-1],sep=ifelse(edgemode(g)=="undirected","--","->"))
