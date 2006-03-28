@@ -167,7 +167,8 @@ setMethod("dfs",c("graph", "character", "logical"),
           lapply(ans, function(x, y) y[x+1], nodes(object))
          })
 
-dijkstra.sp <- function(g,start=nodes(g)[1]) {
+dijkstra.sp <- function(g,start=nodes(g)[1],
+                          eW=unlist(edgeWeights(g))) {
     if (!is.character(start)) stop("start must be character")
     if (length(start) !=1 ) stop("start must have length 1")
     nN <- nodes(g)
@@ -180,7 +181,6 @@ dijkstra.sp <- function(g,start=nodes(g)[1]) {
     else
             em <- edgeMatrix(g,TRUE)
     ne <- ncol(em)
-    eW <- unlist(edgeWeights(g))
 
     if ( any(eW[eW < 0]) ) 
       stop("dijkstra.sp requies that all edge weights are nonnegative")
@@ -375,8 +375,15 @@ sp.between <- function (g, start, finish)
         fl <- split(rep(finish,length(start)),start)
     ust <- unique(start)
     ans <- list()
+    ws <- list()
+    eW = edgeWeights(g)
+    eWW <- unlist(eW)
+
+    if ( any(eWW[eWW < 0]) ) 
+      stop("sp.between requies that all edge weights are nonnegative")
+
     for (i in 1:length(ust)) {
-        curdi <- dijkstra.sp(g, ust[i])$penult
+        curdi <- dijkstra.sp(g, ust[i], eWW)$penult
         thiss <- ust[i]
         thisf <- fl[[thiss]]
         for (j in 1:length(thisf) ) {
@@ -385,13 +392,6 @@ sp.between <- function (g, start, finish)
                                    nodeind(thisf[j]), curdi)]
         }
     }
-    ws <- list()
-    eW = edgeWeights(g)
-
-    eWW <- unlist(eW)
-
-    if ( any(eWW[eWW < 0]) ) 
-      stop("sp.between requies that all edge weights are nonnegative")
 
     getw <- function(nl) {
          # obtain weights in g for path of nodes in char vec nl

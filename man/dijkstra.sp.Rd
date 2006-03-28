@@ -5,15 +5,21 @@
 dijkstra's shortest paths
 }
 \usage{
-dijkstra.sp(g,start=nodes(g)[1])
+dijkstra.sp(g,start=nodes(g)[1], , eW=unlist(edgeData(g, attr="weight")))
 }
 \arguments{
   \item{g}{ instance of class graph }
   \item{start}{ character: node name for start of path }
+  \item{eW}{ numeric: edge weights.  }
 }
 \details{
 These functions are interfaces to the Boost graph library C++
 routines for Dijkstra's shortest paths.
+
+For some graph subclasses, computing the edge weights can be expensive.
+If you are calling \code{dijkstra.sp} in a loop, you can pass the edge
+weights explicitly to avoid the edge weight creation cost.
+
 }
 
 \value{
