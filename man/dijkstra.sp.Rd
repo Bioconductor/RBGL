@@ -5,7 +5,7 @@
 dijkstra's shortest paths
 }
 \usage{
-dijkstra.sp(g,start=nodes(g)[1], , eW=unlist(edgeData(g, attr="weight")))
+dijkstra.sp(g,start=nodes(g)[1], eW=unlist(edgeWeights(g)))
 }
 \arguments{
   \item{g}{ instance of class graph }
