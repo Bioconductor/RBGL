@@ -678,6 +678,7 @@ you can use it to do the actual layouts:
 a. "neato" uses Kamada-Kawai algorithm to make spring model layout, 
 b. "fdp" uses Fruchterman-Reingold algorithm to make spring model layout,
 c. "circo" does circular layout.
+See Figure~\ref{fig:graphlayout} for an example.
 
 <<Layoutdemo>>=
 # library(Rgraphviz)
@@ -765,14 +766,14 @@ crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green")
 \end{tabular}
 \end{center}
 \caption{\label{fig:graphlayout}%
-a) use neato from Rgraphviz.
-b) use crudeGraphPlot with default.
-c) use crudeGraphPlot with spring layout. }
+a) plot(coex, neato).
+b) crudeGraphPlot(coex).
+c) crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green"). }
 \end{figure}
 
-Now crudeGraphPlot(coex) gives the default circular layout on your graphics device.
+Call crudeGraphPlot(coex) gives the default circular layout on your graphics device.
 
-crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green") shows you the spring layout with green edges.
+Call crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green") shows you the spring layout with green edges, see Figure~\ref{fig:graphlayout}.
 
 
 \subsection{Isomorphism}
@@ -1027,8 +1028,7 @@ subsets of vertices, and returns TRUE or FALSE, accordingly.
 <<Separatesdemo>>=
 #km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
 separates("B", "A", "E", km)
-# REMOVEME: "graph" needs to address this
-#separates("B", "A", "C", km)
+separates("B", "A", "C", km)
 @
 
 \subsection{kCores}
@@ -1044,9 +1044,17 @@ the i-core of a graph contains the j-core of the same graph.
 
 The implementation is based on the algorithm by V. Batagelj and M. Zaversnik, 2002.
 
-<<kCoresdemo>>=
+<<kCoresdemo1>>=
 kcoex <- fromGXL(file(system.file("XML/snacoreex.gxl",package="RBGL")))
 kCores(kcoex)
+kcoex2 <- coex2
+kCores(kcoex2)
+kCores(kcoex2, "in")
+kCores(kcoex2, "out")
+g1 <- addEdge("C", "B", kcoex2)
+kCores(g1, "in")
+g2 <- addEdge("C", "A", kcoex2)
+kCores(g2, "out")
 @
 \begin{figure}
 <<figkcores, fig=TRUE, echo=false>>=
@@ -1055,6 +1063,24 @@ z <- plot(kcoex)
 \caption{K-cores Example.}
 \label{fdkcore}
 \end{figure}
+
+The example on directed graph, "conn2", turns out to be a waterfall-like graph.
+If we order the nodes as: A, B, C, D, E, F, H, G, all the edges go in the same
+direction, i.e., i -> j, i < j.
+
+Let's consider in-degree-only case: A has no in-edge so it is 0-core; after you
+eliminate A, no in-edge to B, so B is 0-core; continue this, we could see that
+there's no subset of nodes that each and every single node has 1 in-degree.
+Therefore, they are all of 0-core.
+
+For out-degree-only case: G has no out-edge, so it's 0-core; after eliminating
+G, F has no out-edge, so F is 0-core; continue this process, we could see that
+there's no subset of nodes that each and every single node has 1 out-edge.
+Therefore, they are all of 0-core.
+
+If we add edge(s) to break the waterfall-like property, {\em C->B}, {\em C->A}, 
+separately, we could see the changes in the core numbers that are consistant 
+with the analysis above.
 
 
 \subsection{kCliques}
