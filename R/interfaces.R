@@ -1003,3 +1003,35 @@ kCliques <- function(g)
    ans_names
 }
 
+lambdaSets <- function(g)
+{
+   if( edgemode(g) != "undirected")
+      stop("only appropriate for undirected graphs")
+
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+   eW <- unlist(edgeWeights(g))
+
+   ans <- .Call("lambdaSets", as.integer(nv), as.integer(ne), 
+		as.integer(em-1), as.double(eW), 
+                PACKAGE="RBGL")
+
+   makelist <- function(y)
+   {
+      z <- table(y) > 1
+      z <- names(z[z])
+      ans <- vector("list", length=length(z))
+      for ( i in 1:length(z) )
+          ans[i] <- list(names(y[y==z[i]]))
+      list(ans)
+   }
+
+   colnames(ans[[2]]) <- nodes(g)
+   t <- vector("list", length=nrow(ans[[2]]))
+   names(t) <- paste("lambda-", 0:(nrow(ans[[2]])-1), " sets", sep="")
+   for ( i in 1:nrow(ans[[2]]) )
+       t[i] <- makelist(ans[[2]][i,])
+
+   list("max edge connectivity" = ans[[1]], t)
+}

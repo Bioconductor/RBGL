@@ -1,7 +1,7 @@
 #include "RBGL.hpp"
 #include "Basic2DMatrix.hpp"
 #include <boost/graph/johnson_all_pairs_shortest.hpp>
-
+#include <boost/graph/edmunds_karp_max_flow.hpp>
 
 extern "C"
 {
@@ -136,5 +136,120 @@ extern "C"
         return(ansList);
     }
 
+    SEXP lambdaSets(SEXP num_verts_in, SEXP num_edges_in,
+                    SEXP R_edges_in, SEXP R_capacity_in)
+    {
+        using namespace boost;
+
+        typedef adjacency_list_traits<vecS, vecS, directedS> Tr;
+        typedef Tr::edge_descriptor Tr_edge_desc;
+
+        typedef adjacency_list<vecS, vecS, directedS, no_property,
+        property<edge_capacity_t, double,
+        property<edge_residual_capacity_t, double,
+        property<edge_reverse_t, Tr_edge_desc> > > >
+        FlowGraph;
+
+        typedef graph_traits<FlowGraph>::vertex_descriptor vertex_descriptor;
+	typedef graph_traits<FlowGraph>::edge_descriptor edge_descriptor;
+
+        FlowGraph flow_g;
+
+        property_map < FlowGraph, edge_capacity_t >::type
+        cap = get(edge_capacity, flow_g);
+        property_map < FlowGraph, edge_residual_capacity_t >::type
+        res_cap = get(edge_residual_capacity, flow_g);
+        property_map < FlowGraph, edge_reverse_t >::type
+        rev_edge = get(edge_reverse, flow_g);
+
+        edge_descriptor e1, e2;
+        bool in1, in2;
+
+        if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
+
+        int NV = INTEGER(num_verts_in)[0];
+        int NE = asInteger(num_edges_in);
+        int* edges_in = INTEGER(R_edges_in);
+	int i, j, k, MaxC=0;
+
+        for (i = 0; i < NE ; i++, edges_in += 2)
+        {
+            tie(e1, in1) = boost::add_edge(*edges_in, *(edges_in+1), flow_g);
+            tie(e2, in2) = boost::add_edge(*(edges_in+1), *edges_in, flow_g);
+            if ( !in1 || !in2 )
+                error("unable to add edge: (%d, %d)", *edges_in, *(edges_in+1));
+
+            // fill in capacity_map
+            cap[e1] = 1; 
+            cap[e2] = 1; 
+
+            // fill in reverse_edge_map
+            rev_edge[e1] = e2;
+            rev_edge[e2] = e1;
+        }
+
+        // ASSUMPTION: max_flow(u, v) = max_flow(v, u)
+        // compute edge connectivities between u and v, (u < v)
+	// we only need lower-left triangle of the matrix w/o diagonal
+        Basic2DMatrix<int> CC(NV, NV);
+
+        for ( i = 0; i < NV; i++ )
+        {
+            vertex_descriptor s = vertex(i, flow_g);
+
+            for ( j = 0; j < i; j++ )
+            {
+                vertex_descriptor t = vertex(j, flow_g);
+
+                CC[i][j] = edmunds_karp_max_flow(flow_g, s, t);
+                MaxC = max(MaxC, CC[i][j]);
+            }
+        }
+
+        // calc lambda sets by successively partition V
+        Basic2DMatrix<int> P(MaxC+1, NV);
+        for ( k = 0; k <= MaxC; k++ )
+        {
+            for ( i = 0; i < NV; i++ ) P[k][i] = i;
+
+            for ( i = 1; i < NV; i++ )
+                for ( j = 0; j < i; j++ )
+                    if ( CC[i][j] >= k )  P[k][i] = P[k][j];
+        }
+
+#if DEBUG
+        cout << " edge-connectivity matrix: " << endl;
+        for ( i = 0; i < NV; i++ )
+        {
+            for ( j = 0; j < NV; j++ ) cout << CC[i][j] << " ";
+            cout << endl;
+        }
+
+        cout << " P matrix: " << endl;
+        for ( k = 0; k <= MaxC; k++ )
+        {
+            cout << " k = " << k << ": ";
+            for ( j = 0; j < NV; j++ ) cout << P[k][j] << " ";
+            cout << endl;
+        }
+#endif
+
+        SEXP ansList, conn, eList;
+        PROTECT(ansList = allocVector(VECSXP,2));
+        PROTECT(conn = NEW_NUMERIC(1));
+        PROTECT(eList = allocMatrix(INTSXP, MaxC+1, NV));
+
+        REAL(conn)[0] = MaxC;
+
+        for ( i = 0, j = 0; j < NV; j++ )
+            for ( k = 0; k <= MaxC; k++ )
+                INTEGER(eList)[i++] = P[k][j];
+
+        SET_VECTOR_ELT(ansList,0,conn);
+        SET_VECTOR_ELT(ansList,1,eList);
+        UNPROTECT(3);
+
+        return(ansList);
+    }
 }
 
