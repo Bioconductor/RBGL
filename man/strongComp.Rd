@@ -28,10 +28,9 @@ the nodes in that component.
 
 \examples{
 km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
-km@nodes <- c(km@nodes,"F","G","H")
-km@edgeL$F <- list(edges=numeric(0))
-km@edgeL$G <- list(edges=8)
-km@edgeL$H <- list(edges=7)
+km<- addNode(c("F","G","H"), km)
+km<- addEdge("G", "H", km, 1)
+km<- addEdge("H", "G", km, 1)
 strongComp(km)
 connectedComp(ugraph(km))
 }

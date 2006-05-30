@@ -65,7 +65,7 @@ See documentations on these algorithms in Boost Graph Library for more details.
 
 \examples{
 coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
-coex@edgemode <- "undirected"
+coex <- ugraph(coex)
 cuthill.mckee.ordering(coex)
 minDegreeOrdering(coex)
 sloan.ordering(coex)

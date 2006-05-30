@@ -126,7 +126,7 @@ hcs <- fromGXL(file(system.file("XML/hcs.gxl", package="RBGL")))
 @
 
 <<kmstDemo>>=
-km <- fromGXL(file(system.file("GXL/kmstEx.gxl", package="graph")))
+km <- fromGXL(file(system.file("XML/kmstEx.gxl", package="RBGL")))
 @
 
 <<figkmst, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
@@ -423,7 +423,7 @@ The \Rfunction{mstree.kruskal} function finds the MST
 by Kruskal's algorithm.
 
 <<KMSTdemo>>=
-#km <- fromGXL(file(system.file("GXL/kmstEx.gxl", package="graph")))
+#km <- fromGXL(file(system.file("XML/kmstEx.gxl", package="RBGL")))
 mstree.kruskal(km)
 @
 
@@ -453,18 +453,15 @@ The \Rfunction{connectedComp} function computes the connected components
 in an undirected graph.
 
 <<conndemo>>=
-#km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
+#km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
 km1 <- km
-km1@nodes <- c(km@nodes,"F","G","H")
-km1@edgeL$F <- list(edges=numeric(0))
-km1@edgeL$G <- list(edges=8, weights=1)
-km1@edgeL$H <- list(edges=7, weights=1)
-km1@edgemode <- "undirected"
+km1 <- addNode(c("F","G","H"), km1)
+km1 <- addEdge("G", "H", km1, 1)
+km1 <- addEdge("H", "G", km1, 1)
 connectedComp(ugraph(km1))
 @
 \begin{figure}
 <<figkm1, fig=TRUE, echo=false>>=
-km1@edgemode <- "directed"
 z <- plot(km1)
 @
 \caption{Modified Kruskal MST example from Boost library.}
@@ -483,12 +480,11 @@ The \Rfunction{strongComp} function computes the strongly connected components
 in a directed graph.
 
 <<sconndemo>>=
-#km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
+#km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
 km2 <- km
-km2@nodes <- c(km@nodes,"F","G","H")
-km2@edgeL$F <- list(edges=numeric(0))
-km2@edgeL$G <- list(edges=8, weights=1)
-km2@edgeL$H <- list(edges=7, weights=1)
+km2 <- addNode(c("F","G","H"), km2)
+km2 <- addEdge("G", "H", km2, 1)
+km2 <- addEdge("H", "G", km2, 1)
 strongComp(km2)
 @
 
@@ -615,7 +611,7 @@ renumbering its vertices.
 <<SparseMatrixOrderingdemo>>=
 #dijk <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 dijk1 <- dijk
-dijk1@edgemode <- "undirected"
+dijk1 <- ugraph(dijk)
 cuthill.mckee.ordering(dijk1)
 minDegreeOrdering(dijk1)
 sloan.ordering(dijk1)
@@ -664,7 +660,7 @@ in the interface (a message is written to the console and zeroes are returned).
 <<tsortDemo2>>=
 FD2 <- FileDep
 # now introduce a cycle
-FD2@edgeL[["bar_cpp"]]$edges <- c(8,1)
+FD2 <- addEdge(from="bar_o", to="dax_h", FD2)
 tsort(FD2)
 @
 

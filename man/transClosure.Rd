@@ -1,7 +1,7 @@
 \name{transitive.closure}
 \alias{transitive.closure}
-\title{Compute transitive closure of a graph}
-\description{Compute  transitive closure of a graph}
+\title{Compute transitive closure of a directed graph}
+\description{Compute  transitive closure of a directed graph}
 }
 \usage{
 transitive.closure(g)
@@ -10,7 +10,7 @@ transitive.closure(g)
   \item{g}{an instance of the \code{graph} class }
 }
 \details{
-This function calculates the transitive closure of a given graph.  
+This function calculates the transitive closure of a directed graph.  
 See documentation on this function in Boost Graph Library for more details.
 }
 \value{

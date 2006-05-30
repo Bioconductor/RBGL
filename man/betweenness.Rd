@@ -45,7 +45,7 @@ for more details.
 
 \examples{
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
-coex@edgemode <- "undirected"
+coex <- ugraph(coex)
 brandes.betweenness.centrality(coex)
 }
 \keyword{ models }

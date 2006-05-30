@@ -30,11 +30,10 @@ graph it is first transformed to an undirected graph (using
 \seealso{\code{\link[graph]{connComp}},\code{\link{strongComp}}, \code{\link[graph]{ugraph}}, \code{\link{same.component}} }
 
 \examples{
-km <- fromGXL(file(system.file("GXL/kmstEx.gxl",package="graph")))
-km@nodes <- c(km@nodes,"F","G","H")
-km@edgeL$F <- list(edges=numeric(0))
-km@edgeL$G <- list(edges=8)
-km@edgeL$H <- list(edges=7)
+km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
+km <- addNode(c("F","G","H"), km)
+km <- addEdge("G", "H", km, 1)
+km <- addEdge("H", "G", km, 1)
 ukm <- ugraph(km)
 ukm
 edges(ukm)

@@ -8,7 +8,7 @@
 dijkstra's shortest paths
 }
 \usage{
-sp.between.scalar(g,start,finish) 
+sp.between.scalar(g,start,finish, eW=unlist(edgeWeights(g))) 
 sp.between(g,start,finish) 
 sp.between.old(g,start,finish) 
 }
@@ -17,6 +17,7 @@ sp.between.old(g,start,finish)
   \item{g}{ instance of class graph }
   \item{start}{ character: node name(s) for start of path  }
   \item{finish}{ character vector: node names for end of path}
+  \item{eW}{ numeric: edge weights.  }
 }
 \details{
 These functions are interfaces to the Boost graph library C++

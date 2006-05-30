@@ -38,7 +38,7 @@ A list of
 
 \examples{
 coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
-coex@edgemode <- "undirected"
+coex <- ugraph(coex)
 betweenness.centrality.clustering(coex, 0.1, TRUE)
 }
 \keyword{ models }

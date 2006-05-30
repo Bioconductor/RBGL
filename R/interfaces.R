@@ -227,7 +227,7 @@ if (any(is.numeric(c(start,finish)))) stop("start and finish are required to be 
       }
  }
 
-sp.between.scalar <- function (g, start, finish)
+sp.between.scalar <- function (g, start, finish, eW=unlist(edgeWeights(g)))
 {
 # (c) 2003 VJ Carey, all rights reserved
 #
@@ -251,7 +251,7 @@ sp.between.scalar <- function (g, start, finish)
     s <- (1:length(no))[no == s]
     f <- (1:length(no))[no == f]
     ff <- f
-    sp <- dijkstra.sp(g, start)
+    sp <- dijkstra.sp(g, start, eW)
     if (sp$distances[ff] >= .Machine$double.xmax)
 		stop(paste("no path from",no[s],"to",no[f]))
     pens <- sp$penult

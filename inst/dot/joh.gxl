@@ -5,55 +5,55 @@
 		</node>
 		<edge from="a" to="b" isdirected="true" id="a--b">
 			<attr name="weight">
-				<string>3</string>
+				<int>3</int>
 			</attr>
 		</edge>
 		<edge from="a" to="e" isdirected="true" id="a--e">
 			<attr name="weight">
-				<string>-4</string>
+				<int>-4</int>
 			</attr>
 		</edge>
 		<edge from="a" to="c" isdirected="true" id="a--c">
 			<attr name="weight">
-				<string>8</string>
+				<int>8</int>
 			</attr>
 		</edge>
 		<node id="b">
 		</node>
 		<edge from="b" to="d" isdirected="true" id="b--d">
 			<attr name="weight">
-				<string>1</string>
+				<int>1</int>
 			</attr>
 		</edge>
 		<edge from="b" to="e" isdirected="true" id="b--e">
 			<attr name="weight">
-				<string>7</string>
+				<int>7</int>
 			</attr>
 		</edge>
 		<node id="c">
 		</node>
 		<edge from="c" to="b" isdirected="true" id="c--b">
 			<attr name="weight">
-				<string>4</string>
+				<int>4</int>
 			</attr>
 		</edge>
 		<node id="d">
 		</node>
 		<edge from="d" to="c" isdirected="true" id="d--c">
 			<attr name="weight">
-				<string>-5</string>
+				<int>-5</int>
 			</attr>
 		</edge>
 		<edge from="d" to="a" isdirected="true" id="d--a">
 			<attr name="weight">
-				<string>2</string>
+				<int>2</int>
 			</attr>
 		</edge>
 		<node id="e">
 		</node>
 		<edge from="e" to="d" isdirected="true" id="e--d">
 			<attr name="weight">
-				<string>6</string>
+				<int>6</int>
 			</attr>
 		</edge>
 	</graph>

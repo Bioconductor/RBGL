@@ -25,7 +25,7 @@ See documentation on bandwidth in Boost Graph Library for more details.
 
 \examples{
 coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
-coex@edgemode <- "undirected"
+coex <- ugraph(coex)
 bandwidth(coex)
 }
 \keyword{ models }
