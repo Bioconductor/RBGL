@@ -5,7 +5,7 @@
 #include <boost/graph/topological_sort.hpp>
 #include <boost/graph/strong_components.hpp>
 #include <boost/graph/edge_connectivity.hpp>
-#include <boost/graph/transitive_closure.hpp>
+//#include <boost/graph/transitive_closure.hpp>
 #include <boost/graph/biconnected_components.hpp>
 #include <boost/graph/sequential_vertex_coloring.hpp>
 
@@ -359,7 +359,7 @@ extern "C"
         UNPROTECT(3);
         return(ansList);
     }
-
+/*
     SEXP BGL_transitive_closure_D (SEXP num_verts_in, 
     		SEXP num_edges_in, SEXP R_edges_in )
     {
@@ -394,6 +394,7 @@ extern "C"
         UNPROTECT(3);
         return(ansList);
     }
+*/
 
     SEXP BGL_sequential_vertex_coloring (SEXP num_verts_in, 
     		SEXP num_edges_in, SEXP R_edges_in)
