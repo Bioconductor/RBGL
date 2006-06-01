@@ -5,7 +5,6 @@
 #include <boost/graph/topological_sort.hpp>
 #include <boost/graph/strong_components.hpp>
 #include <boost/graph/edge_connectivity.hpp>
-//#include <boost/graph/transitive_closure.hpp>
 #include <boost/graph/biconnected_components.hpp>
 #include <boost/graph/sequential_vertex_coloring.hpp>
 
@@ -359,42 +358,6 @@ extern "C"
         UNPROTECT(3);
         return(ansList);
     }
-/*
-    SEXP BGL_transitive_closure_D (SEXP num_verts_in, 
-    		SEXP num_edges_in, SEXP R_edges_in )
-    {
-    	using namespace boost;
-    	
-        Graph_dd g(num_verts_in, num_edges_in, R_edges_in );
-        Graph_dd TC;
-    	
-    	transitive_closure(g, TC);
-
-        SEXP ansList, eList, vList;
-        PROTECT(ansList = allocVector(VECSXP,2));
-        PROTECT(vList = allocMatrix(INTSXP, 1, num_vertices(TC)));
-        PROTECT(eList = allocMatrix(INTSXP, 2, num_edges(TC)));
-
-        Graph_dd::vertex_iterator vi, v_end;
-        int i = 0;
-        for (i = 0, tie(vi, v_end) = vertices(TC); vi != v_end; ++vi)
-	{
-		INTEGER(vList)[i++] = *vi;
-	}
-
-        Graph_dd::edge_iterator ei, e_end;
-        for (i = 0, tie(ei, e_end) = edges(TC); ei != e_end; ++ei)
-        {
-            INTEGER(eList)[i++] = source(*ei, TC);
-            INTEGER(eList)[i++] = target(*ei, TC);
-        }
-    
-        SET_VECTOR_ELT(ansList,0,vList);
-        SET_VECTOR_ELT(ansList,1,eList);
-        UNPROTECT(3);
-        return(ansList);
-    }
-*/
 
     SEXP BGL_sequential_vertex_coloring (SEXP num_verts_in, 
     		SEXP num_edges_in, SEXP R_edges_in)

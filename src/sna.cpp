@@ -170,7 +170,7 @@ extern "C"
         int NV = INTEGER(num_verts_in)[0];
         int NE = asInteger(num_edges_in);
         int* edges_in = INTEGER(R_edges_in);
-	int i, j, k, MaxC=0;
+	int i, j, k, MaxC=0; 
 
         for (i = 0; i < NE ; i++, edges_in += 2)
         {
@@ -201,7 +201,7 @@ extern "C"
             {
                 vertex_descriptor t = vertex(j, flow_g);
 
-                CC[i][j] = edmunds_karp_max_flow(flow_g, s, t);
+                CC[i][j] = (int)edmunds_karp_max_flow(flow_g, s, t);
                 MaxC = max(MaxC, CC[i][j]);
             }
         }

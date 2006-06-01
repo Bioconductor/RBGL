@@ -8,11 +8,13 @@
 //       #include <boost/graph/graphviz.hpp>
 // It's a work-around to separate this function from the rest and include header
 // files differently.
-
-#include <boost/graph/transitive_closure.hpp>
-#include <boost/graph/graphviz.hpp>
+// NOTE:   Jun 1, 2006
+// The problem seems in 
+//       #include <boost/graph/graphviz.hpp>
+// since we don't need it, we remove it from RBGL.hpp, everything seems ok.
 
 #include "RBGL.hpp"
+#include <boost/graph/transitive_closure.hpp>
 
 extern "C"
 {
