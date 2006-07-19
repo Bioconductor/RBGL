@@ -10,6 +10,7 @@ export(
  "biConnComp",
  "brandes.betweenness.centrality",
  "circle.layout",        
+ "clusteringCoef",
  "connectedComp",        
  "cuthill.mckee.ordering",
  "dag.sp",
@@ -51,6 +52,7 @@ export(
  "sp.between.scalar",    
  "strongComp",
  "transitive.closure",
+ "transitivity",
  "tsort")
 
 exportMethods("bfs", "dfs")

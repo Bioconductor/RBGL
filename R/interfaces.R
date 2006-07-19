@@ -1035,3 +1035,40 @@ lambdaSets <- function(g)
 
    list("max edge connectivity" = ans[[1]], t)
 }
+
+clusteringCoef <- function(g, Weighted=FALSE, vW=degree(g))
+{
+   if( edgemode(g) != "undirected")
+      stop("only appropriate for undirected graphs")
+
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   if ( nv != length(vW) )
+      stop("length(vW) is not equal to number of nodes in the graph")
+
+   ans <- .Call("clusteringCoef", 
+		as.integer(nv), as.integer(ne), as.integer(em-1), 
+		as.integer(Weighted), as.double(vW), 
+                PACKAGE="RBGL")
+
+   list("clustering coefficient" = ans)
+}
+
+transitivity <- function(g) 
+{
+   if( edgemode(g) != "undirected")
+      stop("only appropriate for undirected graphs")
+
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("transitivity", 
+		as.integer(nv), as.integer(ne), as.integer(em-1), 
+                PACKAGE="RBGL")
+
+   list("transitivity" = ans)
+}
+
