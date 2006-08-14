@@ -10,8 +10,9 @@ transitivity(g)
   \item{g}{an instance of the \code{graph} class }
 }
 \details{
-For an undirected graph {G}, let delta(v) be the number of triangles with {v} asa node, let tau(v) be the number of paths of length 2 with {v} as the center
-node.
+For an undirected graph {G}, let delta(v) be the number of triangles with {v} 
+as a node, let tau(v) be the number of triples, i.e., paths of length 2 with 
+{v} as the center node.
 
 Define transitivity T(G) = sum(delta(v)) / sum(tau(v)), for all v in V.
 }
@@ -26,7 +27,7 @@ Journal of Graph Algorithms and Applications, Vol. 9, No. 2 (2005).
 
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{ClusteringCoef}
+\seealso{clusteringCoef, clusteringCoefAppr, graphGenerator}
 
 \examples{
 g <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))

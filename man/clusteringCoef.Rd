@@ -12,9 +12,9 @@ clusteringCoef(g, Weighted=FALSE, vW=degree(g))
   \item{vW}{vertex weights to use when calculating weighted clustering coefficient}
 }
 \details{
-For an undirected graph {G}, let delta(v) be the number of triangles with {v} as
-a node, let tau(v) be the number of paths of length 2 with {v} as the center 
-node.  
+For an undirected graph {G}, let delta(v) be the number of triangles with {v} 
+as a node, let tau(v) be the number of triples, i.e., paths of length 2 with 
+{v} as the center node.  
 
 Let V' be the set of nodes with degree at least 2.
 
@@ -37,7 +37,7 @@ Journal of Graph Algorithms and Applications, Vol. 9, No. 2 (2005).
 
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{transitivity}
+\seealso{clusteringCoefAppr, transitivity, graphGenerator}
 
 \examples{
 g <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))

@@ -1072,3 +1072,45 @@ transitivity <- function(g)
    list("transitivity" = ans)
 }
 
+clusteringCoefAppr <- function(g, k=length(nodes(g)), Weighted=FALSE, vW=degree(g))
+{
+   if( edgemode(g) != "undirected")
+      stop("only appropriate for undirected graphs")
+
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   if ( nv != length(vW) )
+      stop("length(vW) is not equal to number of nodes in the graph")
+
+   ans <- .Call("clusteringCoefAppr", as.integer(k),
+		as.integer(nv), as.integer(ne), as.integer(em-1), 
+		as.integer(Weighted), as.double(vW), 
+                PACKAGE="RBGL")
+
+   list("clustering coefficient" = ans)
+}
+
+graphGenerator <- function(n, d, o)
+{
+   if ( n < 3 )
+      stop("Number of nodes (n) should be at least 3.")
+
+   if ( d < 2 )
+      stop("Degree of nodes (d) should be at least 2.")
+
+   if ( o <= 0 )
+      stop("Parameter (o) should be positive.")
+
+   ans <- .Call("graphGenerator", 
+		as.integer(n), as.integer(d), as.integer(o), 
+		PACKAGE="RBGL")
+
+   # convert node indexes: from 0-based in C to 1-based in R
+   ans[[3]] <- ans[[3]] + 1
+   rownames(ans[[3]]) <- c("from", "to")
+   
+   list("no. of nodes" = ans[[1]], "no.of edges" = ans[[2]], "edges"=ans[[3]])
+}
+
