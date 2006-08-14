@@ -80,7 +80,7 @@ extern "C"
         }
         catch ( not_a_dag )
         {
-            Rprintf("not a dag, returning zeroes\n");
+            warning("not a DAG.\n");
             for (int j = 0 ; j < INTEGER(num_verts_in)[0]; j++)
                 REAL(tsout)[j] = 0.0;
         }

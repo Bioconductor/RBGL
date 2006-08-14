@@ -1,22 +1,27 @@
-tsort <- function(x) {
- if (edgemode(x) != "directed") stop("requires directed graph")
- nv <- length(nodes(x))
- em <- edgeMatrix(x)
- ne <- ncol(em)
- ans <- .Call("BGL_tsort_D", as.integer(nv), as.integer(ne),
-      as.integer(em-1), PACKAGE="RBGL")
- if ( any(ans != 0) ) ans <- nodes(x)[ans+1]
- ans
+tsort <- function(x) 
+{
+    if (edgemode(x) != "directed") stop("requires directed graph")
+    nv <- length(nodes(x))
+    em <- edgeMatrix(x)
+    ne <- ncol(em)
+    ans <- .Call("BGL_tsort_D", 
+	as.integer(nv), as.integer(ne), as.integer(em-1), 
+	PACKAGE="RBGL")
+    if ( any(ans != 0) ) ans <- nodes(x)[ans+1]
+    else ans <- ""
+    ans
 }
 
-mstree.kruskal <- function(x) {
- nv <- length(nodes(x))
- em <- edgeMatrix(x, duplicates=TRUE) # conform with edgeWeights unlisted
- ne <- ncol(em)
-ans <- .Call("BGL_KMST_D",
+mstree.kruskal <- function(x) 
+{
+    nv <- length(nodes(x))
+    em <- edgeMatrix(x, duplicates=TRUE) # conform with edgeWeights unlisted
+    ne <- ncol(em)
+    eW <- unlist(edgeWeights(x))
+    ans <- .Call("BGL_KMST_D",
       		as.integer(nv), as.integer(ne),
-      		as.integer(em-1), as.double(unlist(edgeWeights(x))),
-             PACKAGE="RBGL")
+      		as.integer(em-1), as.double(eW),
+                PACKAGE="RBGL")
 
     ans[[1]] <- apply(ans[[1]], 2, function(x, y) y[x+1], nodes(x))
     rownames(ans[[1]]) <- c("from", "to")
@@ -34,8 +39,10 @@ prim.minST <- function ( g )
     ne <- ncol(em)
     eW <- unlist(edgeWeights(g))
 
-    ans <- .Call("BGL_PRIM_U", as.integer(nv), as.integer(ne), 
-                 as.integer(em-1), as.double(eW), PACKAGE="RBGL")
+    ans <- .Call("BGL_PRIM_U", 
+		as.integer(nv), as.integer(ne), 
+                as.integer(em-1), as.double(eW), 
+		PACKAGE="RBGL")
 
     ans[[1]] <- apply(ans[[1]], 2, function(x, y) y[x+1], nodes(g))
     rownames(ans[[1]]) <- c("from", "to")
@@ -65,56 +72,33 @@ setMethod("bfs",c("graph", "character", "logical"),
           bfs(object, node, checkConn))
 
 setMethod("bfs",c("graph", "character", "logical"),
-#          function( object, node, checkConn=TRUE) {
-#              nodvec <- nodes(object)
-#              if (is.na(startind <- match(node,nodvec)))
-#                  stop("starting node not found in nodes of graph")
-#              if (checkConn)
-#              {
-#                  if (length(ccc <- connectedComp(object))>1)
-#                      warning("graph is not connected; returning bfs applied to each connected component")
-#		      alln <- lapply(ccc, function(x)nodes(subGraph(x, object)))
-#		      hasStart <- sapply( alln, function(x) node %in% x)
-#		      def <- lapply( ccc[-which(hasStart)], function(x) bfs(subGraph(x,object)))
-#                      wsta <- bfs( subGraph(ccc[[which(hasStart)]], object), node)
-#		      return( c(wsta, def) )
-#              }
-#              nv <- length(nodvec)
-#              em <- edgeMatrix(object,duplicates=TRUE)
-#              ne <- ncol(em)
-#              ans <- .Call("BGL_bfs_D", as.integer(nv), as.integer(ne),
-#                           as.integer(em-1), as.integer(rep(1,ne)),
-#                           as.integer(startind-1), PACKAGE="RBGL")
-#              ## names(ans) <- c("edgeList", "weights")
-#              ## ans$nodes <- nodes(object)
-#              ## ans[["edgeList"]] <- ans[["edgeList"]] + 1
-#              sapply((ans+1), function(x, y) y[x], nodes(object))
-#          })
-function (object, node = nodes(object)[1], checkConn = TRUE) 
-{
+    function (object, node = nodes(object)[1], checkConn = TRUE) 
+    {
     nodvec <- nodes(object)
-    if (!checkConn) warning("API is changing: checkConn is disregarded, connectivity always checked.")
+    if (!checkConn) 
+	warning("API is changing: checkConn is disregarded, connectivity always checked.")
     if (is.na(startind <- match(node, nodvec))) 
         stop("starting node not found in nodes of graph")
-    if (length(ccc <- connectedComp(object)) > 1) {
+    if (length(ccc <- connectedComp(object)) > 1) 
+    {
         warning("graph is not connected; returning bfs applied to each connected component")
         alln <- lapply(ccc, function(x) nodes(subGraph(x, object)))
         hasStart <- sapply(alln, function(x) node %in% x)
-        def <- lapply(ccc[-which(hasStart)], function(x) bfs(subGraph(x, 
-            object)))
+        def <- lapply(ccc[-which(hasStart)], 
+		      function(x) bfs(subGraph(x, object)))
 	names(def) <- NULL
-        wsta <- bfs(subGraph(ccc[[which(hasStart)]], object), 
-            node)
+        wsta <- bfs(subGraph(ccc[[which(hasStart)]], object), node)
         return(c(list(wsta), def))
     }
     nv <- length(nodvec)
     em <- edgeMatrix(object, duplicates = TRUE)
     ne <- ncol(em)
-    ans <- .Call("BGL_bfs_D", as.integer(nv), as.integer(ne), 
-        as.integer(em - 1), as.integer(rep(1, ne)), as.integer(startind - 
-            1), PACKAGE = "RBGL")
+    ans <- .Call("BGL_bfs_D", 
+		as.integer(nv), as.integer(ne), as.integer(em - 1), 
+		as.integer(rep(1, ne)), as.integer(startind - 1), 
+		PACKAGE = "RBGL")
     sapply((ans + 1), function(x, y) y[x], nodes(object))
-})
+    })
 
 if (!isGeneric("dfs"))
    setGeneric("dfs", function(object,node,checkConn=TRUE)
@@ -130,17 +114,18 @@ setMethod("dfs",c("graph", "character", "missing"),
 
 setMethod("dfs",c("graph", "character", "logical"),
           function( object, node, checkConn=TRUE) {
-    	  if (!checkConn) warning("API is changing: checkConn is disregarded, connectivity always checked.")
+    	  if (!checkConn) 
+	     warning("API is changing: checkConn is disregarded, connectivity always checked.")
           nodvec <- nodes(object)
           if (is.na(startind <- match(node,nodvec)))
           {
               warning("starting node not found in nodes of graph,\nnodes element 1 used")
               startind <- 1
           }
-        if (length(ccc <- connectedComp(object)) > 1) {
+        if (length(ccc <- connectedComp(object)) > 1) 
+	{
             warning("graph is not connected; returning dfs applied to each connected component")
-            def <- lapply(ccc, function(x) dfs(subGraph(x, 
-                object)))
+            def <- lapply(ccc, function(x) dfs(subGraph(x, object)))
        	    names(def) <- NULL
             return(def)
         }
@@ -156,19 +141,20 @@ setMethod("dfs",c("graph", "character", "logical"),
           ans <- .Call("BGL_dfs_D", as.integer(nv), as.integer(ne),
                as.integer(em-1), as.integer(rep(1,ne)),
                PACKAGE="RBGL")
-          fixup <- function(x) { 
+          fixup <- function(x) 
+	  { 
              tm <- x;
              x[tm==(1-1)] <- startind-1
              x[tm==(startind-1)] <- (1-1)
              x
-             }
+          }
           ans <- lapply(ans, fixup)
           names(ans) <- c("discovered", "finish")
           lapply(ans, function(x, y) y[x+1], nodes(object))
          })
 
-dijkstra.sp <- function(g,start=nodes(g)[1],
-                          eW=unlist(edgeWeights(g))) {
+dijkstra.sp <- function(g,start=nodes(g)[1], eW=unlist(edgeWeights(g))) 
+{
     if (!is.character(start)) stop("start must be character")
     if (length(start) !=1 ) stop("start must have length 1")
     nN <- nodes(g)
@@ -197,49 +183,52 @@ dijkstra.sp <- function(g,start=nodes(g)[1],
     ans
 }
 
-sp.between.old <- function(g, start, finish) {
+sp.between.old <- function(g, start, finish) 
+{
 #
 #simple vectorization  of previous sp.between
 #
 .Deprecated("sp.between", "RBGL")
 if (any(is.numeric(c(start,finish)))) stop("start and finish are required to be node names; numeric indices not allowed")
 #
- if (length(start) == 1) {
-  if (length(finish) == 1) return( sp.between.scalar(g, start, finish) )
-  else { ans <- lapply( finish, function(x,g,start)
-            sp.between.scalar(g,start,x), g=g, start=start )
-         names(ans)<-paste(start, finish, sep=":")
-         return(ans)
-       }
-  }
- else if (length(finish) == 1)  {
-          ans <- lapply(start,function(x,g,finish)
-            sp.between.scalar(g,x,finish), g=g, finish=finish)
-          names(ans)  <- paste(start, finish, sep=":")
-	  return(ans)
-         }
- else if (length(finish) != length(start)) stop("cannot have different nonunity lengths of start and finish")
- else {
-       sf <- list();for (i in 1:length(start))  sf[[i]] <- c(start[i],finish[i]);
-       ans <- lapply( sf,function(x) sp.between.scalar(g,x[1],x[2]))
-          names(ans)  <- paste(start, finish, sep=":")
+ if (length(start) == 1) 
+ {
+  if (length(finish) == 1) 
+     return( sp.between.scalar(g, start, finish) )
+  else 
+     { 
+        ans <- lapply( finish, 
+		       function(x,g,start)
+            		   sp.between.scalar(g,start,x), g=g, start=start )
+        names(ans)<-paste(start, finish, sep=":")
+        return(ans)
+     }
+ }
+ else if (length(finish) == 1)  
+ {
+     ans <- lapply(start,
+	           function(x,g,finish) 
+			sp.between.scalar(g,x,finish), g=g, finish=finish)
+     names(ans)  <- paste(start, finish, sep=":")
+     return(ans)
+ }
+ else if (length(finish) != length(start)) 
+     stop("cannot have different nonunity lengths of start and finish")
+ else 
+ {
+       sf <- list();
+       for (i in 1:length(start))  
+	   sf[[i]] <- c(start[i],finish[i]);
+
+       ans <- lapply( sf, function(x) sp.between.scalar(g,x[1],x[2])) 
+
+       names(ans)  <- paste(start, finish, sep=":")
        return(ans)
       }
  }
 
 sp.between.scalar <- function (g, start, finish, eW=unlist(edgeWeights(g)))
 {
-# (c) 2003 VJ Carey, all rights reserved
-#
-# function uses BGL dijkstra shortest paths
-# given s=start node, f=end node in graph g,
-# return list with length of shortest path joining
-# s and f, and vector giving trajectory
-#
-# debugged 24 sep03, did not need to recompute
-# distance, and did not correctly step through
-# penultimates!
-#
     f <- finish
     s <- start
     if (length(f) >1) stop("finish must be scalar")
@@ -290,8 +279,10 @@ edgeConnectivity <- function (g)
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
-    ans <- .Call("BGL_edge_connectivity_U", as.integer(nv), as.integer(ne),
-        as.integer(em-1), as.double(rep(1.,ne)), PACKAGE="RBGL")
+    ans <- .Call("BGL_edge_connectivity_U", 
+		as.integer(nv), as.integer(ne),
+                as.integer(em-1), as.double(rep(1.,ne)), 
+		PACKAGE="RBGL")
     mes <- ans[[2]]
     mes <- lapply(mes,function(x,y) y[x+1], nodes(g)) # +1 for zero-based BGL
     list(connectivity=ans[[1]], minDisconSet=mes)
@@ -425,8 +416,10 @@ johnson.all.pairs.sp <- function (g)
     else em <- edgeMatrix(g, TRUE)
     ne <- ncol(em)
     eW <- unlist(edgeWeights(g))
-    ans <- .Call("BGL_johnson_all_pairs_shortest_paths_D", as.integer(nv), 
-        as.integer(ne), as.integer(em - 1), as.double(eW), PACKAGE="RBGL")
+    ans <- .Call("BGL_johnson_all_pairs_shortest_paths_D", 
+		as.integer(nv), as.integer(ne), 
+		as.integer(em - 1), as.double(eW), 
+		PACKAGE="RBGL")
     tmp <- matrix(ans, nr = length(nodes(g)))
     dimnames(tmp) <- list(nodes(g), nodes(g))
     tmp[ tmp >= .Machine$double.xmax ] <- Inf
@@ -441,8 +434,10 @@ floyd.warshall.all.pairs.sp <- function (g)
     else em <- edgeMatrix(g, TRUE)
     ne <- ncol(em)
     eW <- unlist(edgeWeights(g))
-    ans <- .Call("BGL_floyd_warshall_all_pairs_shortest_paths_D", as.integer(nv), 
-        as.integer(ne), as.integer(em - 1), as.double(eW), PACKAGE="RBGL")
+    ans <- .Call("BGL_floyd_warshall_all_pairs_shortest_paths_D", 
+		as.integer(nv), as.integer(ne), 
+		as.integer(em - 1), as.double(eW), 
+		PACKAGE="RBGL")
     tmp <- matrix(ans, nr = length(nodes(g)))
     dimnames(tmp) <- list(nodes(g), nodes(g))
     tmp[ tmp >= .Machine$double.xmax ] <- Inf
@@ -461,9 +456,11 @@ bellman.ford.sp <- function(g, start=nodes(g)[1])
 
     if ( s <= 0 || s > nv ) stop("start not found in nodes of g")
 
-    ans <- .Call("BGL_bellman_ford_shortest_paths", as.integer(nv), 
-           as.integer(ne), as.integer(em - 1), as.double(eW), 
-           as.integer(s-1), PACKAGE="RBGL")
+    ans <- .Call("BGL_bellman_ford_shortest_paths", 
+		as.integer(nv), as.integer(ne), 
+		as.integer(em - 1), as.double(eW), 
+           	as.integer(s-1), 
+		PACKAGE="RBGL")
 
     ans[[2]][ ans[[2]] >= .Machine$double.xmax ] <- Inf
     ans[[3]] <- ans[[3]] + 1
@@ -489,8 +486,11 @@ dag.sp <- function(g, start=nodes(g)[1])
 
     if ( s <= 0 || s > nv ) stop("start not found in nodes of g")
 
-    ans <- .Call("BGL_dag_shortest_paths", as.integer(nv), as.integer(ne), 
-            as.integer(em - 1), as.double(eW), as.integer(s-1), PACKAGE="RBGL")
+    ans <- .Call("BGL_dag_shortest_paths", 
+		as.integer(nv), as.integer(ne), 
+            	as.integer(em - 1), as.double(eW), 
+		as.integer(s-1), 
+		PACKAGE="RBGL")
     
     ans[[1]][ ans[[1]] >= .Machine$double.xmax ] <- Inf
     ans[[2]] <- ans[[2]] + 1
@@ -507,8 +507,9 @@ transitive.closure <- function (g)
         em <- edgeMatrix(g)
     else em <- edgeMatrix(g, TRUE)
     ne <- ncol(em)
-    ans <- .Call("BGL_transitive_closure_D", as.integer(nv), 
-        as.integer(ne), as.integer(em - 1), PACKAGE="RBGL")
+    ans <- .Call("BGL_transitive_closure_D", 
+		as.integer(nv), as.integer(ne), as.integer(em - 1), 
+		PACKAGE="RBGL")
     
     v_names <- sapply(ans[[1]]+1, function(x) { nodes(g)[x] })
     ans[[1]] <- v_names
@@ -882,8 +883,10 @@ biConnComp <- function(g)
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
-    ans <-.Call("BGL_biconnected_components_U", as.integer(nv), as.integer(ne),
-        as.integer(em-1), as.double(rep(1,ne)), PACKAGE="RBGL")
+    ans <-.Call("BGL_biconnected_components_U", 
+		as.integer(nv), as.integer(ne),
+        	as.integer(em-1), as.double(rep(1,ne)), 
+		PACKAGE="RBGL")
 
     ans[[2]] <- apply(ans[[2]], 2, function(x, y) y[x+1], nodes(g))
     rownames(ans[[2]]) <- c("from", "to")
@@ -898,8 +901,10 @@ articulationPoints <- function(g)
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
-    ans <-.Call("BGL_articulation_points_U", as.integer(nv), as.integer(ne),
-        as.integer(em-1), as.double(rep(1,ne)), PACKAGE="RBGL")
+    ans <-.Call("BGL_articulation_points_U", 
+		as.integer(nv), as.integer(ne),
+        	as.integer(em-1), as.double(rep(1,ne)), 
+		PACKAGE="RBGL")
 
     ans[[2]] <- sapply(ans[[2]]+1, function(x) { nodes(g)[x] })
     list("no. of articulation points"= ans [[1]],
@@ -1084,7 +1089,7 @@ clusteringCoefAppr <- function(g, k=length(nodes(g)), Weighted=FALSE, vW=degree(
    if ( nv != length(vW) )
       stop("length(vW) is not equal to number of nodes in the graph")
 
-   ans <- .Call("clusteringCoefAppr", as.integer(k),
+   ans <- .Call("clusteringCoefAppr", as.integer(k), 
 		as.integer(nv), as.integer(ne), as.integer(em-1), 
 		as.integer(Weighted), as.double(vW), 
                 PACKAGE="RBGL")
