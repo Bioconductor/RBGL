@@ -8,7 +8,7 @@ tsort <- function(x)
 	as.integer(nv), as.integer(ne), as.integer(em-1), 
 	PACKAGE="RBGL")
     if ( any(ans != 0) ) ans <- nodes(x)[ans+1]
-    else ans <- ""
+    else ans <- character(0)
     ans
 }
 
