@@ -333,7 +333,9 @@ extern "C"
 	   totalmass += pp[i].y;
 	}
 
-	stable_sort(pp, prob_cmp);
+	// gcc 4.0.3 doesn't like this, gcc 3.4.x and 4.1.0 are ok with it:
+	// stable_sort(pp, prob_cmp);
+	stable_sort(pp.begin(), pp.end(), prob_cmp);
 
 	int j, k, n1, rT, mass;
 	for ( i = 0, n1 = NV-1; i < NV; i++, n1-- )
