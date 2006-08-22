@@ -1,13 +1,13 @@
 kCores <- function(g, EdgeType=c("in", "out"))
 {
-   nv <- length(nodes(g))
-   core <- array(0, length(nodes(g)), dimnames=list(nodes(g)))
+   nv <- numNodes(g)
+   core <- array(0, nv, dimnames=list(nodes(g)))
 
    # compute the degrees of vertices
    # order the set of vertices V in increasing order of their degrees
    if ( edgemode(g) == "undirected")
        deg <- sort(degree(g))
-   else   # directed 
+   else   
    {
         indeg <- core
         outdeg <- core
@@ -22,13 +22,12 @@ kCores <- function(g, EdgeType=c("in", "out"))
    {
        v = names(deg)[i]
 
-       # core[v] = degree[v]
        core[v] = deg[v]
 
        # for each u in neighbors(v) do
        if ( edgemode(g) == "undirected") 
            ul <- adj(g, v)[[1]]
-       else # directed 
+       else 
        {
            innb <- list()
            outnb <- list()
@@ -39,13 +38,9 @@ kCores <- function(g, EdgeType=c("in", "out"))
 
        for ( u in ul )
        {
-	  # if degree[u] > degree[v]
           if ( deg[u] > deg[v] ) 
 	  {
-	     # degree[u] = degree[u] - 1
 	     deg[u] = deg[u] - 1
-
-	     # reorder V accordingly
    	     deg <- sort(deg)
 	  }
        }
