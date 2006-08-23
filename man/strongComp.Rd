@@ -28,7 +28,7 @@ the nodes in that component.
 
 \examples{
 km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
-km<- addNode(c("F","G","H"), km)
+km<- graph::addNode(c("F","G","H"), km)
 km<- addEdge("G", "H", km, 1)
 km<- addEdge("H", "G", km, 1)
 strongComp(km)

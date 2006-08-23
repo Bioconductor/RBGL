@@ -455,7 +455,7 @@ in an undirected graph.
 <<conndemo>>=
 #km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
 km1 <- km
-km1 <- addNode(c("F","G","H"), km1)
+km1 <- graph::addNode(c("F","G","H"), km1)
 km1 <- addEdge("G", "H", km1, 1)
 km1 <- addEdge("H", "G", km1, 1)
 connectedComp(ugraph(km1))
@@ -482,7 +482,7 @@ in a directed graph.
 <<sconndemo>>=
 #km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
 km2 <- km
-km2 <- addNode(c("F","G","H"), km2)
+km2 <- graph::addNode(c("F","G","H"), km2)
 km2 <- addEdge("G", "H", km2, 1)
 km2 <- addEdge("H", "G", km2, 1)
 strongComp(km2)
