@@ -27,7 +27,7 @@ there is an v in V such that
 \value{
 The return value is \code{TRUE} if \code{g} is triangulated
  and \code{FALSE} otherwise. An error is thrown if the graph is not 
-undirected; you might use \code{\link{[graph]ugraph}} to compute the underlying 
+undirected; you might use \code{\link[graph]{ugraph}} to compute the underlying 
 graph.
 }
 \references{
