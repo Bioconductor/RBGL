@@ -29,12 +29,12 @@ columns of \code{edgeList}}
 \seealso{\code{\link{prim.minST}}}
 
 \examples{
-km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
+km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL"), open="r"))
 mstree.kruskal(km)
 edgeData(km, "B", "D", "weight") <- 1.1
 edgeData(km, "B", "E", "weight") <- .95
 mstree.kruskal(km)
-km2 <- fromGXL(file(system.file("XML/telenet.gxl",package="RBGL")))
+km2 <- fromGXL(file(system.file("XML/telenet.gxl",package="RBGL"), open="r"))
 m <- mstree.kruskal(km2)
 print(sum(m[[2]]))
 }

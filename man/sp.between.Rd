@@ -57,7 +57,7 @@ sp.between.old is included for archival purposes.
 \seealso{\code{\link{bellman.ford.sp}}, \code{\link{dag.sp}}, \code{\link{dijkstra.sp}}, \code{\link{johnson.all.pairs.sp}}}
 
 \examples{
-ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL")))
+ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL"), open="r"))
 dijkstra.sp(ospf,nodes(ospf)[6])
 sp.between(ospf, "RT6", "RT1")
 sp.between(ospf, c("RT6", "RT2"), "RT1")

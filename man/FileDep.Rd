@@ -14,7 +14,7 @@ Boost Graph Library
 \examples{
 # this is how the graph of data(FileDep) was obtained
 library(graph)
-fd <- file(system.file("XML/FileDep.gxl",package="RBGL"))
+fd <- file(system.file("XML/FileDep.gxl",package="RBGL"), open="r")
 show(fromGXL(fd))
 if (require(Rgraphviz))
  {

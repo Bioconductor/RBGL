@@ -42,7 +42,7 @@ perform singleton adoptions.
 \seealso{\code{\link{edgeConnectivity}}, \code{\link{minCut}}  }
 
 \examples{
-coex <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
+coex <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL"), open="r"))
 highlyConnSG(coex)
 }
 \keyword{ models }

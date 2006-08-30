@@ -26,7 +26,7 @@ See documentations on this function in Boost Graph Library for more details.
 \seealso{\code{\link{mstree.kruskal}}}
 
 \examples{
-coex <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
+coex <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL"), open="r"))
 prim.minST(coex)
 }
 \keyword{ models }

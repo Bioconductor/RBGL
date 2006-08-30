@@ -28,8 +28,8 @@ is in E2.
 \seealso{ }
 
 \examples{
-g1 <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
-g2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
+g1 <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL"), open="r"))
+g2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL"), open="r"))
 isomorphism(g1, g2)
 }
 \keyword{ models }

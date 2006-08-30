@@ -39,7 +39,7 @@ found by examining \code{penult[10]}.}
 \seealso{\code{\link{bellman.ford.sp}}, \code{\link{dijkstra.sp}}, \code{\link{johnson.all.pairs.sp}}, \code{\link{sp.between}} }
 
 \examples{
-dd <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
+dd <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL"), open="r"))
 dag.sp(dd)
 dag.sp(dd,nodes(dd)[2])
 }

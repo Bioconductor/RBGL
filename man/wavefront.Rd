@@ -31,7 +31,7 @@ Assorted functions on wavefront of a graph.
 \seealso{\code{\link{edgeConnectivity}}  }
 
 \examples{
-coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
+coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL"), open="r"))
 ss <- 1
 ith.wavefront(coex, ss)
 maxWavefront(coex)

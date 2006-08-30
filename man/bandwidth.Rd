@@ -24,7 +24,7 @@ See documentation on bandwidth in Boost Graph Library for more details.
 \seealso{  }
 
 \examples{
-coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
+coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL"), open="r"))
 coex <- ugraph(coex)
 bandwidth(coex)
 }

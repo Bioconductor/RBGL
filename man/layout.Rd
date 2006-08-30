@@ -49,7 +49,7 @@ See documentation on this function in Boost Graph Library for more details.
 \seealso{}
 
 \examples{
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL"), open="r"))
 coex <- ugraph(coex)
 circle.layout(coex)
 kamada.kawai.spring.layout(coex)

@@ -20,7 +20,7 @@ NOT IMPLEMENTED YET.  TO BE FILLED IN
 \seealso{}
 
 \examples{
-coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
+coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL"), open="r"))
 astarSearch(coex)
 }
 \keyword{ models }

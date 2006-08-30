@@ -32,7 +32,7 @@ that need to be cut to obtain two components}
 \seealso{\code{\link{minCut}}, \code{\link{edmunds.karp.max.flow}}, \code{\link{push.relabel.max.flow}}  }
 
 \examples{
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL"), open="r"))
 edgeConnectivity(coex)
 }
 \keyword{ models }

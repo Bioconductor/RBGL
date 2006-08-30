@@ -35,7 +35,7 @@ See documentation on these algorithms in Boost Graph Library for more details.
 \seealso{\code{\link{minCut}}, \code{\link{edgeConnectivity}}}
 
 \examples{
-g <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
+g <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL"), open="r"))
 
 ans1 <- edmunds.karp.max.flow(g, "B", "D")
 ans2 <- edmunds.karp.max.flow(g, 3, 2)     # 3 and 2 equivalent to "C" and "B"

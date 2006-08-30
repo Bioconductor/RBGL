@@ -40,7 +40,7 @@ For \code{articulationPoints}:
 \seealso{}
 
 \examples{
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL"), open="r"))
 biConnComp(coex)
 articulationPoints(coex)
 }

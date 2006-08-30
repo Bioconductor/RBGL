@@ -31,7 +31,7 @@ For simplicity, the returned subset S is the smaller of the two subsets.
 \seealso{\code{\link{edgeConnectivity}}}
 
 \examples{
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL"), open="r"))
 minCut(coex)
 }
 \keyword{ models }

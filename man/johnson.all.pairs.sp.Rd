@@ -23,7 +23,7 @@ matrix of shortest path lengths, read from row node to col node
 \seealso{\code{\link{bellman.ford.sp}}, \code{\link{dag.sp}}, \code{\link{dijkstra.sp}}, \code{\link{sp.between}} }
 
 \examples{
-z <- fromGXL(file(system.file("dot/joh.gxl", package="RBGL")))
+z <- fromGXL(file(system.file("dot/joh.gxl", package="RBGL"), open="r"))
 johnson.all.pairs.sp(z)
 }
 \keyword{ models }

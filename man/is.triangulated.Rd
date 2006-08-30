@@ -39,9 +39,9 @@ by C. H. Papadimitriou, K. Steiglitz}
 \seealso{}
 
 \examples{
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL"), open="r"))
 is.triangulated(coex)
-coex <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
+coex <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL"), open="r"))
 is.triangulated(coex)
 }
 \keyword{ models }

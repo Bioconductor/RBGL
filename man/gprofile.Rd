@@ -24,7 +24,7 @@ See documentation on this function in Boost Graph Library for more details.
 \seealso{}
 
 \examples{
-coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
+coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL"), open="r"))
 gprofile(coex)
 }
 \keyword{ models }

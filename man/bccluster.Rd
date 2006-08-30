@@ -37,7 +37,7 @@ A list of
 \seealso{\code{\link{brandes.betweenness.centrality}}} 
 
 \examples{
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL"), open="r"))
 coex <- ugraph(coex)
 betweenness.centrality.clustering(coex, 0.1, TRUE)
 }

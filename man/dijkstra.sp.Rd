@@ -41,10 +41,10 @@ found by examining \code{penult[10]}.
 \seealso{\code{\link{bellman.ford.sp}}, \code{\link{dag.sp}}, \code{\link{johnson.all.pairs.sp}}, \code{\link{sp.between}} }
 
 \examples{
-dd <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
+dd <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL"), open="r"))
 dijkstra.sp(dd)
 dijkstra.sp(dd,nodes(dd)[2])
-ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL")))
+ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL"), open="r"))
 dijkstra.sp(ospf,nodes(ospf)[6])
 }
 \keyword{ graphs }
