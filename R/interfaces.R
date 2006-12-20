@@ -138,9 +138,10 @@ setMethod("dfs",c("graph", "character", "logical"),
             em[tem == 1] <- startind
             em[tem == startind] <- 1
           }
-          ans <- .Call("BGL_dfs_D", as.integer(nv), as.integer(ne),
-               as.integer(em-1), as.integer(rep(1,ne)),
-               PACKAGE="RBGL")
+          ans <- .Call("BGL_dfs_D", 
+			as.integer(nv), as.integer(ne),
+               		as.integer(em-1), as.integer(rep(1,ne)),
+               		PACKAGE="RBGL")
           fixup <- function(x) 
 	  { 
              tm <- x;
@@ -171,9 +172,10 @@ dijkstra.sp <- function(g,start=nodes(g)[1], eW=unlist(edgeWeights(g)))
     if ( any(eW[eW < 0]) ) 
       stop("dijkstra.sp requies that all edge weights are nonnegative")
 
-    ans <- .Call("BGL_dijkstra_shortest_paths_D", as.integer(nv),
-        as.integer(ne), as.integer(em-1), as.double(eW),
-        as.integer(II - 1), PACKAGE="RBGL")
+    ans <- .Call("BGL_dijkstra_shortest_paths_D", 
+		as.integer(nv), as.integer(ne), 
+		as.integer(em-1), as.double(eW), as.integer(II - 1), 
+		PACKAGE="RBGL")
     names(ans) <- c("distances", "penult")
     ans[["distances"]][ ans[["distances"]] == .Machine$double.xmax ] <- Inf
     names(ans[["distances"]]) <- names(ans[["penult"]]) <- nN
@@ -189,7 +191,8 @@ sp.between.old <- function(g, start, finish)
 #simple vectorization  of previous sp.between
 #
 .Deprecated("sp.between", "RBGL")
-if (any(is.numeric(c(start,finish)))) stop("start and finish are required to be node names; numeric indices not allowed")
+if (any(is.numeric(c(start,finish)))) 
+   stop("start and finish are required to be node names; numeric indices not allowed")
 #
  if (length(start) == 1) 
  {
@@ -257,8 +260,10 @@ connectedComp <- function (g)
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
-    x<-.Call("BGL_connected_components_U", as.integer(nv), as.integer(ne),
-        as.integer(em-1), as.double(rep(1,ne)), PACKAGE="RBGL")
+    x<-.Call("BGL_connected_components_U", 
+		as.integer(nv), as.integer(ne),
+        	as.integer(em-1), as.double(rep(1,ne)), 
+		PACKAGE="RBGL")
     split(nodes(g),x+1)
 }
 
@@ -268,8 +273,10 @@ strongComp <- function (g)
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
-    x <- .Call("BGL_strong_components_D", as.integer(nv), as.integer(ne),
-        as.integer(em-1), as.double(rep(1,ne)), PACKAGE="RBGL")
+    x <- .Call("BGL_strong_components_D", 
+		as.integer(nv), as.integer(ne),
+        	as.integer(em-1), as.double(rep(1,ne)), 
+		PACKAGE="RBGL")
     split(nodes(g),x+1)
 }
 
@@ -297,8 +304,10 @@ minCut <- function (g)
     em <- edgeMatrix(g)
     ne <- ncol(em)
 
-    ans <- .Call("BGL_min_cut_U", as.integer(nv), as.integer(ne),
-                 as.integer(em-1), as.double(rep(1.,ne)), PACKAGE="RBGL")
+    ans <- .Call("BGL_min_cut_U", 
+		as.integer(nv), as.integer(ne),
+                as.integer(em-1), as.double(rep(1.,ne)), 
+		PACKAGE="RBGL")
 
     s_names <- sapply(ans[[2]]+1, function(x) { nodes(g)[x] })
     vs_names <- sapply(ans[[3]]+1, function(x) { nodes(g)[x] })
@@ -328,10 +337,11 @@ highlyConnSG <- function (g, sat=3, ldv=c(3, 2, 1))
     em <- edgeMatrix(g)
     ne <- ncol(em)
 
-    ans <- .Call("BGL_highly_conn_sg", as.integer(nv), as.integer(ne),
-                 as.integer(em-1), as.double(rep(1.,ne)), 
-                 as.integer(sat), as.integer(lldv), as.integer(ldv),
-                 PACKAGE="RBGL")
+    ans <- .Call("BGL_highly_conn_sg", 
+		as.integer(nv), as.integer(ne),
+                as.integer(em-1), as.double(rep(1.,ne)), 
+                as.integer(sat), as.integer(lldv), as.integer(ldv),
+                PACKAGE="RBGL")
 
     ans_names <- lapply(ans, function(x) { nodes(g)[x] })
     list(clusters=ans_names)
@@ -373,38 +383,42 @@ sp.between <- function (g, start, finish)
     if ( any(eWW[eWW < 0]) ) 
       stop("sp.between requies that all edge weights are nonnegative")
 
-    for (i in 1:length(ust)) {
+    for (i in 1:length(ust)) 
+    {
         curdi <- dijkstra.sp(g, ust[i], eWW)$penult
         thiss <- ust[i]
         thisf <- fl[[thiss]]
-        for (j in 1:length(thisf) ) {
+        for (j in 1:length(thisf) ) 
+        {
             ans[[paste(thiss, thisf[j], sep = ":")]] <-
-                nG[extractPath(nodeind(thiss),
-                                   nodeind(thisf[j]), curdi)]
+                nG[extractPath(nodeind(thiss), nodeind(thisf[j]), curdi)]
         }
     }
 
-    getw <- function(nl) {
+    getw <- function(nl) 
+    {
          # obtain weights in g for path of nodes in char vec nl
-	 if (length(nl)<2) stop("sp.between:getw should get paths of length 2 or more")
+	 if (length(nl)<2) 
+	    stop("sp.between:getw should get paths of length 2 or more")
          res <- rep(NA,length(nl)-1)   # only n-1 pairs
 	 wstr <- eW[nl]
          for (i in 1:(length(nl)-1))
             res[i] <-  wstr[[i]][nl[i+1]] # need to use numerical names of weights
-	names(res) <- paste(nl[-length(nl)],nl[-1],sep=ifelse(edgemode(g)=="undirected","--","->"))
-        res
+	 names(res) <- paste(nl[-length(nl)], nl[-1],
+			     sep=ifelse(edgemode(g)=="undirected","--","->"))
+         res
     }
     ws <- lapply(ans, function(x) getw(x))
     ls <- lapply(ws, sum)
     ans2 <- list()
     ns <- names(ans)
     for (i in 1:length(ns))
-      {
+    {
       ans2[[ns[i]]] <- list()
       ans2[[ns[i]]]$path <- ans[[ns[i]]]
       ans2[[ns[i]]]$length <- ls[[i]]
       ans2[[ns[i]]]$pweights <- ws[[i]]
-      }
+    }
     ans2
 }
 
@@ -458,8 +472,7 @@ bellman.ford.sp <- function(g, start=nodes(g)[1])
 
     ans <- .Call("BGL_bellman_ford_shortest_paths", 
 		as.integer(nv), as.integer(ne), 
-		as.integer(em - 1), as.double(eW), 
-           	as.integer(s-1), 
+		as.integer(em - 1), as.double(eW), as.integer(s-1), 
 		PACKAGE="RBGL")
 
     ans[[2]][ ans[[2]] >= .Machine$double.xmax ] <- Inf
@@ -488,8 +501,7 @@ dag.sp <- function(g, start=nodes(g)[1])
 
     ans <- .Call("BGL_dag_shortest_paths", 
 		as.integer(nv), as.integer(ne), 
-            	as.integer(em - 1), as.double(eW), 
-		as.integer(s-1), 
+            	as.integer(em - 1), as.double(eW), as.integer(s-1), 
 		PACKAGE="RBGL")
     
     ans[[1]][ ans[[1]] >= .Machine$double.xmax ] <- Inf
@@ -561,6 +573,7 @@ max.flow.internal <- function (g, source, sink, method="Edmunds.Karp")
     t_names <- sapply(ans[[2]][2,]+1, function(x) { nodes(g)[x] })
     ans[[2]][1,] <- f_names
     ans[[2]][2,] <- t_names
+
     list("maxflow"=ans[[1]], "edges"=ans[[2]], "flows"=ans[[3]])
 }
 
@@ -694,8 +707,8 @@ ith.wavefront <- function (g, start=nodes(g)[1])
        stop("starting node needs to be from the graph")
 
    ans <- .Call("BGL_ith_wavefront", 
-	        as.integer(nv), as.integer(ne), as.integer(em-1), 
-		as.integer(s-1),
+	        as.integer(nv), as.integer(ne), 
+		as.integer(em-1), as.integer(s-1),
                 PACKAGE="RBGL")
 
    list("ith.wavefront"=ans[[1]])
@@ -817,7 +830,8 @@ kamada.kawai.spring.layout <- function ( g, edge_or_side=1, es_length=1 )
    eW <- unlist(edgeWeights(g))
 
    ans <- .Call("BGL_kamada_kawai_spring_layout", 
-	       as.integer(nv), as.integer(ne), as.integer(em-1), as.double(eW),
+	       as.integer(nv), as.integer(ne), 
+	       as.integer(em-1), as.double(eW),
 	       as.logical(edge_or_side), as.double(es_length),
                PACKAGE="RBGL")
 
@@ -983,7 +997,7 @@ maxClique <- function(g)
 	        as.integer(nv), as.integer(ne), as.integer(em-1), 
                 PACKAGE="RBGL")
 
-   ans_names <- sapply(ans, function(x) { nodes(g)[x] })
+   ans_names <- lapply(ans, function(x) { nodes(g)[x] })
    list("maxCliques"=ans_names)
 }
 
@@ -997,17 +1011,21 @@ kCliques <- function(g)
    ne <- ncol(em)
    eW <- unlist(edgeWeights(g))
 
-   ans <- .Call("kCliques", as.integer(nv), as.integer(ne), 
+   ans <- .Call("kCliques", 
+		as.integer(nv), as.integer(ne), 
 		as.integer(em-1), as.double(eW), 
                 PACKAGE="RBGL")
 
-   if ( length(ans_names) > 0 )
+   if ( length(ans) > 0 )
    {
       gn1 <- function(x) { nodes(g)[x+1] }
       gn2 <- function(x) { lapply(x, gn1) }
       ans_names <- lapply(ans, gn2)
       names(ans_names) <- paste(1:length(ans_names), "-cliques", sep="")
    }
+   else
+      ans_names <- ans
+
    ans_names
 }
 
@@ -1021,7 +1039,8 @@ lambdaSets <- function(g)
    ne <- ncol(em)
    eW <- unlist(edgeWeights(g))
 
-   ans <- .Call("lambdaSets", as.integer(nv), as.integer(ne), 
+   ans <- .Call("lambdaSets", 
+		as.integer(nv), as.integer(ne), 
 		as.integer(em-1), as.double(eW), 
                 PACKAGE="RBGL")
 
