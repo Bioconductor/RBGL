@@ -854,14 +854,10 @@ in {\em g}.
 
 <<transClosuredemo>>=
 dijk.tc = transitive.closure(dijk)
-
-im = ftM2adjM(t(dijk.tc$edges))
-g.tc = as(im, "graphNEL")
-edgemode(g.tc) = "directed"
 @
 
 <<figdijkTC, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
-  plot(g.tc, main="b) Transitive closure")
+  plot(dijk.tc, main="b) Transitive closure")
 @
 
 \begin{figure}[tp]

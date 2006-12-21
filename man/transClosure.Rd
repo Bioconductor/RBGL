@@ -14,9 +14,7 @@ This function calculates the transitive closure of a directed graph.
 See documentation on this function in Boost Graph Library for more details.
 }
 \value{
-  A list of
-\item{vertices}{the vertices of the transitive closure }
-\item{edges}{the edges of the transitive closure }
+  An object of class \code{graphNEL}.
 }
 \references{Boost Graph Library by Siek et al.  }
 \author{Li Long <li.long@isb-sib.ch>}
@@ -24,7 +22,7 @@ See documentation on this function in Boost Graph Library for more details.
 \seealso{}
 
 \examples{
-coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL"), open="r"))
+coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 transitive.closure(coex)
 }
 \keyword{ models }

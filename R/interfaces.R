@@ -524,15 +524,19 @@ transitive.closure <- function (g)
 		PACKAGE="RBGL")
     
     v_names <- sapply(ans[[1]]+1, function(x) { nodes(g)[x] })
-    ans[[1]] <- v_names
+    nv <- length(v_names)
 
-    rownames(ans[[2]]) <- c("from", "to")
-    f_names <- sapply(ans[[2]][1,]+1, function(x) { nodes(g)[x] })
-    t_names <- sapply(ans[[2]][2,]+1, function(x) { nodes(g)[x] })
-    ans[[2]][1,] <- f_names
-    ans[[2]][2,] <- t_names
+    ans[[2]] <- ans[[2]] + 1
+    ne <- ncol(ans[[2]])
 
-    list("nodes"= ans[[1]], "edges"=ans[[2]])
+    edL <- vector("list", length=nv)
+    names(edL) <- v_names
+    for(i in 1:nv) edL[[i]] <- list(edges=ans[[2]][2,][which(ans[[2]][1,]==i)])
+
+    g <- new("graphNEL", nodes=v_names, edgeL=edL, edgemode=coex@edgemode)
+
+    g
+
 }
 
 max.flow.internal <- function (g, source, sink, method="Edmunds.Karp")
