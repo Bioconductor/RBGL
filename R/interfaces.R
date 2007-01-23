@@ -318,6 +318,16 @@ minCut <- function (g)
     list(mincut=ans[[1]], "S"=s_names, "V-S"=vs_names)
 }
 
+removeSelfLoops <- function(g)
+{
+    g1 <- g
+    for ( n in nodes(g) )
+    {
+        if ( n %in% adj(g, n)[[1]] ) g1 <- removeEdge(n, n, g1)
+    }
+    g1
+}
+
 highlyConnSG <- function (g, sat=3, ldv=c(3, 2, 1))
 {
     lldv <- length(ldv)
@@ -332,6 +342,10 @@ highlyConnSG <- function (g, sat=3, ldv=c(3, 2, 1))
 
     if (edgemode(g) == "directed")
        stop("only applicable to undirected graphs")
+
+    for ( n in nodes(g) )
+       if ( n %in% adj(g, n)[[1]] )
+          stop("graph contains self-circle(s), use 'removeSelfLoops' first.")
 
     nv <- length(nodes(g))
     em <- edgeMatrix(g)

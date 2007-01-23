@@ -1,5 +1,4 @@
 import("methods")
-
 useDynLib(RBGL)
 
 export(
@@ -46,6 +45,7 @@ export(
  "gprofile",
  "push.relabel.max.flow",
  "randomGraphLayout",
+ "removeSelfLoops",
  "rms.wavefront",
  "same.component",
  "separates",
