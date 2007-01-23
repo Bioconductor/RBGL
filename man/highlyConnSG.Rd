@@ -32,6 +32,12 @@ Given ldv = (d1, d2, ..., dp), (d[i] > d[i+1] > 0), we repeat the following
 (i from 1 to p): remove all the highly-connected-subgraph found so far; 
 remove vertices with degrees < di; find highly-connected-subgraphs; 
 perform singleton adoptions. 
+
+The Boost implementation does not support self-loops, therefore we 
+signal an error and suggest that users remove self-loops using the 
+function \code{\link{removeSelfLoops}} function. This change does affect 
+degree, but the original article makes no specific reference to self-loops.
+
 }
 \value{
   A list of clusters, each is given as vertices in the graph.
@@ -39,10 +45,10 @@ perform singleton adoptions.
 \references{ A Clustering Algorithm based on Graph Connectivity by E. Hartuv, R. Shamir, 1999.  }
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{\code{\link{edgeConnectivity}}, \code{\link{minCut}}  }
+\seealso{\code{\link{edgeConnectivity}}, \code{\link{minCut}}, \code{\link{removeSelfLoops}}  }
 
 \examples{
-coex <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL"), open="r"))
+coex <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
 highlyConnSG(coex)
 }
 \keyword{ models }
