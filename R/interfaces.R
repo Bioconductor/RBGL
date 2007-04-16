@@ -529,7 +529,7 @@ dag.sp <- function(g, start=nodes(g)[1])
 transitive.closure <- function (g) 
 {
     nv <- length(nodes(g))
-    if (edgemode(g) == "directed") 
+    if (isDirected(g))
         em <- edgeMatrix(g)
     else em <- edgeMatrix(g, TRUE)
     ne <- ncol(em)
@@ -547,7 +547,7 @@ transitive.closure <- function (g)
     names(edL) <- v_names
     for(i in 1:nv) edL[[i]] <- list(edges=ans[[2]][2,][which(ans[[2]][1,]==i)])
 
-    g <- new("graphNEL", nodes=v_names, edgeL=edL, edgemode=coex@edgemode)
+    g <- new("graphNEL", nodes=v_names, edgeL=edL, edgemode=edgemode(g))
 
     g
 
