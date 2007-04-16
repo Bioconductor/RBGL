@@ -1,6 +1,6 @@
 tsort <- function(x) 
 {
-    if (edgemode(x) != "directed") stop("requires directed graph")
+    if ( !isDirected(x) ) stop("requires directed graph")
     nv <- length(nodes(x))
     em <- edgeMatrix(x)
     ne <- ncol(em)
@@ -163,7 +163,7 @@ dijkstra.sp <- function(g,start=nodes(g)[1], eW=unlist(edgeWeights(g)))
         II <- match(start, nN, 0)
     if (II == 0) stop("start not found in nodes of g")
     nv <- length(nN)
-    if (edgemode(g) == "directed")
+    if ( isDirected(g) )
             em <- edgeMatrix(g)
     else
             em <- edgeMatrix(g,TRUE)
@@ -269,7 +269,8 @@ connectedComp <- function (g)
 
 strongComp <- function (g)
 {
-    if (edgemode(g) == "undirected") stop("only applicable to directed graphs")
+    if (!isDirected(g)) stop("only applicable to directed graphs")
+
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
@@ -282,7 +283,8 @@ strongComp <- function (g)
 
 edgeConnectivity <- function (g)
 {
-    if (edgemode(g) == "directed") stop("only applicable to undirected graphs")
+    if (isDirected(g)) stop("only applicable to undirected graphs")
+
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
     ne <- ncol(em)
@@ -297,8 +299,7 @@ edgeConnectivity <- function (g)
 
 minCut <- function (g)
 {
-    if (edgemode(g) == "directed") 
-       stop("only applicable to undirected graphs")
+    if (isDirected(g)) stop("only applicable to undirected graphs")
 
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
@@ -340,8 +341,7 @@ highlyConnSG <- function (g, sat=3, ldv=c(3, 2, 1))
     
     if ( sat <= 0 ) stop("sat has to be positive")
 
-    if (edgemode(g) == "directed")
-       stop("only applicable to undirected graphs")
+    if (isDirected(g)) stop("only applicable to undirected graphs")
 
     for ( n in nodes(g) )
        if ( n %in% adj(g, n)[[1]] )
@@ -419,7 +419,7 @@ sp.between <- function (g, start, finish)
          for (i in 1:(length(nl)-1))
             res[i] <-  wstr[[i]][nl[i+1]] # need to use numerical names of weights
 	 names(res) <- paste(nl[-length(nl)], nl[-1],
-			     sep=ifelse(edgemode(g)=="undirected","--","->"))
+			     sep=ifelse(isDirected(g),"->","--"))
          res
     }
     ws <- lapply(ans, function(x) getw(x))
@@ -439,7 +439,7 @@ sp.between <- function (g, start, finish)
 johnson.all.pairs.sp <- function (g) 
 {
     nv <- length(nodes(g))
-    if (edgemode(g) == "directed") 
+    if (isDirected(g)) 
         em <- edgeMatrix(g)
     else em <- edgeMatrix(g, TRUE)
     ne <- ncol(em)
@@ -457,7 +457,7 @@ johnson.all.pairs.sp <- function (g)
 floyd.warshall.all.pairs.sp <- function (g) 
 {
     nv <- length(nodes(g))
-    if (edgemode(g) == "directed") 
+    if (isDirected(g)) 
         em <- edgeMatrix(g)
     else em <- edgeMatrix(g, TRUE)
     ne <- ncol(em)
@@ -500,8 +500,7 @@ bellman.ford.sp <- function(g, start=nodes(g)[1])
 
 dag.sp <- function(g, start=nodes(g)[1])
 {
-    if (edgemode(g) == "undirected") 
-       stop("only applicable to directed graphs")
+    if (!isDirected(g)) stop("only applicable to directed graphs")
 
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
@@ -529,7 +528,7 @@ dag.sp <- function(g, start=nodes(g)[1])
 transitive.closure <- function (g) 
 {
     nv <- length(nodes(g))
-    if (isDirected(g))
+    if (isDirected(g)) 
         em <- edgeMatrix(g)
     else em <- edgeMatrix(g, TRUE)
     ne <- ncol(em)
@@ -555,8 +554,7 @@ transitive.closure <- function (g)
 
 max.flow.internal <- function (g, source, sink, method="Edmunds.Karp")
 {
-    if (edgemode(g) == "undirected") 
-       stop("only applicable to directed graphs")
+    if (!isDirected(g)) stop("only applicable to directed graphs")
 
     nv <- length(nodes(g))
     em <- edgeMatrix(g)
@@ -992,8 +990,8 @@ astarSearch <- function(g)
 
 is.triangulated <- function(g)
 {
-   if( edgemode(g) != "undirected")
-      stop("only appropriate for undirected graphs")
+   if( isDirected(g) ) stop("only appropriate for undirected graphs")
+
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
    ne <- ncol(em)
@@ -1007,8 +1005,7 @@ is.triangulated <- function(g)
 
 maxClique <- function(g)
 {
-   if( edgemode(g) != "undirected")
-     stop("only appropriate for undirected graphs")
+   if (isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -1024,8 +1021,7 @@ maxClique <- function(g)
 
 kCliques <- function(g)
 {
-   if( edgemode(g) != "undirected")
-      stop("only appropriate for undirected graphs")
+   if( isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -1052,8 +1048,7 @@ kCliques <- function(g)
 
 lambdaSets <- function(g)
 {
-   if( edgemode(g) != "undirected")
-      stop("only appropriate for undirected graphs")
+   if(isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -1086,8 +1081,7 @@ lambdaSets <- function(g)
 
 clusteringCoef <- function(g, Weighted=FALSE, vW=degree(g))
 {
-   if( edgemode(g) != "undirected")
-      stop("only appropriate for undirected graphs")
+   if(isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -1106,8 +1100,7 @@ clusteringCoef <- function(g, Weighted=FALSE, vW=degree(g))
 
 transitivity <- function(g) 
 {
-   if( edgemode(g) != "undirected")
-      stop("only appropriate for undirected graphs")
+   if(isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -1122,8 +1115,7 @@ transitivity <- function(g)
 
 clusteringCoefAppr <- function(g, k=length(nodes(g)), Weighted=FALSE, vW=degree(g))
 {
-   if( edgemode(g) != "undirected")
-      stop("only appropriate for undirected graphs")
+   if(isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
