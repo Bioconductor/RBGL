@@ -369,8 +369,11 @@ extractPath <- function(s, f, pens) {
     maxl <- length(pens)
     i <- 0
     while (path[1] != s) {
-        if (i > maxl)
-            stop("penultimates inconsistent with linear path from s to f")
+        if (i > maxl)        # no path available
+        {
+            path <- "NA" 
+            break
+        }
         path <- c(pens[f], path)
         f <- pens[f]
         i <- i+1
@@ -420,14 +423,19 @@ sp.between <- function (g, start, finish)
     getw <- function(nl) 
     {
          # obtain weights in g for path of nodes in char vec nl
-	 if (length(nl)<2) 
-	    stop("sp.between:getw should get paths of length 2 or more")
-         res <- rep(NA,length(nl)-1)   # only n-1 pairs
-	 wstr <- eW[nl]
-         for (i in 1:(length(nl)-1))
-            res[i]<-wstr[[i]][nl[i+1]] # need to use numerical names of weights
-	 names(res) <- paste(nl[-length(nl)], nl[-1],
-			     sep=ifelse(isDirected(g),"->","--"))
+         if ( length(nl) < 2 )
+         {
+            res <- NA
+         }
+         else
+         {
+            res <- rep(NA,length(nl)-1)   # only n-1 pairs
+	    wstr <- eW[nl]
+            for (i in 1:(length(nl)-1))
+               res[i]<-wstr[[i]][nl[i+1]] # use numerical names of weights
+	    names(res) <- paste(nl[-length(nl)], nl[-1],
+			        sep=ifelse(isDirected(g),"->","--"))
+         }
          res
     }
     ws <- lapply(ans, function(x) getw(x))
