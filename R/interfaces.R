@@ -382,6 +382,13 @@ extractPath <- function(s, f, pens) {
 sp.between <- function (g, start, finish)
 {
     nG = nodes(g)
+
+    if ( !all(start %in% nG) )
+       stop("all starting nodes have to be in the graph")
+
+    if ( !all(finish %in% nG) )
+       stop("all finishing nodes have to be in the graph")
+
     ##get the node index, given the name
     nodeind <- function(n) match(n, nG)
     if (length(finish)>=length(start))
@@ -404,8 +411,9 @@ sp.between <- function (g, start, finish)
         thisf <- fl[[thiss]]
         for (j in 1:length(thisf) ) 
         {
-            ans[[paste(thiss, thisf[j], sep = ":")]] <-
-                nG[extractPath(nodeind(thiss), nodeind(thisf[j]), curdi)]
+            if ( thiss != thisf[j] )   # dont bother with A->A case
+               ans[[paste(thiss, thisf[j], sep = ":")]] <-
+                   nG[extractPath(nodeind(thiss), nodeind(thisf[j]), curdi)]
         }
     }
 
@@ -417,7 +425,7 @@ sp.between <- function (g, start, finish)
          res <- rep(NA,length(nl)-1)   # only n-1 pairs
 	 wstr <- eW[nl]
          for (i in 1:(length(nl)-1))
-            res[i] <-  wstr[[i]][nl[i+1]] # need to use numerical names of weights
+            res[i]<-wstr[[i]][nl[i+1]] # need to use numerical names of weights
 	 names(res) <- paste(nl[-length(nl)], nl[-1],
 			     sep=ifelse(isDirected(g),"->","--"))
          res
