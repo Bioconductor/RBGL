@@ -62,7 +62,7 @@ dijkstra.sp(ospf,nodes(ospf)[6])
 sp.between(ospf, "RT6", "RT1")
 sp.between(ospf, c("RT6", "RT2"), "RT1")
 sp.between(ospf, c("RT6", "RT2"), c("RT1","RT5"))
-if (interactive()) # see an error for query on nonexistent path
+# see NAs for query on nonexistent path
 sp.between(ospf,"N10", "N13")
 }
 \keyword{ graphs }% at least one, from doc/KEYWORDS
