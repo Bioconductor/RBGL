@@ -4,7 +4,7 @@
  two other subsets of nodes. }
 \description{
 The function tests to see whether a set of nodes, \code{S1}, separates 
-all nodes in \code{a} from all nodes in \code{a}.
+all nodes in \code{a} from all nodes in \code{b}.
 }
 \usage{
 separates(a, b, S1, g)
