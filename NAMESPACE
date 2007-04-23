@@ -41,6 +41,7 @@ export(
  "minCut",
  "minDegreeOrdering",
  "mstree.kruskal",       
+ "mstree.prim",       
  "prim.minST",
  "gprofile",
  "push.relabel.max.flow",

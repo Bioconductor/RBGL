@@ -34,6 +34,12 @@ mstree.kruskal <- function(x)
 
 prim.minST <- function ( g ) 
 {
+    .Deprecated("mstree.prim", "RBGL")
+    mstree.prim(g)
+}
+
+mstree.prim <- function ( g ) 
+{
     nv <- length(nodes(g))
     em <- edgeMatrix(g, duplicates=TRUE) # conform with edgeWeights unlisted
     ne <- ncol(em)

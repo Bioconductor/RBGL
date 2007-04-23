@@ -1,9 +1,11 @@
-\name{prim.minST}
+\name{mstree.prim}
+\alias{mstree.prim}
 \alias{prim.minST}
 \title{Compute minimum spanning tree for an undirected graph}
 \description{Compute minimum spanning tree for an undirected graph}
 }
 \usage{
+mstree.prim(g)
 prim.minST(g)
 }
 \arguments{
@@ -13,6 +15,10 @@ prim.minST(g)
 \details{
 This is Prim's algorithm for solving the minimum spanning tree problem for an 
 undirected graph with weighted edges. 
+
+The function \code{prim.minST} is depricated and renamed, use 
+\code{mstree.prim} instead.
+
 See documentations on this function in Boost Graph Library for more details.
 }
 \value{
@@ -26,7 +32,7 @@ See documentations on this function in Boost Graph Library for more details.
 \seealso{\code{\link{mstree.kruskal}}}
 
 \examples{
-coex <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL"), open="r"))
-prim.minST(coex)
+coex <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
+mstree.prim(coex)
 }
 \keyword{ models }

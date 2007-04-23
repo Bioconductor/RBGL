@@ -430,11 +430,11 @@ mstree.kruskal(km)
 This graph is treated as undirected graph with corresponding weights.
 MST consists of 4 edges, {\em A->C, D->E, E->A, B->D}, each is of weight 1.
 
-The \Rfunction{prim.minST} function finds the MST by Prim's algorithm.
+The \Rfunction{mstree.prim} function finds the MST by Prim's algorithm.
 
 <<primDemo>>=
 #coex2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
-prim.minST(coex2)
+mstree.prim(coex2)
 @
 
 The graph is treated as undirected graph with default weight 1.  MST consists
