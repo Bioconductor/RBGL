@@ -64,10 +64,10 @@ and \code{finish}
 
 \examples{
 dd <- fromGXL(file(system.file("XML/bfsex.gxl",package="RBGL"), open="r"))
-bfs(dd, "r", FALSE)
-bfs(dd, "s", TRUE)
+bfs(dd, "r")
+bfs(dd, "s")
 
 dd2 <- fromGXL(file(system.file("XML/dfsex.gxl",package="RBGL"), open="r"))
-dfs(dd2, "u", FALSE)
+dfs(dd2, "u")
 }
 \keyword{ graphs }
