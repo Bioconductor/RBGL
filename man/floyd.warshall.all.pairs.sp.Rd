@@ -11,15 +11,14 @@ floyd.warshall.all.pairs.sp(g)
 }
 \details{
 Compute shortest paths between every pair of vertices for a dense graph.  
-
 The result is given as a distance matrix.
-
-For a sparse matrix, use \code{johnson.all.pairs.sp} instead.
+For a sparse graph, the \code{johnson.all.pairs.sp} functions
+should be used instead.
 
 See documentation on these algorithms in Boost Graph Library for more details.
 }
 \value{
-matrix of shortest path lengths, read from row node to col node
+A matrix of shortest path lengths between all pairs of nodes in the graph.
 }
 \references{Boost Graph Library by Siek et al. }
 \author{Li Long <li.long@isb-sib.ch>}

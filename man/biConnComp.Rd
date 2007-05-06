@@ -12,17 +12,18 @@ articulationPoints(g)
   \item{g}{an instance of the \code{graph} class} 
 }
 \details{
-A biconnected graph is a connected graph that remains connected when removing 
-any one of its vertex and all the edges incident on this vertex.  
 
+A biconnected graph is a connected graph that remains connected when 
+any one of its vertices, and all the edges incident on this vertex,
+is removed and the graph remains connected.
 A biconnected component of a graph is a subgraph which is biconnected.  An 
 integer label is assigned to each edge to indicate which biconnected component 
 it's in.
 
-A vertex is an articulation point in the graph when removing it, the number of 
-connected components in the graph will increase.
+A vertex in a graph is called an articulation point if removing it increases 
+the number of connected components.
 
-See documentation in Boost Graph Library for more details.
+See the documentation for the Boost Graph Library for more details.
 }
 \value{
 For \code{biConnComp}:

@@ -18,12 +18,13 @@ sloan.ordering(g, w1=1, w2=2)
     equal to zero then multiple elimination is enabled. The value of delta 
     specifies the difference between the minimum degree and the degree of 
     vertices that are to be eliminated.}
-  \item{w1}{ 1st Heuristical weight for the Sloan algorithm }
-  \item{w2}{ 2nd Heuristical weight for the Sloan algorithm }
+  \item{w1}{ First heuristic weight for the Sloan algorithm. }
+  \item{w2}{ Second heuristic weight for the Sloan algorithm. }
 }
 \details{
-According to the documentations on these algorithms in Boost Graph Library:
-
+ The following details were obtained from 
+the documentation of these algorithms in Boost Graph 
+Library and readers are referred their for even more detail.
 The goal of the Cuthill-Mckee (and reverse Cuthill-Mckee) ordering algorithm is
 to reduce the bandwidth of a graph by reordering the indices assigned to each
 vertex. 
@@ -36,8 +37,6 @@ wavefront of a graph by reordering the indices assigned to each vertex.
 
 The goal of the King ordering algorithm is to reduce the bandwidth of a graph 
 by reordering the indices assigned to each vertex.
-
-See documentations on these algorithms in Boost Graph Library for more details.
 
 }
 \value{
