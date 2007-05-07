@@ -27,12 +27,11 @@ See the documentation for the Boost Graph Library for more details.
 }
 \value{
 For \code{biConnComp}:
-\item{no. of biconnected components}{number of biconnected components in the graph}
-\item{biconnected components}{component label for each edge in the graph}
+a vector whose length is no. of biconnected components, each entry is a list 
+of nodes that are on the same biconnected component.
 
 For \code{articulationPoints}:
-\item{no. of articulation points}{number of articulation points in the graph}
-\item{articulation points}{list of articulation points in the graph}
+a vector of articulation points in the graph.
 
 }
 \references{Boost Graph Library by Siek et al.  }

@@ -941,11 +941,13 @@ biConnComp <- function(g)
 		PACKAGE="RBGL")
 
     ans[[2]] <- apply(ans[[2]], 2, function(x, y) y[x+1], nodes(g))
-    rownames(ans[[2]]) <- c("from", "to")
-    rownames(ans[[3]]) <- c("index")
-    list("no. of biconnected components"= ans[[1]],
-         "edges" = ans[[2]],
-         "biconnected components" = ans[[3]])
+    ans[[3]] <- ans[[3]] + 1    # comp no. starts from 1
+
+    r <- vector("list", ans[[1]])
+    for ( i in 1:ans[[1]])
+        r[[i]] <- unique(as.vector(ans[[2]][,which(ans[[3]]==i)]))
+
+    r
 }
 
 articulationPoints <- function(g)
