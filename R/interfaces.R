@@ -958,9 +958,8 @@ articulationPoints <- function(g)
         	as.integer(em-1), as.double(rep(1,ne)), 
 		PACKAGE="RBGL")
 
-    ans[[2]] <- sapply(ans[[2]]+1, function(x) { nodes(g)[x] })
-    list("no. of articulation points"= ans [[1]],
-         "articulation points" = ans[[2]])
+    ans <- sapply(ans+1, function(x) { nodes(g)[x] })
+    ans
 }
 
 kingOrdering <- function(g)

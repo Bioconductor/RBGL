@@ -291,7 +291,6 @@ extern "C"
                                   SEXP R_weights_in )
     {
         using namespace boost;
-        SEXP outvec;
 
         typedef graph_traits < Graph_ud >::edge_descriptor Edge;
         typedef graph_traits < Graph_ud >::vertex_descriptor Vertex;
@@ -300,20 +299,14 @@ extern "C"
         std::vector<Vertex> art_points;
         articulation_points(g, std::back_inserter(art_points));
 
-        SEXP ansList, nc;
-        PROTECT(ansList = allocVector(VECSXP,2));
-        PROTECT(nc = NEW_INTEGER(1));
+        SEXP outvec;
         PROTECT(outvec = allocVector(INTSXP,art_points.size()));
-
-        INTEGER(nc)[0] = art_points.size();
 
         for (int k = 0; k < art_points.size(); k++ )
             INTEGER(outvec)[k] = art_points[k];
 
-        SET_VECTOR_ELT(ansList,0,nc);
-        SET_VECTOR_ELT(ansList,1,outvec);
-        UNPROTECT(3);
-        return(ansList);
+        UNPROTECT(1);
+        return(outvec);
     }
 
     SEXP BGL_edge_connectivity_U (SEXP num_verts_in,
