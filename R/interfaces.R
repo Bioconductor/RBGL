@@ -191,51 +191,6 @@ dijkstra.sp <- function(g,start=nodes(g)[1], eW=unlist(edgeWeights(g)))
     ans
 }
 
-sp.between.old <- function(g, start, finish) 
-{
-#
-#simple vectorization  of previous sp.between
-#
-.Deprecated("sp.between", "RBGL")
-if (any(is.numeric(c(start,finish)))) 
-   stop("start and finish are required to be node names; numeric indices not allowed")
-#
- if (length(start) == 1) 
- {
-  if (length(finish) == 1) 
-     return( sp.between.scalar(g, start, finish) )
-  else 
-     { 
-        ans <- lapply( finish, 
-		       function(x,g,start)
-            		   sp.between.scalar(g,start,x), g=g, start=start )
-        names(ans)<-paste(start, finish, sep=":")
-        return(ans)
-     }
- }
- else if (length(finish) == 1)  
- {
-     ans <- lapply(start,
-	           function(x,g,finish) 
-			sp.between.scalar(g,x,finish), g=g, finish=finish)
-     names(ans)  <- paste(start, finish, sep=":")
-     return(ans)
- }
- else if (length(finish) != length(start)) 
-     stop("cannot have different nonunity lengths of start and finish")
- else 
- {
-       sf <- list();
-       for (i in 1:length(start))  
-	   sf[[i]] <- c(start[i],finish[i]);
-
-       ans <- lapply( sf, function(x) sp.between.scalar(g,x[1],x[2])) 
-
-       names(ans)  <- paste(start, finish, sep=":")
-       return(ans)
-      }
- }
-
 sp.between.scalar <- function (g, start, finish, eW=unlist(edgeWeights(g)))
 {
     f <- finish

@@ -1,6 +1,5 @@
 \name{sp.between}
 \alias{sp.between}
-\alias{sp.between.old}
 \alias{sp.between.scalar}
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{ Dijkstra's shortest paths using boost C++ }
@@ -10,7 +9,6 @@ dijkstra's shortest paths
 \usage{
 sp.between.scalar(g,start,finish, eW=unlist(edgeWeights(g))) 
 sp.between(g,start,finish) 
-sp.between.old(g,start,finish) 
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
@@ -50,7 +48,6 @@ are n-vectors, a list of n elements is returned, with ith element the distance
 and path between start[i] and finish[i].  It is an error to have
 start and finish of different nonunity lengths.
 
-sp.between.old is included for archival purposes.
 }
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
 

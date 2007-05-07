@@ -53,7 +53,6 @@ export(
  "sequential.vertex.coloring", 
  "sloan.ordering",
  "sp.between",
- "sp.between.old",       
  "sp.between.scalar",    
  "strongComp",
  "transitive.closure",
