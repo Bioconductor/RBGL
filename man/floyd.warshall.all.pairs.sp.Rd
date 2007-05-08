@@ -11,7 +11,9 @@ floyd.warshall.all.pairs.sp(g)
 }
 \details{
 Compute shortest paths between every pair of vertices for a dense graph.  
-The result is given as a distance matrix.
+It works on both undirected and directed graph.
+The result is given as a distance matrix.  The matrix is symmetric for an
+undirected graph, and asymmetric (very likely) for a directed graph.
 For a sparse graph, the \code{johnson.all.pairs.sp} functions
 should be used instead.
 
