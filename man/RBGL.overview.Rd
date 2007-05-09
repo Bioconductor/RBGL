@@ -108,5 +108,15 @@ Functions \tab parameters \cr
 \code{\link[RBGL:wavefront]{rms.wavefront}} \tab \code{g}\cr
 }
 }
+
+\references{
+Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )
+
+The Boost Graph Library: User Guide and Reference Manual;
+by Jeremy G. Siek, Lie-Quan Lee, and Andrew Lumsdaine;
+(Addison-Wesley, Pearson Education Inc., 2002), xxiv+321pp.
+ISBN 0-201-72914-8
+}
+
 \keyword{models}
 

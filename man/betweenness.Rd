@@ -2,14 +2,16 @@
 \alias{brandes.betweenness.centrality}
 \title{Compute betweenness centrality for an undirected graph}
 \description{Compute betweenness centrality for an undirected graph}
-}
+
 \usage{
 brandes.betweenness.centrality(g)
 }
+
 \arguments{
   \item{g}{an instance of the \code{graph} class with \code{edgemode}
     \dQuote{undirected}}
 }
+
 \details{
 \code{Brandes.betweenness.centrality} computes the betweenness centrality of 
 each vertex or each edge in the graph, using an algorithm by U. Brandes.
@@ -31,6 +33,7 @@ in the graph.
 See documentation on brandes betweenness centrality in Boost Graph Library 
 for more details.
 }
+
 \value{
   A list of
 \item{betweenness.centrality.vertices}{betweenness centrality of each vertex}
@@ -38,7 +41,16 @@ for more details.
 \item{relative.betweenness.centrality.vertices}{relative betweenness centrality of each vertex}
 \item{dominance}{maximum betweenness of any point in the graph}
 }
-\references{Boost Graph Library by Siek et al.  }
+
+\references{
+Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )
+
+The Boost Graph Library: User Guide and Reference Manual;
+by Jeremy G. Siek, Lie-Quan Lee, and Andrew Lumsdaine;
+(Addison-Wesley, Pearson Education Inc., 2002), xxiv+321pp.
+ISBN 0-201-72914-8
+}
+
 \author{Li Long <li.long@isb-sib.ch>}
 
 \seealso{\code{\link{betweenness.centrality.clustering}}}
@@ -49,3 +61,4 @@ coex <- ugraph(coex)
 brandes.betweenness.centrality(coex)
 }
 \keyword{ models }
+

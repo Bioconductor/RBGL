@@ -1,15 +1,18 @@
 \name{kCores}
 \alias{kCores}
 \title{Find all the k-cores in a graph}
+
 \description{Find all the k-cores in a graph }
-}
+
 \usage{
 kCores(g, EdgeType=c("in", "out"))
 }
+
 \arguments{
   \item{g}{an instance of the \code{graph} class }
   \item{EdgeType} {what types of edges to be considered when \code{g} is directed }
 }
+
 \details{
 A k-core in a graph is a subgraph where each node is adjacent to at least a minimum number, k, of the other nodes in the subgraph.
 

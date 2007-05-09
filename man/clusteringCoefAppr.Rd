@@ -2,16 +2,18 @@
 \alias{clusteringCoefAppr}
 \title{Approximate clustering coefficient for an undirected graph}
 \description{Approximate clustering coefficient for an undirected graph }
-}
+
 \usage{
 clusteringCoefAppr(g, k=length(nodes(g)), Weighted=FALSE, vW=degree(g))
 }
+
 \arguments{
   \item{g}{an instance of the \code{graph} class }
   \item{Weighted}{calculate weighted clustering coefficient or not}
   \item{vW}{vertex weights to use when calculating weighted clustering coefficient}
   \item{k}{parameter controls total expected runtime}
 }
+
 \details{
 It is quite expensive to compute cluster coefficient and transitivity exactly 
 for a large graph by computing the number of triangles in the graph.  Instead, 
@@ -22,6 +24,7 @@ MORE ABOUT CHOICE OF K.
 
 See reference for more details.
 }
+
 \value{
 Approximated clustering coefficient for graph \code{g}.
 }

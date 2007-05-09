@@ -4,13 +4,16 @@
 \alias{fruchtermanReingoldForceDirectedLayout}
 \alias{gursoyAtunLayout}
 \alias{randomGraphLayout}
+
 \title{Layout an undirected graph in 2D}
+
 \description{Layout an undirected graph in 2D}
-}
+
 \usage{
 circle.layout(g, radius=1)
 kamada.kawai.spring.layout( g, edge_or_side=1, es_length=1 )
 }
+
 \arguments{
   \item{g}{an instance of the \code{graph} class with \code{edgemode}
     \dQuote{undirected}}
@@ -19,6 +22,7 @@ kamada.kawai.spring.layout( g, edge_or_side=1, es_length=1 )
     side, default is for an edge }
   \item{es_length}{the length of an edge or a side for layout }
 }
+
 \details{
 According to the documentation on these algorithms in Boost Graph Library:
 \code{circle.layout} layouts the graph with the vertices at the points of a 
@@ -40,10 +44,20 @@ topology.  It's based on self-organized maps.
 
 See documentation on this function in Boost Graph Library for more details.
 }
+
 \value{
   A list of the (x, y)-coordinates for vertices in the graph.
 }
-\references{Boost Graph Library by Siek et al.  }
+
+\references{
+Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )
+
+The Boost Graph Library: User Guide and Reference Manual;
+by Jeremy G. Siek, Lie-Quan Lee, and Andrew Lumsdaine;
+(Addison-Wesley, Pearson Education Inc., 2002), xxiv+321pp.
+ISBN 0-201-72914-8
+}
+
 \author{Li Long <li.long@isb-sib.ch>}
 
 \seealso{}

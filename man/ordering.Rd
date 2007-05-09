@@ -3,14 +3,17 @@
 \alias{minDegreeOrdering}
 \alias{sloan.ordering}
 \alias{kingOrdering}
+
 \title{Compute vertex ordering for an undirected graph}
+
 \description{Compute vertex ordering for an undirected graph}
-}
+
 \usage{
 cuthill.mckee.ordering(g)
 minDegreeOrdering(g, delta=0)
 sloan.ordering(g, w1=1, w2=2)
 }
+
 \arguments{
   \item{g}{an instance of the \code{graph} class with \code{edgemode}
     \dQuote{undirected}}
@@ -21,6 +24,7 @@ sloan.ordering(g, w1=1, w2=2)
   \item{w1}{ First heuristic weight for the Sloan algorithm. }
   \item{w2}{ Second heuristic weight for the Sloan algorithm. }
 }
+
 \details{
  The following details were obtained from 
 the documentation of these algorithms in Boost Graph 
@@ -39,6 +43,7 @@ The goal of the King ordering algorithm is to reduce the bandwidth of a graph
 by reordering the indices assigned to each vertex.
 
 }
+
 \value{
 \item{cuthill.mckee.ordering}{ returns a list with elements:}
      \item{reverse cuthill.mckee.ordering}{the vertices in the new ordering}
@@ -57,7 +62,16 @@ by reordering the indices assigned to each vertex.
      \item{aver.wavefront}{aver.wavefront of the graph after reordering}
      \item{rms.wavefront}{rms.wavefront of the graph after reordering}
 }
-\references{Boost Graph Library by Siek et al.  }
+
+\references{
+Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )
+
+The Boost Graph Library: User Guide and Reference Manual;
+by Jeremy G. Siek, Lie-Quan Lee, and Andrew Lumsdaine;
+(Addison-Wesley, Pearson Education Inc., 2002), xxiv+321pp.
+ISBN 0-201-72914-8
+}
+
 \author{Li Long <li.long@isb-sib.ch>}
 
 \seealso{ }

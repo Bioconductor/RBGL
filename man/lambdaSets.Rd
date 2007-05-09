@@ -1,6 +1,8 @@
 \name{lambdaSets}
 \alias{lambdaSets}
+
 \title{Find all the lambda-sets in an undirected graph}
+
 \description{Find all the lambda-sets in an undirected graph }
 
 \usage{

@@ -2,15 +2,17 @@
 \alias{clusteringCoef}
 \title{Calculate clustering coefficient for an undirected graph}
 \description{Calculate clustering coefficient for an undirected graph }
-}
+
 \usage{
 clusteringCoef(g, Weighted=FALSE, vW=degree(g))
 }
+
 \arguments{
   \item{g}{an instance of the \code{graph} class }
   \item{Weighted}{calculate weighted clustering coefficient or not}
   \item{vW}{vertex weights to use when calculating weighted clustering coefficient}
 }
+
 \details{
 For an undirected graph {G}, let delta(v) be the number of triangles with {v} 
 as a node, let tau(v) be the number of triples, i.e., paths of length 2 with 
@@ -26,6 +28,7 @@ for all \code{v} in V'.
 Define weighted clustering coefficient for \code{G}, 
 Cw(G) = sum(w(v) * c(v)) / sum(w(v)), for all \code{v} in V'.
 }
+
 \value{
 Clustering coefficient for graph \code{g}.
 }

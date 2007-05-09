@@ -1,6 +1,7 @@
 \name{kCliques}
 \alias{kCliques}
 \title{Find all the k-cliques in an undirected graph}
+
 \description{Find all the k-cliques in an undirected graph }
 
 \usage{

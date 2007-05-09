@@ -1,14 +1,18 @@
 \name{transitivity}
 \alias{transitivity}
+
 \title{Calculate transitivity for an undirected graph}
+
 \description{Calculate transitivity for an undirected graph }
-}
+
 \usage{
 transitivity(g)
 }
+
 \arguments{
   \item{g}{an instance of the \code{graph} class }
 }
+
 \details{
 For an undirected graph {G}, let delta(v) be the number of triangles with {v} 
 as a node, let tau(v) be the number of triples, i.e., paths of length 2 with 
@@ -16,6 +20,7 @@ as a node, let tau(v) be the number of triples, i.e., paths of length 2 with
 
 Define transitivity T(G) = sum(delta(v)) / sum(tau(v)), for all v in V.
 }
+
 \value{
 Transitivity for graph \code{g}.
 }

@@ -2,21 +2,24 @@
 \alias{sp.between}
 \alias{sp.between.scalar}
 %- Also NEED an `\alias' for EACH other topic documented here.
+
 \title{ Dijkstra's shortest paths using boost C++ }
-\description{
-dijkstra's shortest paths
-}
+
+\description{ dijkstra's shortest paths }
+
 \usage{
 sp.between.scalar(g,start,finish, eW=unlist(edgeWeights(g))) 
 sp.between(g,start,finish) 
 }
 %- maybe also `usage' for other objects documented here.
+
 \arguments{
   \item{g}{ instance of class graph }
   \item{start}{ character: node name(s) for start of path  }
   \item{finish}{ character vector: node names for end of path}
   \item{eW}{ numeric: edge weights.  }
 }
+
 \details{
 These functions are interfaces to the Boost graph library C++
 routines for Dijkstra's shortest paths.
@@ -35,7 +38,6 @@ a list of results of repeated application of \code{sp.between.scalar}
 is returned.
 }
 
-
 \note{
 sp.between returns a list whose size depends upon the start and
 finish arguments.  If start and finish are both scalar, then
@@ -49,6 +51,7 @@ and path between start[i] and finish[i].  It is an error to have
 start and finish of different nonunity lengths.
 
 }
+
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
 
 \seealso{\code{\link{bellman.ford.sp}}, \code{\link{dag.sp}}, \code{\link{dijkstra.sp}}, \code{\link{johnson.all.pairs.sp}}}
