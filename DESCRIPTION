@@ -10,4 +10,4 @@ Description: demo of interface with full copy of all hpp defining boost
 biocViews: GraphsAndNetworks
 License: The Artistic License, Version 2.0
 URL: http://www.bioconductor.org
-SaveImage: yes
+LazyLoad: yes
