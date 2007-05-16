@@ -48,5 +48,4 @@ ISBN 0-201-72914-8
  FD2 <- addEdge("bar_o", "dax_h", FD2, 1)
  tsort(FD2)
  }
-}
 \keyword{ graphs }% at least one, from doc/KEYWORDS

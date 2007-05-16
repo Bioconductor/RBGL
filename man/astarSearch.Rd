@@ -2,7 +2,6 @@
 \alias{astarSearch}
 \title{Compute astarSearch for a graph}
 \description{Compute astarSearch for a graph}
-}
 \usage{
 astarSearch(g)
 }
