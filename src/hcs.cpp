@@ -75,24 +75,38 @@ static void build_subgraph(Cluster& vs_vec,
             tie(e1, inserted) = add_edge(u, v, g_out);
     }
 
-    // remove singleton vertices, i.e. remove vertices NOT in vs_set
+    // remove vertices NOT in vs_set
     // complication comes from renumbering of vertices after removal
     vertex_iterator vvi, vvi_end;
     bool try_again = TRUE;
 
+    V_Label flags(num_vertices(g_out), 0);
+    V_Label::iterator fi;
+    for ( tie(vvi, vvi_end) = vertices(g_out); vvi != vvi_end; vvi++ )
+    {
+        if ( vs_set.count(*vvi) == 1 ) flags[*vvi] = 1;
+    }
+
     while ( try_again )
     {
         try_again = FALSE;
-        for ( tie(vvi, vvi_end) = vertices(g_out); vvi != vvi_end; vvi++ )
+        fi = flags.begin();
+        for ( tie(vvi, vvi_end) = vertices(g_out); vvi != vvi_end; vvi++, fi++ )
         {
-            if ( out_degree(*vvi, g_out) == 0 )
+            if ( *fi == 0 )
             {
                 boost::remove_vertex(*vvi, g_out);
+		flags.erase(fi);
                 try_again = TRUE;
                 break;
             }
         }
     }
+
+#if DEBUG
+    output_graph(g_out, "build_subgraph: ");
+    output_graph_labels(v_label_out, "build_subgraph: ");
+#endif
 }
 
 // repeatedly remove all vertices of degree < LDV[i] from G
@@ -249,7 +263,13 @@ static void remove_clusters(ClusterResult& clusters,
         if ( v_set.count(v_label_in[i]) == 0 )
             v_vec.push_back(i);
 
-    build_subgraph(v_vec, g_in, v_label_in, g_out, v_label_out);
+    Graph_ud gt_out(num_vertices(g_in));
+    V_Label vt_label_out;
+
+    build_subgraph(v_vec, g_in, v_label_in, gt_out, vt_label_out);
+ 
+    g_out = gt_out;
+    v_label_out = vt_label_out;
 }
 
 // basic algorithm:
@@ -371,6 +391,12 @@ static SEXP HCS_loop(Graph_ud& g, V_Label& v_label)
 
         // COMMENT OUT to test "adopt_singleton"
         remove_vertices(LDV[i], g, v_label, g1, v_label_orig1);
+        
+        if ( num_vertices(g1) == 0 ) 
+        {
+           g1 = g;
+	   v_label_orig1 = v_label;
+        }
 
 #if DEBUG
         output_graph(g1, "after removing vertices: ");
