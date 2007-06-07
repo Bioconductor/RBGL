@@ -458,6 +458,8 @@ extern "C"
         // checking of parameters are done in R codes
         singleton_adoption_threshold = INTEGER(sat)[0];
         ne = INTEGER(lldv)[0];
+
+        LDV.clear();
         for ( i = 0; i < ne; i++ ) LDV.push_back(INTEGER(ldv)[i]);
 
         // assign labels to vertices
