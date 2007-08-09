@@ -176,7 +176,7 @@ dijkstra.sp <- function(g,start=nodes(g)[1], eW=unlist(edgeWeights(g)))
     ne <- ncol(em)
 
     if ( any(eW[eW < 0]) ) 
-      stop("dijkstra.sp requies that all edge weights are nonnegative")
+      stop("'dijkstra.sp' requires that all edge weights are nonnegative")
 
     ans <- .Call("BGL_dijkstra_shortest_paths_D", 
 		as.integer(nv), as.integer(ne), 
@@ -366,7 +366,7 @@ sp.between <- function (g, start, finish)
     eWW <- unlist(eW)
 
     if ( any(eWW[eWW < 0]) ) 
-      stop("sp.between requies that all edge weights are nonnegative")
+      stop("'sp.between' requires that all edge weights are nonnegative")
 
     for (i in 1:length(ust)) 
     {
@@ -841,7 +841,7 @@ brandes.betweenness.centrality <- function ( g )
    eW <- unlist(edgeWeights(g))
 
    if ( any(eW[eW <= 0]) ) 
-      stop("brandes.betweenness.centrality requies that all edge weights are positive")
+      stop("'brandes.betweenness.centrality' requires that all edge weights are positive")
 
    ans <- .Call("BGL_brandes_betweenness_centrality", 
 	        as.integer(nv), as.integer(ne), as.integer(em-1), 
