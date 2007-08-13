@@ -191,31 +191,6 @@ dijkstra.sp <- function(g,start=nodes(g)[1], eW=unlist(edgeWeights(g)))
     ans
 }
 
-sp.between.scalar <- function (g, start, finish, eW=unlist(edgeWeights(g)))
-{
-    f <- finish
-    s <- start
-    if (length(f) >1) stop("finish must be scalar")
-    if (length(s) >1) stop("start must be scalar")
-    no <- nodes(g)
-    if (any(is.na(lk <- match(c(s, f), no))))
-        stop(paste(paste(c(s, f)[is.na(lk)], collapse = " "),
-            "not in nodes of g"))
-    s <- (1:length(no))[no == s]
-    f <- (1:length(no))[no == f]
-    ff <- f
-    sp <- dijkstra.sp(g, start, eW)
-    if (sp$distances[ff] >= .Machine$double.xmax)
-		stop(paste("no path from",no[s],"to",no[f]))
-    pens <- sp$penult
-    path <- f
-    while (path[1] != s) {
-        path <- c(pens[f], path)
-        f <- pens[f]
-    }
-    list(length = sp$distances[ff], path = no[path])
-}
-
 connectedComp <- function (g)
 {
     nv <- length(nodes(g))
@@ -343,7 +318,7 @@ extractPath <- function(s, f, pens) {
 }
 
 
-sp.between <- function (g, start, finish)
+sp.between.internal <- function (g, start, finish, detail=TRUE)
 {
     nG = nodes(g)
 
@@ -359,11 +334,12 @@ sp.between <- function (g, start, finish)
         fl <- split(finish, start)
     else if (length(finish)==1)
         fl <- split(rep(finish,length(start)),start)
+
     ust <- unique(start)
     ans <- list()
     ws <- list()
-    eW = edgeWeights(g)
-    eWW <- unlist(eW)
+    eW=edgeWeights(g)
+    eWW=unlist(eW)
 
     if ( any(eWW[eWW < 0]) ) 
       stop("'sp.between' requires that all edge weights are nonnegative")
@@ -401,16 +377,29 @@ sp.between <- function (g, start, finish)
     }
     ws <- lapply(ans, function(x) getw(x))
     ls <- lapply(ws, sum)
-    ans2 <- list()
     ns <- names(ans)
+    ans2 <- vector("list", length=length(ns))
     for (i in 1:length(ns))
     {
-      ans2[[ns[i]]] <- list()
-      ans2[[ns[i]]]$path <- ans[[ns[i]]]
-      ans2[[ns[i]]]$length <- ls[[i]]
-      ans2[[ns[i]]]$pweights <- ws[[i]]
+      ans2[[i]] <- list(path=ns[i], length=ls[[i]])
+      if ( detail )
+      {
+         ans2[[i]] <- c(ans2[[i]], 
+                        path_detail=list(ans[[ns[i]]]), 
+                        length_detail=list(ws[[i]]))
+      }
     }
     ans2
+}
+
+sp.between.scalar <- function (g, start, finish)
+{
+   sp.between.internal(g, start, finish, detail=FALSE)
+}
+
+sp.between <- function (g, start, finish)
+{
+   sp.between.internal(g, start, finish)
 }
 
 johnson.all.pairs.sp <- function (g) 
