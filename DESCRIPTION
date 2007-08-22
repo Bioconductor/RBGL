@@ -1,5 +1,5 @@
 Package: RBGL
-Version: 1.13.4
+Version: 1.13.5
 Title: Interface to boost C++ graph lib
 Author: Vince Carey <stvjc@channing.harvard.edu>, Li Long
         <lilong@isb-sib.ch>, R. Gentleman

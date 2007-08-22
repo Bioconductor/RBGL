@@ -317,9 +317,16 @@ extractPath <- function(s, f, pens) {
     as.numeric(path)
 }
 
-
-sp.between.internal <- function (g, start, finish, detail=TRUE)
+sp.between.scalar <- function (g, start, finish)
 {
+    stop("sp.between.scalar is obsolete, use sp.between instead")
+}
+
+sp.between <- function (g, start, finish, detail=TRUE)
+{
+    if ( length(start) <= 0 || length(finish) <= 0 )
+       stop("missing starting or finishing nodes")
+
     nG = nodes(g)
 
     if ( !all(start %in% nG) )
@@ -330,12 +337,11 @@ sp.between.internal <- function (g, start, finish, detail=TRUE)
 
     ##get the node index, given the name
     nodeind <- function(n) match(n, nG)
-    if (length(finish)>=length(start))
-        fl <- split(finish, start)
-    else if (length(finish)==1)
-        fl <- split(rep(finish,length(start)),start)
 
-    ust <- unique(start)
+    tmp = cbind(start, finish)
+    fl = split(tmp[,2], tmp[,1])
+
+    ustart <- unique(start)
     ans <- list()
     ws <- list()
     eW=edgeWeights(g)
@@ -344,27 +350,24 @@ sp.between.internal <- function (g, start, finish, detail=TRUE)
     if ( any(eWW[eWW < 0]) ) 
       stop("'sp.between' requires that all edge weights are nonnegative")
 
-    for (i in 1:length(ust)) 
+    for (i in 1:length(ustart)) 
     {
-        curdi <- dijkstra.sp(g, ust[i], eWW)$penult
-        thiss <- ust[i]
+        curdi <- dijkstra.sp(g, ustart[i], eWW)$penult
+        thiss <- ustart[i]
         thisf <- fl[[thiss]]
         for (j in 1:length(thisf) ) 
         {
-            if ( thiss != thisf[j] )   # dont bother with A->A case
-               ans[[paste(thiss, thisf[j], sep = ":")]] <-
+             ans[[paste(thiss, thisf[j], sep = ":")]] <-
                    nG[extractPath(nodeind(thiss), nodeind(thisf[j]), curdi)]
         }
     }
 
     getw <- function(nl) 
     {
+         res <- NA
+
          # obtain weights in g for path of nodes in char vec nl
-         if ( length(nl) < 2 )
-         {
-            res <- NA
-         }
-         else
+         if ( length(nl) > 1 )
          {
             res <- rep(NA,length(nl)-1)   # only n-1 pairs
 	    wstr <- eW[nl]
@@ -376,30 +379,19 @@ sp.between.internal <- function (g, start, finish, detail=TRUE)
          res
     }
     ws <- lapply(ans, function(x) getw(x))
-    ls <- lapply(ws, sum)
-    ns <- names(ans)
-    ans2 <- vector("list", length=length(ns))
-    for (i in 1:length(ns))
+    lens <- lapply(ws, sum)
+    ans2 <- vector("list", length=length(ans))
+    names(ans2) = names(ans)
+    for (i in 1:length(ans))
     {
-      ans2[[i]] <- list(path=ns[i], length=ls[[i]])
-      if ( detail )
-      {
-         ans2[[i]] <- c(ans2[[i]], 
-                        path_detail=list(ans[[ns[i]]]), 
-                        length_detail=list(ws[[i]]))
-      }
+       if ( detail ) 
+        ans2[[i]] <- list(length=lens[[i]],
+                          path_detail=list(ans[[i]]), 
+                          length_detail=list(ws[[i]]))
+       else
+        ans2[[i]] <- list(length=lens[[i]])
     }
     ans2
-}
-
-sp.between.scalar <- function (g, start, finish)
-{
-   sp.between.internal(g, start, finish, detail=FALSE)
-}
-
-sp.between <- function (g, start, finish)
-{
-   sp.between.internal(g, start, finish)
 }
 
 johnson.all.pairs.sp <- function (g) 
