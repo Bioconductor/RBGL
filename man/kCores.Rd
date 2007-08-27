@@ -16,6 +16,11 @@ kCores(g, EdgeType=c("in", "out"))
 \details{
 A k-core in a graph is a subgraph where each node is adjacent to at least a minimum number, k, of the other nodes in the subgraph.
 
+A k-core in a graph may not be connected.  
+
+The core number for each node is the highest k-core this node is in.  A node in
+a k-core will be, by definition, in a (k-1)-core.
+
 The implementation is based on the algorithm by V. Batagelj and M. Zaversnik, 2002.
 
 The example \code{snacoreex.gxl} is in the paper by V. Batagelj and M. Zaversnik, 2002.

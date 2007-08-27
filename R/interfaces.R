@@ -386,7 +386,7 @@ sp.between <- function (g, start, finish, detail=TRUE)
     {
        if ( detail ) 
         ans2[[i]] <- list(length=lens[[i]],
-                          path_detail=list(ans[[i]]), 
+                          path_detail=as.vector(ans[[i]]), 
                           length_detail=list(ws[[i]]))
        else
         ans2[[i]] <- list(length=lens[[i]])

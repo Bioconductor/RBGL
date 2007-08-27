@@ -33,8 +33,8 @@ Function \code{sp.between} returns a list of info on the shortest paths.  Each
 such shortest path is designated by its starting node and its ending node.  
 Each element in the returned list contains:
 \item{length}{total length (using edge weights) of this shortest path},
-\item{path_detail}{if requested, names of the nodes on the shortest path},
-\item{length_detail}{if requested, edge weights of this shortest path}.
+\item{path_detail}{if requested, a vector of names of the nodes on the shortest path},
+\item{length_detail}{if requested, a list of edge weights of this shortest path}.
 
 See \code{\link[graph]{pathWeights}} for caveats about undirected graph representation.
 }
