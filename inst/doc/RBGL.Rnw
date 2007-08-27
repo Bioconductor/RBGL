@@ -93,62 +93,172 @@ all the internal vertices have the same incoming flow as the outgoing flow,
 \subsection{Examples in use}
 We are going to use the following graphs repeatedly in the examples.
 
+<<bfDemo>>=
+con <- file(system.file("XML/bfsex.gxl", package="RBGL"))
+bf <- fromGXL(con)
+close(con)
+@
+
+<<figbf, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
+  plot(bf, main="a) Breath-First Search Example")
+@
+
+<<dfDemo>>=
+con <- file(system.file("XML/dfsex.gxl", package="RBGL"))
+df <- fromGXL(con)
+close(con)
+@
+
+<<figdf, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
+  plot(df, main="b) Depth-First Search Example")
+@
+
 <<dijkstraDemo>>=
-dijk <- fromGXL(file(system.file("XML/dijkex.gxl", package="RBGL")))
+con <- file(system.file("XML/dijkex.gxl", package="RBGL"))
+dijk <- fromGXL(con)
+close(con)
 @
 
 <<figdijk, fig=TRUE, echo=FALSE, results=hide, include=FALSE>>=
- plot(dijk, main="a) Dijkstra's Example")
+ plot(dijk, main="c) Dijkstra's Example")
 @
 
 <<connDemo>>=
-coex <- fromGXL(file(system.file("XML/conn.gxl", package="RBGL")))
+con <- file(system.file("XML/conn.gxl", package="RBGL"))
+coex <- fromGXL(con)
+close(con)
 @
 
 <<figcoex, fig=TRUE, echo=FALSE, results=hide, include=FALSE>>=
- plot(coex, main="b) Coex Example")
+ plot(coex, main="d) Coex Example")
 @
 
 <<conn2Demo>>=
-coex2 <- fromGXL(file(system.file("XML/conn2.gxl", package="RBGL")))
+con <- file(system.file("XML/conn2.gxl", package="RBGL"))
+coex2 <- fromGXL(con)
+close(con)
 @
 
 <<figcoex2, fig=TRUE, echo=FALSE, results=hide, include=FALSE >>=
-  plot(coex2, main="c) Coex2 Example")
+  plot(coex2, main="e) Coex2 Example")
 @
 
-<<hcsDemo>>=
-hcs <- fromGXL(file(system.file("XML/hcs.gxl", package="RBGL")))
+<<conn2iDemo>>=
+con <- file(system.file("XML/conn2iso.gxl", package="RBGL"))
+coex2i <- fromGXL(con)
+close(con)
 @
 
-<<fighcs, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
-  plot(hcs, main="d) HCS Example")
+<<figcoex2i, fig=TRUE, echo=FALSE, results=hide, include=FALSE >>=
+  plot(coex2i, main="f) Coex2 Isomorphism Example")
 @
 
 <<kmstDemo>>=
-km <- fromGXL(file(system.file("XML/kmstEx.gxl", package="RBGL")))
+con <- file(system.file("XML/kmstEx.gxl", package="RBGL"))
+km <- fromGXL(con)
+close(con)
 @
 
 <<figkmst, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
-  plot(km, main="d) Kruskal MST Example")
+  plot(km, main="g) Kruskal MST Example")
+@
+
+<<bicoDemo>>=
+con <- file(system.file("XML/biconn.gxl", package="RBGL"))
+bicoex <- fromGXL(con)
+close(con)
+@
+
+<<figbico, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
+  plot(bicoex, main="h) Biconnected Component Example")
+@
+
+<<ospfDemo>>=
+con <- file(system.file("XML/ospf.gxl", package="RBGL"))
+ospf <- fromGXL(con)
+close(con)
+@
+
+<<figospf, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
+  plot(ospf, main="i) Ospf Example")
+@
+
+<<zzDemo>>=
+con <- file(system.file("dot/joh.gxl", package="RBGL"))
+joh <- fromGXL(con)
+close(con)
+@
+
+<<figjoh, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
+  plot(joh, main="j) joh Example")
+@
+
+<<hcsDemo>>=
+con <- file(system.file("XML/hcs.gxl", package="RBGL"))
+hcs <- fromGXL(con)
+close(con)
+@
+
+<<fighcs, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
+  plot(hcs, main="k) HCS Example")
+@
+
+<<kclexDemo>>=
+con <- file(system.file("XML/snacliqueex.gxl", package="RBGL"))
+kclex <- fromGXL(con)
+close(con)
+@
+
+<<figkclex, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
+  plot(kclex, main="l) kCliques Example")
+@
+
+<<kcoexDemo>>=
+con <- file(system.file("XML/snacoreex.gxl", package="RBGL"))
+kcoex <- fromGXL(con)
+close(con)
+@
+
+<<figkcoex, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
+  plot(kcoex, main="m) kCores Example")
 @
 
 \begin{figure}[tp]
 \begin{center}
 \begin{tabular}{cc}
+\includegraphics[width=0.49\textwidth]{RBGL-figbf} &
+\includegraphics[width=0.49\textwidth]{RBGL-figdf} \\
 \includegraphics[width=0.49\textwidth]{RBGL-figdijk} &
 \includegraphics[width=0.49\textwidth]{RBGL-figcoex} \\
-\includegraphics[width=0.49\textwidth]{RBGL-figcoex2}&
-\includegraphics[width=0.49\textwidth]{RBGL-fighcs} \\
-\includegraphics[width=0.49\textwidth]{RBGL-figkmst}\\
 \end{tabular}
 \end{center}
 \caption{\label{fig:graphex}%
-a) The graph for Dijkstra's example.
-b) The graph for the Coex example.
-c) The graph for the Coex2 example.
-d) The graph for the HCS example.
-e) The graph for the Kruskal MST example. }
+The example graphs (I). }
+\end{figure}
+
+\begin{figure}[tp]
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[width=0.49\textwidth]{RBGL-figcoex2} &
+\includegraphics[width=0.49\textwidth]{RBGL-figcoex2i} \\
+\includegraphics[width=0.49\textwidth]{RBGL-figkmst} &
+\includegraphics[width=0.49\textwidth]{RBGL-figbico} \\
+\end{tabular}
+\end{center}
+\caption{\label{fig:graphex}%
+The example graphs (II). }
+\end{figure}
+
+\begin{figure}[tp]
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[width=0.49\textwidth]{RBGL-fighcs} &
+\includegraphics[width=0.49\textwidth]{RBGL-figkclex} \\
+\includegraphics[width=0.49\textwidth]{RBGL-figkcoex} \\
+\end{tabular}
+\end{center}
+\caption{\label{fig:graphex}%
+The example graphs (III). }
 \end{figure}
 
 \section{Working with the Bioconductor {\tt graph} class}
@@ -177,7 +287,6 @@ discovery and finish order in a depth-first-search (DFS), starting at the
 given vertex.
 
 <<DFSdemo>>=
-df <- fromGXL(file(system.file("XML/dfsex.gxl", package="RBGL")))
 print(dfs.res <- dfs(df, "y"))
 @
 
@@ -214,7 +323,6 @@ The \Rfunction{bfs} function returns a vector of node names of discovery order
 in a breadth-first search (BFS), starting at the given vertex. 
 
 <<BFSdemo>>=
-bf <- fromGXL(file(system.file("XML/bfsex.gxl", package="RBGL")))
 print(bfs.res <- bfs(bf,"s"))
 @
 
@@ -295,7 +403,6 @@ graphs (directed or undirected) with non-negative weights on edges.
 If all the edges have the same weight, use depth-first-search instead.
 
 <<dijkdemo1>>=
-#dijk <- fromGXL(file(system.file("XML/dijkex.gxl", package="RBGL")))
 nodes(dijk)
 edgeWeights(dijk)
 dijkstra.sp(dijk)
@@ -318,7 +425,6 @@ the shortest path from {\em A} to {\em B} goes through
 %%for --- Vince?
 
 <<dijkdemo2>>=
-ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL")))
 nodes(ospf)[6]
 dijkstra.sp(ospf,nodes(ospf)[6])
 sp.between(ospf, "RT6", "RT1")
@@ -342,7 +448,7 @@ edge weights.  The default source is the first entry in the list of nodes
 in the graph.   
 
 <<bellmanfordDemo>>=
-dd <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
+dd <- coex2
 nodes(dd)
 bellman.ford.sp(dd)
 bellman.ford.sp(dd,nodes(dd)[2])
@@ -361,7 +467,7 @@ both Dijkstra's and Bellman-Ford's algorithms.  When all the edges have the
 same weight, use depth-first-search instead.
 
 <<DAGDemo>>=
-dd <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
+dd <- coex2
 dag.sp(dd)
 dag.sp(dd,nodes(dd)[2])
 @
@@ -377,7 +483,7 @@ path goes from {\em B} to {\em A}, the distance is {\em Inf}.
 vertices in a sparse graph.  Its time complexity is {\it O(V E log V)}.
 
 <<johnsonDemo>>=
-zz <- fromGXL(file(system.file("dot/joh.gxl", package="RBGL")))
+zz <- joh
 edgeWeights(zz)
 johnson.all.pairs.sp(zz)
 @
@@ -402,7 +508,6 @@ distance from {\em a} to {\em c} is -3.
 of vertices in a dense graph.
 
 <<floydwarshallDemo>>=
-#coex <- fromGXL(file(system.file("XML/conn.gxl", package="RBGL")))
 floyd.warshall.all.pairs.sp(coex)
 @
 All edge distances are assumed to be 1, if not given.  Since the graph is
@@ -423,7 +528,6 @@ The \Rfunction{mstree.kruskal} function finds the MST
 by Kruskal's algorithm.
 
 <<KMSTdemo>>=
-#km <- fromGXL(file(system.file("XML/kmstEx.gxl", package="RBGL")))
 mstree.kruskal(km)
 @
 
@@ -433,7 +537,6 @@ MST consists of 4 edges, {\em A->C, D->E, E->A, B->D}, each is of weight 1.
 The \Rfunction{mstree.prim} function finds the MST by Prim's algorithm.
 
 <<primDemo>>=
-#coex2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
 mstree.prim(coex2)
 @
 
@@ -453,18 +556,26 @@ The \Rfunction{connectedComp} function computes the connected components
 in an undirected graph.
 
 <<conndemo>>=
-#km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
 km1 <- km
 km1 <- graph::addNode(c("F","G","H"), km1)
 km1 <- addEdge("G", "H", km1, 1)
 km1 <- addEdge("H", "G", km1, 1)
 connectedComp(ugraph(km1))
 @
-\begin{figure}
-<<figkm1, fig=TRUE, echo=false>>=
-z <- plot(km1)
+
+<<figkm1, fig=TRUE, echo=false, results=hide, include=FALSE >>=
+plot(km1, main="Modified Kruskal MST example")
 @
-\caption{Modified Kruskal MST example from Boost library.}
+
+\begin{figure}[tp]
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[width=0.49\textwidth]{RBGL-figkmst} &
+\includegraphics[width=0.49\textwidth]{RBGL-figkm1} \\
+\end{tabular}
+\end{center}
+\caption{\label{fig:graphex}%
+Kruskal MST examples. }
 \end{figure}
 
 The original graph has one connected component. 
@@ -480,7 +591,6 @@ The \Rfunction{strongComp} function computes the strongly connected components
 in a directed graph.
 
 <<sconndemo>>=
-#km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
 km2 <- km
 km2 <- graph::addNode(c("F","G","H"), km2)
 km2 <- addEdge("G", "H", km2, 1)
@@ -502,7 +612,6 @@ The \Rfunction{articulationPoints} function finds all the articulation points
 in an undirected graph.
 
 <<biConnCompdemo>>=
-bicoex <- fromGXL(file(system.file("XML/biconn.gxl",package="RBGL")))
 biConnComp(bicoex)
 articulationPoints(bicoex)
 @
@@ -536,8 +645,6 @@ start on a new graph, you need to call \Rfunction{init.incremental.components}
 first.
 
 <<incrCompdemo>>=
-#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
-#hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
 jcoex <- join(coex, hcs)
 x <- init.incremental.components(jcoex)
 incremental.components(jcoex)
@@ -574,7 +681,6 @@ The functions, \Rfunction{edmunds.karp.max.flow} and
 available to find the maximum flow between source and sink.
 
 <<MaxFlowdemo>>=
-#dijk <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 edgeWeights(dijk)
 edmunds.karp.max.flow(dijk, "B", "D")
 push.relabel.max.flow(dijk, "C", "B")
@@ -609,9 +715,8 @@ in matrix reordering, which turns a system of equations {\em A x = b} to
 renumbering its vertices.
 
 <<SparseMatrixOrderingdemo>>=
-#dijk <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 dijk1 <- dijk
-dijk1 <- ugraph(dijk)
+dijk1 <- ugraph(dijk1)
 cuthill.mckee.ordering(dijk1)
 minDegreeOrdering(dijk1)
 sloan.ordering(dijk1)
@@ -636,7 +741,6 @@ weights into account when removing edges and outputs the vertices on the
 two disconnected components.
 
 <<edgeConndemo>>=
-#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 edgeConnectivity(coex)
 @
 
@@ -709,7 +813,6 @@ initial positions of the vertices are set randomly by calling
 "height" values has dramatic impact on the performance.
 
 <<Layoutdemo2>>=
-#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 randomGraphLayout(coex)
 circle.layout(coex)
 kamada.kawai.spring.layout(coex)
@@ -780,9 +883,6 @@ one graph {\em g1} to the other {\em g2} such that edge {\em u -> v} is in
 {\em E(g1)} iff edge {\em f(u) -> f(v)} exists and is in {\em E(g2)}.
 
 <<Isomorphismdemo>>=
-#dijk <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
-#coex2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
-coex2i <- fromGXL(file(system.file("XML/conn2iso.gxl",package="RBGL")))
 isomorphism(dijk, coex2)
 isomorphism(coex2i, coex2)
 @
@@ -809,7 +909,6 @@ guarantee that minimum number of colors is used, and the result depends on the
 input ordering of the vertices in the graph.
 
 <<VertexColoringdemo>>=
-#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 sequential.vertex.coloring(coex)
 @
 
@@ -884,7 +983,6 @@ The following functions are available:
 \Rfunction{aver.wavefront} and \Rfunction{rms.wavefront}.
 
 <<wavefrontdemo>>=
-#dijk <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
 ss <- 1
 ith.wavefront(dijk, ss)
 maxWavefront(dijk)
@@ -913,7 +1011,6 @@ clustering in a graph based on edge betweenness centrality.
 TODO: EXPLAIN MORE
 
 <<Centralitydemo>>=
-#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 brandes.betweenness.centrality(coex)
 betweenness.centrality.clustering(coex, 0.1, TRUE)
 @
@@ -934,7 +1031,6 @@ min-cut problem is to find a cut (S, V-S) of minimum cost.
 For simplicity, subset {\em S} is the smaller of the two.
 
 <<mincutdemo>>=
-#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 minCut(coex)
 @
 
@@ -952,9 +1048,7 @@ To improve performance, it takes special care of singletons, low degree
 vertices and merges clusters.
 
 <<highlyConnSGdemo>>=
-#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 highlyConnSG(coex)
-#hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
 highlyConnSG(hcs)
 @
 
@@ -981,9 +1075,7 @@ cliques of an undirected graph}, by C. Bron and J. Kerbosch (CACM, Sept 1973,
 Vol 16, No. 9.), which finds all the cliques in a graph.
 
 <<MaxCliquedemo>>=
-#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 maxClique(coex)
-#hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
 maxClique(hcs)
 @
 
@@ -1006,9 +1098,7 @@ G is chordal iff either G is an empty graph, or there is a {\em v} in {\em V}
 such that (i) the neighborhood of {\em v}, i.e., {\em v} and its adjacent vertices, forms a clique, and (ii) recursively, {\em G-v} is chordal.
 
 <<IsTriangulateddemo>>=
-#coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
 is.triangulated(coex)
-#hcs <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
 is.triangulated(hcs)
 @
 
@@ -1018,7 +1108,6 @@ Function {\em separates} determines if a subset of vertices separates two other
 subsets of vertices, and returns TRUE or FALSE, accordingly.
 
 <<Separatesdemo>>=
-#km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
 separates("B", "A", "E", km)
 separates("B", "A", "C", km)
 @
@@ -1037,7 +1126,6 @@ the i-core of a graph contains the j-core of the same graph.
 The implementation is based on the algorithm by V. Batagelj and M. Zaversnik, 2002.
 
 <<kCoresdemo1>>=
-kcoex <- fromGXL(file(system.file("XML/snacoreex.gxl",package="RBGL")))
 kCores(kcoex)
 kcoex2 <- coex2
 kCores(kcoex2)
@@ -1093,7 +1181,6 @@ o. for k = 2, ..., N, try to expand each (k-1)-clique to k-clique:
 o. the whole graph is N-clique.
 
 <<kCliquesdemo>>=
-kclex <- fromGXL(file(system.file("XML/snacliqueex.gxl",package="RBGL")))
 kCliques(kclex)
 @
 \begin{figure}
