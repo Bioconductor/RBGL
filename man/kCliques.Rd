@@ -45,7 +45,10 @@ Social Network Analysis: Methods and Applications.  By S. Wasserman and K. Faust
 \seealso{}
 
 \examples{
-coex <- fromGXL(file(system.file("XML/snacliqueex.gxl",package="RBGL")))
+con <- file(system.file("XML/snacliqueex.gxl",package="RBGL"))
+coex <- fromGXL(con)
+close(con)
+
 kCliques(coex)
 }
 

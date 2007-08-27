@@ -42,12 +42,19 @@ ISBN 0-201-72914-8
 \seealso{\code{\link{prim.minST}}}
 
 \examples{
-km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL"), open="r"))
+con1 <- file(system.file("XML/kmstEx.gxl",package="RBGL"), open="r")
+km <- fromGXL(con1)
+close(con1)
+
 mstree.kruskal(km)
 edgeData(km, "B", "D", "weight") <- 1.1
 edgeData(km, "B", "E", "weight") <- .95
 mstree.kruskal(km)
-km2 <- fromGXL(file(system.file("XML/telenet.gxl",package="RBGL"), open="r"))
+
+con2 <- file(system.file("XML/telenet.gxl",package="RBGL"), open="r")
+km2 <- fromGXL(con2)
+close(con2)
+
 m <- mstree.kruskal(km2)
 print(sum(m[[2]]))
 }

@@ -43,7 +43,9 @@ Journal of Graph Algorithms and Applications, Vol. 9, No. 2 (2005).
 \seealso{clusteringCoefAppr, transitivity, graphGenerator}
 
 \examples{
-g <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+con <- file(system.file("XML/conn.gxl",package="RBGL"))
+g <- fromGXL(con)
+close(con)
 cc <- clusteringCoef(g)
 ccw1 <- clusteringCoef(g, Weighted=TRUE)
 vW  <- c(1, 1, 1, 1, 1,1, 1, 1)

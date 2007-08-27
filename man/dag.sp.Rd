@@ -52,7 +52,9 @@ ISBN 0-201-72914-8
 \seealso{\code{\link{bellman.ford.sp}}, \code{\link{dijkstra.sp}}, \code{\link{johnson.all.pairs.sp}}, \code{\link{sp.between}} }
 
 \examples{
-dd <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL"), open="r"))
+con <- file(system.file("XML/conn2.gxl",package="RBGL"), open="r")
+dd <- fromGXL(con)
+close(con)
 dag.sp(dd)
 dag.sp(dd,nodes(dd)[2])
 }

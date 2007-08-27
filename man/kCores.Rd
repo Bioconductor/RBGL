@@ -39,10 +39,16 @@ An O(m) Algorithm for Cores decomposition of networks, by V. Batagelj and M. Zav
 \seealso{}
 
 \examples{
-kcoex <- fromGXL(file(system.file("XML/snacoreex.gxl",package="RBGL")))
+con1 <- file(system.file("XML/snacoreex.gxl",package="RBGL"))
+kcoex <- fromGXL(con1)
+close(con1)
+
 kCores(kcoex)
 
-kcoex2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
+con2 <- file(system.file("XML/conn2.gxl",package="RBGL"))
+kcoex2 <- fromGXL(con2)
+close(con2)
+
 kCores(kcoex2)
 kCores(kcoex2, "in")
 kCores(kcoex2, "out")

@@ -51,10 +51,15 @@ ISBN 0-201-72914-8
 \seealso{\code{\link{bellman.ford.sp}}, \code{\link{dag.sp}}, \code{\link{johnson.all.pairs.sp}}, \code{\link{sp.between}} }
 
 \examples{
-dd <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL"), open="r"))
+con1 <- file(system.file("XML/dijkex.gxl",package="RBGL"), open="r")
+dd <- fromGXL(con1)
+close(con1)
 dijkstra.sp(dd)
 dijkstra.sp(dd,nodes(dd)[2])
-ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL"), open="r"))
+
+con2 <- file(system.file("XML/ospf.gxl",package="RBGL"), open="r")
+ospf <- fromGXL(con2)
+close(con2)
 dijkstra.sp(ospf,nodes(ospf)[6])
 }
 \keyword{ graphs }

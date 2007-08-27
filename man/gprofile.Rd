@@ -37,7 +37,10 @@ ISBN 0-201-72914-8
 \seealso{}
 
 \examples{
-coex <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL"), open="r"))
+con <- file(system.file("XML/dijkex.gxl",package="RBGL"), open="r")
+coex <- fromGXL(con)
+close(con)
+
 gprofile(coex)
 }
 \keyword{ models }

@@ -39,7 +39,10 @@ ISBN 0-201-72914-8
 \seealso{\code{\link[graph]{connComp}},\code{\link{connectedComp}}, \code{\link{same.component}} }
 
 \examples{
-km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL"), open="r"))
+con <- file(system.file("XML/kmstEx.gxl",package="RBGL"), open="r")
+km <- fromGXL(con)
+close(con)
+
 km<- graph::addNode(c("F","G","H"), km)
 km<- addEdge("G", "H", km, 1)
 km<- addEdge("H", "G", km, 1)

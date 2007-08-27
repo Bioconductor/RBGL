@@ -55,7 +55,10 @@ degree, but the original article makes no specific reference to self-loops.
 \seealso{\code{\link{edgeConnectivity}}, \code{\link{minCut}}, \code{\link{removeSelfLoops}}  }
 
 \examples{
-coex <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL")))
+con <- file(system.file("XML/hcs.gxl",package="RBGL"))
+coex <- fromGXL(con)
+close(con)
+
 highlyConnSG(coex)
 }
 \keyword{ models }

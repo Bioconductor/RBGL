@@ -49,7 +49,9 @@ ISBN 0-201-72914-8
 \seealso{\code{\link{brandes.betweenness.centrality}}} 
 
 \examples{
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+con <- file(system.file("XML/conn.gxl",package="RBGL"))
+coex <- fromGXL(con)
+close(con)
 coex <- ugraph(coex)
 betweenness.centrality.clustering(coex, 0.5, TRUE)
 }

@@ -28,5 +28,6 @@ if (require(Rgraphviz))
  data(FileDep)
  plot(FileDep)
  }
+close(fd)
 }
 \keyword{graphs}

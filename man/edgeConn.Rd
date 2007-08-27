@@ -45,7 +45,10 @@ ISBN 0-201-72914-8
 \seealso{\code{\link{minCut}}, \code{\link{edmunds.karp.max.flow}}, \code{\link{push.relabel.max.flow}}  }
 
 \examples{
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL"), open="r"))
+con <- file(system.file("XML/conn.gxl",package="RBGL"), open="r")
+coex <- fromGXL(con)
+close(con)
+
 edgeConnectivity(coex)
 }
 \keyword{ models }

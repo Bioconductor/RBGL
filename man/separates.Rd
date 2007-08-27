@@ -40,7 +40,10 @@ separates(a, b, S1, g)
 
 \seealso{ \code{\link{johnson.all.pairs.sp}}}
 \examples{
-  km <- fromGXL(file(system.file("XML/kmstEx.gxl",package="RBGL")))
+  con <- file(system.file("XML/kmstEx.gxl",package="RBGL"))
+  km <- fromGXL(con)
+  close(con)
+
   separates("B", "A", "E", km)
   separates("B", "A", "C", km)
 }

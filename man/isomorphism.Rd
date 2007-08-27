@@ -42,8 +42,14 @@ ISBN 0-201-72914-8
 \seealso{ }
 
 \examples{
-g1 <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL"), open="r"))
-g2 <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL"), open="r"))
+con1 <- file(system.file("XML/dijkex.gxl",package="RBGL"), open="r")
+g1 <- fromGXL(con1)
+close(con1)
+
+con2 <- file(system.file("XML/conn2.gxl",package="RBGL"), open="r")
+g2 <- fromGXL(con2)
+close(con2)
+
 isomorphism(g1, g2)
 }
 \keyword{ models }

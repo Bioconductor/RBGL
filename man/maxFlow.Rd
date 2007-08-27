@@ -50,7 +50,9 @@ ISBN 0-201-72914-8
 \seealso{\code{\link{minCut}}, \code{\link{edgeConnectivity}}}
 
 \examples{
-g <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL"), open="r"))
+con <- file(system.file("XML/dijkex.gxl",package="RBGL"), open="r")
+g <- fromGXL(con)
+close(con)
 
 ans1 <- edmunds.karp.max.flow(g, "B", "D")
 ans2 <- edmunds.karp.max.flow(g, 3, 2)     # 3 and 2 equivalent to "C" and "B"

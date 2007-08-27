@@ -36,7 +36,10 @@ ISBN 0-201-72914-8
 \seealso{\code{\link{bellman.ford.sp}}, \code{\link{dag.sp}}, \code{\link{dijkstra.sp}}, \code{\link{sp.between}} }
 
 \examples{
-z <- fromGXL(file(system.file("dot/joh.gxl", package="RBGL"), open="r"))
+con <- file(system.file("dot/joh.gxl", package="RBGL"), open="r")
+z <- fromGXL(con)
+close(con)
+
 johnson.all.pairs.sp(z)
 }
 \keyword{ models }

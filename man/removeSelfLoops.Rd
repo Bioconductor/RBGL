@@ -27,7 +27,10 @@ This is for those functions that cannot handle graphs with self-loops.
 \seealso{ }
 
 \examples{
-g1 <- fromGXL(file(system.file("XML/dijkex.gxl",package="RBGL")))
+con <- file(system.file("XML/dijkex.gxl",package="RBGL"))
+g1 <- fromGXL(con)
+close(con)
+
 g2 <- ugraph(g1)
 removeSelfLoops(g2)
 }

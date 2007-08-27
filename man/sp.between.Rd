@@ -45,7 +45,10 @@ See \code{\link[graph]{pathWeights}} for caveats about undirected graph represen
 
 \examples{
 
-ospf <- fromGXL(file(system.file("XML/ospf.gxl",package="RBGL"), open="r"))
+con <- file(system.file("XML/ospf.gxl",package="RBGL"), open="r")
+ospf <- fromGXL(con)
+close(con)
+
 dijkstra.sp(ospf,nodes(ospf)[6])
 
 sp.between(ospf, "RT6", "RT1")

@@ -35,7 +35,10 @@ Journal of Graph Algorithms and Applications, Vol. 9, No. 2 (2005).
 \seealso{clusteringCoef, clusteringCoefAppr, graphGenerator}
 
 \examples{
-g <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+con <- file(system.file("XML/conn.gxl",package="RBGL"))
+g <- fromGXL(con)
+close(con)
+
 tc <- transitivity(g)
 }
 

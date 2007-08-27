@@ -39,7 +39,10 @@ Journal of Graph Algorithms and Applications, Vol. 9, No. 2 (2005).
 \seealso{clusteringCoef, transitivity, graphGenerator}
 
 \examples{
-g <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL")))
+con <- file(system.file("XML/conn.gxl",package="RBGL"))
+g <- fromGXL(con)
+close(con)
+
 k = length(nodes(g))
 cc <- clusteringCoefAppr(g, k)
 ccw1 <- clusteringCoefAppr(g, k, Weighted=TRUE)

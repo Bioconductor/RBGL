@@ -35,9 +35,16 @@ Communication of ACM, Sept 1973, Vol 16, No. 9.
 \seealso{}
 
 \examples{
-coex <- fromGXL(file(system.file("XML/conn.gxl",package="RBGL"), open="r"))
+con1 <- file(system.file("XML/conn.gxl",package="RBGL"), open="r")
+coex <- fromGXL(con1)
+close(con1)
+
 maxClique(coex)
-coex <- fromGXL(file(system.file("XML/hcs.gxl",package="RBGL"), open="r"))
+
+con2 <- file(system.file("XML/hcs.gxl",package="RBGL"), open="r")
+coex <- fromGXL(con2)
+close(con2)
+
 maxClique(coex)
 }
 \keyword{ models }

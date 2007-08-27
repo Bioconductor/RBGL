@@ -46,7 +46,10 @@ ISBN 0-201-72914-8
 \seealso{\code{\link{mstree.kruskal}}}
 
 \examples{
-coex <- fromGXL(file(system.file("XML/conn2.gxl",package="RBGL")))
+con <- file(system.file("XML/conn2.gxl",package="RBGL"))
+coex <- fromGXL(con)
+close(con)
+
 mstree.prim(coex)
 }
 \keyword{ models }

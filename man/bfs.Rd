@@ -73,11 +73,17 @@ ISBN 0-201-72914-8
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
 
 \examples{
-dd <- fromGXL(file(system.file("XML/bfsex.gxl",package="RBGL"), open="r"))
+con1 <- file(system.file("XML/bfsex.gxl",package="RBGL"), open="r")
+dd <- fromGXL(con1)
+close(con1)
+
 bfs(dd, "r")
 bfs(dd, "s")
 
-dd2 <- fromGXL(file(system.file("XML/dfsex.gxl",package="RBGL"), open="r"))
+con2 <- file(system.file("XML/dfsex.gxl",package="RBGL"), open="r")
+dd2 <- fromGXL(con2)
+close(con2)
+
 dfs(dd2, "u")
 }
 \keyword{ graphs }

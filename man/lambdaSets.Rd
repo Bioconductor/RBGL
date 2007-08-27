@@ -45,7 +45,10 @@ sets in graph \code{g}.
 \seealso{}
 
 \examples{
-coex <- fromGXL(file(system.file("XML/snalambdaex.gxl",package="RBGL")))
+con <- file(system.file("XML/snalambdaex.gxl",package="RBGL"))
+coex <- fromGXL(con)
+close(con)
+
 lambdaSets(coex)
 }
 
