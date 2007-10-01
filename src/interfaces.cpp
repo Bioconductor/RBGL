@@ -302,7 +302,7 @@ extern "C"
         SEXP outvec;
         PROTECT(outvec = allocVector(INTSXP,art_points.size()));
 
-        for (int k = 0; k < art_points.size(); k++ )
+        for (unsigned int k = 0; k < art_points.size(); k++ )
             INTEGER(outvec)[k] = art_points[k];
 
         UNPROTECT(1);
@@ -395,6 +395,9 @@ extern "C"
     	using namespace boost;
 
         SEXP ansList;
+        PROTECT(ansList = NEW_INTEGER(1));
+        INTEGER(ansList)[0] = 0;
+        UNPROTECT(1);
         return(ansList);
     }
 }

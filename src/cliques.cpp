@@ -104,10 +104,11 @@ extern "C"
 typedef vector<int>              oneCliqueType;
 typedef vector<oneCliqueType>    allCliquesType;
 
+#if DEBUG
     static void print_one_clique(oneCliqueType& clique)
     {
         cout << "     clique contains node(s): ";
-        for ( int j = 0; j < clique.size(); j++ )
+        for ( unsigned int j = 0; j < clique.size(); j++ )
             cout << clique[j]+1 << "  "; 
         cout << endl;
     }
@@ -115,9 +116,10 @@ typedef vector<oneCliqueType>    allCliquesType;
     static void print_all_cliques(allCliquesType& cliques, char* msg)
     {
         cout << msg << endl;
-        for ( int i = 0; i < cliques.size(); i++ )
+        for ( unsigned int i = 0; i < cliques.size(); i++ )
             print_one_clique(cliques[i]);
     }
+#endif
 
     static bool inline isConnected(Graph_ud& g, int u, int v)
     {
@@ -139,6 +141,9 @@ typedef vector<oneCliqueType>    allCliquesType;
         int newne, newce, i, j, count, pos, p, s, sel, minnod;
         minnod = ce;
         nod = 0;
+        fixp = -1;
+        pos = -1;
+        s = -1;
 
         // determine each counter value and look for minimum
         for ( i = 1; i <= ce && minnod != 0; i++ )

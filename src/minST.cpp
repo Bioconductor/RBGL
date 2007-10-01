@@ -90,13 +90,13 @@ extern "C"
 
         property_map<Graph_ud, edge_weight_t>::type weight = get(edge_weight, g);
 
-        SEXP ansList, vlist, ans, answt;
+        SEXP ansList, ans, answt;
         PROTECT(ansList = allocVector(VECSXP,2));
         PROTECT(ans = allocMatrix(INTSXP,2,NV));
         PROTECT(answt = allocMatrix(REALSXP,1,NV));
 
         int k = 0, j = 0;
-        for (int v = 0; v < num_vertices(g); ++v)
+        for (unsigned int v = 0; v < num_vertices(g); ++v)
 	{
             INTEGER(ans)[k++] = parent[v];
             INTEGER(ans)[k++] = v;

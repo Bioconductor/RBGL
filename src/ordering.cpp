@@ -169,7 +169,7 @@ extern "C"
 	{
 		using namespace boost;
 
-		int delta = asInteger(R_delta);
+		//int delta = asInteger(R_delta);
 		const int NV = asInteger(num_verts_in);
 		typedef graph_traits<Graph_dd>::vertex_descriptor Vertex;
 		Graph_dd g(num_verts_in, num_edges_in, R_edges_in);

@@ -128,7 +128,7 @@ extern "C"
 
     static inline int findIndex(const int r, const vector<int>& W)
     {
-	int i;
+	unsigned int i;
 	for ( i = 1; i < W.size(); i++ ) if ( r <= W[i] ) break;
 	return i;
     }
@@ -245,7 +245,7 @@ extern "C"
             for ( i = 0; i < NV; i++ ) v_weight[i] = (int) weights[i];
         }
 
-        Graph_ud::vertex_descriptor u, w;
+        Graph_ud::vertex_descriptor u=Graph_ud::null_vertex(), w=Graph_ud::null_vertex();
 
 	W[0] = 0;
 	for ( i = 1; i < NV+1; i++ ) W[i] = W[i-1] + v_weight[i-1];
@@ -391,7 +391,7 @@ extern "C"
 	Graph_ud g(2);
 	boost::add_edge(0, 1, g);
 
-        Graph_ud::vertex_descriptor v, u, w;
+        Graph_ud::vertex_descriptor v, u, w=Graph_ud::null_vertex();
 	
 	for ( i = 3; i <= n; i++ )
 	{

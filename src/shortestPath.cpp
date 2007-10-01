@@ -76,7 +76,7 @@ extern "C"
         typedef adjacency_list < vecS, vecS, directedS,
         no_property, property < edge_weight_t, double> > EdgeGraph;
 
-        int i, j;
+        int i;
         int NE = (int)INTEGER(num_edges_in)[0];
         int N = (int)INTEGER(num_verts_in)[0];
         int s = (int)INTEGER(init_ind)[0];
@@ -177,7 +177,6 @@ extern "C"
         property< edge_weight_t, double, property< edge_weight2_t, double > > > Graph;
         int nv = INTEGER(num_verts_in)[0];
         SEXP out;
-        const int V = nv;
         typedef std::pair < int, int >Edge;
 
         Graph_dd g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);

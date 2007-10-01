@@ -216,8 +216,8 @@ extern "C"
         for (int i = 0; i < NE ; i++, edges_in += 2)
             boost::add_edge(*edges_in, *(edges_in+1), g);
 
-        double w = REAL(R_width)[0];
-        double h = REAL(R_height)[0];
+        //double w = REAL(R_width)[0];
+        //double h = REAL(R_height)[0];
             
         // TODO: fill in correct codes
         typedef std::vector< point > PositionVec;

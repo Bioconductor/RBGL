@@ -51,7 +51,7 @@ extern "C"
 
 	Components components(&parent[0], &parent[0] + parent.size());
 	
-	int NC = components.size();
+	unsigned int NC = components.size();
 
         SEXP anslst, conn, outvec;
         PROTECT(anslst = allocVector(VECSXP,NC+1));

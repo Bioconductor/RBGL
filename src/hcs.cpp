@@ -21,10 +21,11 @@ typedef std::vector<int>               V_Label;
 typedef std::set<int>                  V_LabelAsSet;
 typedef std::vector<V_Label>           ClusterResult;
 
+#if DEBUG
 static void output_graph_labels(const V_Label& v_label, const char* prompt)
 {
     cout << prompt;
-    for ( int j = 0; j < v_label.size(); j++ )
+    for ( unsigned int j = 0; j < v_label.size(); j++ )
         cout << v_label[j] << " ";
     cout << endl << flush;
 }
@@ -47,6 +48,7 @@ static void output_graph(const Graph_ud& g, const char* prompt)
     }
     cout << endl << flush;
 }
+#endif
 
 static void build_subgraph(Cluster& vs_vec,
                            const Graph_ud& g_in, const V_Label& v_label_in,
@@ -59,7 +61,7 @@ static void build_subgraph(Cluster& vs_vec,
         vs_set.insert(*vi);
 
     // keep track of vertex labels
-    for ( int ii = 0; ii < v_label_in.size(); ii++ )
+    for ( unsigned int ii = 0; ii < v_label_in.size(); ii++ )
         if ( vs_set.count(ii) == 1 )
             v_label_out.push_back(v_label_in[ii]);
 
@@ -128,7 +130,7 @@ static void remove_vertices(const int d,
         i = v_label_out.begin();
         for ( tie(vvi, vvi_end) = vertices(g_out); vvi != vvi_end; vvi++, i++ )
         {
-            if ( out_degree(*vvi, g_out) < d )
+            if ( out_degree(*vvi, g_out) < (unsigned int) d )
             {
                 boost::clear_vertex(*vvi, g_out);
                 boost::remove_vertex(*vvi, g_out);
@@ -143,7 +145,7 @@ static void remove_vertices(const int d,
 static dst cluster_distance(const Graph_ud& g, V_Label& v_label, int si, V_Label& ci)
 {
     dst d = 0;
-    int s_index;
+    unsigned int s_index;
 
     for ( s_index = 0; s_index < v_label.size(); s_index++ )
         if ( v_label[s_index] == si )
@@ -217,7 +219,7 @@ static void adopt_singleton(const Graph_ud& g, V_Label& v_label, ClusterResult& 
             }
 #endif
 
-            if ( dmax > singleton_adoption_threshold && (*cimax).size() > 1 )
+            if ( (int) dmax > singleton_adoption_threshold && (*cimax).size() > (unsigned int) 1 )
             {
                 (*cimax).push_back(*si);
                 singletons.erase(*si);
@@ -259,7 +261,7 @@ static void remove_clusters(ClusterResult& clusters,
     Cluster v_vec;
 
     // TODO: go over vertices instead of label indices??
-    for ( int i = 0; i < v_label_in.size(); i++ )
+    for ( unsigned int i = 0; i < v_label_in.size(); i++ )
         if ( v_set.count(v_label_in[i]) == 0 )
             v_vec.push_back(i);
 
@@ -305,7 +307,7 @@ static void HCS_internal(const Graph_ud& g, V_Label& v_label, ClusterResult& clu
         cout << " 1 vertex in the graph " << v_label[0] << endl << flush;
 #endif
     }
-    else if ( ((int) cut_capacity) >= num_vertices(g) / 2 )
+    else if ( ((unsigned int) cut_capacity) >= num_vertices(g) / 2 )
     {
         clusters.push_back(v_label);
 
@@ -369,8 +371,7 @@ static void HCS_internal(const Graph_ud& g, V_Label& v_label, ClusterResult& clu
 
 static SEXP HCS_loop(Graph_ud& g, V_Label& v_label)
 {
-    int i, j, nn;
-    bool found_new_cluster;
+    unsigned int i, j, nn;
 
     Graph_ud g1, g2;
     V_Label v_label_orig1, v_label_orig2;
