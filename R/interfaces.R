@@ -782,6 +782,12 @@ same.component <- function (g, node1, node2)
 
 circle.layout <- function ( g, radius=1 )
 {
+   warning("API is changed: use circleLayout instead.")
+   circleLayout(g, radius)
+}
+
+circleLayout <- function ( g, radius=1 )
+{
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
    ne <- ncol(em)
@@ -791,12 +797,18 @@ circle.layout <- function ( g, radius=1 )
 		as.double(radius),
                 PACKAGE="RBGL")
 
-   rownames(ans[[1]]) <- c("x", "y")
-   colnames(ans[[1]]) <- nodes(g)
-   list("circle.layout"=ans[[1]])
+   rownames(ans) <- c("x", "y")
+   colnames(ans) <- nodes(g)
+   ans
 }
 
 kamada.kawai.spring.layout <- function ( g, edge_or_side=1, es_length=1 )
+{
+   warning("API is changed: use kamadaKawaiSpringLayout instead.")
+   kamadaKawaiSpringLayout(g, edge_or_side, es_length)
+}
+
+kamadaKawaiSpringLayout <- function ( g, edge_or_side=1, es_length=1 )
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -809,9 +821,9 @@ kamada.kawai.spring.layout <- function ( g, edge_or_side=1, es_length=1 )
 	       as.logical(edge_or_side), as.double(es_length),
                PACKAGE="RBGL")
 
-   rownames(ans[[1]]) <- c("x", "y")
-   colnames(ans[[1]]) <- nodes(g)
-   list("kamada.kawai.spring.layout"=ans[[1]])
+   rownames(ans) <- c("x", "y")
+   colnames(ans) <- nodes(g)
+   ans
 }
 
 brandes.betweenness.centrality <- function ( g )
@@ -905,7 +917,7 @@ kingOrdering <- function(g)
    list("kingOrdering is not implemented yet")
 }
 
-randomGraphLayout<- function(g, width=1, height=1)
+randomGraphLayout<- function(g, minX=0, maxX=1, minY=0, maxY=1)
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -913,12 +925,13 @@ randomGraphLayout<- function(g, width=1, height=1)
 
    ans <- .Call("BGL_random_layout", 
 	        as.integer(nv), as.integer(ne), as.integer(em-1), 
-		as.double(width), as.double(height),
+		as.double(minX), as.double(maxX),
+		as.double(minY), as.double(maxY),
                 PACKAGE="RBGL")
 
-   rownames(ans[[1]]) <- c("x", "y")
-   colnames(ans[[1]]) <- nodes(g)
-   list("randomGraphLayout"=ans[[1]])
+   rownames(ans) <- c("x", "y")
+   colnames(ans) <- nodes(g)
+   ans
 }
 
 fruchtermanReingoldForceDirectedLayout<- function(g, width=1, height=1)
@@ -932,9 +945,9 @@ fruchtermanReingoldForceDirectedLayout<- function(g, width=1, height=1)
 		as.double(width), as.double(height),
                 PACKAGE="RBGL")
 
-   rownames(ans[[1]]) <- c("x", "y")
-   colnames(ans[[1]]) <- nodes(g)
-   list("fruchtermanReingoldForceDirectedLayout"=ans[[1]])
+   rownames(ans) <- c("x", "y")
+   colnames(ans) <- nodes(g)
+   ans
 }
 
 gursoyAtunLayout <- function(g)

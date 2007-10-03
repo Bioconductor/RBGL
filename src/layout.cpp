@@ -77,8 +77,7 @@ extern "C"
 		    ok = kamada_kawai_spring_layout(g, p, w, side_length(l));
         }
 
-        SEXP anslst, poslst;
-        PROTECT(anslst = allocVector(VECSXP,1));
+        SEXP poslst;
         PROTECT(poslst = allocMatrix(REALSXP,2, num_vertices(g)));
 
         int i = 0;
@@ -91,9 +90,8 @@ extern "C"
             REAL(poslst)[i++] = (double)position[*vi].y;
         }
 
-        SET_VECTOR_ELT(anslst,0,poslst);
-        UNPROTECT(2);
-        return(anslst);
+        UNPROTECT(1);
+        return(poslst);
     }
 
     SEXP BGL_circle_layout
@@ -117,7 +115,8 @@ extern "C"
     }
 
     SEXP BGL_random_layout
-    (SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in, SEXP R_width, SEXP R_height)
+    (SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in, 
+          SEXP R_minX, SEXP R_maxX, SEXP R_minY, SEXP R_maxY)
     {
         IndexGraph g;
 
@@ -129,8 +128,10 @@ extern "C"
         for (int i = 0; i < NE ; i++, edges_in += 2)
             boost::add_edge(*edges_in, *(edges_in+1), g);
 
-        double w = REAL(R_width)[0];
-        double h = REAL(R_height)[0];
+        double minX = REAL(R_minX)[0];
+        double maxX = REAL(R_maxX)[0];
+        double minY = REAL(R_minY)[0];
+        double maxY = REAL(R_maxY)[0];
             
         typedef std::vector<simple_point<double> > PositionVec;
         PositionVec position_vec(num_vertices(g));
@@ -140,10 +141,9 @@ extern "C"
         PositionMap position(position_vec.begin(), get(vertex_index, g));
 
         minstd_rand gen;
-        random_graph_layout(g, position, -w/2, w/2, -h/2, h/2, gen);
+        random_graph_layout(g, position, minX, maxX, minY, maxY, gen);
 
-        SEXP anslst, poslst;
-        PROTECT(anslst = allocVector(VECSXP,1));
+        SEXP poslst;
         PROTECT(poslst = allocMatrix(REALSXP,2, num_vertices(g)));
 
         int i = 0;
@@ -154,9 +154,8 @@ extern "C"
             REAL(poslst)[i++] = (double)position[*vi].y;
         }
 
-        SET_VECTOR_ELT(anslst,0,poslst);
-        UNPROTECT(2);
-        return(anslst);
+        UNPROTECT(1);
+        return(poslst);
     }
 
     SEXP BGL_FRFD_layout
@@ -186,8 +185,7 @@ extern "C"
         random_graph_layout(g, position, -w/2, w/2, -h/2, h/2, gen);
         fruchterman_reingold_force_directed_layout(g, position, w, h);
 
-        SEXP anslst, poslst;
-        PROTECT(anslst = allocVector(VECSXP,1));
+        SEXP poslst;
         PROTECT(poslst = allocMatrix(REALSXP,2, num_vertices(g)));
 
         int i = 0;
@@ -198,9 +196,8 @@ extern "C"
             REAL(poslst)[i++] = (double)position[*vi].y;
         }
 
-        SET_VECTOR_ELT(anslst,0,poslst);
-        UNPROTECT(2);
-        return(anslst);
+        UNPROTECT(1);
+        return(poslst);
     }
 
     SEXP BGL_gursov_atun_layout
@@ -230,8 +227,7 @@ extern "C"
         //square_topology < > lst;
         //gursoy_atun_layout(g, lst, p);
 
-        SEXP anslst, poslst;
-        PROTECT(anslst = allocVector(VECSXP,1));
+        SEXP poslst;
         PROTECT(poslst = allocMatrix(REALSXP,2, num_vertices(g)));
 
         int i = 0;
@@ -242,9 +238,8 @@ extern "C"
             REAL(poslst)[i++] = (double)position[*vi].y;
         }
 
-        SET_VECTOR_ELT(anslst,0,poslst);
-        UNPROTECT(2);
-        return(anslst);
+        UNPROTECT(1);
+        return(poslst);
     }
 
 }

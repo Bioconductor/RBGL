@@ -715,8 +715,7 @@ in matrix reordering, which turns a system of equations {\em A x = b} to
 renumbering its vertices.
 
 <<SparseMatrixOrderingdemo>>=
-dijk1 <- dijk
-dijk1 <- ugraph(dijk1)
+dijk1 <- ugraph(dijk)
 cuthill.mckee.ordering(dijk1)
 minDegreeOrdering(dijk1)
 sloan.ordering(dijk1)
@@ -797,10 +796,10 @@ Following functions are available:
 The \Rfunction{randomGraphLayout} function puts the vertices randomly 
 on a plane;
 
-The \Rfunction{circle.layout} function puts the vertices as vertices of 
+The \Rfunction{circleLayout} function puts the vertices as vertices of 
 a regular polygon;
 
-The \Rfunction{kamada.kawai.spring.layout} function is for connected, 
+The \Rfunction{kamadaKawaiSpringLayout} function is for connected, 
 undirected graphs, it treats the edges as springs and tries to minimize 
 the energy of the whole system;
 
@@ -814,8 +813,8 @@ initial positions of the vertices are set randomly by calling
 
 <<Layoutdemo2>>=
 randomGraphLayout(coex)
-circle.layout(coex)
-kamada.kawai.spring.layout(coex)
+circleLayout(coex)
+kamadaKawaiSpringLayout(coex)
 fruchtermanReingoldForceDirectedLayout(coex, 10, 10)
 @
 
