@@ -24,24 +24,25 @@ typedef enum { E_LAYOUT_CIRCLE,
 extern "C"
 {
     typedef adjacency_list<vecS, vecS, undirectedS,
-    // vertex properties
-    property<vertex_index_t, int,
-    property<vertex_position_t, simple_point<double> > >,
-    // edge properties
-    property<edge_weight_t, double> >
-    IndexGraph;
+    		// vertex properties
+    		property<vertex_index_t, int,
+    		property<vertex_position_t, simple_point<double> > >,
+    		// edge properties
+    		property<edge_weight_t, double> >
+    		IndexGraph;
 
     SEXP BGL_layout_internal (E_LAYOUT_METHOD method, 
          SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in, 
          SEXP radius,
          SEXP R_weights_in, SEXP edge_or_side, SEXP es_length)
     {
-        IndexGraph g;
-
         if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
 
+        int NV = asInteger(num_verts_in);
         int NE = asInteger(num_edges_in);
         int* edges_in = INTEGER(R_edges_in);
+
+        IndexGraph g(NV);
 
         for (int i = 0; i < NE ; i++, edges_in += 2)
             boost::add_edge(*edges_in, *(edges_in+1), g);
@@ -118,13 +119,13 @@ extern "C"
     (SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in, 
           SEXP R_minX, SEXP R_maxX, SEXP R_minY, SEXP R_maxY)
     {
-        IndexGraph g;
-
         if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
 
+        int NV = asInteger(num_verts_in);
         int NE = asInteger(num_edges_in);
         int* edges_in = INTEGER(R_edges_in);
 
+        IndexGraph g(NV);
         for (int i = 0; i < NE ; i++, edges_in += 2)
             boost::add_edge(*edges_in, *(edges_in+1), g);
 
@@ -161,13 +162,13 @@ extern "C"
     SEXP BGL_FRFD_layout
     (SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in, SEXP R_width, SEXP R_height)
     {
-        IndexGraph g;
-
         if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
 
+        int NV = asInteger(num_verts_in);
         int NE = asInteger(num_edges_in);
         int* edges_in = INTEGER(R_edges_in);
 
+        IndexGraph g(NV);
         for (int i = 0; i < NE ; i++, edges_in += 2)
             boost::add_edge(*edges_in, *(edges_in+1), g);
 
@@ -203,13 +204,13 @@ extern "C"
     SEXP BGL_gursov_atun_layout
     (SEXP num_verts_in, SEXP num_edges_in, SEXP R_edges_in, SEXP R_width, SEXP R_height, SEXP R_radius)
     {
-        IndexGraph g;
-
         if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
 
+        int NV = asInteger(num_verts_in);
         int NE = asInteger(num_edges_in);
         int* edges_in = INTEGER(R_edges_in);
 
+        IndexGraph g(NV);
         for (int i = 0; i < NE ; i++, edges_in += 2)
             boost::add_edge(*edges_in, *(edges_in+1), g);
 
