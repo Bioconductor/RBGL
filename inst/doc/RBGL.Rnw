@@ -824,7 +824,7 @@ If you want to draw the graphs based on the calculated coordinates, you need
 an additional function.  The following is an example.
 
 <<Layoutdemo3>>=
-crudeGraphPlot <- function(g, alg=circle.layout, ...) {
+crudeGraphPlot <- function(g, alg=circleLayout, ...) {
 #
 # the alg parameter is a function that computes the
 # layout of g, returning it as a list of length 1
@@ -832,7 +832,7 @@ crudeGraphPlot <- function(g, alg=circle.layout, ...) {
 # y coordinates, and node names are used as colnames
 # the ... are passed to segments()
 #
-  layout <- alg(g)[[1]]
+  layout <- alg(g)
   plot( layout[1,], layout[2,], pch=nodes(g), axes=FALSE,
     xlab="", ylab="", main=substitute(g), cex=1.4 )
   ee <- edges(g)
@@ -844,7 +844,7 @@ crudeGraphPlot <- function(g, alg=circle.layout, ...) {
 }
 
 crudeGraphPlot(coex)
-crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green")
+crudeGraphPlot(coex, alg=kamadaKawaiSpringLayout, col="green")
 @
 
 <<figlayout1, fig=TRUE, echo=false, results=hide, include=FALSE>>=
@@ -852,7 +852,7 @@ crudeGraphPlot(coex)
 @
 
 <<figlayout2, fig=TRUE, echo=false, results=hide, include=FALSE>>=
-crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green")
+crudeGraphPlot(coex, alg=kamadaKawaiSpringLayout, col="green")
 @
 
 \begin{figure}[tp]
@@ -866,7 +866,7 @@ crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green")
 \caption{\label{fig:graphlayout}%
 a) plot(coex, neato).
 b) crudeGraphPlot(coex).
-c) crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green"). }
+c) crudeGraphPlot(coex, alg=kamadaKawaiSpringLayout, col="green"). }
 \end{figure}
 
 Call crudeGraphPlot(coex) gives the default circular layout on your graphics device.
