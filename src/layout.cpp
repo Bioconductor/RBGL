@@ -2,7 +2,13 @@
 #include <boost/graph/circle_layout.hpp>
 #include <boost/graph/kamada_kawai_spring_layout.hpp>
 #include <boost/graph/random_layout.hpp>
-#include <boost/graph/fruchterman_reingold.hpp>
+
+// Work-around:
+// the original .hpp simply does k*k/d (and the like) without checking d==0,
+// this is particularly troublesome when the given graph is disconnected
+#include "fruchterman_reingold.hpp"
+//#include <boost/graph/fruchterman_reingold.hpp>
+
 #include <boost/graph/gursoy_atun_layout.hpp>
 
 #include <boost/graph/simple_point.hpp>

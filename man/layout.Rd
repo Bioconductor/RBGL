@@ -55,8 +55,9 @@ edge in the layout or the length of a side s of the display area.
 Function \code{randomGraphLayout} places the points of the graph at random locations.
 
 Function \code{fruchtermanReingoldForceDirectedLayout} performs layout of 
-unweighted, undirected graphs.  It handles disconnected graphs.  It's a 
-force-directed algorithm. 
+unweighted, undirected graphs.  It's a force-directed algorithm.  The BGL 
+implementation doesn't handle disconnected graphs very well, since it doesn't
+explicitly give each connected component a region proportional to its size. 
 
 %Function \code{gursoyAtunLayout} performs layout by distributing vertices 
 %within a topology.  It's based on self-organized maps.
