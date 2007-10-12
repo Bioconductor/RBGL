@@ -18,6 +18,7 @@ export(
  "cuthill.mckee.ordering",
  "dag.sp",
  "dijkstra.sp",          
+ "dominatorTree",
  "edgeConnectivity",     
  "edmunds.karp.max.flow",
  "extractPath",

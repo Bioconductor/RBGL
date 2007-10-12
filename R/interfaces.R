@@ -164,24 +164,27 @@ dijkstra.sp <- function(g,start=nodes(g)[1], eW=unlist(edgeWeights(g)))
 {
     if (!is.character(start)) stop("start must be character")
     if (length(start) !=1 ) stop("start must have length 1")
-    nN <- nodes(g)
-    if (is.character(start))
-        II <- match(start, nN, 0)
-    if (II == 0) stop("start not found in nodes of g")
-    nv <- length(nN)
+
+    II <- match(start, nodes(g), 0)
+
+    if ( II == 0 ) stop("start not found in nodes of g")
+
     if ( isDirected(g) )
             em <- edgeMatrix(g)
     else
             em <- edgeMatrix(g,TRUE)
-    ne <- ncol(em)
 
     if ( any(eW < 0, na.rm=TRUE) ) 
       stop("'dijkstra.sp' requires that all edge weights are nonnegative")
 
+    nN <- nodes(g)
+    nv <- length(nN)
+    ne <- ncol(em)
     ans <- .Call("BGL_dijkstra_shortest_paths_D", 
 		as.integer(nv), as.integer(ne), 
 		as.integer(em-1), as.double(eW), as.integer(II - 1), 
 		PACKAGE="RBGL")
+
     names(ans) <- c("distances", "penult")
     ans[["distances"]][ ans[["distances"]] == .Machine$double.xmax ] <- Inf
     names(ans[["distances"]]) <- names(ans[["penult"]]) <- nN
@@ -788,6 +791,10 @@ circle.layout <- function ( g, radius=1 )
 
 circleLayout <- function ( g, radius=1 )
 {
+   if (isDirected(g)) stop("only applicable to undirected graphs")
+
+   if ( radius < 0 ) stop("requires: radius > 0 ")
+
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
    ne <- ncol(em)
@@ -810,6 +817,10 @@ kamada.kawai.spring.layout <- function ( g, edge_or_side=1, es_length=1 )
 
 kamadaKawaiSpringLayout <- function ( g, edge_or_side=1, es_length=1 )
 {
+   if (isDirected(g)) stop("only applicable to undirected graphs")
+
+   if ( edge_or_side <= 0 ) stop("requires: es_length > 0")
+
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
    ne <- ncol(em)
@@ -919,6 +930,11 @@ kingOrdering <- function(g)
 
 randomGraphLayout<- function(g, minX=0, maxX=1, minY=0, maxY=1)
 {
+   if (isDirected(g)) stop("only applicable to undirected graphs")
+
+   if ( minX >= maxX || minY >= maxY )
+      stop("requires: minX < maxX and minY < maxY ")
+
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
    ne <- ncol(em)
@@ -936,6 +952,14 @@ randomGraphLayout<- function(g, minX=0, maxX=1, minY=0, maxY=1)
 
 fruchtermanReingoldForceDirectedLayout<- function(g, width=1, height=1)
 {
+   if (isDirected(g)) stop("only applicable to undirected graphs")
+
+   if ( length(connComp(g)) > 1 ) 
+      warning("This implementation doesn't handle disconnected graphs well.")
+
+   if ( width <= 0 || height <= 0 )
+      stop("requires: width > 0 and height > 0 ")
+
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
    ne <- ncol(em)
@@ -1124,5 +1148,29 @@ graphGenerator <- function(n, d, o)
    rownames(ans[[3]]) <- c("from", "to")
    
    list("no. of nodes" = ans[[1]], "no.of edges" = ans[[2]], "edges"=ans[[3]])
+}
+
+dominatorTree <- function(g, start=nodes(g)[1])
+{
+   if ( length(start) !=1 ) stop("start must have length 1")
+
+   if ( is.character(start) ) s <- match(start, nodes(g), 0)
+   else s <- start 
+
+   nv <- length(nodes(g))
+   if ( s <= 0 || s > nv ) stop("start not found in nodes of g")
+
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("BGL_dominator_tree", 
+                as.integer(nv), as.integer(ne), as.integer(em-1),
+                as.integer(s-1),
+                PACKAGE="RBGL")
+
+   gn1 <- function(x) { nodes(g)[x+1] }
+   ans <- sapply(ans, gn1)
+   names(ans) <- nodes(g)
+   ans
 }
 
