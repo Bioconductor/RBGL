@@ -1,4 +1,5 @@
 import("methods")
+import("graph")
 useDynLib(RBGL)
 
 export(
