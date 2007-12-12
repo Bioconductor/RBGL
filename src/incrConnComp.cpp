@@ -105,6 +105,9 @@ extern "C"
 		    SEXP num_edges_in, SEXP R_edges_in, 
 		    SEXP vert_1, SEXP vert_2)
     {
+        if ( !initialized )
+           error("graph is not prepared to handle incremental components.");
+
         Graph_ud g(num_verts_in, num_edges_in, R_edges_in);
 
         int NV = INTEGER(num_verts_in)[0];
