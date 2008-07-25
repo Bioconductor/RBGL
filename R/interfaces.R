@@ -1174,3 +1174,81 @@ dominatorTree <- function(g, start=nodes(g)[1])
    ans
 }
 
+kolmogorovMaxFlow <- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+edmondsMaxCardinalityMatching <- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+sloanStartEndVertices<- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+lengauerTarjanDominatorTree<- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+
+minimumCycleRatio<- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+maximumCycleRatio<- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+
+boyerMyrvoldPlanarityTest<- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+planarFaceTraversal<- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+planarCanonicalOrdering<- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+chrobakPayneStraightLineDrawing<- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+isStraightLineDrawing<- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+isKuratowskiSubgraph<- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+makeConnected<- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+makeBiconnectedPlanar<- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+makeMaximalPlanar<- function(g)
+{
+   list("This function is not implemented yet")
+}
+
+
