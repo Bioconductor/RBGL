@@ -25,7 +25,7 @@ See documentations on these algorithms in Boost Graph Library for more details.
 
 \value{
 \item{no. of colors needed}{how many colors to use to color the graph}
-\item{colors of nodes} { color label for each vertex }
+\item{colors of nodes}{ color label for each vertex }
 }
 
 \references{

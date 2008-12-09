@@ -10,7 +10,7 @@ kCores(g, EdgeType=c("in", "out"))
 
 \arguments{
   \item{g}{an instance of the \code{graph} class }
-  \item{EdgeType} {what types of edges to be considered when \code{g} is directed }
+  \item{EdgeType}{what types of edges to be considered when \code{g} is directed }
 }
 
 \details{
