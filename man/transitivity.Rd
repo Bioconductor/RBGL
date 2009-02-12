@@ -14,9 +14,10 @@ transitivity(g)
 }
 
 \details{
-For an undirected graph {G}, let delta(v) be the number of triangles with {v} 
+For an undirected graph \code{G}, let delta(v) be the number of triangles with
+\code{v}  
 as a node, let tau(v) be the number of triples, i.e., paths of length 2 with 
-{v} as the center node.
+\code{v} as the center node.
 
 Define transitivity T(G) = sum(delta(v)) / sum(tau(v)), for all v in V.
 }
@@ -30,7 +31,7 @@ Approximating Clustering Coefficient and Transitivity, T. Schank, D. Wagner,
 Journal of Graph Algorithms and Applications, Vol. 9, No. 2 (2005).
 }
 
-\author{Li Long <li.long@isb-sib.ch>}
+\author{Li Long \email{li.long@isb-sib.ch}}
 
 \seealso{clusteringCoef, clusteringCoefAppr, graphGenerator}
 

@@ -39,7 +39,7 @@ randomGraphLayout(g, minX=0, maxX=1, minY=0, maxY=1)
 
 \details{
 If you want to simply draw a graph, you should consider using package 
-{\em Rgraphviz}.  The layout options in package {\em Rgraphviz}: \code{neato},
+\emph{Rgraphviz}.  The layout options in package \emph{Rgraphviz}: \code{neato},
 \code{circo} and \code{fdp}, correspond to \code{kamadaKawaiSpringLayout}, 
 \code{circleLayout} and \code{fruchtermanReingoldForceDirectedLayout}, 
 respectively. 
