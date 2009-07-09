@@ -1,6 +1,6 @@
 #include "RBGL.hpp"
 #include "mincut.hpp"
-#include <boost/graph/edmunds_karp_max_flow.hpp>
+#include <boost/graph/edmonds_karp_max_flow.hpp>
 #include <boost/graph/push_relabel_max_flow.hpp>
 
 typedef enum { E_MF_Push_Relabel, E_MF_Edmunds_Karp } E_MF_METHOD;
@@ -71,7 +71,7 @@ static SEXP BGL_max_flow_internal(SEXP num_verts_in, SEXP num_edges_in,
 
     	maxflow = ( method == E_MF_Push_Relabel ) ?
                      push_relabel_max_flow(flow_g, s, t) :
-                     edmunds_karp_max_flow(flow_g, s, t);
+                     edmonds_karp_max_flow(flow_g, s, t);
     }
 
     SEXP ansList, conn, eList, fList;
@@ -140,7 +140,7 @@ extern "C"
     }
 
 
-    SEXP BGL_edmunds_karp_max_flow(SEXP num_verts_in, SEXP num_edges_in,
+    SEXP BGL_edmonds_karp_max_flow(SEXP num_verts_in, SEXP num_edges_in,
                                    SEXP R_edges_in, SEXP R_capacity_in, 
 				   SEXP src, SEXP sink )
     {

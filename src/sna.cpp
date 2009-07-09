@@ -1,7 +1,7 @@
 #include "RBGL.hpp"
 #include "Basic2DMatrix.hpp"
 #include <boost/graph/johnson_all_pairs_shortest.hpp>
-#include <boost/graph/edmunds_karp_max_flow.hpp>
+#include <boost/graph/edmonds_karp_max_flow.hpp>
 
 extern "C"
 {
@@ -201,7 +201,7 @@ extern "C"
             {
                 vertex_descriptor t = vertex(j, flow_g);
 
-                CC[i][j] = (int)edmunds_karp_max_flow(flow_g, s, t);
+                CC[i][j] = (int)edmonds_karp_max_flow(flow_g, s, t);
                 MaxC = max(MaxC, CC[i][j]);
             }
         }

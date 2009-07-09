@@ -42,7 +42,7 @@ ISBN 0-201-72914-8
 
 \author{Vince Carey <stvjc@channing.harvard.edu>}
 
-\seealso{\code{\link{minCut}}, \code{\link{edmunds.karp.max.flow}}, \code{\link{push.relabel.max.flow}}  }
+\seealso{\code{\link{minCut}}, \code{\link{edmonds.karp.max.flow}}, \code{\link{push.relabel.max.flow}}  }
 
 \examples{
 con <- file(system.file("XML/conn.gxl",package="RBGL"), open="r")

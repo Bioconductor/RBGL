@@ -74,7 +74,7 @@ min_cut(VertexListGraph & g, OutputIterator s_set, OutputIterator vs_set)
 
     while (!nonneighbor_S.empty()) {
         k = nonneighbor_S.front();
-        alpha_S_k = edmunds_karp_max_flow
+        alpha_S_k = edmonds_karp_max_flow
                     (flow_g, p, k, cap, res_cap, rev_edge, &color[0], &pred[0]);
         if (alpha_S_k < alpha_star) {
             alpha_star = alpha_S_k;
