@@ -676,17 +676,17 @@ now.
 
 \subsection{Maximum Flow}
 
-The functions, \Rfunction{edmunds.karp.max.flow} and 
+The functions, \Rfunction{edmonds.karp.max.flow} and 
 \Rfunction{push.relabel.max.flow} are
 available to find the maximum flow between source and sink.
 
 <<MaxFlowdemo>>=
 edgeWeights(dijk)
-edmunds.karp.max.flow(dijk, "B", "D")
+edmonds.karp.max.flow(dijk, "B", "D")
 push.relabel.max.flow(dijk, "C", "B")
 @
 
-Call to \Rfunction{edmunds.karp.max.flow} finds the maximum flow of 2 from 
+Call to \Rfunction{edmonds.karp.max.flow} finds the maximum flow of 2 from 
 {\em B} to {\em D}: one part of flow 1 is {\em B -> D} directly, another
 part of flow 1 is {\em B -> E -> A -> C -> D}.
 

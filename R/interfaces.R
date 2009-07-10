@@ -513,7 +513,7 @@ transitive.closure <- function (g)
 
 }
 
-max.flow.internal <- function (g, source, sink, method="Edmunds.Karp")
+max.flow.internal <- function (g, source, sink, method="Edmonds.Karp")
 {
     if (!isDirected(g)) stop("only applicable to directed graphs")
 
@@ -537,8 +537,8 @@ max.flow.internal <- function (g, source, sink, method="Edmunds.Karp")
                  as.integer(em-1), as.double(eW), 
                  as.integer(s-1), as.integer(t-1), 
                  PACKAGE="RBGL")
-    else  # Edmunds.Karp
-         ans <- .Call("BGL_edmunds_karp_max_flow", 
+    else  # Edmonds.Karp
+         ans <- .Call("BGL_edmonds_karp_max_flow", 
                  as.integer(nv), as.integer(ne), 
                  as.integer(em-1), as.double(eW), 
                  as.integer(s-1), as.integer(t-1), 
@@ -554,9 +554,9 @@ max.flow.internal <- function (g, source, sink, method="Edmunds.Karp")
     list("maxflow"=ans[[1]], "edges"=ans[[2]], "flows"=ans[[3]])
 }
 
-edmunds.karp.max.flow <- function (g, source, sink)
+edmonds.karp.max.flow <- function (g, source, sink)
 {
-    max.flow.internal(g, source, sink, "Edmunds.Karp")
+    max.flow.internal(g, source, sink, "Edmonds.Karp")
 }
 
 push.relabel.max.flow <- function (g, source, sink)

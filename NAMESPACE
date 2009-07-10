@@ -24,7 +24,7 @@ export(
  "dominatorTree",
  "edgeConnectivity",     
  "edmondsMaxCardinalityMatching",
- "edmunds.karp.max.flow",
+ "edmonds.karp.max.flow",
  "extractPath",
  "floyd.warshall.all.pairs.sp",
  "fruchtermanReingoldForceDirectedLayout",

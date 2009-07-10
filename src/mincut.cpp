@@ -3,7 +3,7 @@
 #include <boost/graph/edmonds_karp_max_flow.hpp>
 #include <boost/graph/push_relabel_max_flow.hpp>
 
-typedef enum { E_MF_Push_Relabel, E_MF_Edmunds_Karp } E_MF_METHOD;
+typedef enum { E_MF_Push_Relabel, E_MF_Edmonds_Karp } E_MF_METHOD;
 
 static SEXP BGL_max_flow_internal(SEXP num_verts_in, SEXP num_edges_in,
                                   SEXP R_edges_in, SEXP R_capacity_in,
@@ -146,7 +146,7 @@ extern "C"
     {
         SEXP ansList = BGL_max_flow_internal(num_verts_in, num_edges_in,
                                              R_edges_in, R_capacity_in, 
-					     src, sink, E_MF_Edmunds_Karp);
+					     src, sink, E_MF_Edmonds_Karp);
         return(ansList);
     }
 
