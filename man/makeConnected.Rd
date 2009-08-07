@@ -31,6 +31,23 @@ ISBN 0-201-72914-8
 \author{ Li Long <li.long@isb-sib.ch> }
 
 \examples{
+library("RBGL")
+
+V <- LETTERS[1:11]
+g <- new("graphNEL", nodes=V, edgemode="undirected")
+g <- addEdge(V[1+0], V[1+1], g)
+g <- addEdge(V[1+2], V[3+1], g)
+g <- addEdge(V[1+3], V[4+1], g)
+g <- addEdge(V[1+5], V[6+1], g)
+g <- addEdge(V[1+6], V[7+1], g)
+g <- addEdge(V[1+8], V[9+1], g)
+g <- addEdge(V[1+9], V[10+1], g)
+g <- addEdge(V[1+10], V[8+1], g)
+
+
+x5 <- makeConnected(g)
+x5
+
  }
 
 \keyword{ graphs }

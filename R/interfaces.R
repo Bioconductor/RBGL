@@ -1209,46 +1209,187 @@ maximumCycleRatio<- function(g)
 boyerMyrvoldPlanarityTest<- function(g)
 {
    list("This function is not implemented yet")
+
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("boyerMyrvoldPlanarityTest",
+                as.integer(nv), as.integer(ne),
+                as.integer(em-1), PACKAGE="RBGL")
+
+   ans
 }
 
 planarFaceTraversal<- function(g)
 {
    list("This function is not implemented yet")
+
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("planarFaceTraversal",
+                as.integer(nv), as.integer(ne),
+                as.integer(em-1), PACKAGE="RBGL")
+
+   ans
+
 }
 
 planarCanonicalOrdering<- function(g)
 {
    list("This function is not implemented yet")
+
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("planarCanonicalOrdering",
+                as.integer(nv), as.integer(ne),
+                as.integer(em-1), PACKAGE="RBGL")
+
+   ans
+
 }
 
 chrobakPayneStraightLineDrawing<- function(g)
 {
    list("This function is not implemented yet")
+
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("chrobakPayneStraightLineDrawing",
+                as.integer(nv), as.integer(ne),
+                as.integer(em-1), PACKAGE="RBGL")
+
+   ans
+
 }
 
-isStraightLineDrawing<- function(g)
+isStraightLineDrawing<- function(g, drawing)
 {
    list("This function is not implemented yet")
+
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+ 
+   if ( !is.matrix(drawing) || nrow(drawing) != 2 ) #|| ncol(drawing) != nv ) 
+      stop("needs 2xm matrix for coordinates")
+
+   ans <- .Call("isStraightLineDrawing",
+                as.integer(nv), as.integer(ne),
+                as.integer(em-1), as.integer(drawing),
+		PACKAGE="RBGL")
+
+   ans
+
 }
 
 isKuratowskiSubgraph<- function(g)
 {
    list("This function is not implemented yet")
+
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("isKuratowskiSubgraph",
+                as.integer(nv), as.integer(ne),
+                as.integer(em-1), PACKAGE="RBGL")
+
+   ans
+
 }
 
 makeConnected<- function(g)
 {
    list("This function is not implemented yet")
+
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("makeConnected",
+                as.integer(nv), as.integer(ne),
+                as.integer(em-1), PACKAGE="RBGL")
+
+   #print(ans)
+
+   gn1 <- function(x) { nodes(g)[x+1] }
+   e_from = sapply(ans[1, ], gn1)
+   e_to   = sapply(ans[2, ], gn1)
+
+   gn = new("graphNEL", nodes=nodes(g), edgemode="undirected")
+   gn <- addEdge(e_from, e_to, gn)
+
+   gn 
 }
 
 makeBiconnectedPlanar<- function(g)
 {
    list("This function is not implemented yet")
+
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("makeBiconnectedPlanar",
+                as.integer(nv), as.integer(ne),
+                as.integer(em-1), PACKAGE="RBGL")
+
+   #print(ans)
+
+   if ( ans[[1]] )
+   {
+      gn1 <- function(x) { nodes(g)[x+1] }
+      e_from = sapply(ans[[2]][1, ], gn1)
+      e_to   = sapply(ans[[2]][2, ], gn1)
+
+      gn = new("graphNEL", nodes=nodes(g), edgemode="undirected")
+      gn = addEdge(e_from, e_to, gn)
+   
+      gn 
+   }
+   else
+   {
+      ans[[1]]
+   }
 }
 
 makeMaximalPlanar<- function(g)
 {
    list("This function is not implemented yet")
+
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+
+   ans <- .Call("makeMaximalPlanar",
+                as.integer(nv), as.integer(ne),
+                as.integer(em-1), PACKAGE="RBGL")
+
+   #print(ans)
+
+   if ( ans[[1]] )
+   {
+      gn1 <- function(x) { nodes(g)[x+1] }
+      e_from = sapply(ans[[2]][1, ], gn1)
+      e_to   = sapply(ans[[2]][2, ], gn1)
+   
+      gn = new("graphNEL", nodes=nodes(g), edgemode="undirected")
+      gn = addEdge(e_from, e_to, gn)
+
+      gn
+   }
+   else
+   {
+      ans[[1]]
+   }
+
 }
 
 
