@@ -1194,7 +1194,6 @@ lengauerTarjanDominatorTree<- function(g)
    list("This function is not implemented yet")
 }
 
-
 minimumCycleRatio<- function(g)
 {
    list("This function is not implemented yet")
@@ -1205,10 +1204,9 @@ maximumCycleRatio<- function(g)
    list("This function is not implemented yet")
 }
 
-
 boyerMyrvoldPlanarityTest<- function(g)
 {
-   list("This function is not implemented yet")
+   if(isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -1223,7 +1221,7 @@ boyerMyrvoldPlanarityTest<- function(g)
 
 planarFaceTraversal<- function(g)
 {
-   list("This function is not implemented yet")
+   if(isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -1234,12 +1232,11 @@ planarFaceTraversal<- function(g)
                 as.integer(em-1), PACKAGE="RBGL")
 
    ans
-
 }
 
 planarCanonicalOrdering<- function(g)
 {
-   list("This function is not implemented yet")
+   if(isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -1250,12 +1247,11 @@ planarCanonicalOrdering<- function(g)
                 as.integer(em-1), PACKAGE="RBGL")
 
    ans
-
 }
 
 chrobakPayneStraightLineDrawing<- function(g)
 {
-   list("This function is not implemented yet")
+   if(isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -1266,18 +1262,17 @@ chrobakPayneStraightLineDrawing<- function(g)
                 as.integer(em-1), PACKAGE="RBGL")
 
    ans
-
 }
 
 isStraightLineDrawing<- function(g, drawing)
 {
-   list("This function is not implemented yet")
+   if(isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
    ne <- ncol(em)
  
-   if ( !is.matrix(drawing) || nrow(drawing) != 2 ) #|| ncol(drawing) != nv ) 
+   if ( !is.matrix(drawing) || nrow(drawing) != 2 || ncol(drawing) != nv ) 
       stop("needs 2xm matrix for coordinates")
 
    ans <- .Call("isStraightLineDrawing",
@@ -1286,12 +1281,11 @@ isStraightLineDrawing<- function(g, drawing)
 		PACKAGE="RBGL")
 
    ans
-
 }
 
 isKuratowskiSubgraph<- function(g)
 {
-   list("This function is not implemented yet")
+   if(isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -1302,12 +1296,11 @@ isKuratowskiSubgraph<- function(g)
                 as.integer(em-1), PACKAGE="RBGL")
 
    ans
-
 }
 
 makeConnected<- function(g)
 {
-   list("This function is not implemented yet")
+   if(isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -1316,8 +1309,6 @@ makeConnected<- function(g)
    ans <- .Call("makeConnected",
                 as.integer(nv), as.integer(ne),
                 as.integer(em-1), PACKAGE="RBGL")
-
-   #print(ans)
 
    gn1 <- function(x) { nodes(g)[x+1] }
    e_from = sapply(ans[1, ], gn1)
@@ -1331,7 +1322,7 @@ makeConnected<- function(g)
 
 makeBiconnectedPlanar<- function(g)
 {
-   list("This function is not implemented yet")
+   if(isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -1340,8 +1331,6 @@ makeBiconnectedPlanar<- function(g)
    ans <- .Call("makeBiconnectedPlanar",
                 as.integer(nv), as.integer(ne),
                 as.integer(em-1), PACKAGE="RBGL")
-
-   #print(ans)
 
    if ( ans[[1]] )
    {
@@ -1362,7 +1351,7 @@ makeBiconnectedPlanar<- function(g)
 
 makeMaximalPlanar<- function(g)
 {
-   list("This function is not implemented yet")
+   if(isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -1371,8 +1360,6 @@ makeMaximalPlanar<- function(g)
    ans <- .Call("makeMaximalPlanar",
                 as.integer(nv), as.integer(ne),
                 as.integer(em-1), PACKAGE="RBGL")
-
-   #print(ans)
 
    if ( ans[[1]] )
    {
