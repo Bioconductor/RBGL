@@ -32,7 +32,6 @@ ISBN 0-201-72914-8
 \author{ Li Long <li.long@isb-sib.ch> }
 
 \examples{
-library("RBGL")
 
 V <- LETTERS[1:7]
 g <- new("graphNEL", nodes=V, edgemode="undirected")

@@ -32,8 +32,6 @@ ISBN 0-201-72914-8
 
 \examples{
 
-library("RBGL")
-
 V <- LETTERS[1:9]
 g <- new("graphNEL", nodes=V, edgemode="undirected")
 g <- addEdge(V[1+0],V[1+1],g)
