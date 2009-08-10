@@ -2,8 +2,9 @@
 #include "mincut.hpp"
 #include <boost/graph/edmonds_karp_max_flow.hpp>
 #include <boost/graph/push_relabel_max_flow.hpp>
+#include <boost/graph/kolmogorov_max_flow.hpp>
 
-typedef enum { E_MF_Push_Relabel, E_MF_Edmonds_Karp } E_MF_METHOD;
+typedef enum { E_MF_Push_Relabel, E_MF_Edmonds_Karp, E_MF_Kolmogorov } E_MF_METHOD;
 
 static SEXP BGL_max_flow_internal(SEXP num_verts_in, SEXP num_edges_in,
                                   SEXP R_edges_in, SEXP R_capacity_in,
@@ -18,7 +19,7 @@ static SEXP BGL_max_flow_internal(SEXP num_verts_in, SEXP num_edges_in,
     		property<edge_capacity_t, double,
     		property<edge_residual_capacity_t, double,
     		property<edge_reverse_t, Tr_edge_desc> > > >
-    		FlowGraph;
+		FlowGraph;
 
     typedef graph_traits<FlowGraph>::edge_iterator   edge_iterator;
     typedef graph_traits<FlowGraph>::vertex_descriptor vertex_descriptor;
@@ -69,9 +70,17 @@ static SEXP BGL_max_flow_internal(SEXP num_verts_in, SEXP num_edges_in,
     	vertex_descriptor s = vertex(vsrc, flow_g);
     	vertex_descriptor t = vertex(vsink, flow_g);
 
-    	maxflow = ( method == E_MF_Push_Relabel ) ?
-                     push_relabel_max_flow(flow_g, s, t) :
-                     edmonds_karp_max_flow(flow_g, s, t);
+    	if ( method == E_MF_Push_Relabel ) 
+	     maxflow = push_relabel_max_flow(flow_g, s, t);
+	else if ( method == E_MF_Edmonds_Karp )
+             maxflow = edmonds_karp_max_flow(flow_g, s, t);
+	else if ( method == E_MF_Kolmogorov )
+	{
+	     error("kolmogorov_max_flow from BGL doesn't work");
+	     //maxflow = kolmogorov_max_flow(flow_g, s, t);
+	}
+	else
+	     error("unknown method for max_flow");
     }
 
     SEXP ansList, conn, eList, fList;
@@ -157,6 +166,16 @@ extern "C"
         SEXP ansList = BGL_max_flow_internal(num_verts_in, num_edges_in,
                                              R_edges_in, R_capacity_in, 
 					     src, sink, E_MF_Push_Relabel);
+        return(ansList);
+    }
+
+    SEXP BGL_kolmogorov_max_flow(SEXP num_verts_in, SEXP num_edges_in,
+                                   SEXP R_edges_in, SEXP R_capacity_in, 
+				   SEXP src, SEXP sink )
+    {
+        SEXP ansList = BGL_max_flow_internal(num_verts_in, num_edges_in,
+                                             R_edges_in, R_capacity_in, 
+					     src, sink, E_MF_Kolmogorov);
         return(ansList);
     }
 }

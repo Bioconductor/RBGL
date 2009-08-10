@@ -537,12 +537,20 @@ max.flow.internal <- function (g, source, sink, method="Edmonds.Karp")
                  as.integer(em-1), as.double(eW), 
                  as.integer(s-1), as.integer(t-1), 
                  PACKAGE="RBGL")
-    else  # Edmonds.Karp
+    else  if ( method == "Edmonds.Karp" ) 
          ans <- .Call("BGL_edmonds_karp_max_flow", 
                  as.integer(nv), as.integer(ne), 
                  as.integer(em-1), as.double(eW), 
                  as.integer(s-1), as.integer(t-1), 
                  PACKAGE="RBGL")
+    else if ( method == "Kolmogorov")
+         ans <- .Call("BGL_kolmogorov_max_flow", 
+                 as.integer(nv), as.integer(ne), 
+                 as.integer(em-1), as.double(eW), 
+                 as.integer(s-1), as.integer(t-1), 
+                 PACKAGE="RBGL")
+    else 
+	stop("unknown method")
 
     rownames(ans[[2]]) <- c("from", "to")
     rownames(ans[[3]]) <- c("flow")
@@ -562,6 +570,16 @@ edmonds.karp.max.flow <- function (g, source, sink)
 push.relabel.max.flow <- function (g, source, sink)
 {
     max.flow.internal(g, source, sink, "Push.Relabel")
+}
+
+kolmogorov.max.flow <- function(g, source, sink)
+{
+    max.flow.internal(g, source, sink, "Kolmogorov")
+}
+
+edmondsMaxCardinalityMatching <- function(g)
+{
+    list("not implemented yet")
 }
 
 isomorphism <- function(g1, g2)
@@ -1172,16 +1190,6 @@ dominatorTree <- function(g, start=nodes(g)[1])
    ans <- sapply(ans, gn1)
    names(ans) <- nodes(g)
    ans
-}
-
-kolmogorovMaxFlow <- function(g)
-{
-   list("This function is not implemented yet")
-}
-
-edmondsMaxCardinalityMatching <- function(g)
-{
-   list("This function is not implemented yet")
 }
 
 sloanStartEndVertices<- function(g)

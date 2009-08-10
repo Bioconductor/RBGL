@@ -1,6 +1,7 @@
 \name{max.flow}
 \alias{edmonds.karp.max.flow}
 \alias{push.relabel.max.flow}
+\alias{kolmogorov.max.flow}
 
 \title{Compute max flow for a directed graph }
 
@@ -9,6 +10,7 @@
 \usage{
 edmonds.karp.max.flow(g, source, sink)
 push.relabel.max.flow(g, source, sink)
+kolmogorov.max.flow(g, source, sink)
 }
 
 \arguments{
@@ -59,5 +61,9 @@ ans2 <- edmonds.karp.max.flow(g, 3, 2)     # 3 and 2 equivalent to "C" and "B"
 
 ans3 <- push.relabel.max.flow(g, 2, 4)     # 2 and 4 equivalent to "B" and "D"
 ans4 <- push.relabel.max.flow(g, "C", "B")
+
+# error in the following  now
+#ans5 <- kolmogorov.max.flow(g, "B", "D")
+#ans6 <- kolmogorov.max.flow(g, 3, 2)     
 }
 \keyword{ models }

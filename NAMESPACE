@@ -45,7 +45,7 @@ export(
  "kCliques",
  "kCores",
  "kingOrdering",
- "kolmogorovMaxFlow",
+ "kolmogorov.max.flow",
  "lambdaSets",
  "lengauerTarjanDominatorTree",
  "makeBiconnectedPlanar",
