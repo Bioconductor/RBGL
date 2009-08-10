@@ -1209,7 +1209,7 @@ dominatorTree <- function(g, start=nodes(g)[1])
 
 sloanStartEndVertices<- function(g)
 {
-   list("This function is not implemented yet")
+   list("this is a helper-function for sloan-ordering, used explicitly" )
 }
 
 lengauerTarjanDominatorTree<- function(g, start=nodes(g)[1])
