@@ -1,5 +1,5 @@
 Package: RBGL
-Version: 1.21.6
+Version: 1.21.7
 Title: An interface to the BOOST graph library
 Author: Vince Carey <stvjc@channing.harvard.edu>, Li Long
         <li.long@isb-sib.ch>, R. Gentleman

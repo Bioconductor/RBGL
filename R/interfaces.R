@@ -579,7 +579,22 @@ kolmogorov.max.flow <- function(g, source, sink)
 
 edmondsMaxCardinalityMatching <- function(g)
 {
-    list("not implemented yet")
+    nv <- length(nodes(g))
+    em <- edgeMatrix(g)
+    ne <- ncol(em)
+
+    ans <- .Call("edmondsMaxCardinalityMatching", 
+                as.integer(nv), as.integer(ne), as.integer(em-1),
+                PACKAGE="RBGL")
+
+    gn1 <- function(x) { nodes(g)[x+1] }
+    v_from = sapply(ans[[2]][1, ], gn1)
+    v_to   = sapply(ans[[2]][2, ], gn1)
+
+    ans[[2]][1,] <- v_from
+    ans[[2]][2,] <- v_to
+
+    ans
 }
 
 isomorphism <- function(g1, g2)
