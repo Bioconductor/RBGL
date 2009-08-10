@@ -1,5 +1,6 @@
 \name{dominatorTree}
 \alias{dominatorTree}
+\alias{lengauerTarjanDominatorTree}
 
 \title{Compute dominator tree from a vertex in a directed graph }
 
@@ -7,6 +8,7 @@
 
 \usage{
 dominatorTree(g, start=nodes(g)[1])
+lengauerTarjanDominatorTree(g, start=nodes(g)[1])
 }
 
 \arguments{
@@ -40,5 +42,6 @@ g1 <- fromGXL(con1)
 close(con1)
 
 dominatorTree(g1)
+lengauerTarjanDominatorTree(g1)
 }
 \keyword{ models }

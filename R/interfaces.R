@@ -1189,9 +1189,9 @@ sloanStartEndVertices<- function(g)
    list("This function is not implemented yet")
 }
 
-lengauerTarjanDominatorTree<- function(g)
+lengauerTarjanDominatorTree<- function(g, start=nodes(g)[1])
 {
-   list("This function is not implemented yet")
+   dominatorTree(g, start)
 }
 
 minimumCycleRatio<- function(g)
