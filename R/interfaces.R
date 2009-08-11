@@ -587,12 +587,10 @@ edmondsMaxCardinalityMatching <- function(g)
                 as.integer(nv), as.integer(ne), as.integer(em-1),
                 PACKAGE="RBGL")
 
-    gn1 <- function(x) { nodes(g)[x+1] }
-    v_from = sapply(ans[[2]][1, ], gn1)
-    v_to   = sapply(ans[[2]][2, ], gn1)
-
-    ans[[2]][1,] <- v_from
-    ans[[2]][2,] <- v_to
+    ans[[1]] <- as.logical(ans[[1]])
+    ans[[2]] <- apply(ans[[2]], 2, function(x) { nodes(g)[x+1] } )
+    rownames(ans[[2]]) <- c("vertex", "matched vertex")
+    names(ans) <- c("Is max matching: ", "Matching: ")
 
     ans
 }
@@ -1239,7 +1237,7 @@ boyerMyrvoldPlanarityTest<- function(g)
                 as.integer(nv), as.integer(ne),
                 as.integer(em-1), PACKAGE="RBGL")
 
-   ans
+   as.logical(ans)
 }
 
 planarFaceTraversal<- function(g)
@@ -1253,6 +1251,8 @@ planarFaceTraversal<- function(g)
    ans <- .Call("planarFaceTraversal",
                 as.integer(nv), as.integer(ne),
                 as.integer(em-1), PACKAGE="RBGL")
+
+   ans <- sapply(ans, function(x, y) y[x+1], nodes(g))
 
    ans
 }
@@ -1269,6 +1269,8 @@ planarCanonicalOrdering<- function(g)
                 as.integer(nv), as.integer(ne),
                 as.integer(em-1), PACKAGE="RBGL")
 
+   ans <- sapply(ans, function(x, y) y[x+1], nodes(g))
+   
    ans
 }
 
@@ -1283,6 +1285,9 @@ chrobakPayneStraightLineDrawing<- function(g)
    ans <- .Call("chrobakPayneStraightLineDrawing",
                 as.integer(nv), as.integer(ne),
                 as.integer(em-1), PACKAGE="RBGL")
+
+   colnames(ans) <- nodes(g)
+   rownames(ans) <- c("x", "y")
 
    ans
 }
@@ -1303,7 +1308,7 @@ isStraightLineDrawing<- function(g, drawing)
                 as.integer(em-1), as.integer(drawing),
 		PACKAGE="RBGL")
 
-   ans
+   as.logical(ans)
 }
 
 isKuratowskiSubgraph<- function(g)
@@ -1318,7 +1323,14 @@ isKuratowskiSubgraph<- function(g)
                 as.integer(nv), as.integer(ne),
                 as.integer(em-1), PACKAGE="RBGL")
 
-   ans
+   ans[[1]] <- as.logical(ans[[1]])
+   ans[[2]] <- as.logical(ans[[2]])
+   ans[[3]] <- apply(ans[[3]], 2, function(x) nodes(g)[x+1])
+   rownames(ans[[3]]) = c("from", "to")
+
+   list("Is planar: " = ans[[1]], 
+	"Is there a Kuratowski Subgraph: " = ans[[2]], 
+	"Edges of Kuratowski Subgraph: " = ans[[3]])
 }
 
 makeConnected<- function(g)
@@ -1333,12 +1345,10 @@ makeConnected<- function(g)
                 as.integer(nv), as.integer(ne),
                 as.integer(em-1), PACKAGE="RBGL")
 
-   gn1 <- function(x) { nodes(g)[x+1] }
-   e_from = sapply(ans[1, ], gn1)
-   e_to   = sapply(ans[2, ], gn1)
+   ans <- apply(ans, 2, function(x) { nodes(g)[x+1] } )
 
    gn = new("graphNEL", nodes=nodes(g), edgemode="undirected")
-   gn <- addEdge(e_from, e_to, gn)
+   gn <- addEdge(ans[1,], ans[2, ], gn)
 
    gn 
 }
@@ -1355,21 +1365,20 @@ makeBiconnectedPlanar<- function(g)
                 as.integer(nv), as.integer(ne),
                 as.integer(em-1), PACKAGE="RBGL")
 
+   names(ans) <- c("Is planar: ", "new graph")
+   ans[[1]] <- as.logical(ans[[1]])
+
    if ( ans[[1]] )
    {
-      gn1 <- function(x) { nodes(g)[x+1] }
-      e_from = sapply(ans[[2]][1, ], gn1)
-      e_to   = sapply(ans[[2]][2, ], gn1)
+      ans[[2]] <- apply(ans[[2]], 2, function(x) { nodes(g)[x+1] } )
 
       gn = new("graphNEL", nodes=nodes(g), edgemode="undirected")
-      gn = addEdge(e_from, e_to, gn)
-   
-      gn 
+      gn <- addEdge(ans[[2]][1,], ans[[2]][2, ], gn)
+
+      ans[[2]] <- gn 
    }
-   else
-   {
-      ans[[1]]
-   }
+
+   ans
 }
 
 makeMaximalPlanar<- function(g)
@@ -1384,22 +1393,20 @@ makeMaximalPlanar<- function(g)
                 as.integer(nv), as.integer(ne),
                 as.integer(em-1), PACKAGE="RBGL")
 
+   names(ans) <- c("Is planar: ", "new graph")
+   ans[[1]] <- as.logical(ans[[1]])
+
    if ( ans[[1]] )
    {
-      gn1 <- function(x) { nodes(g)[x+1] }
-      e_from = sapply(ans[[2]][1, ], gn1)
-      e_to   = sapply(ans[[2]][2, ], gn1)
-   
+      ans[[2]] <- apply(ans[[2]], 2, function(x) { nodes(g)[x+1] } )
+
       gn = new("graphNEL", nodes=nodes(g), edgemode="undirected")
-      gn = addEdge(e_from, e_to, gn)
+      gn <- addEdge(ans[[2]][1,], ans[[2]][2, ], gn)
 
-      gn
-   }
-   else
-   {
-      ans[[1]]
+      ans[[2]] <- gn 
    }
 
+   ans
 }
 
 
