@@ -23,6 +23,7 @@ export(
  "dijkstra.sp",          
  "dominatorTree",
  "edgeConnectivity",     
+ "edmondsOptimumBranching",
  "edmondsMaxCardinalityMatching",
  "edmonds.karp.max.flow",
  "extractPath",

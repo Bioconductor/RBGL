@@ -1410,3 +1410,20 @@ makeMaximalPlanar<- function(g)
 }
 
 
+edmondsOptimumBranching <- function(g)
+{
+   if(!isDirected(g)) stop("only appropriate for directed graphs")
+
+   nv <- length(nodes(g))
+   em <- edgeMatrix(g)
+   ne <- ncol(em)
+   eW <- unlist(edgeWeights(g))
+
+   ans <- .Call("edmondsOptimumBranching",
+                as.integer(nv), as.integer(ne),
+                as.integer(em-1), as.double(eW),
+		PACKAGE="RBGL")
+
+   ans
+}
+
