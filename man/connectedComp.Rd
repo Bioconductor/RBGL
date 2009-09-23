@@ -36,7 +36,7 @@ ISBN 0-201-72914-8
 
 \author{ Vince Carey <stvjc@channing.harvard.edu>}
 
-\seealso{\code{\link[graph]{connComp}},\code{\link{strongComp}}, \code{\link[graph]{ugraph}}, \code{\link{same.component}} }
+\seealso{\code{\link[graph:graph-class]{connComp}},\code{\link{strongComp}}, \code{\link[graph]{ugraph}}, \code{\link{same.component}} }
 
 \examples{
 con <- file(system.file("GXL/kmstEx.gxl",package="graph"), open="r")

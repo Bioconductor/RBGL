@@ -36,7 +36,7 @@ Each element in the returned list contains:
 \item{path_detail}{if requested, a vector of names of the nodes on the shortest path},
 \item{length_detail}{if requested, a list of edge weights of this shortest path}.
 
-See \code{\link[graph]{pathWeights}} for caveats about undirected graph representation.
+See \code{\link[graph:edgeMatrix]{pathWeights}} for caveats about undirected graph representation.
 }
 
 \author{ VJ Carey <stvjc@channing.harvard.edu>, Li Long <li.long@isb-sib.ch> }

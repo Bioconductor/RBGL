@@ -30,7 +30,7 @@ ISBN 0-201-72914-8
 
 \author{Vince Carey <stvjc@channing.harvard.edu>}
 
-\seealso{  \code{\link[e1071]{allShortestPaths}}}
+\seealso{  \code{\link[e1071:shortestPaths]{allShortestPaths}}}
 
 \examples{
 data(FileDep)

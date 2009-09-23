@@ -53,7 +53,7 @@ ISBN 0-201-72914-8
 
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{\code{\link[graph]{connComp}}, \code{\link{connectedComp}}, \code{\link{strongComp}} }
+\seealso{\code{\link[graph:graph-class]{connComp}}, \code{\link{connectedComp}}, \code{\link{strongComp}} }
 
 \examples{
 con <- file(system.file("XML/conn2.gxl",package="RBGL"), open="r")
