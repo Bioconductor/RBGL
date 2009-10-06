@@ -51,8 +51,13 @@ extern "C"
 #endif
 
         SEXP ansList;
-        PROTECT(ansList = NEW_INTEGER(1));
-        INTEGER(ansList)[0] = 0;
+        PROTECT(ansList = allocMatrix(INTSXP, 2, branching.size()));
+        int sind = 0;
+	BOOST_FOREACH (Edge e, branching)
+    	{
+	    INTEGER(ansList)[sind++] = source(e, g);
+	    INTEGER(ansList)[sind++] = target(e, g);
+	}
         UNPROTECT(1);
         return(ansList);
     }

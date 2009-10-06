@@ -1424,6 +1424,9 @@ edmondsOptimumBranching <- function(g)
                 as.integer(em-1), as.double(eW),
 		PACKAGE="RBGL")
 
+   ans <- apply(ans, 2, function(x, y) y[x+1], nodes(g))
+   rownames(ans) <- c("from", "to")
+
    ans
 }
 
