@@ -50,15 +50,22 @@ extern "C"
     }
 #endif
 
-        SEXP ansList;
-        PROTECT(ansList = allocMatrix(INTSXP, 2, branching.size()));
-        int sind = 0;
+        SEXP ansList, ans, answt;
+	PROTECT(ansList = allocVector(VECSXP,2));
+        PROTECT(ans = allocMatrix(INTSXP, 2, branching.size()));
+	PROTECT(answt = allocMatrix(REALSXP,1,branching.size()));
+
+        int k = 0, j = 0;
 	BOOST_FOREACH (Edge e, branching)
     	{
-	    INTEGER(ansList)[sind++] = source(e, g);
-	    INTEGER(ansList)[sind++] = target(e, g);
+	    INTEGER(ans)[k++] = source(e, g);
+	    INTEGER(ans)[k++] = target(e, g);
+	    REAL(answt)[j++] = get(weights, e);
 	}
-        UNPROTECT(1);
+
+	SET_VECTOR_ELT(ansList,0,ans);
+	SET_VECTOR_ELT(ansList,1,answt);
+        UNPROTECT(3);
         return(ansList);
     }
 

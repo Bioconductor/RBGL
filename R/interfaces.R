@@ -1424,9 +1424,12 @@ edmondsOptimumBranching <- function(g)
                 as.integer(em-1), as.double(eW),
 		PACKAGE="RBGL")
 
-   ans <- apply(ans, 2, function(x, y) y[x+1], nodes(g))
-   rownames(ans) <- c("from", "to")
+    ans[[1]] <- apply(ans[[1]], 2, function(x, y) y[x+1], nodes(g))
+    rownames(ans[[1]]) <- c("from", "to")
+    rownames(ans[[2]]) <- c("weight")
+    names(ans) <- c("edgeList", "weights")
+    ans$nodes <- unique(as.vector(ans[[1]]))
+    ans
 
-   ans
 }
 
