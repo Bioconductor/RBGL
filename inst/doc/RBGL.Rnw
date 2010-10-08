@@ -42,9 +42,9 @@
 \begin{document}
 
 <<echo=false, results=hide>>=
-library("RBGL")
+library(RBGL)
 library(Rgraphviz)
-library("XML")
+library(XML)
 @
 
 \title{{\it RBGL}: R interface to boost graph library}
