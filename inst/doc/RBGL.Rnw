@@ -651,6 +651,7 @@ incremental.components(jcoex)
 same.component(jcoex, "A", "F")
 same.component(jcoex, "A", "A1")
 jcoex <- addEdge("A", "A1", jcoex)
+x <- init.incremental.components(jcoex)
 incremental.components(jcoex)
 same.component(jcoex, "A", "A1")
 @
