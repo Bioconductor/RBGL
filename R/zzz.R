@@ -1,2 +1,2 @@
-.onLoad <- function(pkgname, libname) require("methods")
+.onLoad <- function(libname, pkgname) require("methods")
 

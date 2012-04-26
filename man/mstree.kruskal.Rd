@@ -39,7 +39,6 @@ ISBN 0-201-72914-8
 
 \author{ VJ Carey <stvjc@channing.harvard.edu> }
 
-\seealso{\code{\link{prim.minST}}}
 
 \examples{
 con1 <- file(system.file("XML/kmstEx.gxl",package="RBGL"), open="r")

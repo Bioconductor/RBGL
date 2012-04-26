@@ -32,10 +32,9 @@ mstree.kruskal <- function(x)
 
 }
 
-prim.minST <- function ( g ) 
+prim.minST <- function () 
 {
-    .Deprecated("mstree.prim", "RBGL")
-    mstree.prim(g)
+    .Defunct("mstree.prim", "RBGL")
 }
 
 mstree.prim <- function ( g ) 
@@ -409,7 +408,7 @@ johnson.all.pairs.sp <- function (g)
 		as.integer(nv), as.integer(ne), 
 		as.integer(em - 1), as.double(eW), 
 		PACKAGE="RBGL")
-    tmp <- matrix(ans, nr = length(nodes(g)))
+    tmp <- matrix(ans, nrow = length(nodes(g)))
     dimnames(tmp) <- list(nodes(g), nodes(g))
     tmp[ tmp >= .Machine$double.xmax ] <- Inf
     t(tmp)
@@ -427,7 +426,7 @@ floyd.warshall.all.pairs.sp <- function (g)
 		as.integer(nv), as.integer(ne), 
 		as.integer(em - 1), as.double(eW), 
 		PACKAGE="RBGL")
-    tmp <- matrix(ans, nr = length(nodes(g)))
+    tmp <- matrix(ans, nrow = length(nodes(g)))
     dimnames(tmp) <- list(nodes(g), nodes(g))
     tmp[ tmp >= .Machine$double.xmax ] <- Inf
     t(tmp)
