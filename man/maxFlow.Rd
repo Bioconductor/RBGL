@@ -62,7 +62,7 @@ ans2 <- edmonds.karp.max.flow(g, 3, 2)     # 3 and 2 equivalent to "C" and "B"
 ans3 <- push.relabel.max.flow(g, 2, 4)     # 2 and 4 equivalent to "B" and "D"
 ans4 <- push.relabel.max.flow(g, "C", "B")
 
-# error in the following  now
+# error in the following  now, 14 june 2014
 #ans5 <- kolmogorov.max.flow(g, "B", "D")
 #ans6 <- kolmogorov.max.flow(g, 3, 2)     
 }

@@ -768,113 +768,113 @@ FD2 <- addEdge(from="bar_o", to="dax_h", FD2)
 tsort(FD2)
 @
 
-\subsection{Layout}
-
-If you want to simply draw a graph, you should consider using package 
-{\em Rgraphviz}. 
-
-Package {\em Rgraphviz} provides a lot more functionalities in graph layout,
-you can use it to do the actual layouts: 
-a. "neato" uses Kamada-Kawai algorithm to make spring model layout, 
-b. "fdp" uses Fruchterman-Reingold algorithm to make spring model layout,
-c. "circo" does circular layout.
-See Figure~\ref{fig:graphlayout} for an example.
-
-<<Layoutdemo>>=
-# library(Rgraphviz)
-plot(coex, "neato")
-@
-<<figneato, fig=TRUE, echo=false, results=hide, include=FALSE>>=
-z <- plot(coex, "neato")
-@
-
-The following functions are interfaces to those in BGL, they only calculate 
-the (x, y)-coordinates of the vertices in the graph.  The actual layout is 
-achieved with additional function, we provide an example on how to do so.
-
-Following functions are available:
-
-The \Rfunction{randomGraphLayout} function puts the vertices randomly 
-on a plane;
-
-The \Rfunction{circleLayout} function puts the vertices as vertices of 
-a regular polygon;
-
-The \Rfunction{kamadaKawaiSpringLayout} function is for connected, 
-undirected graphs, it treats the edges as springs and tries to minimize 
-the energy of the whole system;
-
-The \Rfunction{fruchtermanReingoldForceDirectedLayout} function is for 
-unweighted, undirected, possibly disconnected graphs, it treats the edges 
-as forces that pull vertices together, no-edges as forces that push 
-vertices apart, vertices move to a position as environment changes; 
-initial positions of the vertices are set randomly by calling 
-\Rfunction{randomGraphLayout}.  Notice that the choice of "width" and 
-"height" values has dramatic impact on the performance.
-
-<<Layoutdemo2>>=
-randomGraphLayout(coex)
-circleLayout(coex)
-kamadaKawaiSpringLayout(coex)
-fruchtermanReingoldForceDirectedLayout(coex, 10, 10)
-@
-
-Outputs are the (x, y)-coordinates of the vertices in the layout.
-
-If you want to draw the graphs based on the calculated coordinates, you need 
-an additional function.  The following is an example.
-
-<<Layoutdemo3>>=
-crudeGraphPlot <- function(g, alg=circleLayout, ...) {
-#
-# the alg parameter is a function that computes the
-# layout of g, returning it as a list of length 1
-# with two rows: top row is x coordinates, bottom is
-# y coordinates, and node names are used as colnames
-# the ... are passed to segments()
-#
-  layout <- alg(g)
-  plot( layout[1,], layout[2,], pch=nodes(g), axes=FALSE,
-    xlab="", ylab="", main=substitute(g), cex=1.4 )
-  ee <- edges(g)
-  src <- names(ee)
-  ds <- function(nn1, nn2, lob) segments(lob[1,nn1], lob[2,nn1],
-        lob[1,nn2], lob[2,nn2], ...)
-  for (s in src) sapply(ee[[s]], function(x) ds(s, x, layout))
-  invisible(NULL)
-}
-
-crudeGraphPlot(coex)
-crudeGraphPlot(coex, alg=kamadaKawaiSpringLayout, col="green")
-@
-
-<<figlayout1, fig=TRUE, echo=false, results=hide, include=FALSE>>=
-crudeGraphPlot(coex)
-@
-
-<<figlayout2, fig=TRUE, echo=false, results=hide, include=FALSE>>=
-crudeGraphPlot(coex, alg=kamadaKawaiSpringLayout, col="green")
-@
-
-\begin{figure}[tp]
-\begin{center}
-\begin{tabular}{cc}
-\includegraphics[width=0.49\textwidth]{RBGL-figneato} &
-\includegraphics[width=0.49\textwidth]{RBGL-figlayout1} \\
-\includegraphics[width=0.49\textwidth]{RBGL-figlayout2} \\
-\end{tabular}
-\end{center}
-\caption{\label{fig:graphlayout}%
-a) plot(coex, neato).
-b) crudeGraphPlot(coex).
-c) crudeGraphPlot(coex, alg=kamadaKawaiSpringLayout, col="green"). }
-\end{figure}
-
-Call crudeGraphPlot(coex) gives the default circular layout on your graphics device.
-
-Call crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green") shows you the spring layout with green edges, see Figure~\ref{fig:graphlayout}.
-
-
+%\subsection{Layout}
+%
+%If you want to simply draw a graph, you should consider using package 
+%{\em Rgraphviz}. 
+%
+%Package {\em Rgraphviz} provides a lot more functionalities in graph layout,
+%you can use it to do the actual layouts: 
+%a. "neato" uses Kamada-Kawai algorithm to make spring model layout, 
+%b. "fdp" uses Fruchterman-Reingold algorithm to make spring model layout,
+%c. "circo" does circular layout.
+%See Figure~\ref{fig:graphlayout} for an example.
+%
+%<<Layoutdemo>>=
+%# library(Rgraphviz)
+%plot(coex, "neato")
+%@
+%<<figneato, fig=TRUE, echo=false, results=hide, include=FALSE>>=
+%z <- plot(coex, "neato")
+%@
+%
+%The following functions are interfaces to those in BGL, they only calculate 
+%the (x, y)-coordinates of the vertices in the graph.  The actual layout is 
+%achieved with additional function, we provide an example on how to do so.
+%
+%Following functions are available:
+%
+%The \Rfunction{randomGraphLayout} function puts the vertices randomly 
+%on a plane;
+%
+%The \Rfunction{circleLayout} function puts the vertices as vertices of 
+%a regular polygon;
+%
+%The \Rfunction{kamadaKawaiSpringLayout} function is for connected, 
+%undirected graphs, it treats the edges as springs and tries to minimize 
+%the energy of the whole system;
+%
+%The \Rfunction{fruchtermanReingoldForceDirectedLayout} function is for 
+%unweighted, undirected, possibly disconnected graphs, it treats the edges 
+%as forces that pull vertices together, no-edges as forces that push 
+%vertices apart, vertices move to a position as environment changes; 
+%initial positions of the vertices are set randomly by calling 
+%\Rfunction{randomGraphLayout}.  Notice that the choice of "width" and 
+%"height" values has dramatic impact on the performance.
+%
+%<<Layoutdemo2>>=
+%randomGraphLayout(coex)
+%circleLayout(coex)
+%kamadaKawaiSpringLayout(coex)
+%fruchtermanReingoldForceDirectedLayout(coex, 10, 10)
+%@
+%
+%Outputs are the (x, y)-coordinates of the vertices in the layout.
+%
+%If you want to draw the graphs based on the calculated coordinates, you need 
+%an additional function.  The following is an example.
+%
+%<<Layoutdemo3>>=
+%crudeGraphPlot <- function(g, alg=circleLayout, ...) {
+%#
+%# the alg parameter is a function that computes the
+%# layout of g, returning it as a list of length 1
+%# with two rows: top row is x coordinates, bottom is
+%# y coordinates, and node names are used as colnames
+%# the ... are passed to segments()
+%#
+%  layout <- alg(g)
+%  plot( layout[1,], layout[2,], pch=nodes(g), axes=FALSE,
+%    xlab="", ylab="", main=substitute(g), cex=1.4 )
+%  ee <- edges(g)
+%  src <- names(ee)
+%  ds <- function(nn1, nn2, lob) segments(lob[1,nn1], lob[2,nn1],
+%        lob[1,nn2], lob[2,nn2], ...)
+%  for (s in src) sapply(ee[[s]], function(x) ds(s, x, layout))
+%  invisible(NULL)
+%}
+%
+%crudeGraphPlot(coex)
+%crudeGraphPlot(coex, alg=kamadaKawaiSpringLayout, col="green")
+%@
+%
+%<<figlayout1, fig=TRUE, echo=false, results=hide, include=FALSE>>=
+%crudeGraphPlot(coex)
+%@
+%
+%<<figlayout2, fig=TRUE, echo=false, results=hide, include=FALSE>>=
+%crudeGraphPlot(coex, alg=kamadaKawaiSpringLayout, col="green")
+%@
+%
+%\begin{figure}[tp]
+%\begin{center}
+%\begin{tabular}{cc}
+%\includegraphics[width=0.49\textwidth]{RBGL-figneato} &
+%\includegraphics[width=0.49\textwidth]{RBGL-figlayout1} \\
+%\includegraphics[width=0.49\textwidth]{RBGL-figlayout2} \\
+%\end{tabular}
+%\end{center}
+%\caption{\label{fig:graphlayout}%
+%a) plot(coex, neato).
+%b) crudeGraphPlot(coex).
+%c) crudeGraphPlot(coex, alg=kamadaKawaiSpringLayout, col="green"). }
+%\end{figure}
+%
+%Call crudeGraphPlot(coex) gives the default circular layout on your graphics device.
+%
+%Call crudeGraphPlot(coex, alg=kamada.kawai.spring.layout, col="green") shows you the spring layout with green edges, see Figure~\ref{fig:graphlayout}.
+%
+%
 \subsection{Isomorphism}
 
 The \Rfunction{isomorphism} function determines if two graphs are isomorphism, 
@@ -917,62 +917,62 @@ color 0 to vertices {\em A, E}, color 1 to vertices {\em B, H},
 color 2 to vertices {\em C, F} and color 3 to vertices {\em D, G}.
 
 
-\subsection{Transitive Closure}
-
-Directed graphs can be used to represent relations, $R$, on a finite set
-of objects, V. For example, the objects could be integers and the
-relation could be less than. An edge exists in the graph, between two
-nodes, $(u,v)$ if the $(u,v) \in R$. A \textit{transitive digraph} is
-a digraph whose corresponding relation is transitive. That is, if
-there is an edge $(u, v)$ and an edge $(v, w)$, then there must be an
-edge $(u, w)$. Finally, the transitive closure, $R^*$ of an arbitrary
-relation $R$ is the smallest transitive relation that contains $R$.
-
-Finally, if $D$ is the directed graph that represents the relation
-$R$, then the directed graph $D^*$ that represents the relation $R^*$
-is called the transitive closure of $D$.
-
-The function \Rfunction{transitive.closure} returns the transitive
-closure of a directed graph.
-
-In the code below we compute the transitive closure for the example
-graph \Robject{dijk} and then plot both the original graph, and the
-transitive closure in Figure~\ref{fig:graphTC}.
-
-%%FIXME: surely this should return a graph of the same class as the
-%%input, not some list? Not sure this is the most elegant, but it
-%%seems to work - someone should check that the output is actually the
-%%transitive closure - I do not much like the self-loops, but maybe
-%%they are part of it.
-
-TO-BE-FINALIZED:
-The transitive closure {\em tc} of a graph {\em g} is a graph that 
-contains the same set of vertices as {\em g}, and there is an edge from 
-{\em u} to {\em v} in {\em tc} iff there is a path from {\em u} to {\em v}
-in {\em g}.
-
-<<transClosuredemo>>=
-dijk.tc = transitive.closure(dijk)
-@
-
-<<figdijkTC, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
-  plot(dijk.tc, main="b) Transitive closure")
-@
-
-\begin{figure}[tp]
-\begin{center}
-\begin{tabular}{cc}
-\includegraphics[width=0.49\textwidth]{RBGL-figdijk} &
-\includegraphics[width=0.49\textwidth]{RBGL-figdijkTC} \\
-\end{tabular}
-\end{center}
-\caption{\label{fig:graphTC}%
-a) The graph for Dijkstra's example.
-b) The transitive closure of the graph in panel a)}
-\end{figure}
-
-In this graph, you can reach each and every vertex from any vertex.
-
+%\subsection{Transitive Closure}
+%
+%Directed graphs can be used to represent relations, $R$, on a finite set
+%of objects, V. For example, the objects could be integers and the
+%relation could be less than. An edge exists in the graph, between two
+%nodes, $(u,v)$ if the $(u,v) \in R$. A \textit{transitive digraph} is
+%a digraph whose corresponding relation is transitive. That is, if
+%there is an edge $(u, v)$ and an edge $(v, w)$, then there must be an
+%edge $(u, w)$. Finally, the transitive closure, $R^*$ of an arbitrary
+%relation $R$ is the smallest transitive relation that contains $R$.
+%
+%Finally, if $D$ is the directed graph that represents the relation
+%$R$, then the directed graph $D^*$ that represents the relation $R^*$
+%is called the transitive closure of $D$.
+%
+%The function \Rfunction{transitive.closure} returns the transitive
+%closure of a directed graph.
+%
+%In the code below we compute the transitive closure for the example
+%graph \Robject{dijk} and then plot both the original graph, and the
+%transitive closure in Figure~\ref{fig:graphTC}.
+%
+%%%FIXME: surely this should return a graph of the same class as the
+%%%input, not some list? Not sure this is the most elegant, but it
+%%%seems to work - someone should check that the output is actually the
+%%%transitive closure - I do not much like the self-loops, but maybe
+%%%they are part of it.
+%
+%TO-BE-FINALIZED:
+%The transitive closure {\em tc} of a graph {\em g} is a graph that 
+%contains the same set of vertices as {\em g}, and there is an edge from 
+%{\em u} to {\em v} in {\em tc} iff there is a path from {\em u} to {\em v}
+%in {\em g}.
+%
+%<<transClosuredemo>>=
+%dijk.tc = transitive.closure(dijk)
+%@
+%
+%<<figdijkTC, fig=TRUE, echo=FALSE, results=hide, include=FALSE  >>=
+%  plot(dijk.tc, main="b) Transitive closure")
+%@
+%
+%\begin{figure}[tp]
+%\begin{center}
+%\begin{tabular}{cc}
+%\includegraphics[width=0.49\textwidth]{RBGL-figdijk} &
+%\includegraphics[width=0.49\textwidth]{RBGL-figdijkTC} \\
+%\end{tabular}
+%\end{center}
+%\caption{\label{fig:graphTC}%
+%a) The graph for Dijkstra's example.
+%b) The transitive closure of the graph in panel a)}
+%\end{figure}
+%
+%In this graph, you can reach each and every vertex from any vertex.
+%
 
 \subsection{Wavefront, Profiles}
 

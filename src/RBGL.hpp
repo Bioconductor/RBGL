@@ -13,12 +13,23 @@
 
 #include <boost/config.hpp>
 #include <boost/utility.hpp>
-#include <boost/property_map.hpp>
+#include <boost/property_map/property_map.hpp>
 #include <boost/generator_iterator.hpp>
 
-#include <boost/pending/integer_range.hpp>
+/*
+stvjc@stvjc-VT527AA-ABA-p6340f:~/BIOC_DEVEL/RBGL/src$ ls *0/boost/pending
+bucket_sorter.hpp          indirect_cmp.hpp       mutable_queue.hpp
+container_traits.hpp       integer_log2.hpp       property.hpp
+cstddef.hpp                is_heap.hpp            property_serialize.hpp
+detail                     iterator_adaptors.hpp  queue.hpp
+disjoint_sets.hpp          iterator_tests.hpp     relaxed_heap.hpp
+fenced_priority_queue.hpp  lowest_bit.hpp         stringtok.hpp
+fibonacci_heap.hpp         mutable_heap.hpp
+*/
+
+/* #include <boost/pending/integer_range.hpp> */
 #include <boost/pending/indirect_cmp.hpp>
-#include <boost/pending/ct_if.hpp>
+/* #include <boost/pending/ct_if.hpp> */
 
 #include <boost/type_traits/same_traits.hpp>
 

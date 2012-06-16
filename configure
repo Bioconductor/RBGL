@@ -1,16 +1,10 @@
 #!/bin/sh
-if test -d ./src/boostIncl;
+BASEBOOSTNAME=rbgl_trimmed_boost_1_49_0
+BOOSTTGZNAME=${BASEBOOSTNAME}.tar.gz
+if test -d ./src/${BASEBOOSTNAME};
 	then 
-#		if test -f ./src/boostIncl.tar.gz;
-#		then
-			echo 'found boostIncl header sources and tar archive;\n using what is there.'
-#			rm -rf ./src/boostIncl;
-#			echo "untarring boost include tree...";
-#			cd src; tar zxf boostIncl.tar.gz;
-#		else
-#			echo 'found boostIncl header sources but no tar archive;\nusing what is there...';
-#		fi;
+			echo 'found ${BASEBOOSTNAME} header sources and tar archive;\n using what is there.'
 	else
 		echo "untarring boost include tree...";
-		cd src; gunzip -dc boostIncl.tar.gz | tar xf -;
+		cd src; gunzip -dc ${BOOSTTGZNAME} | tar xf -;
 fi;

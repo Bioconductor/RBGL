@@ -1,1 +1,1 @@
-PKG_CXXFLAGS=-IboostIncl 
+PKG_CXXFLAGS=-Irbgl_trimmed_boost_1_49_0

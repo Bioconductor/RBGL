@@ -1,4 +1,5 @@
 #include "RBGL.hpp"
+#include <boost/foreach.hpp>
 #include <boost/pending/disjoint_sets.hpp>
 #include <boost/graph/incremental_components.hpp>
 
@@ -9,8 +10,12 @@ extern "C"
 
         typedef graph_traits<Graph_ud>::vertex_descriptor Vertex;
         typedef graph_traits<Graph_ud>::vertices_size_type size_type;
+  
+  typedef graph_traits<Graph_ud>::vertices_size_type VertexIndex;
+
 	typedef Vertex* Parent;
 	typedef size_type* Rank;
+	typedef VertexIndex* Rank;
 
 	static vector<size_type> rrank(1);
 	static vector<Vertex> parent(1);
@@ -49,8 +54,8 @@ extern "C"
 	    incremental_components(g, ds);
 	}
 
-	Components components(&parent[0], &parent[0] + parent.size());
 	
+        Components components(parent.begin(), parent.end());
 	unsigned int NC = components.size();
 
         SEXP anslst, conn, outvec;
@@ -61,30 +66,28 @@ extern "C"
 	SET_VECTOR_ELT(anslst,0,conn);
 
 	int l;
-	Components::size_type k;
-	Components::value_type::iterator j;
 
-        for (k = 0; k < NC; k++ )
-	{
-		// count how many vertices in this component: no size()
-		l = 0;
-		for (j = components[k].begin(); j != components[k].end(); j++ ) 
-			l++;
-		PROTECT(outvec = allocMatrix(INTSXP, 1, l));
-
-		l = 0;
-		for (j = components[k].begin(); j != components[k].end(); j++ )
-			INTEGER(outvec)[l++] = *j;
-
-		SET_VECTOR_ELT(anslst,k+1,outvec);
-	}
+        int k = 0;
+	BOOST_FOREACH(VertexIndex current_index, components) {
+            l = 0;
+	    // Iterate through the child vertex indices for [current_index]
+	    BOOST_FOREACH(VertexIndex child_index, components[current_index]) {
+                l++;
+            }
+            PROTECT(outvec = allocMatrix(INTSXP, 1, l));
+            l = 0;
+	    BOOST_FOREACH(VertexIndex child_index, components[current_index]) {
+                INTEGER(outvec)[l++] =(int) child_index;
+            }
+	    SET_VECTOR_ELT(anslst,k+1,outvec);
+            k = l+1;
+        }
 
         UNPROTECT(NC+2);
         return(anslst);
     }
-
     SEXP BGL_init_incremental_components(SEXP num_verts_in,
-                SEXP num_edges_in, SEXP R_edges_in)
+		SEXP num_edges_in, SEXP R_edges_in)
     {
         SEXP ans = BGL_incr_comp_internal(num_verts_in,
                 num_edges_in, R_edges_in, 

@@ -2,7 +2,7 @@
 #include "mincut.hpp"
 #include <boost/graph/edmonds_karp_max_flow.hpp>
 #include <boost/graph/push_relabel_max_flow.hpp>
-#include <boost/graph/kolmogorov_max_flow.hpp>
+#include <boost/graph/boykov_kolmogorov_max_flow.hpp> 
 
 typedef enum { E_MF_Push_Relabel, E_MF_Edmonds_Karp, E_MF_Kolmogorov } E_MF_METHOD;
 
@@ -74,11 +74,16 @@ static SEXP BGL_max_flow_internal(SEXP num_verts_in, SEXP num_edges_in,
 	     maxflow = push_relabel_max_flow(flow_g, s, t);
 	else if ( method == E_MF_Edmonds_Karp )
              maxflow = edmonds_karp_max_flow(flow_g, s, t);
+
+/*
+needs different parameters as of 14 june 2012
 	else if ( method == E_MF_Kolmogorov )
 	{
-	     error("kolmogorov_max_flow from BGL doesn't work");
-	     //maxflow = kolmogorov_max_flow(flow_g, s, t);
+//	     error("kolmogorov_max_flow from BGL doesn't work");
+	     maxflow = boykov_kolmogorov_max_flow(flow_g, s, t);
 	}
+*/
+
 	else
 	     error("unknown method for max_flow");
     }

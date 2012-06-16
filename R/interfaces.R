@@ -770,7 +770,7 @@ init.incremental.components <- function (g)
 	        as.integer(nv), as.integer(ne), as.integer(em-1), 
                 PACKAGE="RBGL")
 
-   ans[-1] <- lapply(ans[-1], function(x, y) y[x+1], nodes(g))
+   ans[-1] <- lapply(nodes(g), function(x)x) # ans[-1], function(x, y) y[x+1], nodes(g))
    names(ans[[1]]) = "no. of initial components"
    ans
 }
