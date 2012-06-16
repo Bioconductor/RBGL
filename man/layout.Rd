@@ -7,12 +7,12 @@
 \alias{gursoyAtunLayout}
 \alias{randomGraphLayout}
 
-\title{Layout an undirected graph in 2D}
+\title{Layout an undirected graph in 2D -- suspended june 16 2012}
 
-\description{Layout an undirected graph in 2D}
+\description{Layout an undirected graph in 2D -- suspended june 16 2012}
 
 \usage{
-circleLayout(g, radius=1)
+circleLayout(g, radius=1) # does not compile with boost 1.49
 kamadaKawaiSpringLayout( g, edge_or_side=1, es_length=1 )
 fruchtermanReingoldForceDirectedLayout(g, width=1, height=1)
 randomGraphLayout(g, minX=0, maxX=1, minY=0, maxY=1)
@@ -84,6 +84,7 @@ ISBN 0-201-72914-8
 \seealso{ \code{\link[Rgraphviz]{layoutGraph}} }
 
 \examples{
+\dontrun{
 con <- file(system.file("XML/conn.gxl",package="RBGL"), open="r")
 coex <- fromGXL(con)
 close(con)
@@ -97,6 +98,7 @@ kamadaKawaiSpringLayout(coex)
 randomGraphLayout(coex)
 
 fruchtermanReingoldForceDirectedLayout(coex, 10, 10)
+}
 
 }
 \keyword{ models }

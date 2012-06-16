@@ -1,12 +1,12 @@
 \name{transitive.closure}
 \alias{transitive.closure}
 
-\title{Compute transitive closure of a directed graph}
+\title{Compute transitive closure of a directed graph -- suspended 16 june 2012}
 
 \description{Compute  transitive closure of a directed graph}
 
 \usage{
-transitive.closure(g)
+transitive.closure(g) # not compiling with boost 1.49 -- needs work
 }
 
 \arguments{
@@ -36,10 +36,12 @@ ISBN 0-201-72914-8
 \seealso{}
 
 \examples{
+\dontrun{
 con <- file(system.file("XML/dijkex.gxl",package="RBGL"))
 coex <- fromGXL(con)
 close(con)
 
 transitive.closure(coex)
+}
 }
 \keyword{ models }
