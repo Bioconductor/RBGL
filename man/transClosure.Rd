@@ -1,12 +1,12 @@
 \name{transitive.closure}
 \alias{transitive.closure}
 
-\title{Compute transitive closure of a directed graph -- suspended 16 june 2012}
+\title{Compute transitive closure of a directed graph}
 
 \description{Compute  transitive closure of a directed graph}
 
 \usage{
-transitive.closure(g) # not compiling with boost 1.49 -- needs work
+transitive.closure(g)
 }
 
 \arguments{
