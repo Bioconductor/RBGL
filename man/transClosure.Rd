@@ -36,12 +36,10 @@ ISBN 0-201-72914-8
 \seealso{}
 
 \examples{
-\dontrun{
 con <- file(system.file("XML/dijkex.gxl",package="RBGL"))
 coex <- fromGXL(con)
 close(con)
 
 transitive.closure(coex)
-}
 }
 \keyword{ models }
