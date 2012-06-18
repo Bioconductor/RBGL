@@ -49,7 +49,7 @@ ISBN 0-201-72914-8
 
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{}
+%\seealso{}
 
 \examples{
 con <- file(system.file("XML/conn.gxl",package="RBGL"), open="r")
