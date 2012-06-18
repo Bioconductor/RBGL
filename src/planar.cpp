@@ -42,7 +42,7 @@ struct my_add_edge_visitor : public default_add_edge_visitor
    void visit_vertex_pair(Vertex u, Vertex v, Graph& g)
    {
         add_edge(u, v, g);
-        std::cout << " add edge: " << u << " " << v << std::endl;
+//        std::cout << " add edge: " << u << " " << v << std::endl;
         e_vis.push_back(std::make_pair(u, v));
    }
 
@@ -147,13 +147,13 @@ extern "C"
   	   planar_face_traversal(g, &embedding_storage[0], v_vis);
 
 //#if RBGL_DEBUG 
-  	   std::cout << "we get the following: " << std::endl;
-  	   for ( int i = 0; i < v_vis.f_vis.size(); i++ )
-  	   {
-    	      for ( int j = 0; j < v_vis.f_vis[i].size(); j++ )
-      	         std::cout << v_vis.f_vis[i][j] << " ";
-    	      std::cout << std::endl;
-  	   }
+//  	   std::cout << "we get the following: " << std::endl;
+//  	   for ( int i = 0; i < v_vis.f_vis.size(); i++ )
+//  	   {
+//   	      for ( int j = 0; j < v_vis.f_vis[i].size(); j++ )
+//      	         std::cout << v_vis.f_vis[i][j] << " ";
+//    	      std::cout << std::endl;
+//  	   }
 //#endif 
            SEXP ans, ansList;
            PROTECT(ansList = allocVector(VECSXP,v_vis.f_vis.size()));
@@ -173,7 +173,7 @@ extern "C"
   	}
   	else
 	{
-       	   std::cout << "Input graph is not planar" << std::endl;
+//       	   std::cout << "Input graph is not planar" << std::endl;
 
            SEXP ans;
            PROTECT(ans = NEW_INTEGER(1));
@@ -223,31 +223,31 @@ extern "C"
 
 //#if RBGL_DEBUG
   	   Vertex_Vec_t::iterator oi, oi_end = ordering.end();
-  	   std::cout << "The planar canonical ordering is: ";
-
-  	   for ( oi = ordering.begin(); oi != oi_end; ++oi)
-    	       std::cout << *oi << " ";
-  	   std::cout << std::endl;
-
+//  	   std::cout << "The planar canonical ordering is: ";
+//
+//  	   for ( oi = ordering.begin(); oi != oi_end; ++oi)
+//    	       std::cout << *oi << " ";
+//  	   std::cout << std::endl;
+//
   	   straight_line_drawing_storage.clear(); straight_line_drawing_storage.resize(num_vertices(g));
   	   straight_line_drawing_t straight_line_drawing
     		   (straight_line_drawing_storage.begin(), get(vertex_index,g));
-
+//
   	   // Compute the straight line drawing
   	   chrobak_payne_straight_line_drawing(g,  
                                       embedding,
                                       ordering.begin(),
                                       ordering.end(),
                                       straight_line_drawing);
-
-  	   std::cout << "The straight line drawing is: " << std::endl;
-  	   for(tie(vi,vi_end) = vertices(g); vi != vi_end; ++vi)
-    	   {
-      	      std::cout << *vi << " -> (" 
-		   << straight_line_drawing[*vi].x << ", " 
-		   << straight_line_drawing[*vi].y << ")" 
-		   << std::endl;
-    	   }
+//
+//  	   std::cout << "The straight line drawing is: " << std::endl;
+//  	   for(tie(vi,vi_end) = vertices(g); vi != vi_end; ++vi)
+//    	   {
+//      	      std::cout << *vi << " -> (" 
+//		   << straight_line_drawing[*vi].x << ", " 
+//		   << straight_line_drawing[*vi].y << ")" 
+//		   << std::endl;
+//    	   }
 //#endif
 
 	   SEXP ans;
@@ -261,7 +261,7 @@ extern "C"
 	}
 	else
 	{
-	   std::cout << "Input graph is not planar" << std::endl;
+//	   std::cout << "Input graph is not planar" << std::endl;
 
 	   SEXP ans;
 	   PROTECT(ans = NEW_INTEGER(1));
@@ -315,14 +315,14 @@ extern "C"
                                       straight_line_drawing);
 
 //#if RBGL_DEBUG
-  	   std::cout << "The straight line drawing is: " << std::endl;
-  	   for(tie(vi,vi_end) = vertices(g); vi != vi_end; ++vi)
-    	   {
-      	      std::cout << *vi << " -> (" 
-		<< straight_line_drawing[*vi].x << ", " 
-		<< straight_line_drawing[*vi].y << ")" 
-                << std::endl;
-    	   }
+//  	   std::cout << "The straight line drawing is: " << std::endl;
+//  	   for(tie(vi,vi_end) = vertices(g); vi != vi_end; ++vi)
+//    	   {
+//      	      std::cout << *vi << " -> (" 
+//		<< straight_line_drawing[*vi].x << ", " 
+//		<< straight_line_drawing[*vi].y << ")" 
+//                << std::endl;
+//    	   }
 //#endif
 
 	   SEXP ans;
@@ -340,7 +340,7 @@ extern "C"
 	}
 	else
 	{
-	   std::cout << "Input graph is not planar" << std::endl;
+//	   std::cout << "Input graph is not planar" << std::endl;
 
 	   SEXP ans;
 	   PROTECT(ans = NEW_INTEGER(1));
@@ -370,21 +370,21 @@ extern "C"
 	{
 	   straight_line_drawing[i].x = INTEGER(drawing_in)[j++];
 	   straight_line_drawing[i].y = INTEGER(drawing_in)[j++];
-      	    std::cout << i << " -> (" 
-		<< straight_line_drawing[i].x << ", " 
-		<< straight_line_drawing[i].y << ")"
-                << std::endl;
+//      	    std::cout << i << " -> (" 
+//		<< straight_line_drawing[i].x << ", " 
+//		<< straight_line_drawing[i].y << ")"
+//                << std::endl;
 	}
 
   	// Verify that the drawing is actually a plane drawing
   	if (is_straight_line_drawing(g, straight_line_drawing))
 	{
-    		std::cout << "Is a plane drawing." << std::endl;
+//    		std::cout << "Is a plane drawing." << std::endl;
 		rstl = 1;
 	}
   	else
 	{
-    		std::cout << "Is not a plane drawing." << std::endl;
+//    		std::cout << "Is not a plane drawing." << std::endl;
 		rstl = 0;
 	}
 
@@ -417,29 +417,29 @@ extern "C"
                                        std::back_inserter(kuratowski_edges)) )
 	{
 	   is_planar = 1;
-    	   std::cout << "Input graph is planar" << std::endl;
+//    	   std::cout << "Input graph is planar" << std::endl;
 	}
   	else
     	{
 	   is_planar = 0;
-      	   std::cout << "Input graph is not planar" << std::endl;
+//      	   std::cout << "Input graph is not planar" << std::endl;
 
-      	   std::cout << "Edges in the Kuratowski subgraph: ";
+//      	   std::cout << "Edges in the Kuratowski subgraph: ";
 
       	   Edge_Vec_t::iterator ki, ki_end = kuratowski_edges.end();
-      	   for ( ki = kuratowski_edges.begin(); ki != ki_end; ++ki )
-              std::cout << *ki << " "; 
-      	   std::cout << std::endl;
-
-      	   std::cout << "Is a kuratowski subgraph? ";
+//      	   for ( ki = kuratowski_edges.begin(); ki != ki_end; ++ki )
+//              std::cout << *ki << " "; 
+//      	   std::cout << std::endl;
+//
+//      	   std::cout << "Is a kuratowski subgraph? ";
       	   if (is_kuratowski_subgraph(g, kuratowski_edges.begin(), kuratowski_edges.end()))
 	   {
-              std::cout << "Yes." << std::endl;
+ //             std::cout << "Yes." << std::endl;
 	      is_kuratowski = 1;
 	   }
       	   else
 	   {
-              std::cout << "No." << std::endl;
+//              std::cout << "No." << std::endl;
 	      is_kuratowski = 0;
 	   }
     	}
@@ -482,12 +482,12 @@ extern "C"
 
 	make_connected(g, get(vertex_index, g), e_vis);
 
-  	for ( int i = 0; i < e_vis.e_vis.size(); i++ )
-  	{
-            std::cout << e_vis.e_vis[i].first << " "
-                  << e_vis.e_vis[i].second
-                  << std::endl;
-  	}
+//  	for ( int i = 0; i < e_vis.e_vis.size(); i++ )
+//  	{
+//            std::cout << e_vis.e_vis[i].first << " "
+//                  << e_vis.e_vis[i].second
+//                  << std::endl;
+//  	}
 
 	// output is a graph
 	SEXP ans;
@@ -525,7 +525,7 @@ extern "C"
 		   boyer_myrvold_params::graph = g,
                    boyer_myrvold_params::embedding = &embedding_storage[0]) )
 	{
-    	   std::cout << "Input graph is planar" << std::endl;
+ //   	   std::cout << "Input graph is planar" << std::endl;
 
 	   is_planar = 1;
 
@@ -534,26 +534,31 @@ extern "C"
 
 	   make_connected(g, get(vertex_index, g), e_vis);
 
-  	   make_biconnected_planar(g, &embedding_storage[0], get(edge_index, g), e_vis);
+ 	   make_biconnected_planar(g, &embedding_storage[0], get(edge_index, g), e_vis);
 
-  	   for ( int i = 0; i < e_vis.e_vis.size(); i++ )
-  	   {
-              std::cout << e_vis.e_vis[i].first << " "
-                  	<< e_vis.e_vis[i].second
-                  	<< std::endl;
-  	   }
+// following drawn from printing code below
+        }
+  	   if (!boyer_myrvold_planarity_test(g))
+	   	is_planar = 0;
 
-  	   if (boyer_myrvold_planarity_test(g))
-    	      std::cout << "Also, the graph is still planar." << std::endl;
-  	   else
-    	      std::cout << "But the graph is not still planar." << std::endl;
-	}
-  	else
-	{
-    	   std::cout << "Input graph is not planar" << std::endl;
+  //	   for ( int i = 0; i < e_vis.e_vis.size(); i++ )
+//  	   {
+//              std::cout << e_vis.e_vis[i].first << " "
+//                  	<< e_vis.e_vis[i].second
+//                  	<< std::endl;
+//  	   }
 
-	   is_planar = 0;
-	}
+ // 	   if (boyer_myrvold_planarity_test(g))
+//    	      std::cout << "Also, the graph is still planar." << std::endl;
+//  	   else
+//    	      std::cout << "But the graph is not still planar." << std::endl;
+//	}
+//  	else
+//	{
+//    	   std::cout << "Input graph is not planar" << std::endl;
+//
+//	   is_planar = 0;
+//	}
   
 	// output is a graph
         SEXP ans, b_vec, ansList;
@@ -599,7 +604,7 @@ extern "C"
 		   boyer_myrvold_params::graph = g,
                    boyer_myrvold_params::embedding = &embedding_storage[0]) )
 	{
-    	   std::cout << "Input graph is planar" << std::endl;
+//    	   std::cout << "Input graph is planar" << std::endl;
 	   is_planar = 1;
 
   	   // input to make_maximal_planar must be biconnected
@@ -620,14 +625,14 @@ extern "C"
   	   if ( boyer_myrvold_planarity_test(boyer_myrvold_params::graph = g,
                            boyer_myrvold_params::embedding = &embedding_storage[0]))
 	   {
-    	      std::cout << "After calling make_biconnected, the graph is still planar" 
-              		<< std::endl;
+ //   	      std::cout << "After calling make_biconnected, the graph is still planar" 
+//              		<< std::endl;
 	   }
   	   else
 	   {
 	      // should NOT be here
-    	      std::cout << "After calling make_biconnected, the graph is not planar" 
-              		<< std::endl;
+//    	      std::cout << "After calling make_biconnected, the graph is not planar" 
+//              		<< std::endl;
 	   }
 
   	   // input must be biconnected w/ 3+ nodes
@@ -638,7 +643,7 @@ extern "C"
 	}
   	else
 	{
-    	   std::cout << "Input graph is not planar" << std::endl;
+ //   	   std::cout << "Input graph is not planar" << std::endl;
 	   is_planar = 0;
 	}
   
