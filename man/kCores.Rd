@@ -36,7 +36,7 @@ An O(m) Algorithm for Cores decomposition of networks, by V. Batagelj and M. Zav
 
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{}
+%\seealso{}
 
 \examples{
 con1 <- file(system.file("XML/snacoreex.gxl",package="RBGL"))

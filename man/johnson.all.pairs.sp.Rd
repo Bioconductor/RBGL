@@ -31,7 +31,7 @@ ISBN 0-201-72914-8
 }
 
 \author{Vince Carey <stvjc@channing.harvard.edu>}
-\note{  }
+%\note{  }
 
 \seealso{\code{\link{bellman.ford.sp}}, \code{\link{dag.sp}}, \code{\link{dijkstra.sp}}, \code{\link{sp.between}} }
 

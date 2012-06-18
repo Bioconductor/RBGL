@@ -34,7 +34,7 @@ Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )
 
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{ }
+%\seealso{ }
 
 \examples{
 con1 <- file(system.file("XML/dominator.gxl",package="RBGL"), open="r")

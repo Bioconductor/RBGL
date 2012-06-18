@@ -40,7 +40,7 @@ by C. H. Papadimitriou, K. Steiglitz}
 
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{}
+%\seealso{}
 
 \examples{
 con1 <- file(system.file("XML/conn.gxl",package="RBGL"), open="r")

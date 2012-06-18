@@ -24,7 +24,7 @@ This is for those functions that cannot handle graphs with self-loops.
 
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{ }
+%\seealso{ }
 
 \examples{
 con <- file(system.file("XML/dijkex.gxl",package="RBGL"))

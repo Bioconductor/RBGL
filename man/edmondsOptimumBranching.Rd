@@ -17,8 +17,8 @@ edmondsOptimumBranching(g)
 This is an implementation of Edmonds' algorithm to find optimum branching in a directed graph.  See references for details.
 }
 
-\value{
-}
+%\value{
+%}
 
 \references{
 See Edmonds' Algorithm on http://edmonds-alg.sourceforge.net.

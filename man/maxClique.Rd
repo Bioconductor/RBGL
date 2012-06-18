@@ -32,7 +32,7 @@ Communication of ACM, Sept 1973, Vol 16, No. 9.
 
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{}
+%\seealso{}
 
 \examples{
 con1 <- file(system.file("XML/conn.gxl",package="RBGL"), open="r")

@@ -13,11 +13,11 @@ chrobakPayneStraightLineDrawing(g)
   \item{g}{ instance of class graphNEL from Bioconductor graph class}
 }
 
-\details{
-}
+%\details{
+%}
 
-\value{
-}
+%\value{
+%}
 
 \references{
 Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )

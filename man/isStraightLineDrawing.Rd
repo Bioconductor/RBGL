@@ -14,11 +14,11 @@ isStraightLineDrawing(g, drawing)
   \item{drawing}{ coordinates of node positions }
 }
 
-\details{
-}
-
-\value{
-}
+%\details{
+%}
+%
+%\value{
+%}
 
 \references{
 Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )

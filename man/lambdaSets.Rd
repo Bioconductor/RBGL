@@ -42,7 +42,7 @@ sets in graph \code{g}.
 
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{}
+%\seealso{}
 
 \examples{
 con <- file(system.file("XML/snalambdaex.gxl",package="RBGL"))

@@ -42,7 +42,7 @@ Social Network Analysis: Methods and Applications.  By S. Wasserman and K. Faust
 
 \author{Li Long <li.long@isb-sib.ch>}
 
-\seealso{}
+%\seealso{}
 
 \examples{
 con <- file(system.file("XML/snacliqueex.gxl",package="RBGL"))
