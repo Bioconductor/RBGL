@@ -6,11 +6,14 @@
 \description{Find all the cliques in a graph }
 
 \usage{
-maxClique(g)
+maxClique(g, nodes=NULL, edgeMat=NULL)
 }
 
 \arguments{
   \item{g}{an instance of the \code{graph} class }
+ \item{nodes}{vector of node names, to be supplied if \code{g} is not}
+ \item{edgeMat}{2 x p matrix with indices of edges in nodes, one-based,
+   only to be supplied if code{g} is not}
 }
 
 \details{
@@ -18,6 +21,11 @@ Notice the maximum clique problem is NP-complete, which means it
 cannot be solved by any known polynomial algorithm.
 
 We implemented the algorithm by C. Bron and J. Kerbosch, 
+
+It is an error to supply both \code{g} and either of the other arguments.
+
+If \code{g} is not supplied, no checking of the consistency of
+\code{nodes} and \code{edgeMat} is performed.
 }
 
 \value{

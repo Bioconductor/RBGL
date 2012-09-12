@@ -1029,8 +1029,30 @@ is.triangulated <- function(g)
    if(ans[1] == 0 ) FALSE else TRUE
 }
 
-maxClique <- function(g)
+maxClique <- function (g, nodes=NULL, edgeMat=NULL) {
+#
+# new version allows omission of g and direct hand-in of nodes and edgeMat
+#
+    if (!missing(g) && isDirected(g))
+        stop("only appropriate for undirected graphs")
+    if (!(missing(g)) & (!is.null(nodes) | !is.null(edgeMat)))
+        stop("if g is supplied, must not supply nodes or edgeMat")
+    if (is.null(nodes)) gn = g@nodes else gn = nodes
+    if (is.null(edgeMat)) em <- edgeMatrix(g) else em = edgeMat
+    nv <- length(gn)
+    ne <- ncol(em)
+    ans <- .Call("maxClique", as.integer(nv), as.integer(ne),
+        as.integer(em - 1), PACKAGE = "RBGL")
+    ans_names <- lapply(ans, function(x) {
+        gn[x]
+    })
+    list(maxCliques = ans_names)
+}
+
+
+.maxClique <- function(g)
 {
+# old version, requires internal computation of nodes and edgeMatrix
    if (isDirected(g)) stop("only appropriate for undirected graphs")
 
    nv <- length(nodes(g))
