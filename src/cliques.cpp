@@ -23,7 +23,7 @@ extern "C"
     static bool isClique(Graph_ud& g, graph_traits < Graph_ud >::vertex_descriptor v)
     {
         typedef graph_traits < Graph_ud >::edge_descriptor Edge;
-        std::pair<Edge, bool> p;
+        std::pair<Edge, bool> pp;
 
         Graph_ud::adjacency_iterator va, va_last, va1, va2;
 
@@ -50,8 +50,8 @@ extern "C"
 #if DEBUG
                 cout << "    " << *va1+1 << "--" << *va2+1 << endl;
 #endif
-                p = edge(*va1, *va2, g);
-                if ( !p.second ) return FALSE;
+                pp = edge(*va1, *va2, g);
+                if ( !pp.second ) return FALSE;
             }
         }
 
