@@ -72,15 +72,15 @@ extern "C"
             l = 0;
 	    // Iterate through the child vertex indices for [current_index]
 	    BOOST_FOREACH(VertexIndex child_index, components[current_index]) {
-                l++;
+                l++;  // determine size of component k
             }
-            PROTECT(outvec = allocMatrix(INTSXP, 1, l));
+            PROTECT(outvec = allocMatrix(INTSXP, 1, l));  // storage for names of component k
             l = 0;
 	    BOOST_FOREACH(VertexIndex child_index, components[current_index]) {
                 INTEGER(outvec)[l++] =(int) child_index;
             }
-	    SET_VECTOR_ELT(anslst,k+1,outvec);
-            k = l+1;
+	    SET_VECTOR_ELT(anslst,k+1,outvec);   // use offset into anslst, top element is NC
+            k = k+1;  // was l+1 seems to be bug
         }
 
         UNPROTECT(NC+2);
