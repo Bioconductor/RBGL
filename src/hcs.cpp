@@ -193,7 +193,7 @@ static void adopt_singleton(const Graph_ud& g, V_Label& v_label, ClusterResult& 
     {
         try_again = FALSE;
 
-        for ( si = singletons.begin(); si != singletons.end() && !try_again; si++ )
+        for ( si = singletons.begin(); si != singletons.end() && !try_again; )
         {
             dmax = 0;
             cimax = clusters.begin();
@@ -221,9 +221,15 @@ static void adopt_singleton(const Graph_ud& g, V_Label& v_label, ClusterResult& 
 
             if ( (int) dmax > singleton_adoption_threshold && (*cimax).size() > (unsigned int) 1 )
             {
-                (*cimax).push_back(*si);
-                singletons.erase(*si);
+                // copy si to cur then increment si
+                V_LabelAsSet::iterator cur = si++;
+                (*cimax).push_back(*cur);
+                singletons.erase(cur);
                 try_again = TRUE;
+            }
+            else
+            {
+                ++si;
             }
         }
     }
