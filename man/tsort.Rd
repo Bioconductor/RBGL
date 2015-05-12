@@ -24,8 +24,7 @@ cycles in a digraph.
 }
 
 \value{
-a numerical vector enumerating vertices in the
-topological sort sequence, 0-based
+A character vector of vertices in the topological sort sequence.
 }
 
 \references{
