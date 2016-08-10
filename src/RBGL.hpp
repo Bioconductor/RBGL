@@ -1,6 +1,12 @@
 /* RBGL2.h -- R interface to Boost Graph Library header */
 /* assumes -IboostIncl for RBGL/src */
 
+extern "C" {
+#include <Rdefines.h>
+}
+#undef protect
+#undef cons
+
 #ifndef RBGL_RBGL_H
 #define RBGL_RBGL_H
 
@@ -37,9 +43,6 @@ fibonacci_heap.hpp         mutable_heap.hpp
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/visitors.hpp>
 
-extern "C" {
-#include <Rdefines.h>
-}
 
 template <class DirectedS = boost::directedS, typename WeightT = double>
 class R_adjacency_list

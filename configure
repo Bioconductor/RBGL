@@ -1,5 +1,5 @@
 #!/bin/sh
-BASEBOOSTNAME=rbgl_trimmed_boost_1_49_0
+BASEBOOSTNAME=rbgl_trimmed_boost_1_61_0
 BOOSTTGZNAME=${BASEBOOSTNAME}.tar.gz
 if test -d ./src/${BASEBOOSTNAME};
 	then 
