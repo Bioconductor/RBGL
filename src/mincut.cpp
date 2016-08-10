@@ -36,20 +36,20 @@ static SEXP BGL_max_flow_internal(SEXP num_verts_in, SEXP num_edges_in,
     Tr::edge_descriptor e1, e2;
     bool in1, in2;
 
-    if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
+    if (!Rf_isInteger(R_edges_in)) Rf_error("R_edges_in should be integer");
 
     int NV = INTEGER(num_verts_in)[0];
-    int NE = asInteger(num_edges_in);
+    int NE = Rf_asInteger(num_edges_in);
     int* edges_in = INTEGER(R_edges_in);
-    int*    capacity_i = (isReal(R_capacity_in)) ? 0 : INTEGER(R_capacity_in);
-    double* capacity_d = (isReal(R_capacity_in)) ? REAL(R_capacity_in) : 0;
+    int*    capacity_i = (Rf_isReal(R_capacity_in)) ? 0 : INTEGER(R_capacity_in);
+    double* capacity_d = (Rf_isReal(R_capacity_in)) ? REAL(R_capacity_in) : 0;
 
     for (int i = 0; i < NE ; i++, edges_in += 2)
     {
         tie(e1, in1) = boost::add_edge(*edges_in, *(edges_in+1), flow_g);
         tie(e2, in2) = boost::add_edge(*(edges_in+1), *edges_in, flow_g);
         if ( !in1 || !in2 )
-            error("unable to add edge: (%d, %d)", *edges_in, *(edges_in+1));
+            Rf_error("unable to add edge: (%d, %d)", *edges_in, *(edges_in+1));
 
         // fill in capacity_map
         cap[e1] = capacity_i ? (*capacity_i++) : (*capacity_d++);
@@ -79,20 +79,20 @@ static SEXP BGL_max_flow_internal(SEXP num_verts_in, SEXP num_edges_in,
 needs different parameters as of 14 june 2012
 	else if ( method == E_MF_Kolmogorov )
 	{
-//	     error("kolmogorov_max_flow from BGL doesn't work");
+//	     Rf_error("kolmogorov_max_flow from BGL doesn't work");
 	     maxflow = boykov_kolmogorov_max_flow(flow_g, s, t);
 	}
 */
 
 	else
-	     error("unknown method for max_flow");
+	     Rf_error("unknown method for max_flow");
     }
 
     SEXP ansList, conn, eList, fList;
-    PROTECT(ansList = allocVector(VECSXP,3));
+    PROTECT(ansList = Rf_allocVector(VECSXP,3));
     PROTECT(conn = NEW_NUMERIC(1));
-    PROTECT(eList = allocMatrix(INTSXP, 2, asInteger(num_edges_in)));
-    PROTECT(fList = allocMatrix(REALSXP, 1, asInteger(num_edges_in)));
+    PROTECT(eList = Rf_allocMatrix(INTSXP, 2, Rf_asInteger(num_edges_in)));
+    PROTECT(fList = Rf_allocMatrix(REALSXP, 1, Rf_asInteger(num_edges_in)));
 
     REAL(conn)[0] = maxflow;
 
@@ -130,10 +130,10 @@ extern "C"
         SEXP ansList, conn;
         SEXP sList, vsList;  // for subsets of nodes in mincut: S, V - S
 
-        PROTECT(ansList = allocVector(VECSXP,3));
+        PROTECT(ansList = Rf_allocVector(VECSXP,3));
         PROTECT(conn = NEW_NUMERIC(1));
-        PROTECT(sList = allocVector(INTSXP, s_set.size()));
-        PROTECT(vsList = allocVector(INTSXP,vs_set.size()));
+        PROTECT(sList = Rf_allocVector(INTSXP, s_set.size()));
+        PROTECT(vsList = Rf_allocVector(INTSXP,vs_set.size()));
 
         REAL(conn)[0] = (double)cut_capacity;
 

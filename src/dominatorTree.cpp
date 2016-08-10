@@ -9,9 +9,9 @@ extern "C"
     	using namespace std;
     	using namespace boost;
 
-        const int NV = asInteger(num_verts_in);
-        const int NE = asInteger(num_edges_in);
-        int v = asInteger(start);
+        const int NV = Rf_asInteger(num_verts_in);
+        const int NE = Rf_asInteger(num_edges_in);
+        int v = Rf_asInteger(start);
 
         typedef adjacency_list < vecS, listS, bidirectionalS,
                         property < vertex_index_t, int> > VEGraph;
@@ -46,7 +46,7 @@ extern "C"
     	lengauer_tarjan_dominator_tree(g, vertex(v, g), domTreePredMap);
 
         SEXP ansList;
-        PROTECT(ansList = allocVector(INTSXP,num_vertices(g)));
+        PROTECT(ansList = Rf_allocVector(INTSXP,num_vertices(g)));
 
         for (tie(vi, v_end) = vertices(g); vi != v_end; ++vi)
 	{

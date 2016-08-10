@@ -13,7 +13,7 @@ extern "C"
 		Graph_ud g(num_verts_in, num_edges_in, R_edges_in);
 
 		SEXP ansList, rbw;
-		PROTECT(ansList = allocVector(VECSXP,1));
+		PROTECT(ansList = Rf_allocVector(VECSXP,1));
 		PROTECT(rbw = NEW_INTEGER(1));
 
 		INTEGER(rbw)[0] = bandwidth(g);
@@ -30,7 +30,7 @@ extern "C"
 		Graph_ud g(num_verts_in, num_edges_in, R_edges_in);
 
 		SEXP ansList, rbw;
-		PROTECT(ansList = allocVector(VECSXP,1));
+		PROTECT(ansList = Rf_allocVector(VECSXP,1));
 		PROTECT(rbw = NEW_INTEGER(1));
 
 		INTEGER(rbw)[0] = profile(g);
@@ -48,7 +48,7 @@ extern "C"
 		Graph_ud g(num_verts_in, num_edges_in, R_edges_in);
 
 		SEXP ansList, rbw;
-		PROTECT(ansList = allocVector(VECSXP,1));
+		PROTECT(ansList = Rf_allocVector(VECSXP,1));
 		PROTECT(rbw = NEW_INTEGER(1));
 
 		INTEGER(rbw)[0] = ith_wavefront(vertex((int)INTEGER(init_ind)[0], g), g);
@@ -66,7 +66,7 @@ extern "C"
 		Graph_ud g(num_verts_in, num_edges_in, R_edges_in);
 
 		SEXP ansList, rbw;
-		PROTECT(ansList = allocVector(VECSXP,1));
+		PROTECT(ansList = Rf_allocVector(VECSXP,1));
 		PROTECT(rbw = NEW_INTEGER(1));
 
 		INTEGER(rbw)[0] = max_wavefront(g);
@@ -84,7 +84,7 @@ extern "C"
 		Graph_ud g(num_verts_in, num_edges_in, R_edges_in);
 
 		SEXP ansList, rbw;
-		PROTECT(ansList = allocVector(VECSXP,1));
+		PROTECT(ansList = Rf_allocVector(VECSXP,1));
 		PROTECT(rbw = NEW_NUMERIC(1));
 
 		REAL(rbw)[0] = aver_wavefront(g);
@@ -102,7 +102,7 @@ extern "C"
 		Graph_ud g(num_verts_in, num_edges_in, R_edges_in);
 
 		SEXP ansList, rbw;
-		PROTECT(ansList = allocVector(VECSXP,1));
+		PROTECT(ansList = Rf_allocVector(VECSXP,1));
 		PROTECT(rbw = NEW_NUMERIC(1));
 
 		REAL(rbw)[0] = rms_wavefront(g);

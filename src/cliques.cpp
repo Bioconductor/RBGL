@@ -284,11 +284,11 @@ typedef vector<oneCliqueType>    allCliquesType;
 
         int i, j;
         SEXP ansList, cnodes;
-        PROTECT(ansList = allocVector(VECSXP, cliques.size()));
+        PROTECT(ansList = Rf_allocVector(VECSXP, cliques.size()));
 
         for ( i = 0, ci = cliques.begin(); ci != cliques.end(); i++, ci++ )
         {
-            PROTECT(cnodes = allocVector(INTSXP, (*ci).size()));
+            PROTECT(cnodes = Rf_allocVector(INTSXP, (*ci).size()));
 
             for ( j = 0, cj = (*ci).begin(); cj != (*ci).end(); j++, cj++ )
                 INTEGER(cnodes)[j] = *cj+1;    // node index for R graph

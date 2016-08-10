@@ -59,7 +59,7 @@ extern "C"
 	unsigned int NC = components.size();
 
         SEXP anslst, conn, outvec;
-        PROTECT(anslst = allocVector(VECSXP,NC+1));
+        PROTECT(anslst = Rf_allocVector(VECSXP,NC+1));
 	PROTECT(conn = NEW_INTEGER(1));
 
 	INTEGER(conn)[0] = NC;
@@ -74,7 +74,7 @@ extern "C"
 	    BOOST_FOREACH(VertexIndex child_index, components[current_index]) {
                 l++;  // determine size of component k
             }
-            PROTECT(outvec = allocMatrix(INTSXP, 1, l));  // storage for names of component k
+            PROTECT(outvec = Rf_allocMatrix(INTSXP, 1, l));  // storage for names of component k
             l = 0;
 	    BOOST_FOREACH(VertexIndex child_index, components[current_index]) {
                 INTEGER(outvec)[l++] =(int) child_index;
@@ -109,7 +109,7 @@ extern "C"
 		    SEXP vert_1, SEXP vert_2)
     {
         if ( !initialized )
-           error("graph is not prepared to handle incremental components.");
+          Rf_error("graph is not prepared to handle incremental components.");
 
         Graph_ud g(num_verts_in, num_edges_in, R_edges_in);
 

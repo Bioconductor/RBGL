@@ -29,9 +29,9 @@ extern "C"
     	transitive_closure(g, TC);
 
         SEXP ansList, eList, vList;
-        PROTECT(ansList = allocVector(VECSXP,2));
-        PROTECT(vList = allocMatrix(INTSXP, 1, num_vertices(TC)));
-        PROTECT(eList = allocMatrix(INTSXP, 2, num_edges(TC)));
+        PROTECT(ansList = Rf_allocVector(VECSXP,2));
+        PROTECT(vList = Rf_allocMatrix(INTSXP, 1, num_vertices(TC)));
+        PROTECT(eList = Rf_allocMatrix(INTSXP, 2, num_edges(TC)));
 
         Graph_dd::vertex_iterator vi, v_end;
         int i = 0;

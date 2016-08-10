@@ -21,8 +21,8 @@ extern "C"
         {
     		BCGraph g;
 
-		int NV = asInteger(num_verts_in);
-		int NE = asInteger(num_edges_in);
+		int NV = Rf_asInteger(num_verts_in);
+		int NE = Rf_asInteger(num_edges_in);
 		int* edges_in = INTEGER(R_edges_in);
 		double* weights_in = REAL(R_weights_in);
 
@@ -30,11 +30,11 @@ extern "C"
 		    boost::add_edge(*edges_in, *(edges_in+1), *weights_in, g);
 
 		SEXP anslst, bcvlst, enlst, bcelst, rbcvlst, dom;
-		PROTECT(anslst = allocVector(VECSXP,5));
-		PROTECT(bcvlst = allocMatrix(REALSXP, 1, NV));
-		PROTECT(enlst = allocMatrix(INTSXP, 2, NE));
-		PROTECT(bcelst = allocMatrix(REALSXP, 1, NE));
-		PROTECT(rbcvlst = allocMatrix(REALSXP, 1, NV));
+		PROTECT(anslst = Rf_allocVector(VECSXP,5));
+		PROTECT(bcvlst = Rf_allocMatrix(REALSXP, 1, NV));
+		PROTECT(enlst = Rf_allocMatrix(INTSXP, 2, NE));
+		PROTECT(bcelst = Rf_allocMatrix(REALSXP, 1, NE));
+		PROTECT(rbcvlst = Rf_allocMatrix(REALSXP, 1, NV));
 		PROTECT(dom = NEW_NUMERIC(1));
 
 		brandes_betweenness_centrality(g, 
@@ -109,7 +109,7 @@ extern "C"
         {
     		BCGraph g;
 
-		int NE = asInteger(num_edges_in);
+		int NE = Rf_asInteger(num_edges_in);
 		int* edges_in = INTEGER(R_edges_in);
 		double* weights_in = REAL(R_weights_in);
 
@@ -124,10 +124,10 @@ extern "C"
 			get(edge_centrality, g));
 
 		SEXP anslst, cnt, bcvlst, bcelst;
-		PROTECT(anslst = allocVector(VECSXP,3));
+		PROTECT(anslst = Rf_allocVector(VECSXP,3));
 		PROTECT(cnt = NEW_INTEGER(1));
-		PROTECT(bcvlst = allocMatrix(INTSXP, 2, num_edges(g)));
-		PROTECT(bcelst = allocMatrix(REALSXP, 1, num_edges(g)));
+		PROTECT(bcvlst = Rf_allocMatrix(INTSXP, 2, num_edges(g)));
+		PROTECT(bcelst = Rf_allocMatrix(REALSXP, 1, num_edges(g)));
 
 		INTEGER(cnt)[0] = num_edges(g);
 

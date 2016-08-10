@@ -433,13 +433,13 @@ static SEXP HCS_loop(Graph_ud& g, V_Label& v_label)
 
     // convert from ClusterResult to SEXP list
     SEXP ansList, cList;
-    PROTECT(ansList = allocVector(VECSXP,(int)clusterG.size()));
+    PROTECT(ansList = Rf_allocVector(VECSXP,(int)clusterG.size()));
 
     for ( i = 0, ci = clusterG.begin(); ci != clusterG.end(); i++, ci++ )
     {
         // convert one cluster to one SEXP vector
         nn = (*ci).size();
-        PROTECT(cList = allocVector(INTSXP, nn));
+        PROTECT(cList = Rf_allocVector(INTSXP, nn));
         for ( j = 0, vi = (*ci).begin(); vi != (*ci).end(); j++, vi++ )
             INTEGER(cList)[j] = *vi;
 

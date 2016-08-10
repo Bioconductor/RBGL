@@ -20,9 +20,9 @@ extern "C"
         kruskal_minimum_spanning_tree(g, std::back_inserter(spanning_tree));
 
         SEXP ansList, ans, answt;
-        PROTECT(ansList = allocVector(VECSXP,2));
-        PROTECT(ans = allocMatrix(INTSXP,2,spanning_tree.size()));
-        PROTECT(answt = allocMatrix(REALSXP,1,spanning_tree.size()));
+        PROTECT(ansList = Rf_allocVector(VECSXP,2));
+        PROTECT(ans = Rf_allocMatrix(INTSXP,2,spanning_tree.size()));
+        PROTECT(answt = Rf_allocMatrix(REALSXP,1,spanning_tree.size()));
         int k = 0, j = 0;
 
         for (std::vector < Edge >::iterator ei = spanning_tree.begin();
@@ -54,9 +54,9 @@ extern "C"
         kruskal_minimum_spanning_tree(g, std::back_inserter(spanning_tree));
 
         SEXP ansList, ans, answt;
-        PROTECT(ansList = allocVector(VECSXP,2));
-        PROTECT(ans = allocMatrix(INTSXP,2,spanning_tree.size()));
-        PROTECT(answt = allocMatrix(REALSXP,1,spanning_tree.size()));
+        PROTECT(ansList = Rf_allocVector(VECSXP,2));
+        PROTECT(ans = Rf_allocMatrix(INTSXP,2,spanning_tree.size()));
+        PROTECT(answt = Rf_allocMatrix(REALSXP,1,spanning_tree.size()));
 
         int k = 0, j = 0;
         for (std::vector < Edge >::iterator ei = spanning_tree.begin();
@@ -83,7 +83,7 @@ extern "C"
 
         Graph_ud g(num_verts_in, num_edges_in, R_edges_in, R_weights_in);
 
-	int NV = asInteger(num_verts_in);
+	int NV = Rf_asInteger(num_verts_in);
         std::vector <Vertex> parent(NV);
 
         prim_minimum_spanning_tree(g, &parent[0]);
@@ -91,9 +91,9 @@ extern "C"
         property_map<Graph_ud, edge_weight_t>::type weight = get(edge_weight, g);
 
         SEXP ansList, ans, answt;
-        PROTECT(ansList = allocVector(VECSXP,2));
-        PROTECT(ans = allocMatrix(INTSXP,2,NV));
-        PROTECT(answt = allocMatrix(REALSXP,1,NV));
+        PROTECT(ansList = Rf_allocVector(VECSXP,2));
+        PROTECT(ans = Rf_allocMatrix(INTSXP,2,NV));
+        PROTECT(answt = Rf_allocMatrix(REALSXP,1,NV));
 
         int k = 0, j = 0;
         for (unsigned int v = 0; v < num_vertices(g); ++v)

@@ -430,10 +430,10 @@ extern "C"
 
         int NE = num_edges(g);
         SEXP anslst, ncnt, ecnt, enlst;
-        PROTECT(anslst = allocVector(VECSXP, 3));
+        PROTECT(anslst = Rf_allocVector(VECSXP, 3));
         PROTECT(ncnt = NEW_INTEGER(1));
         PROTECT(ecnt = NEW_INTEGER(1));
-        PROTECT(enlst = allocMatrix(INTSXP, 2, NE));
+        PROTECT(enlst = Rf_allocMatrix(INTSXP, 2, NE));
 
         INTEGER(ncnt)[0] = num_vertices(g);
         INTEGER(ecnt)[0] = NE;

@@ -26,14 +26,14 @@ extern "C"
                                 predecessor_map(&p[0]).distance_map(&d[0]));
 
         SEXP dists, pens, ansList;
-        PROTECT(dists = allocVector(REALSXP,N));
-        PROTECT(pens = allocVector(INTSXP,N));
+        PROTECT(dists = Rf_allocVector(REALSXP,N));
+        PROTECT(pens = Rf_allocVector(INTSXP,N));
         graph_traits < Graph_dd >::vertex_iterator vi, vend;
         for (tie(vi, vend) = vertices(g); vi != vend; ++vi) {
             REAL(dists)[*vi] = d[*vi];
             INTEGER(pens)[*vi] = p[*vi];
         }
-        PROTECT(ansList = allocVector(VECSXP,2));
+        PROTECT(ansList = Rf_allocVector(VECSXP,2));
         SET_VECTOR_ELT(ansList,0,dists);
         SET_VECTOR_ELT(ansList,1,pens);
 
@@ -95,8 +95,8 @@ extern "C"
 
         property_map<EdgeGraph, edge_weight_t>::type w = get(edge_weight, g);
 
-        int* weight_i = (isReal(R_weights_in)) ? 0 : INTEGER(R_weights_in);
-        double* weight_d = (isReal(R_weights_in)) ? REAL(R_weights_in) : 0;
+        int* weight_i = (Rf_isReal(R_weights_in)) ? 0 : INTEGER(R_weights_in);
+        double* weight_d = (Rf_isReal(R_weights_in)) ? REAL(R_weights_in) : 0;
 
         graph_traits< EdgeGraph >::edge_iterator ei, ei_end;
         for ( tie(ei, ei_end) = edges(g); ei != ei_end; ++ei )
@@ -106,10 +106,10 @@ extern "C"
                  weight_map(w).predecessor_map(&p[0]).distance_map(&d[0]));
 
         SEXP conn, dList, pList, ansList;
-        PROTECT(ansList = allocVector(VECSXP,3));
+        PROTECT(ansList = Rf_allocVector(VECSXP,3));
         PROTECT(conn = NEW_LOGICAL(1));
-        PROTECT(dList = allocVector(REALSXP,N));
-        PROTECT(pList = allocVector(INTSXP,N));
+        PROTECT(dList = Rf_allocVector(REALSXP,N));
+        PROTECT(pList = Rf_allocVector(INTSXP,N));
 
         LOGICAL(conn)[0] = r;
 
@@ -145,8 +145,8 @@ extern "C"
                            predecessor_map(&p[0]).distance_map(&d[0]));
 
         SEXP dists, pens, ansList;
-        PROTECT(dists = allocVector(REALSXP,N));
-        PROTECT(pens = allocVector(INTSXP,N));
+        PROTECT(dists = Rf_allocVector(REALSXP,N));
+        PROTECT(pens = Rf_allocVector(INTSXP,N));
         graph_traits < Graph_dd >::vertex_iterator vi, vend;
         for (tie(vi, vend) = vertices(g); vi != vend; ++vi) {
             if ( int(d[*vi]) == std::numeric_limits<int>::max() )
@@ -160,7 +160,7 @@ extern "C"
                 INTEGER(pens)[*vi] = p[*vi];
             }
         }
-        PROTECT(ansList = allocVector(VECSXP,2));
+        PROTECT(ansList = Rf_allocVector(VECSXP,2));
         SET_VECTOR_ELT(ansList,0,dists);
         SET_VECTOR_ELT(ansList,1,pens);
 

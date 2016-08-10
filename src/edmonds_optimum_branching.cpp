@@ -51,9 +51,9 @@ extern "C"
 #endif
 
         SEXP ansList, ans, answt;
-	PROTECT(ansList = allocVector(VECSXP,2));
-        PROTECT(ans = allocMatrix(INTSXP, 2, branching.size()));
-	PROTECT(answt = allocMatrix(REALSXP,1,branching.size()));
+	PROTECT(ansList = Rf_allocVector(VECSXP,2));
+        PROTECT(ans = Rf_allocMatrix(INTSXP, 2, branching.size()));
+	PROTECT(answt = Rf_allocMatrix(REALSXP,1,branching.size()));
 
         int k = 0, j = 0;
 	BOOST_FOREACH (Edge e, branching)

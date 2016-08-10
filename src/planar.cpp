@@ -98,9 +98,9 @@ extern "C"
                             SEXP num_edges_in,
                             SEXP R_edges_in)
      {
-        if ( !isInteger(R_edges_in) ) error("R_edges_in should be integer");
+        if ( !Rf_isInteger(R_edges_in) ) Rf_error("R_edges_in should be integer");
 
-        int NE = asInteger(num_edges_in);
+        int NE = Rf_asInteger(num_edges_in);
         int* edges_in = INTEGER(R_edges_in);
 
         for (int i = 0; i < NE ; i++, edges_in += 2) 
@@ -156,11 +156,11 @@ extern "C"
 //  	   }
 //#endif 
            SEXP ans, ansList;
-           PROTECT(ansList = allocVector(VECSXP,v_vis.f_vis.size()));
+           PROTECT(ansList = Rf_allocVector(VECSXP,v_vis.f_vis.size()));
 
            for ( int i = 0; i < v_vis.f_vis.size(); i++ )
            {
-                PROTECT(ans = allocVector(INTSXP, v_vis.f_vis[i].size()));
+                PROTECT(ans = Rf_allocVector(INTSXP, v_vis.f_vis[i].size()));
 
                 for ( int j = 0; j < v_vis.f_vis[i].size(); j++ )
                     INTEGER(ans)[j] = v_vis.f_vis[i][j];
@@ -251,7 +251,7 @@ extern "C"
 //#endif
 
 	   SEXP ans;
-	   PROTECT(ans = allocVector(INTSXP, ordering.size()));
+	   PROTECT(ans = Rf_allocVector(INTSXP, ordering.size()));
 
 	   for ( int i = 0; i < ordering.size(); i++ )
 	      INTEGER(ans)[i] = ordering[i];
@@ -326,7 +326,7 @@ extern "C"
 //#endif
 
 	   SEXP ans;
-	   PROTECT(ans = allocMatrix(INTSXP, 2, num_vertices(g)));
+	   PROTECT(ans = Rf_allocMatrix(INTSXP, 2, num_vertices(g)));
 
 	   int j = 0;
   	   for(tie(vi,vi_end) = vertices(g); vi != vi_end; ++vi)
@@ -446,7 +446,7 @@ extern "C"
 
 	SEXP ans1, ans2, k_vec, ansList;
 
-	PROTECT(ansList = allocVector(VECSXP,3));
+	PROTECT(ansList = Rf_allocVector(VECSXP,3));
 
 	PROTECT(ans1 = NEW_INTEGER(1));
 	INTEGER(ans1)[0] = is_planar;
@@ -456,7 +456,7 @@ extern "C"
 	INTEGER(ans2)[0] = is_kuratowski;
 	SET_VECTOR_ELT(ansList,1,ans2);
 
-	PROTECT(k_vec = allocMatrix(INTSXP, 2, kuratowski_edges.size()));
+	PROTECT(k_vec = Rf_allocMatrix(INTSXP, 2, kuratowski_edges.size()));
 
 	int i, j = 0;
 	Edge_Vec_t::iterator ki, ki_end = kuratowski_edges.end();
@@ -491,7 +491,7 @@ extern "C"
 
 	// output is a graph
 	SEXP ans;
-	PROTECT(ans = allocMatrix(INTSXP, 2, num_edges(g)));
+	PROTECT(ans = Rf_allocMatrix(INTSXP, 2, num_edges(g)));
 
 	int i;
   	for( i = 0, tie(ei, ei_end) = edges(g); ei != ei_end; ++ei )
@@ -563,13 +563,13 @@ extern "C"
 	// output is a graph
         SEXP ans, b_vec, ansList;
 
-        PROTECT(ansList = allocVector(VECSXP,2));
+        PROTECT(ansList = Rf_allocVector(VECSXP,2));
 
         PROTECT(ans = NEW_INTEGER(1));
         INTEGER(ans)[0] = is_planar;
         SET_VECTOR_ELT(ansList,0,ans);
 
-	PROTECT(b_vec = allocMatrix(INTSXP, 2, num_edges(g)));
+	PROTECT(b_vec = Rf_allocMatrix(INTSXP, 2, num_edges(g)));
 
 	int i;
   	for( i = 0, tie(ei, ei_end) = edges(g); ei != ei_end; ++ei )
@@ -650,13 +650,13 @@ extern "C"
 	// output is a graph
         SEXP ans, b_vec, ansList;
 
-        PROTECT(ansList = allocVector(VECSXP,2));
+        PROTECT(ansList = Rf_allocVector(VECSXP,2));
 
         PROTECT(ans = NEW_INTEGER(1));
         INTEGER(ans)[0] = is_planar;
         SET_VECTOR_ELT(ansList,0,ans);
 
-        PROTECT(b_vec = allocMatrix(INTSXP, 2, num_edges(g)));
+        PROTECT(b_vec = Rf_allocMatrix(INTSXP, 2, num_edges(g)));
 
         int i;
         for( i = 0, tie(ei, ei_end) = edges(g); ei != ei_end; ++ei )
@@ -687,7 +687,7 @@ extern "C"
 
 	SEXP ans, b_vec, ansList;
 
-	PROTECT(ansList = allocVector(VECSXP,2));
+	PROTECT(ansList = Rf_allocVector(VECSXP,2));
 
         PROTECT(ans = NEW_INTEGER(1));
         INTEGER(ans)[0] = is_max;
@@ -701,7 +701,7 @@ extern "C"
 	   m_cnt++;
 	}
 
-        PROTECT(b_vec = allocMatrix(INTSXP, 2, m_cnt));
+        PROTECT(b_vec = Rf_allocMatrix(INTSXP, 2, m_cnt));
 
 	int i;
         for( i = 0, tie(vi, vi_end) = vertices(g); vi != vi_end; ++vi )

@@ -23,10 +23,10 @@ extern "C"
 
 		bool r = FALSE;
 
-		const int NV1 = asInteger(num_verts_in1);
-		const int NV2 = asInteger(num_verts_in2);
-		const int NE1 = asInteger(num_edges_in1);
-		const int NE2 = asInteger(num_edges_in2);
+		const int NV1 = Rf_asInteger(num_verts_in1);
+		const int NV2 = Rf_asInteger(num_verts_in2);
+		const int NE1 = Rf_asInteger(num_edges_in1);
+		const int NE2 = Rf_asInteger(num_edges_in2);
 
 		if ( NV1 == NV2 )
 		{
@@ -69,7 +69,7 @@ extern "C"
 		}
 
 		SEXP ansList, conn;
-		PROTECT(ansList = allocVector(VECSXP,1));
+		PROTECT(ansList = Rf_allocVector(VECSXP,1));
 		PROTECT(conn = NEW_LOGICAL(1));
 
 		LOGICAL(conn)[0] = r;
@@ -87,7 +87,7 @@ extern "C"
 		typedef graph_traits<Graph_ud>::vertex_descriptor Vertex;
 		typedef graph_traits<Graph_ud>::vertices_size_type size_type;
 
-		const int N = asInteger(num_verts_in);
+		const int N = Rf_asInteger(num_verts_in);
 		std::vector<Vertex>    inv_perm(N);
 		std::vector<size_type> perm(N);
 
@@ -96,8 +96,8 @@ extern "C"
 		cuthill_mckee_ordering(g, inv_perm.rbegin(), get(vertex_color, g), make_degree_map(g));
 
 		SEXP ansList, invpermList, robw, rbw;
-		PROTECT(ansList = allocVector(VECSXP,3));
-		PROTECT(invpermList = allocVector(INTSXP,N));
+		PROTECT(ansList = Rf_allocVector(VECSXP,3));
+		PROTECT(invpermList = Rf_allocVector(INTSXP,N));
 		PROTECT(robw = NEW_INTEGER(1));
 		PROTECT(rbw = NEW_INTEGER(1));
 
@@ -126,8 +126,8 @@ extern "C"
 	{
 		using namespace boost;
 
-		int delta = asInteger(R_delta);
-		const int NV = asInteger(num_verts_in);
+		int delta = Rf_asInteger(R_delta);
+		const int NV = Rf_asInteger(num_verts_in);
 		typedef graph_traits<Graph_dd>::vertex_descriptor Vertex;
 		Graph_dd g(num_verts_in, num_edges_in, R_edges_in);
 		std::vector<int> inverse_perm(NV, 0);
@@ -144,9 +144,9 @@ extern "C"
 			delta, id);
 
 		SEXP ansList, invpermList, permList;
-		PROTECT(ansList = allocVector(VECSXP,2));
-		PROTECT(invpermList = allocVector(INTSXP,NV));
-		PROTECT(permList = allocVector(INTSXP,NV));
+		PROTECT(ansList = Rf_allocVector(VECSXP,2));
+		PROTECT(invpermList = Rf_allocVector(INTSXP,NV));
+		PROTECT(permList = Rf_allocVector(INTSXP,NV));
 
 		std::vector<int>::const_iterator i;
 		int j = 0;
@@ -169,8 +169,8 @@ extern "C"
 	{
 		using namespace boost;
 
-		//int delta = asInteger(R_delta);
-		const int NV = asInteger(num_verts_in);
+		//int delta = Rf_asInteger(R_delta);
+		const int NV = Rf_asInteger(num_verts_in);
 		typedef graph_traits<Graph_dd>::vertex_descriptor Vertex;
 		Graph_dd g(num_verts_in, num_edges_in, R_edges_in);
 		std::vector<int> inverse_perm(NV, 0);
@@ -190,9 +190,9 @@ extern "C"
 */
 
 		SEXP ansList, invpermList, permList;
-		PROTECT(ansList = allocVector(VECSXP,2));
-		PROTECT(invpermList = allocVector(INTSXP,NV));
-		PROTECT(permList = allocVector(INTSXP,NV));
+		PROTECT(ansList = Rf_allocVector(VECSXP,2));
+		PROTECT(invpermList = Rf_allocVector(INTSXP,NV));
+		PROTECT(permList = Rf_allocVector(INTSXP,NV));
 
 		std::vector<int>::const_iterator i;
 		int j = 0;
@@ -215,10 +215,10 @@ extern "C"
 	{
 		using namespace boost;
 
-		const int NV = asInteger(num_verts_in);
-		const int NE = asInteger(num_edges_in);
-		const int W1 = asInteger(R_W1);
-		const int W2 = asInteger(R_W2);
+		const int NV = Rf_asInteger(num_verts_in);
+		const int NE = Rf_asInteger(num_edges_in);
+		const int W1 = Rf_asInteger(R_W1);
+		const int W2 = Rf_asInteger(R_W2);
 
 		typedef adjacency_list< setS, vecS, undirectedS, 
 		    property< vertex_color_t, default_color_type,
@@ -244,8 +244,8 @@ extern "C"
 			make_degree_map(g), get(vertex_priority, g), W1, W2);
 
 		SEXP ansList, sList, rbw, rpf, rmw, raw, rrw;
-		PROTECT(ansList = allocVector(VECSXP,6));
-		PROTECT(sList = allocVector(INTSXP,NV));
+		PROTECT(ansList = Rf_allocVector(VECSXP,6));
+		PROTECT(sList = Rf_allocVector(INTSXP,NV));
 		PROTECT(rbw = NEW_INTEGER(1));
 		PROTECT(rpf = NEW_INTEGER(1));
 		PROTECT(rmw = NEW_INTEGER(1));

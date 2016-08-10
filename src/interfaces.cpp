@@ -80,7 +80,7 @@ extern "C"
         }
         catch ( not_a_dag )
         {
-            warning("not a DAG.\n");
+            Rf_warning("not a DAG.\n");
             for (int j = 0 ; j < INTEGER(num_verts_in)[0]; j++)
                 REAL(tsout)[j] = 0.0;
         }
@@ -121,7 +121,7 @@ extern "C"
                   indirect_cmp < Iiter, std::less < size_type > >(&dtime[0]));
 
         SEXP disc;
-        PROTECT(disc = allocVector(INTSXP,N));
+        PROTECT(disc = Rf_allocVector(INTSXP,N));
 
         int i;
         for (i = 0; i < N; ++i)
@@ -169,11 +169,11 @@ extern "C"
                   indirect_cmp < Iiter, std::less < size_type > >(&ftime[0]));
 
         SEXP ansList;
-        PROTECT(ansList = allocVector(VECSXP,2));
+        PROTECT(ansList = Rf_allocVector(VECSXP,2));
         SEXP disc;
-        PROTECT(disc = allocVector(INTSXP,N));
+        PROTECT(disc = Rf_allocVector(INTSXP,N));
         SEXP fin;
-        PROTECT(fin = allocVector(INTSXP,N));
+        PROTECT(fin = Rf_allocVector(INTSXP,N));
 
         int i;
         for (i = 0; i < N; ++i)
@@ -206,7 +206,7 @@ extern "C"
 
         std::vector<int>::size_type k;
 
-        PROTECT(outvec = allocVector(REALSXP,nvert));
+        PROTECT(outvec = Rf_allocVector(REALSXP,nvert));
 
         for (k = 0; k < component.size(); k++ )
             REAL(outvec)[k] = component[k];
@@ -233,7 +233,7 @@ extern "C"
 
         std::vector<int>::size_type k;
 
-        PROTECT(outvec = allocVector(REALSXP,nvert));
+        PROTECT(outvec = Rf_allocVector(REALSXP,nvert));
 
         for (k = 0; k < component.size(); k++ )
             REAL(outvec)[k] = component[k];
@@ -264,10 +264,10 @@ extern "C"
         int num_comps = biconnected_components(g, component);
 
         SEXP ansList, eList, nc;
-        PROTECT(ansList = allocVector(VECSXP,3));
+        PROTECT(ansList = Rf_allocVector(VECSXP,3));
         PROTECT(nc = NEW_INTEGER(1));
-        PROTECT(eList = allocMatrix(INTSXP, 2, ne));
-        PROTECT(outvec = allocMatrix(INTSXP, 1, ne));
+        PROTECT(eList = Rf_allocMatrix(INTSXP, 2, ne));
+        PROTECT(outvec = Rf_allocMatrix(INTSXP, 1, ne));
 
         INTEGER(nc)[0] = num_comps;
         int ke = 0;
@@ -300,7 +300,7 @@ extern "C"
         articulation_points(g, std::back_inserter(art_points));
 
         SEXP outvec;
-        PROTECT(outvec = allocVector(INTSXP,art_points.size()));
+        PROTECT(outvec = Rf_allocVector(INTSXP,art_points.size()));
 
         for (unsigned int k = 0; k < art_points.size(); k++ )
             INTEGER(outvec)[k] = art_points[k];
@@ -329,9 +329,9 @@ extern "C"
         REAL(conn)[0] = (double)c;
 
         SEXP eList;
-        PROTECT(ansList = allocVector(VECSXP,2));
+        PROTECT(ansList = Rf_allocVector(VECSXP,2));
 
-        PROTECT(eList = allocVector(VECSXP,(int)c));
+        PROTECT(eList = Rf_allocVector(VECSXP,(int)c));
 
         SET_VECTOR_ELT(ansList,0,conn);
 
@@ -370,9 +370,9 @@ extern "C"
         Vertex_Size_Type n = sequential_vertex_coloring( g, color );
 
         SEXP ansList, nc, cList;
-        PROTECT(ansList = allocVector(VECSXP,2));
+        PROTECT(ansList = Rf_allocVector(VECSXP,2));
         PROTECT(nc = NEW_INTEGER(1));
-        PROTECT(cList = allocVector(INTSXP, num_vertices(g)));
+        PROTECT(cList = Rf_allocVector(INTSXP, num_vertices(g)));
         INTEGER(nc)[0] = (int)n;
 
         Graph_ud::vertex_iterator vi, v_end;

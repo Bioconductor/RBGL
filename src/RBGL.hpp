@@ -1,12 +1,6 @@
 /* RBGL2.h -- R interface to Boost Graph Library header */
 /* assumes -IboostIncl for RBGL/src */
 
-extern "C" {
-#include <Rdefines.h>
-}
-#undef protect
-#undef cons
-
 #ifndef RBGL_RBGL_H
 #define RBGL_RBGL_H
 
@@ -43,6 +37,8 @@ fibonacci_heap.hpp         mutable_heap.hpp
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/visitors.hpp>
 
+#define R_NO_REMAP
+#include <Rdefines.h>
 
 template <class DirectedS = boost::directedS, typename WeightT = double>
 class R_adjacency_list
@@ -93,15 +89,15 @@ public:
                             SEXP num_edges_in,
                             SEXP R_edges_in,
                             SEXP R_weights_in)
-            : Base(asInteger(num_verts_in))
+            : Base(Rf_asInteger(num_verts_in))
     {
-        if (!isNumeric(R_weights_in)) error("R_weights_in should be Numeric");
-        if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
-        int NE = asInteger(num_edges_in);
+        if (!Rf_isNumeric(R_weights_in)) Rf_error("R_weights_in should be Numeric");
+        if (!Rf_isInteger(R_edges_in)) Rf_error("R_edges_in should be integer");
+        int NE = Rf_asInteger(num_edges_in);
         int* edges_in = INTEGER(R_edges_in);
-        if (isReal(R_weights_in)) {
+        if (Rf_isReal(R_weights_in)) {
             if (boost::is_integral<R_weight_type>::value)
-                error("R_weights_in should be integer");
+                Rf_error("R_weights_in should be integer");
             else {
                 double* weights_in = REAL(R_weights_in);
                 for (int i = 0; i < NE ; i++, edges_in += 2, weights_in++) {
@@ -120,10 +116,10 @@ public:
     inline R_adjacency_list(SEXP num_verts_in,
                             SEXP num_edges_in,
                             SEXP R_edges_in)
-            : Base(asInteger(num_verts_in))
+            : Base(Rf_asInteger(num_verts_in))
     {
-        if (!isInteger(R_edges_in)) error("R_edges_in should be integer");
-        int NE = asInteger(num_edges_in);
+        if (!Rf_isInteger(R_edges_in)) Rf_error("R_edges_in should be integer");
+        int NE = Rf_asInteger(num_edges_in);
         int* edges_in = INTEGER(R_edges_in);
         for (int i = 0; i < NE ; i++, edges_in += 2) {
             boost::add_edge(*edges_in, *(edges_in+1), 1, *this);
