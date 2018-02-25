@@ -13,11 +13,13 @@ planarCanonicalOrdering(g)
   \item{g}{ instance of class graphNEL from Bioconductor graph class}
 }
 
-%\details{
-%}
+\details{
+see \url{http://www.boost.org/doc/libs/1_49_0/libs/graph/doc/planar_graphs.html}
+}
 %
-%\value{
-%}
+\value{
+A vector of ordered node names
+}
 
 \references{
 Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )

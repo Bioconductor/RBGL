@@ -13,11 +13,14 @@ makeMaximalPlanar(g)
   \item{g}{ instance of class graphNEL from Bioconductor graph class}
 }
 
-%\details{
-%}
+\details{
+see \url{http://www.boost.org/doc/libs/1_49_0/libs/graph/doc/planar_graphs.html}
+}
 %
-%\value{
-%}
+\value{
+a list with two elements, `Is planar:`, a logical indicating
+state of graph, and `new graph`, a graphNEL instance
+}
 %
 \references{
 Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )

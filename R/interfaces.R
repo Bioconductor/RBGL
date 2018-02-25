@@ -270,7 +270,9 @@ removeSelfLoops <- function(g)
 highlyConnSG <- function (g, sat=3, ldv=c(3, 2, 1))
 {
     lldv <- length(ldv)
-    x = ldv[1:lldv-1] - ldv[2:lldv]
+    #x = ldv[1:lldv-1] - ldv[2:lldv]
+    seq2use = seq_len(lldv-1)
+    x = ldv[seq2use] - ldv[(seq2use+1)]
    
     if ( length(ldv) <= 1 ||
          length(ldv[ldv>0]) != length(ldv) || 
@@ -352,12 +354,12 @@ sp.between <- function (g, start, finish, detail=TRUE)
     if ( any(eWW < 0, na.rm=TRUE) ) 
       stop("'sp.between' requires that all edge weights are nonnegative")
 
-    for (i in 1:length(ustart)) 
+    for (i in seq_len(length(ustart)))
     {
         curdi <- dijkstra.sp(g, ustart[i], eWW)$penult
         thiss <- ustart[i]
         thisf <- fl[[thiss]]
-        for (j in 1:length(thisf) ) 
+        for (j in seq_len(length(thisf) ) )
         {
              ans[[paste(thiss, thisf[j], sep = ":")]] <-
                    nG[extractPath(nodeind(thiss), nodeind(thisf[j]), curdi)]
@@ -373,7 +375,8 @@ sp.between <- function (g, start, finish, detail=TRUE)
          {
             res <- rep(NA,length(nl)-1)   # only n-1 pairs
 	    wstr <- eW[nl]
-            for (i in 1:(length(nl)-1))
+            #for (i in 1:(length(nl)-1))
+            for (i in seq_len(length(nl)-1))
                res[i]<-wstr[[i]][nl[i+1]] # use numerical names of weights
 	    names(res) <- paste(nl[-length(nl)], nl[-1],
 			        sep=ifelse(isDirected(g),"->","--"))
@@ -384,7 +387,7 @@ sp.between <- function (g, start, finish, detail=TRUE)
     lens <- lapply(ws, sum)
     ans2 <- vector("list", length=length(ans))
     names(ans2) = names(ans)
-    for (i in 1:length(ans))
+    for (i in seq_len(length(ans)))
     {
        if ( detail ) 
         ans2[[i]] <- list(length=lens[[i]],
@@ -504,7 +507,7 @@ transitive.closure <- function (g)
 
     edL <- vector("list", length=nv)
     names(edL) <- v_names
-    for(i in 1:nv) edL[[i]] <- list(edges=ans[[2]][2,][which(ans[[2]][1,]==i)])
+    for(i in seq_len(nv)) edL[[i]] <- list(edges=ans[[2]][2,][which(ans[[2]][1,]==i)])
 
     g <- new("graphNEL", nodes=v_names, edgeL=edL, edgemode=edgemode(g))
 
@@ -896,7 +899,7 @@ brandes.betweenness.centrality <- function ( g )
         "dominance"=ans[[4]])
 }
 
-betweenness.centrality.clustering <- function(g, threshold=-1, normalize=T )
+betweenness.centrality.clustering <- function(g, threshold=-1, normalize=TRUE )
 {
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
@@ -933,7 +936,7 @@ biConnComp <- function(g)
     ans[[3]] <- ans[[3]] + 1    # comp no. starts from 1
 
     r <- vector("list", ans[[1]])
-    for ( i in 1:ans[[1]])
+    for ( i in seq_len(ans[[1]]))
         r[[i]] <- unique(as.vector(ans[[2]][,which(ans[[3]]==i)]))
 
     r
@@ -1086,7 +1089,7 @@ kCliques <- function(g)
       gn1 <- function(x) { nodes(g)[x+1] }
       gn2 <- function(x) { lapply(x, gn1) }
       ans_names <- lapply(ans, gn2)
-      names(ans_names) <- paste(1:length(ans_names), "-cliques", sep="")
+      names(ans_names) <- paste(seq_len(length(ans_names)), "-cliques", sep="")
    }
    else
       ans_names <- ans
@@ -1113,7 +1116,7 @@ lambdaSets <- function(g)
       z <- table(y) > 1
       z <- names(z[z])
       ans <- vector("list", length=length(z))
-      for ( i in 1:length(z) )
+      for ( i in seq_len(length(z)) )
           ans[i] <- list(names(y[y==z[i]]))
       list(ans)
    }
@@ -1121,7 +1124,7 @@ lambdaSets <- function(g)
    colnames(ans[[2]]) <- nodes(g)
    t <- vector("list", length=nrow(ans[[2]]))
    names(t) <- paste("lambda-", 0:(nrow(ans[[2]])-1), " sets", sep="")
-   for ( i in 1:nrow(ans[[2]]) )
+   for ( i in seq_len(nrow(ans[[2]]) ))
        t[i] <- makelist(ans[[2]][i,])
 
    list("max edge connectivity" = ans[[1]], t)

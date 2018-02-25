@@ -28,6 +28,8 @@ by Jeremy G. Siek, Lie-Quan Lee, and Andrew Lumsdaine;
 ISBN 0-201-72914-8
 }
 
+\value{numeric vector of indices of nodes along shortest path}
+
 \author{Vince Carey <stvjc@channing.harvard.edu>}
 
 \seealso{  \code{\link[e1071:shortestPaths]{allShortestPaths}}}

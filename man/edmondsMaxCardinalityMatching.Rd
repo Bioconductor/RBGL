@@ -16,8 +16,10 @@ edmondsMaxCardinalityMatching(g)
 %\details{
 %}
 %
-%\value{
-%}
+\value{ a list with two components: a logical named 'Is max matching'
+and a character matrix named 'Matching' with two rows 'vertex' and
+'matched vertex', entries are node labels.
+}
 
 \references{
 Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )

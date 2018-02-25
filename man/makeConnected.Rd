@@ -13,11 +13,13 @@ makeConnected(g)
   \item{g}{ instance of class graphNEL from Bioconductor graph class}
 }
 
-%\details{
-%}
+\details{
+a graphNEL instance with a minimal set of edges added to achieve connectedness.
+}
 %
-%\value{
-%}
+\value{
+an instance of graphNEL
+}
 
 \references{
 Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )

@@ -13,11 +13,13 @@ maximumCycleRatio(g)
   \item{g}{ instance of class graphNEL from Bioconductor graph class}
 }
 
-%\details{
-%}
+\details{
+NOT IMPLEMENTED
+}
 %
-%\value{
-%}
+\value{
+A list with message indicating not implemented
+}
 %
 \references{
 Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )

@@ -16,8 +16,9 @@ boyerMyrvoldPlanarityTest(g)
 %\details{
 %}
 
-%\value{
-%}
+\value{
+logical, TRUE if test succeeds
+}
 
 \references{
 Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )
@@ -30,8 +31,12 @@ ISBN 0-201-72914-8
 
 \author{ Li Long <li.long@isb-sib.ch> }
 
-%\examples{
-% }
+\examples{
+con <- file(system.file("XML/dijkex.gxl",package="RBGL"), open="r")
+coex <- fromGXL(con)
+edgemode(coex) = "undirected"
+boyerMyrvoldPlanarityTest(coex)  # only shows runnability, need better case
+}
 
 \keyword{ graphs }
 

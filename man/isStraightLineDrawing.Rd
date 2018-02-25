@@ -17,8 +17,9 @@ isStraightLineDrawing(g, drawing)
 %\details{
 %}
 %
-%\value{
-%}
+\value{
+logical, TRUE if \code{drawing} is a straight line layout for \code{g}
+}
 
 \references{
 Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )

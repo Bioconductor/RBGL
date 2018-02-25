@@ -10,6 +10,7 @@
 \usage{
 prim.minST()
 }
+\value{ none }
 \seealso{
   \code{\link{Defunct}}
 }

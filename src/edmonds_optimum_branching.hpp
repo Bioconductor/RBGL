@@ -1,5 +1,6 @@
 //
 // See Edmonds' Algorithm on http://edmonds-alg.sourceforge.net.
+// Note added 2018 24 Feb -- the source code is maintained at https://github.com/atofigh/edmonds-alg
 //
 
 #ifndef EDMONDS_OPTIMUM_BRANCHING_HPP

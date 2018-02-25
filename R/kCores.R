@@ -18,7 +18,7 @@ kCores <- function(g, EdgeType=c("in", "out"))
    }
 
    # for each v in V in the order do
-   for ( i in 1:nv )
+   for ( i in seq_len(nv) )
    {
        v = names(deg)[i]
 

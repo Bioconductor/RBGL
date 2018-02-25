@@ -16,8 +16,10 @@ isKuratowskiSubgraph(g)
 %\details{
 %}
 %
-%\value{
-%}
+\value{
+a list with three elements: 'Is planar' (logical), 'Is there a
+Kuratowski subgraph' (logical), and a two-row character matrix 'Edges of Kuratowski subgraph' with rows 'from' and 'two' and node names as entries.
+}
 
 \references{
 Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )

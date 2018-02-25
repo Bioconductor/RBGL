@@ -17,11 +17,13 @@ edmondsOptimumBranching(g)
 This is an implementation of Edmonds' algorithm to find optimum branching in a directed graph.  See references for details.
 }
 
-%\value{
-%}
+\value{
+A list with three elements: edgeList, weights, and nodes for
+the optimum branching traversal
+}
 
 \references{
-See Edmonds' Algorithm on http://edmonds-alg.sourceforge.net.
+See Edmonds' Algorithm on https://github.com/atofigh/edmonds-alg
 }
 
 \author{ Li Long <li.long@isb-sib.ch> }

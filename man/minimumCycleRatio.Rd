@@ -13,11 +13,13 @@ minimumCycleRatio(g)
   \item{g}{ instance of class graphNEL from Bioconductor graph class}
 }
 
-%\details{
-%}
-%
-%\value{
-%}
+\details{
+Not yet implemented.
+}
+
+\value{
+a list with message
+}
 
 \references{
 Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )

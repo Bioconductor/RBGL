@@ -1,3 +1,8 @@
+25 Feb 2018
+============
+Address concerns with BiocCheck, specifically adding value{} and some enhancements to examples
+Update edmondsOptimumBranching to use atofigh github source: https://github.com/atofigh/edmonds-alg
+
 14 June 2012
 ============
   boost header sources to 1.49, likely to drop layout support, mods to incremental.components

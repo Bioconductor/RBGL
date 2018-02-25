@@ -11,8 +11,8 @@ astarSearch(g)
 \details{
 NOT IMPLEMENTED YET.  TO BE FILLED IN
 }
-%\value{
-%}
+\value{a string indicating non-implementation
+}
 \references{
 Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )
 

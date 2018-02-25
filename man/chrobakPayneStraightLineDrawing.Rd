@@ -13,11 +13,15 @@ chrobakPayneStraightLineDrawing(g)
   \item{g}{ instance of class graphNEL from Bioconductor graph class}
 }
 
-%\details{
-%}
+\details{
+M. Chrobak, T. Payne,
+A Linear-time Algorithm for Drawing a Planar Graph on the Grid,
+Information Processing Letters 54: 241-246, 1995.
+}
 
-%\value{
-%}
+\value{A matrix with rows 'x' and 'y', and columns corresponding
+to graph nodes.  
+}
 
 \references{
 Boost Graph Library ( www.boost.org/libs/graph/doc/index.html )
@@ -51,8 +55,16 @@ g <- addEdge(V[1+1], V[6+1], g)
 
 x3 <- chrobakPayneStraightLineDrawing(g)
 x3
-
- }
+plot(t(x3))
+el = edgeL(g)
+for (i in seq_len(length(nodes(g)))) 
+  segments(
+   rep(x3["x",i], length(el[[i]]$edges)), 
+   rep(x3["y",i], length(el[[i]]$edges)), 
+   x3["x", nodes(g)[el[[i]]$edges]],
+   x3["y", nodes(g)[el[[i]]$edges]]
+  )
+}
 
 \keyword{ graphs }
 
