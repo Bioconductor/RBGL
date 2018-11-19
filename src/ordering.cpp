@@ -70,7 +70,7 @@ extern "C"
 
 		SEXP ansList, conn;
 		PROTECT(ansList = Rf_allocVector(VECSXP,1));
-		PROTECT(conn = NEW_LOGICAL(1));
+		PROTECT(conn = Rf_allocVector(LGLSXP, 1));
 
 		LOGICAL(conn)[0] = r;
 
@@ -98,8 +98,8 @@ extern "C"
 		SEXP ansList, invpermList, robw, rbw;
 		PROTECT(ansList = Rf_allocVector(VECSXP,3));
 		PROTECT(invpermList = Rf_allocVector(INTSXP,N));
-		PROTECT(robw = NEW_INTEGER(1));
-		PROTECT(rbw = NEW_INTEGER(1));
+		PROTECT(robw = Rf_allocVector(INTSXP, 1));
+		PROTECT(rbw = Rf_allocVector(INTSXP, 1));
 
 		property_map<Graph_ud, vertex_index_t>::type index_map = get(vertex_index, g);
 		std::vector<Vertex>::const_iterator i;
@@ -246,11 +246,11 @@ extern "C"
 		SEXP ansList, sList, rbw, rpf, rmw, raw, rrw;
 		PROTECT(ansList = Rf_allocVector(VECSXP,6));
 		PROTECT(sList = Rf_allocVector(INTSXP,NV));
-		PROTECT(rbw = NEW_INTEGER(1));
-		PROTECT(rpf = NEW_INTEGER(1));
-		PROTECT(rmw = NEW_INTEGER(1));
-		PROTECT(raw = NEW_NUMERIC(1));
-		PROTECT(rrw = NEW_NUMERIC(1));
+		PROTECT(rbw = Rf_allocVector(INTSXP, 1));
+		PROTECT(rpf = Rf_allocVector(INTSXP, 1));
+		PROTECT(rmw = Rf_allocVector(INTSXP, 1));
+		PROTECT(raw = Rf_allocVector(REALSXP, 1));
+		PROTECT(rrw = Rf_allocVector(REALSXP, 1));
 
 		std::vector<Vertex>::const_iterator i;
 		int j = 0;

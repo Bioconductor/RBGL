@@ -38,7 +38,7 @@ fibonacci_heap.hpp         mutable_heap.hpp
 #include <boost/graph/visitors.hpp>
 
 #define R_NO_REMAP
-#include <Rdefines.h>
+#include <Rinternals.h>
 
 template <class DirectedS = boost::directedS, typename WeightT = double>
 class R_adjacency_list

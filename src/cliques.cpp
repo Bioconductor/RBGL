@@ -93,7 +93,7 @@ extern "C"
     {
         Graph_ud g(num_verts_in, num_edges_in, R_edges_in);
         SEXP ans;
-        PROTECT(ans = NEW_INTEGER(1));
+        PROTECT(ans = Rf_allocVector(INTSXP, 1));
 
         INTEGER(ans)[0] = isTriangulatedInternal(g);
 

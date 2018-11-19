@@ -90,7 +90,7 @@ needs different parameters as of 14 june 2012
 
     SEXP ansList, conn, eList, fList;
     PROTECT(ansList = Rf_allocVector(VECSXP,3));
-    PROTECT(conn = NEW_NUMERIC(1));
+    PROTECT(conn = Rf_allocVector(REALSXP, 1));
     PROTECT(eList = Rf_allocMatrix(INTSXP, 2, Rf_asInteger(num_edges_in)));
     PROTECT(fList = Rf_allocMatrix(REALSXP, 1, Rf_asInteger(num_edges_in)));
 
@@ -131,7 +131,7 @@ extern "C"
         SEXP sList, vsList;  // for subsets of nodes in mincut: S, V - S
 
         PROTECT(ansList = Rf_allocVector(VECSXP,3));
-        PROTECT(conn = NEW_NUMERIC(1));
+        PROTECT(conn = Rf_allocVector(REALSXP, 1));
         PROTECT(sList = Rf_allocVector(INTSXP, s_set.size()));
         PROTECT(vsList = Rf_allocVector(INTSXP,vs_set.size()));
 
