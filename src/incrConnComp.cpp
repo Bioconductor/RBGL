@@ -60,7 +60,7 @@ extern "C"
 
         SEXP anslst, conn, outvec;
         PROTECT(anslst = Rf_allocVector(VECSXP,NC+1));
-	PROTECT(conn = NEW_INTEGER(1));
+	PROTECT(conn = Rf_allocVector(INTSXP, 1));
 
 	INTEGER(conn)[0] = NC;
 	SET_VECTOR_ELT(anslst,0,conn);
@@ -123,7 +123,7 @@ extern "C"
 	    r = same_component(vertex(v1, g), vertex(v2, g), ds);
 	
 	SEXP conn;
-	PROTECT(conn = NEW_LOGICAL(1));
+	PROTECT(conn = Rf_allocVector(LGLSXP, 1));
 	LOGICAL(conn)[0] = r;
 	UNPROTECT(1);
 	return(conn);

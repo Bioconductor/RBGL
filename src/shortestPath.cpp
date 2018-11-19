@@ -55,7 +55,7 @@ extern "C"
 
         johnson_all_pairs_shortest_paths(g, D);
 
-        PROTECT(out = NEW_NUMERIC(nv*nv));
+        PROTECT(out = Rf_allocVector(REALSXP, nv*nv));
         int k = 0;
         for (int i = 0 ; i < nv ; i++)
             for (int j = 0; j < nv; j++ )
@@ -107,7 +107,7 @@ extern "C"
 
         SEXP conn, dList, pList, ansList;
         PROTECT(ansList = Rf_allocVector(VECSXP,3));
-        PROTECT(conn = NEW_LOGICAL(1));
+        PROTECT(conn = Rf_allocVector(LGLSXP, 1));
         PROTECT(dList = Rf_allocVector(REALSXP,N));
         PROTECT(pList = Rf_allocVector(INTSXP,N));
 
@@ -185,7 +185,7 @@ extern "C"
 
         floyd_warshall_all_pairs_shortest_paths(g, D);
 
-        PROTECT(out = NEW_NUMERIC(nv*nv));
+        PROTECT(out = Rf_allocVector(REALSXP, nv*nv));
         int k = 0;
         for (int i = 0 ; i < nv ; i++)
             for (int j = 0; j < nv; j++ )

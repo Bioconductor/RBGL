@@ -35,7 +35,7 @@ extern "C"
 		PROTECT(enlst = Rf_allocMatrix(INTSXP, 2, NE));
 		PROTECT(bcelst = Rf_allocMatrix(REALSXP, 1, NE));
 		PROTECT(rbcvlst = Rf_allocMatrix(REALSXP, 1, NV));
-		PROTECT(dom = NEW_NUMERIC(1));
+		PROTECT(dom = Rf_allocVector(REALSXP, 1));
 
 		brandes_betweenness_centrality(g, 
                         centrality_map(get(vertex_centrality, g)).
@@ -125,7 +125,7 @@ extern "C"
 
 		SEXP anslst, cnt, bcvlst, bcelst;
 		PROTECT(anslst = Rf_allocVector(VECSXP,3));
-		PROTECT(cnt = NEW_INTEGER(1));
+		PROTECT(cnt = Rf_allocVector(INTSXP, 1));
 		PROTECT(bcvlst = Rf_allocMatrix(INTSXP, 2, num_edges(g)));
 		PROTECT(bcelst = Rf_allocMatrix(REALSXP, 1, num_edges(g)));
 

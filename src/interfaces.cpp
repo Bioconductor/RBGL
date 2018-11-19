@@ -65,7 +65,7 @@ extern "C"
         tsOrder tsord;
         SEXP tsout;
 
-        PROTECT(tsout = NEW_NUMERIC(INTEGER(num_verts_in)[0]));
+        PROTECT(tsout = Rf_allocVector(REALSXP, INTEGER(num_verts_in)[0]));
 
         try {
             topological_sort(g, std::front_inserter(tsord));
@@ -265,7 +265,7 @@ extern "C"
 
         SEXP ansList, eList, nc;
         PROTECT(ansList = Rf_allocVector(VECSXP,3));
-        PROTECT(nc = NEW_INTEGER(1));
+        PROTECT(nc = Rf_allocVector(INTSXP, 1));
         PROTECT(eList = Rf_allocMatrix(INTSXP, 2, ne));
         PROTECT(outvec = Rf_allocMatrix(INTSXP, 1, ne));
 
@@ -325,7 +325,7 @@ extern "C"
         std::vector<Edge>::iterator ei;
         dst c = edge_connectivity( g, std::back_inserter(disconnecting_set) );
 
-        PROTECT(conn = NEW_NUMERIC(1));
+        PROTECT(conn = Rf_allocVector(REALSXP, 1));
         REAL(conn)[0] = (double)c;
 
         SEXP eList;
@@ -339,7 +339,7 @@ extern "C"
         for (ei = disconnecting_set.begin(); ei != disconnecting_set.end();
                 ++ei)
         {
-            PROTECT(edTmp = NEW_NUMERIC(2));
+            PROTECT(edTmp = Rf_allocVector(REALSXP, 2));
             REAL(edTmp)[0] = (double)source(*ei,g);
             REAL(edTmp)[1] = (double)target(*ei,g);
             SET_VECTOR_ELT(eList,sind,edTmp);
@@ -371,7 +371,7 @@ extern "C"
 
         SEXP ansList, nc, cList;
         PROTECT(ansList = Rf_allocVector(VECSXP,2));
-        PROTECT(nc = NEW_INTEGER(1));
+        PROTECT(nc = Rf_allocVector(INTSXP, 1));
         PROTECT(cList = Rf_allocVector(INTSXP, num_vertices(g)));
         INTEGER(nc)[0] = (int)n;
 
@@ -395,7 +395,7 @@ extern "C"
     	using namespace boost;
 
         SEXP ansList;
-        PROTECT(ansList = NEW_INTEGER(1));
+        PROTECT(ansList = Rf_allocVector(INTSXP, 1));
         INTEGER(ansList)[0] = 0;
         UNPROTECT(1);
         return(ansList);

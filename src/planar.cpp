@@ -116,7 +116,7 @@ extern "C"
 	initPlanarGraph(&g, num_verts_in, num_edges_in, R_edges_in);
 
 	SEXP ans;
-	PROTECT(ans = NEW_INTEGER(1));
+	PROTECT(ans = Rf_allocVector(INTSXP, 1));
 
 	INTEGER(ans)[0] = boyer_myrvold_planarity_test(g);
 
@@ -176,7 +176,7 @@ extern "C"
 //       	   std::cout << "Input graph is not planar" << std::endl;
 
            SEXP ans;
-           PROTECT(ans = NEW_INTEGER(1));
+           PROTECT(ans = Rf_allocVector(INTSXP, 1));
 
            INTEGER(ans)[0] = 0;
 
@@ -264,7 +264,7 @@ extern "C"
 //	   std::cout << "Input graph is not planar" << std::endl;
 
 	   SEXP ans;
-	   PROTECT(ans = NEW_INTEGER(1));
+	   PROTECT(ans = Rf_allocVector(INTSXP, 1));
 
 	   INTEGER(ans)[0] = 0;
 
@@ -343,7 +343,7 @@ extern "C"
 //	   std::cout << "Input graph is not planar" << std::endl;
 
 	   SEXP ans;
-	   PROTECT(ans = NEW_INTEGER(1));
+	   PROTECT(ans = Rf_allocVector(INTSXP, 1));
 
 	   INTEGER(ans)[0] = 0;
 
@@ -389,7 +389,7 @@ extern "C"
 	}
 
 	SEXP ans;
-	PROTECT(ans = NEW_INTEGER(1));
+	PROTECT(ans = Rf_allocVector(INTSXP, 1));
 
 	INTEGER(ans)[0] = rstl;
 	UNPROTECT(1);
@@ -448,11 +448,11 @@ extern "C"
 
 	PROTECT(ansList = Rf_allocVector(VECSXP,3));
 
-	PROTECT(ans1 = NEW_INTEGER(1));
+	PROTECT(ans1 = Rf_allocVector(INTSXP, 1));
 	INTEGER(ans1)[0] = is_planar;
 	SET_VECTOR_ELT(ansList,0,ans1);
 
-	PROTECT(ans2 = NEW_INTEGER(1));
+	PROTECT(ans2 = Rf_allocVector(INTSXP, 1));
 	INTEGER(ans2)[0] = is_kuratowski;
 	SET_VECTOR_ELT(ansList,1,ans2);
 
@@ -565,7 +565,7 @@ extern "C"
 
         PROTECT(ansList = Rf_allocVector(VECSXP,2));
 
-        PROTECT(ans = NEW_INTEGER(1));
+        PROTECT(ans = Rf_allocVector(INTSXP, 1));
         INTEGER(ans)[0] = is_planar;
         SET_VECTOR_ELT(ansList,0,ans);
 
@@ -652,7 +652,7 @@ extern "C"
 
         PROTECT(ansList = Rf_allocVector(VECSXP,2));
 
-        PROTECT(ans = NEW_INTEGER(1));
+        PROTECT(ans = Rf_allocVector(INTSXP, 1));
         INTEGER(ans)[0] = is_planar;
         SET_VECTOR_ELT(ansList,0,ans);
 
@@ -689,7 +689,7 @@ extern "C"
 
 	PROTECT(ansList = Rf_allocVector(VECSXP,2));
 
-        PROTECT(ans = NEW_INTEGER(1));
+        PROTECT(ans = Rf_allocVector(INTSXP, 1));
         INTEGER(ans)[0] = is_max;
         SET_VECTOR_ELT(ansList,0,ans);
 
