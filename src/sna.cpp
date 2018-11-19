@@ -236,7 +236,7 @@ extern "C"
 
         SEXP ansList, conn, eList;
         PROTECT(ansList = Rf_allocVector(VECSXP,2));
-        PROTECT(conn = NEW_NUMERIC(1));
+        PROTECT(conn = Rf_allocVector(REALSXP, 1));
         PROTECT(eList = Rf_allocMatrix(INTSXP, MaxC+1, NV));
 
         REAL(conn)[0] = MaxC;

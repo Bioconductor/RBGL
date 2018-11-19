@@ -80,7 +80,7 @@ extern "C"
         if ( nn ) cG /= nn;
 
         SEXP ccoef;
-        PROTECT(ccoef = NEW_NUMERIC(1));
+        PROTECT(ccoef = Rf_allocVector(REALSXP, 1));
         REAL(ccoef)[0] = cG;
         UNPROTECT(1);
         return(ccoef);
@@ -113,7 +113,7 @@ extern "C"
 #endif
 
         SEXP tcoef;
-        PROTECT(tcoef = NEW_NUMERIC(1));
+        PROTECT(tcoef = Rf_allocVector(REALSXP, 1));
         REAL(tcoef)[0] = tG;
         UNPROTECT(1);
         return(tcoef);
@@ -272,7 +272,7 @@ extern "C"
 	double cG = double(l) / double(k);
 
         SEXP ccoef;
-        PROTECT(ccoef = NEW_NUMERIC(1));
+        PROTECT(ccoef = Rf_allocVector(REALSXP, 1));
         REAL(ccoef)[0] = cG;
         UNPROTECT(1);
         return(ccoef);
@@ -431,8 +431,8 @@ extern "C"
         int NE = num_edges(g);
         SEXP anslst, ncnt, ecnt, enlst;
         PROTECT(anslst = Rf_allocVector(VECSXP, 3));
-        PROTECT(ncnt = NEW_INTEGER(1));
-        PROTECT(ecnt = NEW_INTEGER(1));
+        PROTECT(ncnt = Rf_allocVector(INTSXP, 1));
+        PROTECT(ecnt = Rf_allocVector(INTSXP, 1));
         PROTECT(enlst = Rf_allocMatrix(INTSXP, 2, NE));
 
         INTEGER(ncnt)[0] = num_vertices(g);

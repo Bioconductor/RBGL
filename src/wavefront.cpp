@@ -14,7 +14,7 @@ extern "C"
 
 		SEXP ansList, rbw;
 		PROTECT(ansList = Rf_allocVector(VECSXP,1));
-		PROTECT(rbw = NEW_INTEGER(1));
+		PROTECT(rbw = Rf_allocVector(INTSXP, 1));
 
 		INTEGER(rbw)[0] = bandwidth(g);
 
@@ -31,7 +31,7 @@ extern "C"
 
 		SEXP ansList, rbw;
 		PROTECT(ansList = Rf_allocVector(VECSXP,1));
-		PROTECT(rbw = NEW_INTEGER(1));
+		PROTECT(rbw = Rf_allocVector(INTSXP, 1));
 
 		INTEGER(rbw)[0] = profile(g);
 
@@ -49,7 +49,7 @@ extern "C"
 
 		SEXP ansList, rbw;
 		PROTECT(ansList = Rf_allocVector(VECSXP,1));
-		PROTECT(rbw = NEW_INTEGER(1));
+		PROTECT(rbw = Rf_allocVector(INTSXP, 1));
 
 		INTEGER(rbw)[0] = ith_wavefront(vertex((int)INTEGER(init_ind)[0], g), g);
 
@@ -67,7 +67,7 @@ extern "C"
 
 		SEXP ansList, rbw;
 		PROTECT(ansList = Rf_allocVector(VECSXP,1));
-		PROTECT(rbw = NEW_INTEGER(1));
+		PROTECT(rbw = Rf_allocVector(INTSXP, 1));
 
 		INTEGER(rbw)[0] = max_wavefront(g);
 
@@ -85,7 +85,7 @@ extern "C"
 
 		SEXP ansList, rbw;
 		PROTECT(ansList = Rf_allocVector(VECSXP,1));
-		PROTECT(rbw = NEW_NUMERIC(1));
+		PROTECT(rbw = Rf_allocVector(REALSXP, 1));
 
 		REAL(rbw)[0] = aver_wavefront(g);
 
@@ -103,7 +103,7 @@ extern "C"
 
 		SEXP ansList, rbw;
 		PROTECT(ansList = Rf_allocVector(VECSXP,1));
-		PROTECT(rbw = NEW_NUMERIC(1));
+		PROTECT(rbw = Rf_allocVector(REALSXP, 1));
 
 		REAL(rbw)[0] = rms_wavefront(g);
 
