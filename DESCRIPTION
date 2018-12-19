@@ -1,11 +1,11 @@
 Package: RBGL
-Version: 1.59.1
+Version: 1.59.2
 Title: An interface to the BOOST graph library
 Author: Vince Carey <stvjc@channing.harvard.edu>, Li Long
         <li.long@isb-sib.ch>, R. Gentleman
 Maintainer: Bioconductor Package Maintainer
         <maintainer@bioconductor.org>
-Depends: graph, methods
+Depends: graph, methods, BH
 Imports: methods
 Suggests: Rgraphviz, XML, RUnit, BiocGenerics
 Description: A fairly extensive and comprehensive interface to the
