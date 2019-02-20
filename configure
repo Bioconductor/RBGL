@@ -1712,8 +1712,6 @@ $as_echo "yes" >&6; }
 
 BOOSTLOC=`Rscript -e 'cat(paste0(system.file(package="BH"),"/include"))'`
 BOOSTFLAGS=-I${BOOSTLOC}
-$as_echo "#define abort __bgl_abort" >>confdefs.h
-
 
 ac_config_files="$ac_config_files src/Makevars"
 
