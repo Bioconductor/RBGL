@@ -103,8 +103,6 @@ extern "C"
 		 unsigned int iter;
 	};
 
-	//   Temporarily withdrawn due to LLVM C++  library incompatibility
-	/*
 	SEXP BGL_betweenness_centrality_clustering (SEXP num_verts_in, 
 		SEXP num_edges_in, SEXP R_edges_in, SEXP R_weights_in,
 		SEXP R_threshold,  SEXP R_normalize)
@@ -124,6 +122,9 @@ extern "C"
 		betweenness_centrality_clustering(g,
 			clustering_threshold(threshold, g, normalize),
 			get(edge_centrality, g));
+
+		// betweenness_centrality_clustering(g,
+		// 	clustering_threshold(threshold, g, normalize));
 
 		SEXP anslst, cnt, bcvlst, bcelst;
 		PROTECT(anslst = Rf_allocVector(VECSXP,3));
@@ -160,6 +161,5 @@ extern "C"
 		UNPROTECT(4);
 		return(anslst);
 	}
-	*/
 }
 
