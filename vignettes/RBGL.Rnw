@@ -1010,13 +1010,19 @@ clustering in a graph based on edge betweenness centrality.
 
 TODO: EXPLAIN MORE
 
-<<Centralitydemo>>=
+<<Centralitydemo, eval=FALSE, echo=TRUE>>=
 brandes.betweenness.centrality(coex)
 betweenness.centrality.clustering(coex, 0.1, TRUE)
 @
 
-TODO: EXPLAIN THE RESULTS
+This function has been temporarily withdrawn due to an assertion failure in
+the LLVM 9.0.0 C++ standard library. Users who are not using LLVM and wish 
+to use it can reinstate it by:
 
+\begin{enumerate}
+\item Replace \texttt{src/bbc.cpp} with \texttt{inst/bbc.cpp} 
+\item Remove the \texttt{stop} command in line  \texttt{R/interfaces.cpp}
+\end{enumerate}
 
 \section{Algorithms built on RBGL}
 
