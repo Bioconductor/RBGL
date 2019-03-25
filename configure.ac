@@ -21,7 +21,7 @@ AX_R_PACKAGE([BH],,[${R}])
 BOOSTLOC=`${R} --slave -e 'cat(paste0(system.file(package="BH"),"/include"))'`
 
 # If R_HOME was hidden, restore it
-if test -n ${FAKE_R_HOME};
+if test -n "${FAKE_R_HOME}";
 then
   R_HOME=${FAKE_R_HOME}
   unset FAKE_R_HOME
