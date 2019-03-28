@@ -10,6 +10,7 @@
 #include <iterator>
 #include <algorithm>
 #include <time.h>
+#include <csignal>
 
 #include <boost/config.hpp>
 #include <boost/utility.hpp>
@@ -136,6 +137,10 @@ typedef R_adjacency_list<boost::directedS, int> Graph_di;
 typedef R_adjacency_list<boost::undirectedS, int> Graph_ui;
 typedef R_adjacency_list<boost::directedS, double> Graph_dd;
 typedef R_adjacency_list<boost::undirectedS, double> Graph_ud;
+
+extern "C"  {
+void sigabrt_handler(int isig);
+}
 
 #endif // RBGL_RBGL_H
 

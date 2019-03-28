@@ -1,13 +1,9 @@
+#include "RBGL.hpp"
 #include <Rdefines.h>
-// #include "kludge.hpp"
 
 extern "C"  {
-void _bgl_abort()
-{
+void sigabrt_handler(int isig) {
     Rf_error
         ("internal: RBGL invoked 'abort'; see warnings() and restart R");
 }
 }
-
-
-

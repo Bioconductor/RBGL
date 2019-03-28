@@ -64,9 +64,11 @@ extern "C"
 		
 		std::vector<graph_traits<VEGraph>::vertex_descriptor> f(NV1);
 
+		signal(SIGABRT, sigabrt_handler);
 		r = isomorphism(g1, g2, isomorphism_map 
 			(make_iterator_property_map(f.begin(), v1_index_map, f[0])));
 		}
+		signal(SIGABRT, SIG_DFL);
 
 		SEXP ansList, conn;
 		PROTECT(ansList = Rf_allocVector(VECSXP,1));
