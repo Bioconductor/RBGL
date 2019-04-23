@@ -1,6 +1,5 @@
 #include "RBGL.hpp"
-#include <boost/graph/betweenness_centrality.hpp>
-#include <boost/graph/bc_clustering.hpp>
+#include "hack.hpp"
 
 extern "C"
 {

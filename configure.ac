@@ -27,6 +27,8 @@ then
   unset FAKE_R_HOME
 fi
 
+###  PKGLIBS='-L/llvm/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04/lib'
+### AC_SUBST(PKGLIBS)
 
 BOOSTFLAGS=-I${BOOSTLOC}
 AC_SUBST(BOOSTFLAGS)
