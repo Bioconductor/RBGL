@@ -902,9 +902,9 @@ brandes.betweenness.centrality <- function ( g )
 betweenness.centrality.clustering <- function(g, threshold=-1, normalize=TRUE )
 {
 
-   errmsg <- paste0("This function has been withdrawn due to a LLVM C++ library incompatibility; ",
-		    "See the manual for a workaround for non-LLVM systems")
-   stop(errmsg)
+#  errmsg <- paste0("This function has been withdrawn due to a LLVM C++ library incompatibility; ",
+#	    "See the manual for a workaround for non-LLVM systems")
+#  stop(errmsg)
 
    nv <- length(nodes(g))
    em <- edgeMatrix(g)
