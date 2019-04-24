@@ -1,19 +1,42 @@
 #include "RBGL.hpp"
-#include "hack.hpp"
+#include <boost/graph/graph_utility.hpp>
+
+
+using namespace boost;
+
+typedef adjacency_list<vecS, vecS, undirectedS,
+	// vertex properties
+        property<vertex_index_t, int, 
+    	property<vertex_centrality_t, double> >, 
+    	// edge properties
+    	property<edge_weight_t, double, 
+    	property<edge_centrality_t, double> > >
+    	BCGraph;
+typedef graph_traits<BCGraph>::edge_descriptor Edge;
+typedef graph_traits<BCGraph>::edge_iterator EdgeIterator;
+typedef boost::indirect_cmp<boost::adj_list_edge_property_map<boost::undirected_tag, double, double &, unsigned long,boost::property<boost::edge_weight_t, double, boost::property<boost::edge_centrality_t, double, boost::no_property>>, boost::edge_centrality_t>, std::__1::less<double> > EdgeCentralityCompare;
+      
+EdgeIterator
+max_element(EdgeIterator __first, EdgeIterator __last, EdgeCentralityCompare __comp)
+{
+    if (__first != __last)
+    {
+        EdgeIterator __i = __first;
+        while (++__i != __last)
+            if (__comp(*__first, *__i))
+                __first = __i;
+    }
+    return __first;
+}
+
+#include <boost/graph/bc_clustering.hpp>
+#include <boost/graph/betweenness_centrality.hpp>
+
+
 
 extern "C"
 {
-	using namespace boost;
 
-   	typedef adjacency_list<vecS, vecS, undirectedS,
-    		// vertex properties
-                property<vertex_index_t, int, 
-    		property<vertex_centrality_t, double> >, 
-    		// edge properties
-    		property<edge_weight_t, double, 
-    		property<edge_centrality_t, double> > >
-    		BCGraph;
-	typedef graph_traits<BCGraph>::edge_descriptor Edge;
 
 	SEXP BGL_brandes_betweenness_centrality(SEXP num_verts_in, 
 		SEXP num_edges_in, SEXP R_edges_in, SEXP R_weights_in)
