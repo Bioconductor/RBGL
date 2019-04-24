@@ -14,7 +14,7 @@ typedef adjacency_list<vecS, vecS, undirectedS,
     	BCGraph;
 typedef graph_traits<BCGraph>::edge_descriptor Edge;
 typedef graph_traits<BCGraph>::edge_iterator EdgeIterator;
-typedef boost::indirect_cmp<boost::adj_list_edge_property_map<boost::undirected_tag, double, double &, unsigned long,boost::property<boost::edge_weight_t, double, boost::property<boost::edge_centrality_t, double, boost::no_property>>, boost::edge_centrality_t>, std::__1::less<double> > EdgeCentralityCompare;
+typedef boost::indirect_cmp<boost::adj_list_edge_property_map<boost::undirected_tag, double, double &, unsigned long,boost::property<boost::edge_weight_t, double, boost::property<boost::edge_centrality_t, double, boost::no_property> >, boost::edge_centrality_t>, std::__1::less<double> > EdgeCentralityCompare;
       
 EdgeIterator
 max_element(EdgeIterator __first, EdgeIterator __last, EdgeCentralityCompare __comp)
