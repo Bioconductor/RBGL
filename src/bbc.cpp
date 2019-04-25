@@ -12,9 +12,14 @@ typedef adjacency_list<vecS, vecS, undirectedS,
     	property<edge_weight_t, double, 
     	property<edge_centrality_t, double> > >
     	BCGraph;
+
+// Explicit instantiation of template function max_element circumvents 
+// compiler error in llvm8 libc++
 typedef graph_traits<BCGraph>::edge_descriptor Edge;
 typedef graph_traits<BCGraph>::edge_iterator EdgeIterator;
-typedef boost::indirect_cmp<boost::adj_list_edge_property_map<boost::undirected_tag, double, double &, unsigned long,boost::property<boost::edge_weight_t, double, boost::property<boost::edge_centrality_t, double, boost::no_property> >, boost::edge_centrality_t>, std::__1::less<double> > EdgeCentralityCompare;
+typedef property_map < BCGraph, edge_centrality_t >::type EdgeCentralityMap;
+typedef typename property_traits<EdgeCentralityMap>::value_type centrality_type;
+typedef indirect_cmp<EdgeCentralityMap, std::less<centrality_type> > EdgeCentralityCompare;
       
 EdgeIterator
 max_element(EdgeIterator __first, EdgeIterator __last, EdgeCentralityCompare __comp)
