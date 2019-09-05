@@ -1710,7 +1710,7 @@ fi
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking R package BH " >&5
 $as_echo_n "checking R package BH ... " >&6; }
 
-    TEST=$( $R --silent --vanilla -e 'if(is.na(packageDescription("BH"))) stop("not found")' 2>/dev/null )
+    TEST=$( $R --silent --vanilla -e 'if(system.file(package="BH") == "") stop("not found")' 2>/dev/null )
     if test $? -eq 0; then :
 
 else
@@ -1740,7 +1740,7 @@ $as_echo "yes" >&6; }
 
 
 
-BOOSTLOC=`${R} --slave -e 'cat(paste0(system.file(package="BH"),"/include"))'`
+BOOSTLOC=`${R} --slave -e 'cat(system.file(package="BH", "include")))'`
 
 # If R_HOME was hidden, restore it
 if test -n "${FAKE_R_HOME}";
