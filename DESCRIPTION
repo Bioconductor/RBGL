@@ -1,13 +1,19 @@
 Package: RBGL
 Version: 1.75.0
 Title: An interface to the BOOST graph library
-Author: Vince Carey <stvjc@channing.harvard.edu>, Li Long
-        <li.long@isb-sib.ch>, R. Gentleman
-Maintainer: Bioconductor Package Maintainer
-        <maintainer@bioconductor.org>
+Authors@R: c(
+        person("Vince", "Carey", role = "aut",
+                email = "stvjc@channing.harvard.edu"),
+        person("Li", "Long",  role = "aut",
+                email = "li.long@isb-sib.ch"),
+        person("R.", "Gentleman", role = "aut"),
+        person("Emmanuel", "Taiwo", role = "ctb", 
+                comment = "'RBGL' vignette translation from Sweave to RMarkdown / HTML."),
+        person("Bioconductor Package Maintainer", role = "cre",
+                email = "maintainer@bioconductor.org"))
 Depends: graph, methods
 Imports: methods
-Suggests: Rgraphviz, XML, RUnit, BiocGenerics
+Suggests: Rgraphviz, XML, RUnit, BiocGenerics, BiocStyle, knitr
 Description: A fairly extensive and comprehensive interface to the
         graph algorithms contained in the BOOST library.
 License: Artistic-2.0
@@ -15,3 +21,4 @@ URL: http://www.bioconductor.org
 LazyLoad: yes
 biocViews: GraphAndNetwork, Network
 LinkingTo: BH
+VignetteBuilder: knitr
