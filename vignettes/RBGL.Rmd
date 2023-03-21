@@ -1,0 +1,838 @@
+---
+title: "*RBGL*: R interface to boost graph library"
+author: 
+- name: "L. Long"
+- name: "VJ Carey"
+- name: "R. Gentleman"
+- name: "Emmanuel Taiwo"
+  affiliation: "Vignette translation from Sweave to R Markdown / HTML"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{*RBGL*: R interface to boost graph library}
+  %\VignettePackage{RBGL}
+  %\VignetteEncoding{UTF-8}
+output: 
+  BiocStyle::html_document: 
+    number_sections: yes 
+    toc: yes 
+    toc_depth: 4
+---
+
+```{r, include = FALSE}
+library(RBGL)
+library(Rgraphviz)
+library(XML)
+```
+
+> *Summary*. The `r Biocpkg("RBGL")` package is primarily an interface
+> from R to the Boost Graph Library (BGL). It includes some graph
+> algorithms built on top of those from BGL and some algorithms
+> independent of BGL. 
+
+# Basic notations/Preliminaries
+
+## Basics Notations
+
+We use the following notation:
+
+*G*: a graph, represented as G = (V, E); *V* = v1, v2, ..., vn: a set
+of vertices (or nodes); *E* = e1, e2, ..., em: a set of edges with ei =
+[vj, vk], with vj, vk are in V; *W* = w1, w2, ..., wm: a set of
+weights of the edges, i.e., wi is the weight on edge ei.
+
+A *walk* is a sequence of vertices v1, v2, ..., vk such that for all i,
+[vi, vi+1] in *E*. A *path* is a walk without repeated vertices. A
+*cycle* is a path that begins and ends at the same vertice.
+
+A *directed* graph is a graph with direction assigned to its edges,
+therefore, [vj, vk] != [vk, vj].
+
+A *directed acyclic graph (DAG)* is a directed graph with no directed
+cycle.
+
+An *in-degree* of vertex v is the total number of edges [u, v] in E;
+an *out-degree* of v is the total number of edges [v, u] in *E*.
+
+A network *N* is a directed graph *G* with (a) a source *s* whose
+in-degree is 0, (b) a sink *t* whose out-degree is 0, and (c) a
+*capacity* for each edge in a network.
+
+A *flow* in *N* assigns a value on each edge that doesn't exceed its
+capacity, all the internal vertices have the same incoming flow as the
+outgoing flow, *s* has outgoing flow only, *t* has incoming flow only.
+
+## Examples in use
+
+We are going to use the following graphs repeatedly in the examples.
+
+```{r bfDemo}
+con <- file(system.file("XML/bfsex.gxl", package="RBGL"))
+bf <- fromGXL(con)
+close(con)
+```
+
+```{r dfDemo}
+con <- file(system.file("XML/dfsex.gxl", package="RBGL"))
+df <- fromGXL(con)
+close(con)
+```
+
+```{r dijkstraDemo}
+con <- file(system.file("XML/dijkex.gxl", package="RBGL"))
+dijk <- fromGXL(con)
+close(con)
+```
+
+```{r connDemo}
+con <- file(system.file("XML/conn.gxl", package="RBGL"))
+coex <- fromGXL(con)
+close(con)
+```
+
+```{r conn2Demo}
+con <- file(system.file("XML/conn2.gxl", package="RBGL"))
+coex2 <- fromGXL(con)
+close(con)
+```
+
+```{r conn2iDemo}
+con <- file(system.file("XML/conn2iso.gxl", package="RBGL"))
+coex2i <- fromGXL(con)
+close(con)
+```
+
+```{r kmstDemo}
+con <- file(system.file("XML/kmstEx.gxl", package="RBGL"))
+km <- fromGXL(con)
+close(con)
+```
+
+```{r bicoDemo}
+con <- file(system.file("XML/biconn.gxl", package="RBGL"))
+bicoex <- fromGXL(con)
+close(con)
+```
+
+```{r ospfDemo}
+con <- file(system.file("XML/ospf.gxl", package="RBGL"))
+ospf <- fromGXL(con)
+close(con)
+```
+
+```{r zzDemo}
+con <- file(system.file("dot/joh.gxl", package="RBGL"))
+joh <- fromGXL(con)
+close(con)
+```
+
+```{r hcsDemo}
+con <- file(system.file("XML/hcs.gxl", package="RBGL"))
+hcs <- fromGXL(con)
+close(con)
+```
+
+```{r kclexDemo}
+con <- file(system.file("XML/snacliqueex.gxl", package="RBGL"))
+kclex <- fromGXL(con)
+close(con)
+```
+
+```{r kcoexDemo}
+con <- file(system.file("XML/snacoreex.gxl", package="RBGL"))
+kcoex <- fromGXL(con)
+close(con)
+```
+
+```{r layout, echo = FALSE}
+layout_matrix_1 <- matrix(1:4, ncol = 2)
+```
+
+```{r, fig.cap = "The example graphs (I).", fig.height = 8, echo = FALSE}
+layout(layout_matrix_1)
+plot(bf, main="a) Breath-First Search Example")
+plot(dijk, main="c) Dijkstra's Example")
+plot(df, main="b) Depth-First Search Example")
+plot(coex, main="d) Coex Example")
+```
+
+```{r, fig.cap = "The example graphs (II).", fig.height = 8, echo = FALSE}
+layout(layout_matrix_1)
+plot(coex2, main="e) Coex2 Example")
+plot(km, main="g) Kruskal MST Example")
+plot(coex2i, main="f) Coex2 Isomorphism Example")
+plot(bicoex, main="h) Biconnected Component Example")
+```
+
+```{r, fig.cap = "The example graphs (III).", fig.height = 8, echo = FALSE}
+layout(layout_matrix_1)
+plot(hcs, main="k) HCS Example")
+plot(kcoex, main="m) kCores Example")
+plot(kclex, main="l) kCliques Example")
+```
+
+# Working with the Bioconductor `graph` class
+
+An example object representing file dependencies is included, as shown
+in Figure [4](#fig4){reference-type="ref" reference="fdpic"}.
+
+```{r showFileDep}
+data(FileDep)
+FileDep
+```
+
+<a id="fig4"></a>
+```{r fdpic, fig.width = 6, fig.cap = "File dependency digraph example from Boost", echo = FALSE}
+plot(FileDep)
+```
+
+# Algorithms from BGL
+
+## Depth First Search
+
+The `dfs` function returns two vectors of node names of discovery and
+finish order in a depth-first-search (DFS), starting at the given
+vertex.
+
+```{r DFSdemo}
+print(dfs.res <- dfs(df, "y"))
+```
+
+In this example, DFS starts with *y*, reaches *x* and *v*; DFS restarts
+from *w*, reaches *z*; DFS restarts from *u*; at this point, all the
+vertices in the graph are visited once and only once. You could see the
+search order in the figure.
+
+```{r, echo = FALSE}
+layout_matrix_2 <- matrix(1:2, ncol = 2)
+```
+
+```{r figdfs, fig.cap = "a) The graph for depth-first-search example b) The graph for depth-first-search example, showing search orders.", echo = FALSE}
+layout(layout_matrix_2)
+plot(df, main="a) DFS Example")
+dfsNattrs <- makeNodeAttrs(df)
+dfsNattrs$label[dfs.res$discovered] <- 1:numNodes(df)
+plot(df, nodeAttrs=dfsNattrs, main="b) DFS Example with search order")
+```
+
+## Breadth First Search
+
+The `bfs` function returns a vector of node names of discovery order in
+a breadth-first search (BFS), starting at the given vertex.
+
+```{r BFSdemo}
+print(bfs.res <- bfs(bf,"s"))
+```
+
+In this example, BFS starts from vertex *s*, reaches *w*; from *w* BFS
+reaches *r*, *t* and *x*; from *r* BFS reaches *v*; from *t* BFS reaches
+*u*; from *x* BFS reaches *y*; at this time, BFS visits all the vertices
+in the graph once and only once.
+
+```{r figbfs, fig.cap = "a) The graph for breadth-first-search example b) The graph for breadth-first-search example, showing search orders.", echo = FALSE}
+layout(layout_matrix_2)
+plot(bf, main="a) BFS Example")
+bfsNattrs <- makeNodeAttrs(bf)
+bfsNattrs$label[bfs.res] <- 1:numNodes(bf)
+plot(bf, nodeAttrs=bfsNattrs, main="b) BFS Example with search order")
+```
+
+## Shortest paths
+
+Edge weights play a major role in shortest-path problems. The weight of
+an edge in a graph could represent the relationship between the two
+vertices, such as distance, probability, etc.
+
+TO-BE-FINALIZED: Our knowledge of such a relationship between two
+vertices is: (1) we know there is an edge and there is a measured value
+on it; (2) we know there is an edge but there is NO measured value on
+it; (3) we know there is NO edge; (4) we DO NOT know if there is an
+edge.
+
+Corresponding edge weights are: case 1: measured value; case 2: `NA`;
+case 3: `Inf`; case 4: TO-BE-DETERMINED
+
+When there is a loop of negative weight between two vertices, the
+distance between them is `-Inf`.
+
+The shortest path problem is to find a path between two vertices where
+the sum of all the edge weights on this path is minimum.
+
+There are two sets of algorithms available: (1) find shortest paths
+between a single vertex, say, *source s*, and all other vertices, i.e.,
+*V-s*, available algorithms are: *Dijkstra's*, *Bellman Ford's* and
+*DAG*, and (2) find shortest paths between all pairs of vertices,
+available algorithms are: *Johnson's* and *Floyd Warshall's*.
+
+*Dijkstra's algorithm* is for the single-source shortest-paths problem
+on graphs (directed or undirected) with non-negative weights on edges.
+If all the edges have the same weight, use depth-first-search instead.
+
+```{r dijkdemo1}
+nodes(dijk)
+edgeWeights(dijk)
+dijkstra.sp(dijk)
+```
+
+The function `dijkstra.sp` finds the shortest paths from A, which is the
+first node in the node list - default source, to all other vertices in
+the graph: *B, C, D, E*, shown in the *distances* part. The *penult*
+shows TO-BE-FILLED-IN.
+
+For instance, edge *A->C* exists and carries a weight of 1, so the
+shortest path from *A* to *C* is 1; the shortest path from *A* to *B*
+goes through *A->C->D->E->B* and has weight of 6 (1+3+1+1).
+
+```{r dijkdemo2}
+nodes(ospf)[6]
+dijkstra.sp(ospf,nodes(ospf)[6])
+sp.between(ospf, "RT6", "RT1")
+```
+
+The first part of this example finds the shortest paths from *start RT6*
+to all the other vertices in the graph, and the second part finds the
+shortest path between two vertices: *RT6* and *RT1*.
+
+```{r figospf, fig.width = 6, fig.cap = "Network example from BGL.", echo = FALSE}
+plot(ospf)
+```
+
+*Bellman-Ford's algorithm* is for the single-source shortest-paths
+problem on graphs (directed or undirected) with both positive and
+negative edge weights. The default source is the first entry in the list
+of nodes in the graph.
+
+```{r bellmanfordDemo}
+dd <- coex2
+nodes(dd)
+bellman.ford.sp(dd)
+bellman.ford.sp(dd,nodes(dd)[2])
+```
+
+The first `bellman.ford.sp` returns the shortest paths from *start A*,
+which is the first vertex on the node list, to all other vertices. The
+second call shows the shortest paths from *start B* to all other
+vertices, since there is no path from *B* to *A*, the *distance* between
+them is `Inf`.
+
+The *DAG algorithm* is for the single-source shortest-paths problem on a
+weighted, directed acyclic graph (DAG), which is more efficient for DAG
+than both Dijkstra's and Bellman-Ford's algorithms. When all the edges
+have the same weight, use depth-first-search instead.
+
+```{r DAGDemo}
+dd <- coex2
+dag.sp(dd)
+dag.sp(dd,nodes(dd)[2])
+```
+
+It's easy to see that *conn2.gxl* doesn't contain any cycle, so we could
+use function `dag.sp` on it. The first example finds the shortest paths
+from the *start A* to all other vertices. The second example finds the
+shortest paths from *start B* to all other vertices, since no path goes
+from *B* to *A*, the distance is *Inf*.
+
+*Johnson's algorithm* finds the shortest path between every pair of
+vertices in a sparse graph. Its time complexity is *O(V E log V)*.
+
+```{r johnsonDemo}
+zz <- joh
+edgeWeights(zz)
+johnson.all.pairs.sp(zz)
+```
+
+```{r figjoh, fig.small = TRUE, fig.cap = "Example: Johnson-all-pairs-shortest-paths example", echo = FALSE} 
+plot(zz)
+```
+
+This example uses a graph with negative edge weights.
+
+The shortest paths between all pairs of vertices are presented in the
+matrix, entry [i, j] gives the distance from vertex *i* to vertex *j*.
+For example, the shortest path from vertex *c* to vertex *d* is of
+length 5; the shortest path from vertex *a* to vertex *e* is of length
+-4, since edge *a->e* is available and of distance -4; the shortest
+distance from *a* to *c* is -3.
+
+*Floyd-Warshall's algorithm* finds the shortest path between every pair
+of vertices in a dense graph.
+
+```{r floydwarshallDemo}
+floyd.warshall.all.pairs.sp(coex)
+```
+
+All edge distances are assumed to be 1, if not given. Since the graph is
+undirected, the distance matrix is symmetric, for example, distance from
+*C* to *G* is the same as that from *G* to *C*.
+
+## Minimum spanning tree
+
+Minimum-spanning-tree (MST) problem is to find a subset of edges that
+connect all the vertices, contains no cycles and have the minimum weight
+sum.
+
+There are two algorithms available: *Kruskal's algorithm* and *Prim's
+algorithm*. Both are for undirected graphs with weighted edges, and both
+return a list of edges, weights and nodes determining MST.
+
+The `mstree.kruskal` function finds the MST by Kruskal's algorithm.
+
+```{r KMSTdemo}
+mstree.kruskal(km)
+```
+
+This graph is treated as undirected graph with corresponding weights.
+MST consists of 4 edges, *A->C, D->E, E->A, B->D*, each is of weight 1.
+
+The `mstree.prim` function finds the MST by Prim's algorithm.
+
+```{r primDemo}
+mstree.prim(coex2)
+```
+
+The graph is treated as undirected graph with default weight 1. MST
+consists of 7 edges, *A->B, A->C, A->D, C->E, D->H, E->F, C->G*.
+
+## Connected components 
+
+There are several algorithms available for this group of problems.
+
+A *connected component* of an undirected graph is a subgraph that for
+any two vertices in this subgraph, *u* and *v*, there's a path from *u*
+to *v*.
+
+The `connectedComp` function computes the connected components in an
+undirected graph.
+
+```{r conndemo}
+km1 <- km
+km1 <- graph::addNode(c("F","G","H"), km1)
+km1 <- addEdge("G", "H", km1, 1)
+km1 <- addEdge("H", "G", km1, 1)
+connectedComp(ugraph(km1))
+```
+
+```{r figkm, fig.cap = "Kruskal MST examples.", echo = FALSE}
+layout(layout_matrix_2)
+plot(km, main="g) Kruskal MST Example")
+plot(km1, main="Modified Kruskal MST example")
+```
+
+The original graph has one connected component. After we add three
+vertices, *F, G, H* and an edge *G-H*, make the graph *undirected*, the
+modified graph has three connected components now.
+
+A *strongly connected component* of a directed graph is a connected
+subgraph that for every pair of vertices in this subgraph, *u* and *v*,
+there are both a path from *u* to *v* and a path from *v* to *u*.
+
+The `strongComp` function computes the strongly connected components in
+a directed graph.
+
+```{r sconndemo}
+km2 <- km
+km2 <- graph::addNode(c("F","G","H"), km2)
+km2 <- addEdge("G", "H", km2, 1)
+km2 <- addEdge("H", "G", km2, 1)
+strongComp(km2)
+```
+
+After adding three vertices, *F, G, H* and an edge *G-H*, there are
+three strong components in the graph now.
+
+A *biconnected* graph is a connected graph that removal of any single
+vertex doesn't disconnect it. If the removal of a vertex increases the
+number of components in a graph, this vertex is call an *articulation
+point*.
+
+The `biConnComp` function computes the biconnected components in an
+undirected graph. The `articulationPoints` function finds all the
+articulation points in an undirected graph.
+
+```{r biConnCompdemo}
+biConnComp(bicoex)
+articulationPoints(bicoex)
+```
+
+```{r figbicoex, fig.width = 6, fig.cap = "Biconnected components example from Boost library.", echo = FALSE}
+plot(bicoex)
+```
+
+There are 4 biconnected components in the example: one with vertices *B, C, D* 
+and edges *B-C, C-D, B-D* labeled 0, one with vertices *A, B, E, F* 
+and edges *A-B, B-E, E-F, A-F* labeled 1, one with vertices *G, H, I*
+and edges *G-I, G-H, I-H* labeled 2, and one with vertices *A, G* and
+edges *A-G* labeled 3.
+
+There are 3 articulation points in the example: *A, B, G*. It's easy to
+see removing any one of them will result in more connected components.
+
+When you *add* edges to an undirected graph and want to get updated
+information on the connected components, you could use the following
+functions: `init.incremental.components` function to initialize the
+process; after adding edges to the graph, use `incremental.components`
+function to update the information on the connected components; use
+`same.component` function to find out if two vertices are in the same
+connected component.
+
+Currently, only one incremental graph is allowed at any given time. To
+start on a new graph, you need to call `init.incremental.components`
+first.
+
+```{r incrCompdemo} 
+jcoex <- join(coex, hcs)
+x <- init.incremental.components(jcoex)
+incremental.components(jcoex)
+same.component(jcoex, "A", "F")
+same.component(jcoex, "A", "A1")
+jcoex <- addEdge("A", "A1", jcoex) 
+x <- init.incremental.components(jcoex)
+incremental.components(jcoex)
+same.component(jcoex, "A", "A1")
+```
+
+```{r figjcoex, fig.width = 6, fig.cap = "Example on incremental components: a graph connecting coexand hcs.", echo = FALSE}
+plot(jcoex)
+```
+
+In the first part of this example, we join two separate graphs together,
+the resulting graph contains two connected components. Vertices *A* and
+*F* are in the same connected component, while vertices *A* and *A1* are
+not in the same connected component.
+
+In the second part of the example, we add an edge connecting *A* and
+*X*, which effectively connects the two subgraphs, we have only one
+connected component left, which consists of all the vertices from the
+two original graphs, *A* and *A1* are in the same connected component
+now.
+
+## Maximum Flow
+
+The functions, `edmonds.karp.max.flow` and `push.relabel.max.flow` are
+available to find the maximum flow between source and sink.
+
+```{r MaxFlowdemo}
+edgeWeights(dijk) 
+edmonds.karp.max.flow(dijk, "B", "D") 
+push.relabel.max.flow(dijk, "C", "B")
+```
+
+Call to `edmonds.karp.max.flow` finds the maximum flow of 2 from *B* to
+*D*: one part of flow 1 is *B -> D* directly, another part of flow 1 is
+*B -> E -> A -> C -> D*.
+
+Call to `push.relabel.max.flow` find the maximum flow of 8 from *C* to
+*B*: one part of flow 7 is *C -> B* directly, another part of flow 1 is
+*C -> D -> E -> B*.
+
+You can see the flow on each edge in the output, and each is no more
+than the capacity of the edge.
+
+## Sparse Matrix Ordering
+
+There are three functions available in this category:
+`cuthill.mckee.ordering`, `minDegreeOrdering` and `sloan.ordering`.
+
+*Cuthill-McKee's algorithm* tries to reduce the bandwidth of a graph by
+renumbering its vertices. The outputs are the vertices in the new
+ordering and reverse ordering.
+
+*Minimum degree Ordering* is one approach that tries to reduce fill-ins
+in matrix reordering, which turns a system of equations *A x = b* to 
+*(P A PT)(P x) = P b*.
+
+*Sloan Ordering* tries to reduce the profile and wavefront of a graph by
+renumbering its vertices.
+
+```{r SparseMatrixOrderingdemo}
+dijk1 <- ugraph(dijk)
+cuthill.mckee.ordering(dijk1) 
+minDegreeOrdering(dijk1)
+sloan.ordering(dijk1)
+```
+
+TODO: EXPLAIN THESE OUTPUT.
+
+## Edge connectivity and minimum disconnecting set
+
+For a single connected undirected graph, function *edgeConnectivity*
+calculates the minimum number of edges that have to be removed to create
+two disconnected components. No edge weight is taken into account and
+the output is the edges that need to be removed.
+
+This is very similar to the *minCut* algorithm, which takes the edge
+weights into account when removing edges and outputs the vertices on the
+two disconnected components.
+
+```{r edgeConndemo} 
+edgeConnectivity(coex)
+```
+
+Mimimum of two edges must be removed to create two disconnected
+components: edges *D-E* and *D-H*.
+
+## Topological sort
+
+The `tsort` function will return the names of vertices from a DAG in
+topological sort order.
+
+```{r tsortDemo1}
+tsort(FileDep)
+```
+
+Note that if the input graph is not a DAG, BGL `topological_sort` will
+check this and throw 'not a dag'. This is crudely captured in the
+interface (a message is written to the console and zeroes are returned).
+
+```{r tsortDemo2} 
+FD2 <- FileDep 
+# now introduce a cycle 
+FD2 <- addEdge(from="bar_o", to="dax_h", FD2) 
+tsort(FD2)
+```
+
+## Isomorphism
+
+The `isomorphism` function determines if two graphs are isomorphism,
+i.e., determines if there is a one-to-one mapping *f* of vertices from
+one graph *g1* to the other *g2* such that edge *u -> v* is in *E(g1)*
+if edge *f(u) -> f(v)* exists and is in *E(g2)*.
+
+```{r Isomorphismdemo}
+isomorphism(dijk, coex2) 
+isomorphism(coex2i, coex2) 
+```
+
+```{r figcoex2i, fig.small = TRUE, fig.cap = "Example conn2i", echo = FALSE}
+plot(coex2i)
+```
+
+The function handles both directed and undirected graphs. There are more
+vertices in graph *conn2* than *dijkstra*, so it's impossible to find a
+one-to-one mapping between them. One the other hand, graph *conn2i* is
+basically the same graph as *conn2* except the vertices have different
+names, so they are isomorphism.
+
+## Vertex Coloring
+
+The `sequential.vertex.coloring` function assigns colors, as numbers 0,
+1, 2, \..., to vertices in a graph so that two vertices connected by an
+edge are of different colors. It does not guarantee that minimum number
+of colors is used, and the result depends on the input ordering of the
+vertices in the graph.
+
+```{r VertexColoringdemo}
+sequential.vertex.coloring(coex)
+```
+
+We need 4 colors for the vertices of this graph, one color scheme is to
+give color 0 to vertices *A, E*, color 1 to vertices *B, H*, color 2 to
+vertices *C, F* and color 3 to vertices *D, G*.
+
+## Wavefront, Profiles
+
+TODO: EXPLAIN THESE TERMS
+
+The following functions are available: `ith.wavefront`, `maxWavefront`,
+`aver.wavefront` and `rms.wavefront`.
+
+```{r wavefrontdemo} 
+ss <- 1 
+ith.wavefront(dijk, ss)
+maxWavefront(dijk) 
+aver.wavefront(dijk) 
+rms.wavefront(dijk)
+```
+
+TODO: EXPLAIN THESE RESULTS
+
+## Betweenness Centrality and Clustering
+
+*Betweenness centrality* of a vertex (or an edge) measures its
+importance in a graph, i.e., among all the shortest paths between every
+pair of vertices in the graph, how many of them have to go through this
+vertex (or edge). *Relative* betweenness centrality is calculated by
+scaling the *absolute* betweenness centrality by factor
+*2/((n-1)(n-2))*, where *n* is the number of vertices in the graph.
+
+The `brandes.betweenness.centrality` function implements Brandes'
+algorithm in calculating betweenness centrality.
+
+The `betweenness.centrality.clustering` function implements clustering
+in a graph based on edge betweenness centrality.
+
+TODO: EXPLAIN MORE
+
+```{r Centralitydemo, echo = TRUE} 
+brandes.betweenness.centrality(coex)
+betweenness.centrality.clustering(coex, 0.1, TRUE)
+```
+
+# Algorithms built on RBGL
+
+## Min-Cut
+
+Given an undirected graph G=(V, E) of a single connected component, a
+*cut* is a partition of the set of vertices into two non-empty subsets S
+and V-S, a *cost* is the weight sum of edges that are incident on one
+vertex in S and one vertex in V-S. The min-cut problem is to find a cut
+(S, V-S) of minimum cost.
+
+For simplicity, subset *S* is the smaller of the two.
+
+```{r mincutdemo} 
+minCut(coex)
+```
+
+Currently all edge weights are assumed to be 1, minimum cut is of weight
+2, it will partition the graph into two subsets: subset *A, B, C, D* and
+subset *E, H, F, G*.
+
+## highlyConnSG
+
+A graph *G* with *n* vertices is highly connected if its connectivity
+*k(G) > n/2*. Function *highlyConnSG* partitions a graph into a set of
+highly connected subgraphs, by using minimum-cut algorithm repeatedly.
+To improve performance, it takes special care of singletons, low degree
+vertices and merges clusters.
+
+```{r highlyConnSGdemo}
+highlyConnSG(coex) 
+highlyConnSG(hcs)
+```
+
+In graph *conn*, two highly-connected-subgraphs are found: subgraph with
+vertices *A, B, C, D* and subgraph with vertices *E, H, F, G*.
+
+In graph *hcs*, 3 highly-connected-subgraphs are found: subgraph with
+vertices *A1, A2, A3, A4, A5*, subgraph with vertices *B1, B2, B3, B4*
+and subgraph with vertices *X, Y, Z*.
+
+# Algorithms independent from RBGL
+
+## maxClique
+
+A *clique* is a complete subgraph, i.e., there is an edge between every
+pair of vertices.
+
+*Maximum Clique* problem is to find the largest clique in a graph. This
+problem is NP-complete, which means it cannot be solved by any known
+polynomial algorithm.
+
+Function *maxClique* implements the algorithm from *Finding all cliques
+of an undirected graph*, by C. Bron and J. Kerbosch (CACM, Sept 1973,
+Vol 16, No. 9.), which finds all the cliques in a graph.
+
+```{r MaxCliquedemo} 
+maxClique(coex) 
+maxClique(hcs)
+```
+
+In graph *conn*, 3 cliques are found: clique with vertices *D, B, C, A*,
+clique with vertices *D, E, H* and clique with vertices *F, E, H, H*.
+
+In graph *hcs*, 10 cliques are found. For instance, vertices *A2, A4,
+A3* form a clique, vertices *B1, Y* form a clique.
+
+## is.triangulated
+
+A graph is *triangulated* if all cycles of length 4 or more have a
+chord. The `is.triangulated` function returns TRUE or FALSE,
+accordingly.
+
+We implemented the following algorithm from *Combinatorial Optimization:
+algorithms and complexity* (p. 403) by C. H. Papadimitriou, K.
+Steiglitz: G is chordal if either G is an empty graph, or there is a
+*v* in *V* such that (i) the neighborhood of *v*, i.e., *v* and its
+adjacent vertices, forms a clique, and (ii) recursively, *G-v* is chordal.
+
+```{r IsTriangulateddemo}
+is.triangulated(coex)
+is.triangulated(hcs)
+```
+
+## separates
+
+Function *separates* determines if a subset of vertices separates two
+other subsets of vertices, and returns TRUE or FALSE, accordingly.
+
+```{r Separatesdemo} 
+separates("B", "A", "E", km)
+separates("B", "A", "C", km)
+```
+
+## kCores
+
+A *k-core* in a graph is a subgraph where each vertex is adjacent to at
+least `k` other vertices in the same subgraph.
+
+Function *kCores* finds all the k-cores in a graph. It returns the core
+numbers for all the nodes in the graph. When the given graph is
+directed, you can choose whether in-degree, out-degree or both should be
+considered.
+
+The k-core of a graph is not a necessarily connected subgraph. If i > j, 
+the i-core of a graph contains the j-core of the same graph.
+
+The implementation is based on the algorithm by V. Batagelj and M.
+Zaversnik, 2002.
+
+```{r kCoresdemo1} 
+kCores(kcoex) 
+kcoex2 <- coex2 
+kCores(kcoex2)
+kCores(kcoex2, "in") 
+kCores(kcoex2, "out") 
+g1 <- addEdge("C", "B", kcoex2) 
+kCores(g1, "in") 
+g2 <- addEdge("C", "A", kcoex2)
+kCores(g2, "out")
+```
+
+```{r figkcores, fig.small = TRUE, fig.cap = "K-cores Example.", echo = FALSE}
+plot(kcoex)
+```
+
+The example on directed graph, "conn2", turns out to be a
+waterfall-like graph. If we order the nodes as: A, B, C, D, E, F, H, G,
+all the edges go in the same direction, i.e., i -> j, i < j.
+
+Let's consider in-degree-only case: A has no in-edge so it is 0-core;
+after you eliminate A, no in-edge to B, so B is 0-core; continue this,
+we could see that there's no subset of nodes that each and every single
+node has 1 in-degree. Therefore, they are all of 0-core.
+
+For out-degree-only case: G has no out-edge, so it's 0-core; after
+eliminating G, F has no out-edge, so F is 0-core; continue this process,
+we could see that there's no subset of nodes that each and every single
+node has 1 out-edge. Therefore, they are all of 0-core.
+
+If we add edge(s) to break the waterfall-like property, *C->B*,
+*C->A*, separately, we could see the changes in the core numbers that
+are consistant with the analysis above.
+
+## kCliques
+
+In social network analysis, a k-cliques is a maximum subgraph that the
+shortest distance between any two nodes is no more than k.
+
+Function *kCliques* finds all the k-cliques in an undirected graph (k =
+1, ..., N, where N is the length of the longest shortest-path). It
+returns all the k-cliques.
+
+Let D be a matrix, D[i][j] is the shortest path from node i to node
+j. Algorithm is outlined as following. o. use Johnson's algorithm to
+fill D; let N = max(D[i][j]) for all i, j; o. each edge is a
+1-clique by itself; o. for k = 2, ..., N, try to expand each
+(k-1)-clique to k-clique: o. consider a (k-1)-clique the current
+k-clique KC; o. repeat the following: if for all nodes j in KC,
+D[v][j] <= k, add node v to KC; o. eliminate duplicates; o. the
+whole graph is N-clique.
+
+```{r kCliquesdemo} 
+kCliques(kclex)
+```
+
+```{r figkcliques, fig.small = TRUE, fig.cap = "K-cliques Example", echo = FALSE}
+plot(kclex)
+```
