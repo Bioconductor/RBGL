@@ -182,7 +182,7 @@ FileDep
 ```
 
 <a id="fig4"></a>
-```{r fdpic, fig.width = 6, fig.cap = "File dependency digraph example from Boost", echo = FALSE}
+```{r fdpic, fig.height = 8, fig.cap = "File dependency digraph example from Boost", echo = FALSE}
 plot(FileDep)
 ```
 
