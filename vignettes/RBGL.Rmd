@@ -174,7 +174,7 @@ plot(kclex, main="l) kCliques Example")
 # Working with the Bioconductor `graph` class
 
 An example object representing file dependencies is included, as shown
-in Figure [4](#fig4){reference-type="ref" reference="fdpic"}.
+in Figure [4](#fig4).
 
 ```{r showFileDep}
 data(FileDep)
