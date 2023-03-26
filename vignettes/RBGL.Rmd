@@ -19,7 +19,7 @@ output:
     toc_depth: 4
 ---
 
-```{r, include = FALSE}
+```{r Setup, include = FALSE}
 library(RBGL)
 library(Rgraphviz)
 library(XML)
