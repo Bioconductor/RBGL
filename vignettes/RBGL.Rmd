@@ -9,7 +9,9 @@ author:
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{*RBGL*: R interface to boost graph library}
+  %\VignetteIndexEntry{RBGL Overview}
+  %\VignetteDepends{graph}
+  %\VignetteKeywords{Graphs}
   %\VignettePackage{RBGL}
   %\VignetteEncoding{UTF-8}
 output: 
