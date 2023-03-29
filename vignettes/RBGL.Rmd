@@ -149,6 +149,7 @@ close(con)
 ```{r layout, echo = FALSE}
 layout_matrix_1 <- matrix(1:4, ncol = 2)
 ```
+  
 
 ```{r, fig.cap = "The example graphs (I).", fig.height = 8, echo = FALSE}
 layout(layout_matrix_1)
@@ -157,6 +158,7 @@ plot(dijk, main="c) Dijkstra's Example")
 plot(df, main="b) Depth-First Search Example")
 plot(coex, main="d) Coex Example")
 ```
+  
 
 ```{r, fig.cap = "The example graphs (II).", fig.height = 8, echo = FALSE}
 layout(layout_matrix_1)
@@ -165,6 +167,7 @@ plot(km, main="g) Kruskal MST Example")
 plot(coex2i, main="f) Coex2 Isomorphism Example")
 plot(bicoex, main="h) Biconnected Component Example")
 ```
+  
 
 ```{r, fig.cap = "The example graphs (III).", fig.height = 8, echo = FALSE}
 layout(layout_matrix_1)
@@ -291,13 +294,13 @@ dijkstra.sp(ospf,nodes(ospf)[6])
 sp.between(ospf, "RT6", "RT1")
 ```
 
-The first part of this example finds the shortest paths from *start RT6*
-to all the other vertices in the graph, and the second part finds the
-shortest path between two vertices: *RT6* and *RT1*.
-
 ```{r figospf, fig.width = 6, fig.cap = "Network example from BGL.", echo = FALSE}
 plot(ospf)
 ```
+
+The first part of this example finds the shortest paths from *start RT6*
+to all the other vertices in the graph, and the second part finds the
+shortest path between two vertices: *RT6* and *RT1*.
 
 *Bellman-Ford's algorithm* is for the single-source shortest-paths
 problem on graphs (directed or undirected) with both positive and
@@ -343,10 +346,6 @@ edgeWeights(zz)
 johnson.all.pairs.sp(zz)
 ```
 
-```{r figjoh, fig.small = TRUE, fig.cap = "Example: Johnson-all-pairs-shortest-paths example", echo = FALSE} 
-plot(zz)
-```
-
 This example uses a graph with negative edge weights.
 
 The shortest paths between all pairs of vertices are presented in the
@@ -366,6 +365,10 @@ floyd.warshall.all.pairs.sp(coex)
 All edge distances are assumed to be 1, if not given. Since the graph is
 undirected, the distance matrix is symmetric, for example, distance from
 *C* to *G* is the same as that from *G* to *C*.
+
+```{r figjoh, fig.small = TRUE, fig.cap = "Example: Johnson-all-pairs-shortest-paths example", echo = FALSE} 
+plot(zz)
+```
 
 ## Minimum spanning tree
 
@@ -395,6 +398,13 @@ mstree.prim(coex2)
 The graph is treated as undirected graph with default weight 1. MST
 consists of 7 edges, *A->B, A->C, A->D, C->E, D->H, E->F, C->G*.
 
+```{r figkm, fig.cap = "Kruskal MST examples.", echo = FALSE, results = 'hide'}
+<<conndemo>>
+layout(layout_matrix_2)
+plot(km, main="g) Kruskal MST Example")
+plot(km1, main="Modified Kruskal MST example")
+```
+
 ## Connected components 
 
 There are several algorithms available for this group of problems.
@@ -412,12 +422,6 @@ km1 <- graph::addNode(c("F","G","H"), km1)
 km1 <- addEdge("G", "H", km1, 1)
 km1 <- addEdge("H", "G", km1, 1)
 connectedComp(ugraph(km1))
-```
-
-```{r figkm, fig.cap = "Kruskal MST examples.", echo = FALSE}
-layout(layout_matrix_2)
-plot(km, main="g) Kruskal MST Example")
-plot(km1, main="Modified Kruskal MST example")
 ```
 
 The original graph has one connected component. After we add three
@@ -605,10 +609,6 @@ isomorphism(dijk, coex2)
 isomorphism(coex2i, coex2) 
 ```
 
-```{r figcoex2i, fig.small = TRUE, fig.cap = "Example conn2i", echo = FALSE}
-plot(coex2i)
-```
-
 The function handles both directed and undirected graphs. There are more
 vertices in graph *conn2* than *dijkstra*, so it's impossible to find a
 one-to-one mapping between them. One the other hand, graph *conn2i* is
@@ -625,6 +625,10 @@ vertices in the graph.
 
 ```{r VertexColoringdemo}
 sequential.vertex.coloring(coex)
+```
+
+```{r figcoex2i, fig.small = TRUE, fig.cap = "Example conn2i", echo = FALSE}
+plot(coex2i)
 ```
 
 We need 4 colors for the vertices of this graph, one color scheme is to
