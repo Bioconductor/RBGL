@@ -8,7 +8,7 @@ Authors@R: c(
                 email = "li.long@isb-sib.ch"),
         person("R.", "Gentleman", role = "aut"),
         person("Emmanuel", "Taiwo", role = "ctb", 
-                comment = "'RBGL' vignette translation from Sweave to RMarkdown / HTML."),
+                comment = "Converted RBGL vignette from Sweave to RMarkdown / HTML."),
         person("Bioconductor Package Maintainer", role = "cre",
                 email = "maintainer@bioconductor.org"))
 Depends: graph, methods
