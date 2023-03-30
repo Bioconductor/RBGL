@@ -14,6 +14,11 @@ vignette: >
   %\VignetteKeywords{Graphs}
   %\VignettePackage{RBGL}
   %\VignetteEncoding{UTF-8}
+abstract: |
+  This package uses the source code of zlib-1.2.5 to create libraries for
+  systems that do not have these available via other means (most Linux and Mac
+  users should have system-level access to zlib, and no direct need for this
+  package).
 output: 
   BiocStyle::html_document: 
     number_sections: yes 
@@ -150,7 +155,6 @@ close(con)
 layout_matrix_1 <- matrix(1:4, ncol = 2)
 ```
   
-
 ```{r, fig.cap = "The example graphs (I).", fig.height = 8, echo = FALSE}
 layout(layout_matrix_1)
 plot(bf, main="a) Breath-First Search Example")
@@ -159,7 +163,6 @@ plot(df, main="b) Depth-First Search Example")
 plot(coex, main="d) Coex Example")
 ```
   
-
 ```{r, fig.cap = "The example graphs (II).", fig.height = 8, echo = FALSE}
 layout(layout_matrix_1)
 plot(coex2, main="e) Coex2 Example")
@@ -168,7 +171,6 @@ plot(coex2i, main="f) Coex2 Isomorphism Example")
 plot(bicoex, main="h) Biconnected Component Example")
 ```
   
-
 ```{r, fig.cap = "The example graphs (III).", fig.height = 8, echo = FALSE}
 layout(layout_matrix_1)
 plot(hcs, main="k) HCS Example")
