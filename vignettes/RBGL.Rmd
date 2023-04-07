@@ -30,7 +30,7 @@ library(XML)
 > *Summary*. The `r Biocpkg("RBGL")` package is primarily an interface
 > from R to the Boost Graph Library (BGL). It includes some graph
 > algorithms built on top of those from BGL and some algorithms
-> independent of BGL. 
+> independent of BGL.
 
 # Basic notations/Preliminaries
 
@@ -74,10 +74,18 @@ bf <- fromGXL(con)
 close(con)
 ```
 
+```{r figbf, echo = FALSE, eval = FALSE}
+plot(bf, main="a) Breath-First Search Example")
+```
+
 ```{r dfDemo}
 con <- file(system.file("XML/dfsex.gxl", package="RBGL"))
 df <- fromGXL(con)
 close(con)
+```
+
+```{r figdf, echo = FALSE, eval = FALSE}
+plot(df, main="b) Depth-First Search Example") 
 ```
 
 ```{r dijkstraDemo}
@@ -86,10 +94,18 @@ dijk <- fromGXL(con)
 close(con)
 ```
 
+```{r figdijk, echo = FALSE, eval = FALSE}
+plot(dijk, main="c) Dijkstra's Example")
+```
+
 ```{r connDemo}
 con <- file(system.file("XML/conn.gxl", package="RBGL"))
 coex <- fromGXL(con)
 close(con)
+```
+
+```{r figcoex, echo = FALSE, eval = FALSE}
+plot(coex, main="d) Coex Example")
 ```
 
 ```{r conn2Demo}
@@ -98,10 +114,18 @@ coex2 <- fromGXL(con)
 close(con)
 ```
 
+```{r figcoex2, echo = FALSE, eval = FALSE}
+plot(coex2, main="e) Coex2 Example")
+```
+
 ```{r conn2iDemo}
 con <- file(system.file("XML/conn2iso.gxl", package="RBGL"))
 coex2i <- fromGXL(con)
 close(con)
+```
+
+```{r figcoex2i, echo = FALSE, eval = FALSE}
+plot(coex2i, main="f) Coex2 Isomorphism Example")
 ```
 
 ```{r kmstDemo}
@@ -110,10 +134,18 @@ km <- fromGXL(con)
 close(con)
 ```
 
+```{r figkmst, echo = FALSE, eval = FALSE}
+plot(km, main="g) Kruskal MST Example")
+```
+
 ```{r bicoDemo}
 con <- file(system.file("XML/biconn.gxl", package="RBGL"))
 bicoex <- fromGXL(con)
 close(con)
+```
+
+```{r figbico, echo = FALSE, eval = FALSE}
+plot(bicoex, main="h) Biconnected Component Example")
 ```
 
 ```{r ospfDemo}
@@ -122,10 +154,18 @@ ospf <- fromGXL(con)
 close(con)
 ```
 
+```{r figospf, echo = FALSE, eval = FALSE}
+plot(ospf, main="i) Ospf Example")
+```
+
 ```{r zzDemo}
 con <- file(system.file("dot/joh.gxl", package="RBGL"))
 joh <- fromGXL(con)
 close(con)
+```
+
+```{r figjoh, echo = FALSE, eval = FALSE}
+plot(joh, main="j) joh Example")
 ```
 
 ```{r hcsDemo}
@@ -134,10 +174,18 @@ hcs <- fromGXL(con)
 close(con)
 ```
 
+```{r fighcs, echo = FALSE, eval = FALSE}
+plot(hcs, main="k) HCS Example")
+```
+
 ```{r kclexDemo}
 con <- file(system.file("XML/snacliqueex.gxl", package="RBGL"))
 kclex <- fromGXL(con)
 close(con)
+```
+
+```{r figkclex, echo = FALSE, eval = FALSE}
+plot(kclex, main="l) kCliques Example")
 ```
 
 ```{r kcoexDemo}
@@ -146,31 +194,41 @@ kcoex <- fromGXL(con)
 close(con)
 ```
 
+```{r figkcoex, echo = FALSE, eval = FALSE}
+plot(kcoex, main="m) kCores Example")
+```
+
 ```{r layout, echo = FALSE}
 layout_matrix_1 <- matrix(1:4, ncol = 2)
 ```
   
 ```{r, fig.cap = "The example graphs (I).", fig.height = 8, echo = FALSE}
 layout(layout_matrix_1)
-plot(bf, main="a) Breath-First Search Example")
-plot(dijk, main="c) Dijkstra's Example")
-plot(df, main="b) Depth-First Search Example")
-plot(coex, main="d) Coex Example")
+<<figbf>>
+<<figdijk>>
+<<figdf>>
+<<figcoex>>
 ```
   
 ```{r, fig.cap = "The example graphs (II).", fig.height = 8, echo = FALSE}
 layout(layout_matrix_1)
-plot(coex2, main="e) Coex2 Example")
-plot(km, main="g) Kruskal MST Example")
-plot(coex2i, main="f) Coex2 Isomorphism Example")
-plot(bicoex, main="h) Biconnected Component Example")
+<<figcoex2>>
+<<figkmst>>
+<<figcoex2i>>
+<<figbico>>
 ```
   
 ```{r, fig.cap = "The example graphs (III).", fig.height = 8, echo = FALSE}
 layout(layout_matrix_1)
-plot(hcs, main="k) HCS Example")
-plot(kcoex, main="m) kCores Example")
-plot(kclex, main="l) kCliques Example")
+<<fighcs>>
+<<figkcoex>>
+<<figkclex>>
+```
+
+<a id="fig4"></a>
+```{r fdpic, fig.cap = "File dependency digraph example from Boost", fig.height = 7, results = "hide", echo = FALSE}
+<<showFileDep>>
+plot(FileDep)
 ```
 
 # Working with the Bioconductor `graph` class
@@ -183,9 +241,15 @@ data(FileDep)
 FileDep
 ```
 
-<a id="fig4"></a>
-```{r fdpic, fig.height = 8, fig.cap = "File dependency digraph example from Boost", echo = FALSE}
-plot(FileDep)
+```{r, echo = FALSE}
+layout_matrix_2 <- matrix(1:2, ncol = 2)
+```
+
+```{r figdfsex, fig.cap = "a) The graph for depth-first-search example b) The graph for depth-first-search example, showing search orders.", echo = FALSE, results = "hide"}
+layout(layout_matrix_2)
+<<DFSdemo>>
+<<figdfs1>>
+<<figdfs2>>
 ```
 
 # Algorithms from BGL
@@ -205,15 +269,13 @@ from *w*, reaches *z*; DFS restarts from *u*; at this point, all the
 vertices in the graph are visited once and only once. You could see the
 search order in the figure.
 
-```{r, echo = FALSE}
-layout_matrix_2 <- matrix(1:2, ncol = 2)
+```{r figdfs1, echo = FALSE, eval = FALSE}
+plot(df, main="a) DFS Example")
 ```
 
-```{r figdfs, fig.cap = "a) The graph for depth-first-search example b) The graph for depth-first-search example, showing search orders.", echo = FALSE}
-layout(layout_matrix_2)
-plot(df, main="a) DFS Example")
-dfsNattrs <- makeNodeAttrs(df)
-dfsNattrs$label[dfs.res$discovered] <- 1:numNodes(df)
+```{r figdfs2, echo = FALSE, eval = FALSE}
+dfsNattrs <- makeNodeAttrs(df) 
+dfsNattrs$label[dfs.res$discovered] <- 1:numNodes(df) 
 plot(df, nodeAttrs=dfsNattrs, main="b) DFS Example with search order")
 ```
 
@@ -221,6 +283,13 @@ plot(df, nodeAttrs=dfsNattrs, main="b) DFS Example with search order")
 
 The `bfs` function returns a vector of node names of discovery order in
 a breadth-first search (BFS), starting at the given vertex.
+
+```{r figbfsex, fig.cap = "a) The graph for breadth-first-search example b) The graph for breadth-first-search example, showing search orders.", echo = FALSE, results = "hide"}
+layout(layout_matrix_2)
+<<BFSdemo>>
+<<figbfs1>>
+<<figbfs2>>
+```
 
 ```{r BFSdemo}
 print(bfs.res <- bfs(bf,"s"))
@@ -231,9 +300,11 @@ reaches *r*, *t* and *x*; from *r* BFS reaches *v*; from *t* BFS reaches
 *u*; from *x* BFS reaches *y*; at this time, BFS visits all the vertices
 in the graph once and only once.
 
-```{r figbfs, fig.cap = "a) The graph for breadth-first-search example b) The graph for breadth-first-search example, showing search orders.", echo = FALSE}
-layout(layout_matrix_2)
+```{r figbfs1, echo = FALSE, eval = FALSE}
 plot(bf, main="a) BFS Example")
+```
+
+```{r figbfs2, echo = FALSE, eval = FALSE}
 bfsNattrs <- makeNodeAttrs(bf)
 bfsNattrs$label[bfs.res] <- 1:numNodes(bf)
 plot(bf, nodeAttrs=bfsNattrs, main="b) BFS Example with search order")
@@ -291,7 +362,7 @@ dijkstra.sp(ospf,nodes(ospf)[6])
 sp.between(ospf, "RT6", "RT1")
 ```
 
-```{r figospf, fig.width = 6, fig.cap = "Network example from BGL.", echo = FALSE}
+```{r figospfs, fig.width = 6, fig.cap = "Network example from BGL.", echo = FALSE}
 plot(ospf)
 ```
 
@@ -363,7 +434,7 @@ All edge distances are assumed to be 1, if not given. Since the graph is
 undirected, the distance matrix is symmetric, for example, distance from
 *C* to *G* is the same as that from *G* to *C*.
 
-```{r figjoh, fig.small = TRUE, fig.cap = "Example: Johnson-all-pairs-shortest-paths example", echo = FALSE} 
+```{r figjohn, fig.cap = "Example: Johnson-all-pairs-shortest-paths example", fig.small = TRUE, echo = FALSE} 
 plot(zz)
 ```
 
@@ -395,11 +466,11 @@ mstree.prim(coex2)
 The graph is treated as undirected graph with default weight 1. MST
 consists of 7 edges, *A->B, A->C, A->D, C->E, D->H, E->F, C->G*.
 
-```{r figkm, fig.cap = "Kruskal MST examples.", echo = FALSE, results = 'hide'}
+```{r figkm, fig.cap = "Kruskal MST examples.", echo = FALSE, results = "hide"}
 <<conndemo>>
 layout(layout_matrix_2)
-plot(km, main="g) Kruskal MST Example")
-plot(km1, main="Modified Kruskal MST example")
+<<figkmst>>
+<<figkm1>>
 ```
 
 ## Connected components 
@@ -413,12 +484,16 @@ to *v*.
 The `connectedComp` function computes the connected components in an
 undirected graph.
 
-```{r conndemo}
-km1 <- km
-km1 <- graph::addNode(c("F","G","H"), km1)
-km1 <- addEdge("G", "H", km1, 1)
-km1 <- addEdge("H", "G", km1, 1)
+```{r conndemo} 
+km1 <- km 
+km1 <- graph::addNode(c("F","G","H"), km1) 
+km1 <- addEdge("G", "H", km1, 1) 
+km1 <- addEdge("H", "G", km1, 1) 
 connectedComp(ugraph(km1))
+```
+
+```{r figkm1, echo = FALSE, eval = FALSE}
+plot(km1, main="Modified Kruskal MST example")
 ```
 
 The original graph has one connected component. After we add three
@@ -452,8 +527,8 @@ The `biConnComp` function computes the biconnected components in an
 undirected graph. The `articulationPoints` function finds all the
 articulation points in an undirected graph.
 
-```{r biConnCompdemo}
-biConnComp(bicoex)
+```{r biConnCompdemo} 
+biConnComp(bicoex) 
 articulationPoints(bicoex)
 ```
 
@@ -615,7 +690,7 @@ names, so they are isomorphism.
 ## Vertex Coloring
 
 The `sequential.vertex.coloring` function assigns colors, as numbers 0,
-1, 2, \..., to vertices in a graph so that two vertices connected by an
+1, 2, ..., to vertices in a graph so that two vertices connected by an
 edge are of different colors. It does not guarantee that minimum number
 of colors is used, and the result depends on the input ordering of the
 vertices in the graph.
@@ -624,13 +699,13 @@ vertices in the graph.
 sequential.vertex.coloring(coex)
 ```
 
-```{r figcoex2i, fig.small = TRUE, fig.cap = "Example conn2i", echo = FALSE}
-plot(coex2i)
-```
-
 We need 4 colors for the vertices of this graph, one color scheme is to
 give color 0 to vertices *A, E*, color 1 to vertices *B, H*, color 2 to
 vertices *C, F* and color 3 to vertices *D, G*.
+
+```{r, fig.small = TRUE, fig.cap = "Example conn2i", echo = FALSE}
+plot(coex2i)
+```
 
 ## Wavefront, Profiles
 
@@ -813,6 +888,8 @@ node has 1 out-edge. Therefore, they are all of 0-core.
 If we add edge(s) to break the waterfall-like property, *C->B*,
 *C->A*, separately, we could see the changes in the core numbers that
 are consistant with the analysis above.
+
+## kCliques
 
 ## kCliques
 
