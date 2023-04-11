@@ -887,8 +887,6 @@ are consistant with the analysis above.
 
 ## kCliques
 
-## kCliques
-
 In social network analysis, a k-cliques is a maximum subgraph that the
 shortest distance between any two nodes is no more than k.
 
