@@ -226,7 +226,7 @@ layout(layout_matrix_1)
 ```
 
 <a id="fig4"></a>
-```{r fdpic, fig.cap = "File dependency digraph example from Boost", fig.height = 7, results = "hide", echo = FALSE}
+```{r fdpic, fig.cap = "File dependency digraph example from Boost library", fig.height = 7, results = "hide", echo = FALSE}
 <<showFileDep>>
 plot(FileDep)
 ```
@@ -662,7 +662,7 @@ Note that if the input graph is not a DAG, BGL `topological_sort` will
 check this and throw 'not a dag'. This is crudely captured in the
 interface (a message is written to the console and zeroes are returned).
 
-```{r tsortDemo2} 
+```{r tsortDemo2, warning = FALSE} 
 FD2 <- FileDep 
 # now introduce a cycle 
 FD2 <- addEdge(from="bar_o", to="dax_h", FD2) 
@@ -674,7 +674,7 @@ tsort(FD2)
 The `isomorphism` function determines if two graphs are isomorphism,
 i.e., determines if there is a one-to-one mapping *f* of vertices from
 one graph *g1* to the other *g2* such that edge *u -> v* is in *E(g1)*
-if edge *f(u) -> f(v)* exists and is in *E(g2)*.
+iff edge *f(u) -> f(v)* exists and is in *E(g2)*.
 
 ```{r Isomorphismdemo}
 isomorphism(dijk, coex2) 
@@ -702,10 +702,6 @@ sequential.vertex.coloring(coex)
 We need 4 colors for the vertices of this graph, one color scheme is to
 give color 0 to vertices *A, E*, color 1 to vertices *B, H*, color 2 to
 vertices *C, F* and color 3 to vertices *D, G*.
-
-```{r, fig.small = TRUE, fig.cap = "Example conn2i", echo = FALSE}
-plot(coex2i)
-```
 
 ## Wavefront, Profiles
 
@@ -820,7 +816,7 @@ accordingly.
 
 We implemented the following algorithm from *Combinatorial Optimization:
 algorithms and complexity* (p. 403) by C. H. Papadimitriou, K.
-Steiglitz: G is chordal if either G is an empty graph, or there is a
+Steiglitz: G is chordal iff either G is an empty graph, or there is a
 *v* in *V* such that (i) the neighborhood of *v*, i.e., *v* and its
 adjacent vertices, forms a clique, and (ii) recursively, *G-v* is chordal.
 
@@ -901,13 +897,15 @@ Function *kCliques* finds all the k-cliques in an undirected graph (k =
 returns all the k-cliques.
 
 Let D be a matrix, D[i][j] is the shortest path from node i to node
-j. Algorithm is outlined as following. o. use Johnson's algorithm to
-fill D; let N = max(D[i][j]) for all i, j; o. each edge is a
-1-clique by itself; o. for k = 2, ..., N, try to expand each
-(k-1)-clique to k-clique: o. consider a (k-1)-clique the current
-k-clique KC; o. repeat the following: if for all nodes j in KC,
-D[v][j] <= k, add node v to KC; o. eliminate duplicates; o. the
-whole graph is N-clique.
+j. Algorithm is outlined as following: 
+
+* use Johnson's algorithm to fill D; let N = max(D[i][j]) for all i, j; 
+* each edge is a 1-clique by itself; 
+* for k = 2, ..., N, try to expand each (k-1)-clique to k-clique: 
+* consider a (k-1)-clique the current k-clique KC; 
+* repeat the following: if for all nodes j in KC, D[v][j] <= k, add node v to KC; 
+* eliminate duplicates; 
+* the whole graph is N-clique.
 
 ```{r kCliquesdemo} 
 kCliques(kclex)
