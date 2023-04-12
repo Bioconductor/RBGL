@@ -56,9 +56,11 @@ cycle.
 An *in-degree* of vertex v is the total number of edges [u, v] in E;
 an *out-degree* of v is the total number of edges [v, u] in *E*.
 
-A network *N* is a directed graph *G* with (a) a source *s* whose
-in-degree is 0, (b) a sink *t* whose out-degree is 0, and (c) a
-*capacity* for each edge in a network.
+A network *N* is a directed graph *G* with:
+
+a. a source *s* whose in-degree is 0, 
+b. a sink *t* whose out-degree is 0, and 
+c. a *capacity* for each edge in a network.
 
 A *flow* in *N* assigns a value on each edge that doesn't exceed its
 capacity, all the internal vertices have the same incoming flow as the
@@ -317,13 +319,19 @@ an edge in a graph could represent the relationship between the two
 vertices, such as distance, probability, etc.
 
 TO-BE-FINALIZED: Our knowledge of such a relationship between two
-vertices is: (1) we know there is an edge and there is a measured value
-on it; (2) we know there is an edge but there is NO measured value on
-it; (3) we know there is NO edge; (4) we DO NOT know if there is an
-edge.
+vertices is: 
 
-Corresponding edge weights are: case 1: measured value; case 2: `NA`;
-case 3: `Inf`; case 4: TO-BE-DETERMINED
+1. we know there is an edge and there is a measured value on it; 
+2. we know there is an edge but there is NO measured value on it; 
+3. we know there is NO edge; 
+4. we DO NOT know if there is an edge.
+
+Corresponding edge weights are: 
+
+* case 1: measured value; 
+* case 2: `NA`;
+* case 3: `Inf`; 
+* case 4: TO-BE-DETERMINED
 
 When there is a loop of negative weight between two vertices, the
 distance between them is `-Inf`.
@@ -331,10 +339,12 @@ distance between them is `-Inf`.
 The shortest path problem is to find a path between two vertices where
 the sum of all the edge weights on this path is minimum.
 
-There are two sets of algorithms available: (1) find shortest paths
-between a single vertex, say, *source s*, and all other vertices, i.e.,
-*V-s*, available algorithms are: *Dijkstra's*, *Bellman Ford's* and
-*DAG*, and (2) find shortest paths between all pairs of vertices,
+There are two sets of algorithms available: 
+
+1. find shortest paths between a single vertex, say, *source s*, 
+and all other vertices, i.e., *V-s*, available algorithms are: 
+*Dijkstra's*, *Bellman Ford's* and *DAG*, and 
+2. find shortest paths between all pairs of vertices,
 available algorithms are: *Johnson's* and *Floyd Warshall's*.
 
 *Dijkstra's algorithm* is for the single-source shortest-paths problem
@@ -817,8 +827,10 @@ accordingly.
 We implemented the following algorithm from *Combinatorial Optimization:
 algorithms and complexity* (p. 403) by C. H. Papadimitriou, K.
 Steiglitz: G is chordal iff either G is an empty graph, or there is a
-*v* in *V* such that (i) the neighborhood of *v*, i.e., *v* and its
-adjacent vertices, forms a clique, and (ii) recursively, *G-v* is chordal.
+*v* in *V* such that: 
+
+i. the neighborhood of *v*, i.e., *v* and its adjacent vertices, forms a clique, and 
+ii. recursively, *G-v* is chordal.
 
 ```{r IsTriangulateddemo}
 is.triangulated(coex)
