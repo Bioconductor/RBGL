@@ -38,14 +38,15 @@ library(XML)
 
 We use the following notation:
 
-*G*: a graph, represented as G = (V, E); *V* = v1, v2, ..., vn: a set
-of vertices (or nodes); *E* = e1, e2, ..., em: a set of edges with ei =
-[vj, vk], with vj, vk are in V; *W* = w1, w2, ..., wm: a set of
-weights of the edges, i.e., wi is the weight on edge ei.
+*G*: a graph, represented as G = (V, E); 
+*V* = v1, v2, ..., vn: a set of vertices (or nodes); 
+*E* = e1, e2, ..., em: a set of edges with ei = [vj, vk], with vj, vk are in V; 
+*W* = w1, w2, ..., wm: a set of weights of the edges, i.e., wi is the weight on edge ei.
 
 A *walk* is a sequence of vertices v1, v2, ..., vk such that for all i,
-[vi, vi+1] in *E*. A *path* is a walk without repeated vertices. A
-*cycle* is a path that begins and ends at the same vertice.
+[vi, vi+1] in *E*. 
+A *path* is a walk without repeated vertices. 
+A *cycle* is a path that begins and ends at the same vertice.
 
 A *directed* graph is a graph with direction assigned to its edges,
 therefore, [vj, vk] != [vk, vj].
@@ -318,8 +319,8 @@ Edge weights play a major role in shortest-path problems. The weight of
 an edge in a graph could represent the relationship between the two
 vertices, such as distance, probability, etc.
 
-TO-BE-FINALIZED: Our knowledge of such a relationship between two
-vertices is: 
+TO-BE-FINALIZED: 
+Our knowledge of such a relationship between two vertices is: 
 
 1. we know there is an edge and there is a measured value on it; 
 2. we know there is an edge but there is NO measured value on it; 
@@ -546,11 +547,11 @@ articulationPoints(bicoex)
 plot(bicoex)
 ```
 
-There are 4 biconnected components in the example: one with vertices *B, C, D* 
-and edges *B-C, C-D, B-D* labeled 0, one with vertices *A, B, E, F* 
-and edges *A-B, B-E, E-F, A-F* labeled 1, one with vertices *G, H, I*
-and edges *G-I, G-H, I-H* labeled 2, and one with vertices *A, G* and
-edges *A-G* labeled 3.
+There are 4 biconnected components in the example: 
+one with vertices *B, C, D* and edges *B-C, C-D, B-D* labeled 0, 
+one with vertices *A, B, E, F* and edges *A-B, B-E, E-F, A-F* labeled 1, 
+one with vertices *G, H, I* and edges *G-I, G-H, I-H* labeled 2, and 
+one with vertices *A, G* and edges *A-G* labeled 3.
 
 There are 3 articulation points in the example: *A, B, G*. It's easy to
 see removing any one of them will result in more connected components.
@@ -829,7 +830,8 @@ algorithms and complexity* (p. 403) by C. H. Papadimitriou, K.
 Steiglitz: G is chordal iff either G is an empty graph, or there is a
 *v* in *V* such that: 
 
-i. the neighborhood of *v*, i.e., *v* and its adjacent vertices, forms a clique, and 
+i. the neighborhood of *v*, i.e., *v* and its 
+adjacent vertices, forms a clique, and 
 ii. recursively, *G-v* is chordal.
 
 ```{r IsTriangulateddemo}
@@ -912,9 +914,10 @@ j. Algorithm is outlined as following:
 * use Johnson's algorithm to fill D; let N = max(D[i][j]) for all i, j; 
 * each edge is a 1-clique by itself; 
 * for k = 2, ..., N, try to expand each (k-1)-clique to k-clique: 
-* consider a (k-1)-clique the current k-clique KC; 
-* repeat the following: if for all nodes j in KC, D[v][j] <= k, add node v to KC; 
-* eliminate duplicates; 
+    * consider a (k-1)-clique the current k-clique KC; 
+    * repeat the following: 
+          if for all nodes j in KC, D[v][j] <= k, add node v to KC; 
+    * eliminate duplicates; 
 * the whole graph is N-clique.
 
 ```{r kCliquesdemo} 
