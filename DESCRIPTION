@@ -1,5 +1,5 @@
 Package: RBGL
-Version: 1.75.0
+Version: 1.75.1
 Title: An interface to the BOOST graph library
 Authors@R: c(
         person("Vince", "Carey", role = "aut",
