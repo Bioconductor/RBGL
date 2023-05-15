@@ -692,6 +692,10 @@ isomorphism(dijk, coex2)
 isomorphism(coex2i, coex2) 
 ```
 
+```{r, fig.small = TRUE, fig.cap = "Example conn2i", echo = FALSE}
+plot(coex2i)
+```
+
 The function handles both directed and undirected graphs. There are more
 vertices in graph *conn2* than *dijkstra*, so it's impossible to find a
 one-to-one mapping between them. One the other hand, graph *conn2i* is
