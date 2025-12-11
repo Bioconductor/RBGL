@@ -60,10 +60,11 @@ extern "C"
 
         SEXP anslst, conn, outvec;
         PROTECT(anslst = Rf_allocVector(VECSXP,NC+1));
+	
 	PROTECT(conn = Rf_allocVector(INTSXP, 1));
-
 	INTEGER(conn)[0] = NC;
 	SET_VECTOR_ELT(anslst,0,conn);
+	UNPROTECT(1);
 
 	int l;
 
@@ -80,10 +81,11 @@ extern "C"
                 INTEGER(outvec)[l++] =(int) child_index;
             }
 	    SET_VECTOR_ELT(anslst,k+1,outvec);   // use offset into anslst, top element is NC
+            UNPROTECT(1);
             k = k+1;  // was l+1 seems to be bug
         }
 
-        UNPROTECT(NC+2);
+        UNPROTECT(1);
         return(anslst);
     }
     SEXP BGL_init_incremental_components(SEXP num_verts_in,
