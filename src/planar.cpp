@@ -166,9 +166,10 @@ extern "C"
                     INTEGER(ans)[j] = v_vis.f_vis[i][j];
 
                 SET_VECTOR_ELT(ansList,i, ans);
+                UNPROTECT(1);
            }
 
-           UNPROTECT(1+v_vis.f_vis.size());
+           UNPROTECT(1);
            return ansList;
   	}
   	else
